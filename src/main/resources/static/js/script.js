@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     		}
     	}
   	},
+  	locale: 'es',
     initialView: 'dayGridMonth',
     themeSystem: "bootstrap",
     headerToolbar: {
