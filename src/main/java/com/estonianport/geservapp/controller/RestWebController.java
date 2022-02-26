@@ -34,7 +34,7 @@ public class RestWebController {
 			event = new Event();
 			event.setTitle("second event");
 			event.setStart("2022-02-11");
-			event.setEnd("2022-02-12");
+			//event.setEnd("2022-02-13");
 			events.add(event);
 
 			//FullCalendar pass encoded string 
