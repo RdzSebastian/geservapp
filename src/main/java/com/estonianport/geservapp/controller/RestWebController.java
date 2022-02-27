@@ -1,14 +1,18 @@
 package com.estonianport.geservapp.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estonianport.geservapp.model.Event;
+import com.estonianport.geservapp.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -28,13 +32,15 @@ public class RestWebController {
 			List<Event> events = new ArrayList<Event>();
 			Event event = new Event();
 			event.setTitle("first event");
-			event.setStart("2022-02-01");
+			
+			Date startDate = new Date(2020, 02, 01);
+			event.setStart_date(startDate);
 			events.add(event);
 
 			event = new Event();
 			event.setTitle("second event");
-			event.setStart("2022-02-11");
-			//event.setEnd("2022-02-13");
+			startDate = new Date(2020, 02, 13);
+			event.setStart_date(startDate);
 			events.add(event);
 
 			//FullCalendar pass encoded string 
@@ -46,4 +52,5 @@ public class RestWebController {
 		}
 		return jsonMsg;
 	}
+
 }

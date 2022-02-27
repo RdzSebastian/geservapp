@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
    	 myCustomButton: {
     	text: 'Nuevo Evento',
     	click: function() {
-    		alert('clicked the custom button!');
+			window.location = 'saveEvent'
     		}
     	}
   	},

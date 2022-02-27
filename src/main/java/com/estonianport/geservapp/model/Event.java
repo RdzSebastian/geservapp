@@ -1,24 +1,36 @@
 package com.estonianport.geservapp.model;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Event {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column
 	private String title;
+	
+	@Column
+	private Date start_date;
+	
+	@Column
+	private Date end_date;
 
-	/**
+	public Long getId() {
+		return id;
+	}
 
-	 * Calendar of start date
-
-	 */
-
-	private String start;
-
-	/**
-
-	 * calendar end date
-
-	 */
-
-	private String end;
-
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -28,19 +40,20 @@ public class Event {
 		this.title = title;
 	}
 
-	public String getStart() {
-		return start;
+	public Date getStart_date() {
+		return start_date;
 	}
 
-	public void setStart(String start) {
-		this.start = start;
+	public void setStart_date(Date start_date) {
+		this.start_date = start_date;
 	}
 
-	public String getEnd() {
-		return end;
+	public Date getEnd__date() {
+		return end_date;
 	}
 
-	public void setEnd(String end) {
-		this.end = end;
+	public void setEnd__date(Date end__date) {
+		this.end_date = end__date;
 	}
+
 }
