@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estonianport.geservapp.model.Event;
-import com.estonianport.geservapp.service.EventService;
+import com.estonianport.geservapp.model.Eventos;
+import com.estonianport.geservapp.model.FullCalendarJSON;
+import com.estonianport.geservapp.service.EventosService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping("/api/eventos")
 public class RestWebController {
+
+	@Autowired
+	private EventosService eventosService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
@@ -25,27 +29,34 @@ public class RestWebController {
 	 */
 
 	@GetMapping(value = "/all")
-	public String getEvents() {
+	public String getEventos() {
 		String jsonMsg = null;
 		try {
 
-			List<Event> events = new ArrayList<Event>();
-			Event event = new Event();
-			event.setTitle("first event");
+			List<FullCalendarJSON> eventos = new ArrayList<FullCalendarJSON>();
+			FullCalendarJSON evento = null;
+
+			List<Eventos> eventosDDBB = eventosService.getAll();
 			
-			Date startDate = new Date(2020, 02, 01);
-			event.setStart_date(startDate);
-			events.add(event);
+			for (Eventos eventoDDBB : eventosDDBB) {
+				evento = new FullCalendarJSON();
 
-			event = new Event();
-			event.setTitle("second event");
-			startDate = new Date(2020, 02, 13);
-			event.setStart_date(startDate);
-			events.add(event);
-
+				evento.setId(eventoDDBB.getId());
+				evento.setTitle(eventoDDBB.getNombre());
+				
+				if(eventoDDBB.getStart_date() != null) {
+					evento.setStart(eventoDDBB.getStart_date().toString());
+				}
+				
+				if(eventoDDBB.getEnd_date() != null) {
+					evento.setEnd(eventoDDBB.getEnd_date().toString());	
+				}
+				eventos.add(evento);
+			}
+			
 			//FullCalendar pass encoded string 
 			ObjectMapper mapper = new ObjectMapper();
-			jsonMsg =  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(events);
+			jsonMsg =  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(eventos);
 
 		} catch (IOException ioex) {
 			System.out.println(ioex.getMessage());

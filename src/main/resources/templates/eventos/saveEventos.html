@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Eventos</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar nuevo evento</h2>
+		<form action="#" th:action="@{/saveEventos}" method="post" th:object="${eventos}">
+			
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			
+			<div class="form-group">
+				<label for="Nombre">Nombre</label> 
+				<input type="text" class="form-control" id="eventos" th:field="*{nombre}" name="Nombre">
+			</div>
+			
+			<div class="form-group">
+				<label for="start_date">Inicio</label> 
+				<input type="date" class="form-control" id="eventos" th:field="*{start_date}" name="start_date">
+			</div>
+			
+			<div class="form-group">
+				<label for="end_date">Finalizacion</label> 
+				<input type="date" class="form-control" id="eventos" th:field="*{end_date}" name="end_date">
+			</div>
+			
+			<button type="submit" class="btn btn-success">Guardar</button>
+		</form>
+	</div>
+</body>
+</html>

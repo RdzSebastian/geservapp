@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
    	 myCustomButton: {
     	text: 'Nuevo Evento',
     	click: function() {
-			window.location = 'saveEvent'
+			window.location = 'saveEventos/0'
     		}
     	}
   	},
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
      center: 'title',
      right: 'prevYear,prev,next,nextYear today'
     }, events: {
-        url : '/api/event/all'
+        url : '/api/eventos/all'
       }
   });
 

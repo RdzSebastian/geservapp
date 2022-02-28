@@ -9,18 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Event {
-	
+public class Eventos {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column
-	private String title;
-	
+	private String nombre;
+
 	@Column
 	private Date start_date;
-	
+
 	@Column
 	private Date end_date;
 
@@ -32,12 +32,12 @@ public class Event {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Date getStart_date() {
@@ -48,12 +48,11 @@ public class Event {
 		this.start_date = start_date;
 	}
 
-	public Date getEnd__date() {
+	public Date getEnd_date() {
 		return end_date;
 	}
 
-	public void setEnd__date(Date end__date) {
+	public void setEnd_date(Date end__date) {
 		this.end_date = end__date;
 	}
-
 }
