@@ -6,22 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.Eventos;
 import com.estonianport.geservapp.service.EventosService;
-import  com.estonianport.geservapp.commons.GeneralPath;
 
 @Controller
 public class CalendarController {
 
 	@Autowired
 	private EventosService eventosService;
-
-	@RequestMapping(path = "/calendar", method = RequestMethod.GET) String index(Model model) {
-		return "calendar/index";
-	}
 
 	@GetMapping("/saveEventos/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
