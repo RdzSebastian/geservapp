@@ -19,6 +19,10 @@ public class CalendarController {
 	@Autowired
 	private EventosService eventosService;
 
+	@RequestMapping(path = "/calendar", method = RequestMethod.GET) String index(Model model) {
+		return "calendar/index";
+	}
+
 	@GetMapping("/saveEventos/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
 		if(id != null && id != 0) {
