@@ -6,6 +6,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.estonianport.geservapp.dao.UsuarioDao;
 import com.estonianport.geservapp.model.Rol;
@@ -21,7 +24,7 @@ public class SecurityTest {
 	void contextLoads() {
 		Usuario u1 = new Usuario();
 		u1.setUsername("asd");
-		u1.setPassword("asd");
+		u1.setPassword(passwordEncoder().encode("asd"));
 		u1.setAccountNonExpired(true);
 		u1.setAccountNonLocked(true);
 		u1.setCredentialsNonExpired(true);
@@ -37,7 +40,7 @@ public class SecurityTest {
 
 		Usuario u2 = new Usuario();
 		u2.setUsername("user1");
-		u2.setPassword("user1Pass");
+		u2.setPassword(passwordEncoder().encode("user1Pass"));
 		u2.setAccountNonExpired(true);
 		u2.setAccountNonLocked(true);
 		u2.setCredentialsNonExpired(true);
@@ -50,5 +53,10 @@ public class SecurityTest {
 		
 		u2.setRoles(rs2);
 		usuarioDao.save(u2);
+	}
+
+	@Bean 
+	public PasswordEncoder passwordEncoder() { 
+		return new BCryptPasswordEncoder(); 
 	}
 }
