@@ -3,10 +3,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     customButtons: {
-   	 myCustomButton: {
+   	 eventos: {
     	text: 'Nuevo Evento',
     	click: function() {
 			window.location = 'saveEventos/0'
+    		}
+    	},
+    usuarios: {
+    	text: 'Usuarios',
+    	click: function() {
+			window.location = 'abmUsuario'
     		}
     	}
   	},
@@ -14,10 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initialView: 'dayGridMonth',
     themeSystem: "bootstrap",
     headerToolbar: {
-	 left: 'myCustomButton',
+	 left: 'eventos',
      center: 'title',
      right: 'prevYear,prev,next,nextYear today'
-    }, events: {
+    },
+    footerToolbar: {
+		left: 'usuarios'
+	}, events: {
         url : '/api/eventos/all'
       }
   });

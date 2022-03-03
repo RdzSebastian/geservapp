@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Usuarios</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar Usuario</h2>
+		<form action="#" th:action="@{/saveUsuario}" method="post" th:object="${usuario}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<div class="form-group">
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+			</div>
+			<div class="form-group">
+				<label for="apellido">Apellido</label> 
+				<input type="text" class="form-control" id="apellido" th:field="*{apellido}" name="apellido">
+			</div>
+			<div class="form-group">
+				<label for="nombre">Nombre de usuario</label> 
+				<input type="text" class="form-control" id="nombre_usuario" th:field="*{username}" name="nombre_usuario">
+			</div>
+			<div class="form-group">
+				<label for="nombre">Contraseña</label> 
+				<input type="text" class="form-control" id="password" th:field="*{password}" name="password">
+			</div>
+			<div class="form-group">
+				<label for="nombre">Repetir Contraseña</label> 
+				<input type="text" class="form-control" id="repeat_password" th:field="*{repeat_password}" name="repeat_password">
+			</div>
+			<div class="form-group">
+				<label for="nombre">Mail</label> 
+				<input type="text" class="form-control" id="mail" th:field="*{mail}" name="mail">
+			</div>
+			
+			<div th:object="${rol}" class="form-group">
+				<label for="roles">Rol</label> 
+				<select class="form-select" id="roles" name="roles">
+					<option selected hidden>Roles</option>
+					<option th:each="rol: ${rol}" th:value="${rol}" th:text="${rol}" th:field="*{id}" name="rol"/>
+				</select>
+			</div>
+			
+			<div class="form-check">
+			  	<input class="form-check-input" type="checkbox" value="" id="noSefabricaMasCheckbox" onmousedown="this.form.anio_hasta.disabled=this.checked" checked>
+			  	<label class="form-check-label" for="noSefabricaMasCheckbox"> accountNonExpired </label>
+			</div>
+			
+			<div class="form-check">
+			  	<input class="form-check-input" type="checkbox" value="" id="noSefabricaMasCheckbox" onmousedown="this.form.anio_hasta.disabled=this.checked" checked>
+			  	<label class="form-check-label" for="noSefabricaMasCheckbox"> accountNonLocked </label>
+			</div>
+			
+			<div class="form-check">
+			  	<input class="form-check-input" type="checkbox" value="" id="noSefabricaMasCheckbox" onmousedown="this.form.anio_hasta.disabled=this.checked" checked>
+			  	<label class="form-check-label" for="noSefabricaMasCheckbox"> credentialsNonExpired </label>
+			</div>
+		
+			<div class="form-check">
+			  	<input class="form-check-input" type="checkbox" value="" id="noSefabricaMasCheckbox" onmousedown="this.form.anio_hasta.disabled=this.checked" checked>
+			  	<label class="form-check-label" for="noSefabricaMasCheckbox"> enabled </label>
+			</div>
+			
+			<button type="submit" class="btn btn-success">Guardar</button>
+		</form>
+	</div>
+</body>
+</html>

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +24,15 @@ public class Usuario implements UserDetails{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String nombre;
+	
+	private String apellido;
+	
 	private String username;
 
 	private String password;
+	
+	private String mail;
 
 	private boolean accountNonExpired;
 
@@ -36,16 +41,16 @@ public class Usuario implements UserDetails{
 	private boolean credentialsNonExpired;
 
 	private boolean enabled;
-
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-	private List<Rol> roles;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "rol_id")
+	private Rol rol;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		for (Rol rol : getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(rol.getNombre()));
-		}
+		authorities.add(new SimpleGrantedAuthority(rol.getNombre()));
 		return authorities;
 	}
 
@@ -55,6 +60,22 @@ public class Usuario implements UserDetails{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 
 	public String getUsername() {
@@ -71,6 +92,14 @@ public class Usuario implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public boolean isAccountNonExpired() {
@@ -105,12 +134,12 @@ public class Usuario implements UserDetails{
 		this.enabled = enabled;
 	}
 
-	public List<Rol> getRoles() {
-		return roles;
+	public Rol getRol() {
+		return rol;
 	}
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 }

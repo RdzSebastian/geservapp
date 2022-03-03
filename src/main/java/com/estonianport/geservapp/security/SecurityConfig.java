@@ -9,25 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.estonianport.geservapp.service.UsuarioService;
+import com.estonianport.geservapp.service.impl.UsuarioServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UsuarioService usuarioService;
+	UsuarioServiceImpl usuarioService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// authentication manager (see below)
-		
+		// authentication manager
 		auth.userDetailsService(usuarioService);
-		 
-//		auth.inMemoryAuthentication()
-//		.withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
-//		.and()
-//		.withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
 	}
 
 //	@Override

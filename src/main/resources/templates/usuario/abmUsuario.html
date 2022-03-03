@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Usuario</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<div>
+			<a th:href="@{/saveUsuario/0}" class="btn btn-primary">Agregar</a>
+		</div>
+		
+		<div>
+			<a th:href="@{/}" class="btn btn-primary">Volver Index</a>
+		</div>
+
+		<h2 th:if="${#lists.isEmpty(listaUsuario)}">No hay usuarios</h2>
+		<div th:if="${not #lists.isEmpty(listaUsuario)}">
+			<h2>Usuarios</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="usuario : ${listaUsuario}">
+						<td th:text="${usuario.nombre}">
+						<td><a class="btn btn-info" th:href="@{/saveUsuario/{id}(id=${usuario.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteUsuario/{id}(id=${usuario.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
