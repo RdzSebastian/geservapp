@@ -33,8 +33,8 @@ public class UsuarioController {
 	
 	@GetMapping("/saveUsuario/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
-		List<Rol> roles = rolService.getAll();
-		model.addAttribute("roles", roles);
+		List<Rol> listaRoles = rolService.getAll();
+		model.addAttribute("listaRoles", listaRoles);
 		
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.USUARIO, usuarioService.get(id));

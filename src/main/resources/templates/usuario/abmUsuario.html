@@ -26,7 +26,15 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Tipo</th>
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>Usuario</th>
+						<th>Usuario</th>
+						<th>Mail</th>
+						<th>NonExpired</th>
+						<th>NonLocked</th>
+						<th>NonExpired</th>
+						<th>Habilitado</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -34,6 +42,14 @@
 				<tbody>
 					<tr th:each="usuario : ${listaUsuario}">
 						<td th:text="${usuario.nombre}">
+						<td th:text="${usuario.apellido}">
+						<td th:text="${usuario.username}">
+						<td th:text="${usuario.rol.nombre}">
+						<td th:text="${usuario.mail}">
+						<td th:text="${usuario.accountNonExpired}">
+						<td th:text="${usuario.accountNonLocked}">
+						<td th:text="${usuario.credentialsNonExpired}">
+						<td th:text="${usuario.enabled}">
 						<td><a class="btn btn-info" th:href="@{/saveUsuario/{id}(id=${usuario.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteUsuario/{id}(id=${usuario.id})}">Eliminar</a></td>
 					</tr>
