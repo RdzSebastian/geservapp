@@ -13,29 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.Rol;
 import com.estonianport.geservapp.model.Usuario;
+import com.estonianport.geservapp.security.SecurityConfig;
 import com.estonianport.geservapp.service.RolService;
 import com.estonianport.geservapp.service.UsuarioService;
 
 @Controller
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	private RolService rolService;
-	
+
 	@RequestMapping("/abmUsuario")
 	public String abm(Model model) {
 		model.addAttribute("listaUsuario", usuarioService.getAll());
 		return GeneralPath.USUARIO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_USUARIO;
 	}
-	
+
 	@GetMapping("/saveUsuario/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
 		List<Rol> listaRoles = rolService.getAll();
 		model.addAttribute("listaRoles", listaRoles);
-		
+
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.USUARIO, usuarioService.get(id));
 		}else {
@@ -43,9 +44,10 @@ public class UsuarioController {
 		}
 		return GeneralPath.USUARIO + GeneralPath.PATH_SEPARATOR + "saveUsuario";
 	}
-	
+
 	@PostMapping("/saveUsuario")
 	public String save(Usuario usuario, Model model) {
+		usuario.setPassword(SecurityConfig.passwordEncoder().encode(usuario.getPassword()));
 		usuarioService.save(usuario);
 		return "redirect:/" + GeneralPath.ABM_USUARIO;
 	}
