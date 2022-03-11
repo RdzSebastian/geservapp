@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
    	 eventos: {
     	text: 'Nuevo Evento',
     	click: function() {
-			window.location = 'saveEventos/0'
+			window.location = 'saveEvento/0'
     		}
     	},
     usuarios: {

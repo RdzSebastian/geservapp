@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Eventos {
+public class Evento {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,10 @@ public class Eventos {
 
 	@Column
 	private String nombre;
+
+	@ManyToOne
+	@JoinColumn(name = "salon_id")
+	private Salon salon;
 
 	@Column
 	private Date start_date;
@@ -40,6 +46,14 @@ public class Eventos {
 		this.nombre = nombre;
 	}
 
+	public Salon getSalon() {
+		return salon;
+	}
+
+	public void setSalon(Salon salon) {
+		this.salon = salon;
+	}
+
 	public Date getStart_date() {
 		return start_date;
 	}
@@ -52,7 +66,8 @@ public class Eventos {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end__date) {
-		this.end_date = end__date;
+	public void setEnd_date(Date end_date) {
+		this.end_date = end_date;
 	}
+
 }

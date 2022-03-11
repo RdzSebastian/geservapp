@@ -5,18 +5,18 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.estonianport.geservapp.commons.GenericServiceImpl;
-import com.estonianport.geservapp.dao.EventosDao;
-import com.estonianport.geservapp.model.Eventos;
-import com.estonianport.geservapp.service.EventosService;
+import com.estonianport.geservapp.dao.EventoDao;
+import com.estonianport.geservapp.model.Evento;
+import com.estonianport.geservapp.service.EventoService;
 
 @Service
-public class EventosServiceImpl extends GenericServiceImpl<Eventos, Long> implements EventosService{
+public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implements EventoService{
 
 	@Autowired
-	private EventosDao eventosDao;
+	private EventoDao eventosDao;
 
 	@Override
-	public CrudRepository<Eventos, Long> getDao() {
+	public CrudRepository<Evento, Long> getDao() {
 		return eventosDao;
 	}
 }

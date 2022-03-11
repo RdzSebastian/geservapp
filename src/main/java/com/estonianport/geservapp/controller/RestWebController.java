@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estonianport.geservapp.model.Eventos;
+import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.FullCalendarJSON;
-import com.estonianport.geservapp.service.EventosService;
+import com.estonianport.geservapp.service.EventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RestWebController {
 
 	@Autowired
-	private EventosService eventosService;
+	private EventoService eventosService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
@@ -34,9 +34,9 @@ public class RestWebController {
 			List<FullCalendarJSON> eventos = new ArrayList<FullCalendarJSON>();
 			FullCalendarJSON evento = null;
 
-			List<Eventos> eventosDDBB = eventosService.getAll();
+			List<Evento> eventosDDBB = eventosService.getAll();
 			
-			for (Eventos eventoDDBB : eventosDDBB) {
+			for (Evento eventoDDBB : eventosDDBB) {
 				evento = new FullCalendarJSON();
 
 				evento.setId(eventoDDBB.getId());

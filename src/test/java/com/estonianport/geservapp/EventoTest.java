@@ -8,24 +8,24 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.estonianport.geservapp.model.Eventos;
+import com.estonianport.geservapp.model.Evento;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
-class EventosTest {
+class EventoTest {
 
 	@Test
 	void test() {
 		String jsonMsg = null;
 		try {
 
-			List<Eventos> events = new ArrayList<Eventos>();
-			Eventos event = new Eventos();
+			List<Evento> events = new ArrayList<Evento>();
+			Evento event = new Evento();
 			event.setNombre("first event");
 			event.setStart_date(new Date(2022,02,01));
 			events.add(event);
 
-			event = new Eventos();
+			event = new Evento();
 			event.setNombre("second event");
 			event.setStart_date(new Date(2022,02,11));
 			//event.setEnd("2022-02-13");
