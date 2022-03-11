@@ -42,19 +42,19 @@ public class UsuarioController {
 		}else {
 			model.addAttribute(GeneralPath.USUARIO, new Usuario());
 		}
-		return GeneralPath.USUARIO + GeneralPath.PATH_SEPARATOR + "saveUsuario";
+		return GeneralPath.USUARIO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_USUARIO;
 	}
 
 	@PostMapping("/saveUsuario")
 	public String save(Usuario usuario, Model model) {
 		usuario.setPassword(SecurityConfig.passwordEncoder().encode(usuario.getPassword()));
 		usuarioService.save(usuario);
-		return "redirect:/" + GeneralPath.ABM_USUARIO;
+		return GeneralPath.REDIRECT + GeneralPath.ABM_USUARIO;
 	}
 
 	@GetMapping("/deleteUsuario/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
 		usuarioService.delete(id);
-		return "redirect:/" +  GeneralPath.ABM_USUARIO;
+		return GeneralPath.REDIRECT +  GeneralPath.ABM_USUARIO;
 	}
 }
