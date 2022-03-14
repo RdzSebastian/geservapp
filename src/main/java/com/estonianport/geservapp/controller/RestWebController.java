@@ -35,23 +35,23 @@ public class RestWebController {
 			FullCalendarJSON evento = null;
 
 			List<Evento> eventosDDBB = eventosService.getAll();
-			
+
 			for (Evento eventoDDBB : eventosDDBB) {
 				evento = new FullCalendarJSON();
 
 				evento.setId(eventoDDBB.getId());
 				evento.setTitle(eventoDDBB.getNombre());
-				
+
 				if(eventoDDBB.getStart_date() != null) {
 					evento.setStart(eventoDDBB.getStart_date().toString());
 				}
-				
+
 				if(eventoDDBB.getEnd_date() != null) {
 					evento.setEnd(eventoDDBB.getEnd_date().toString());	
 				}
 				eventos.add(evento);
 			}
-			
+
 			//FullCalendar pass encoded string 
 			ObjectMapper mapper = new ObjectMapper();
 			jsonMsg =  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(eventos);

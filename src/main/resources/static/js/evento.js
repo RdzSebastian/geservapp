@@ -3,16 +3,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     customButtons: {
-   	 eventos: {
+   	 agregarEvento: {
     	text: 'Nuevo Evento',
     	click: function() {
 			window.location = 'saveEvento/0'
     		}
     	},
-    usuarios: {
-    	text: 'Usuarios',
+    agregarUsuario: {
+    	text: 'Nuevo usuario',
     	click: function() {
 			window.location = 'abmUsuario'
+    		}
+    	},
+    agregarSalon: {
+    	text: 'Nuevo Salon',
+    	click: function() {
+			window.location = 'abmSalon'
+    		}
+    	},
+    volverSalones: {
+    	text: 'Volver Salones',
+    	click: function() {
+			window.location = '/'
     		}
     	}
   	},
@@ -20,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initialView: 'dayGridMonth',
     themeSystem: "bootstrap",
     headerToolbar: {
-	 left: 'eventos',
+	 left: 'agregarEvento,volverSalones',
      center: 'title',
      right: 'prevYear,prev,next,nextYear today'
     },
     footerToolbar: {
-		left: 'usuarios'
+		left: 'agregarUsuario,agregarSalon'
 	}, events: {
         url : '/api/eventos/all'
       }

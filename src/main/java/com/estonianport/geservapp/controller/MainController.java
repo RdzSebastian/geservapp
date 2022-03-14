@@ -12,10 +12,10 @@ import com.estonianport.geservapp.service.SalonService;
 
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	SalonService salonService;
-	
+
 	@RequestMapping("/")
 	public String index(Model model) {
 		List<Salon> listaSalones = salonService.getAll();

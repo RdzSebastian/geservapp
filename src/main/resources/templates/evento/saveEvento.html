@@ -13,13 +13,13 @@
 	<div class="container">
 		<br>
 		<h2>Agregar nuevo evento</h2>
-		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${eventos}">
+		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${evento}">
 			
 			<input type="hidden" th:field="*{id}" name="id" id="id">
 			
 			<div class="form-group">
-				<label for="Nombre">Nombre</label> 
-				<input type="text" class="form-control" id="eventos" th:field="*{nombre}" name="Nombre" required>
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre" required>
 			</div>
 			
 			<div class="form-group">
@@ -31,15 +31,19 @@
 			
 			<div class="form-group">
 				<label for="start_date">Inicio</label> 
-				<input type="date" class="form-control" id="eventos" th:field="*{start_date}" name="start_date" required>
+				<input type="date" class="form-control" id="start_date" th:field="*{start_date}" name="start_date" required>
 			</div>
 			
 			<div class="form-group">
 				<label for="end_date">Finalizacion</label> 
-				<input type="date" class="form-control" id="eventos" th:field="*{end_date}" name="end_date" required>
+				<input type="date" class="form-control" id="end_date" th:field="*{end_date}" name="end_date" required>
 			</div>
 			
 			<button type="submit" class="btn btn-success">Guardar</button>
+			<div>
+				<a th:href="@{/abmEvento}" class="btn btn-primary">Volver Calendario</a>
+			</div>
+
 		</form>
 	</div>
 </body>

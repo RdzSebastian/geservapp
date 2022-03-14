@@ -21,10 +21,10 @@ public class EventoController {
 
 	@Autowired
 	private EventoService eventosService;
-	
+
 	@Autowired
 	private SalonService salonService;
-	
+
 	@RequestMapping("/abmEvento")
 	public String abm(Model model) {
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO;
@@ -35,9 +35,9 @@ public class EventoController {
 		List<Salon> listaSalones = salonService.getAll();
 		model.addAttribute("listaSalones", listaSalones);
 		if(id != null && id != 0) {
-			model.addAttribute("eventos", eventosService.get(id));
+			model.addAttribute(GeneralPath.EVENTO, eventosService.get(id));
 		}else {
-			model.addAttribute("eventos", new Evento());
+			model.addAttribute(GeneralPath.EVENTO, new Evento());
 		}
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 	}
