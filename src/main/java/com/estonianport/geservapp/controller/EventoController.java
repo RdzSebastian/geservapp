@@ -35,9 +35,14 @@ public class EventoController {
 	}
 
 	@GetMapping("/saveEvento/{id}")
-	public String showSave(@PathVariable("id") Long id, Model model) {
+	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
 		List<Salon> listaSalones = salonService.getAll();
 		model.addAttribute("listaSalones", listaSalones);
+		
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.EVENTO, eventoService.get(id));
 		}else {
@@ -47,9 +52,13 @@ public class EventoController {
 	}
 
 	@PostMapping("/saveEvento")
-	public String save(Evento event, Model model) {
+	public String save(Evento event, Model model, HttpSession session) {
 		eventoService.save(event);
-		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO;
+		
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 
 	@GetMapping("/deleteEvento/{id}")

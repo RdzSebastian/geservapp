@@ -1,5 +1,7 @@
 package com.estonianport.geservapp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,13 @@ public class SalonController {
 	private SalonService salonService;
 
 	@RequestMapping("/abmSalon")
-	public String abm(Model model) {
+	public String abm(Model model, HttpSession session) {
 		model.addAttribute("listaSalon", salonService.getAll());
+		
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+		
 		return GeneralPath.SALON + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_SALON;
 	}
 
