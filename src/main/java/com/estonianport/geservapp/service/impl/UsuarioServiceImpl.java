@@ -14,22 +14,21 @@ import com.estonianport.geservapp.service.UsuarioService;
 
 @Service
 public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implements UserDetailsService, UsuarioService{
-		
-	    @Autowired
-	    UsuarioDao usuarioDao;
-	   
-	    @Override
-	    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	        Usuario usuario = usuarioDao.findUserByUsername(username);
-	        if (usuario == null) {
-	            throw new UsernameNotFoundException("El usuario no existe");
-	        }
-	        return
-	        usuario;
-	    }
 
-		@Override
-		public CrudRepository<Usuario, Long> getDao() {
-			return usuarioDao;
+	@Autowired
+	UsuarioDao usuarioDao;
+
+	@Override
+	public CrudRepository<Usuario, Long> getDao() {
+		return usuarioDao;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = usuarioDao.findUserByUsername(username);
+		if (usuario == null) {
+			throw new UsernameNotFoundException("El usuario no existe");
 		}
+		return usuario;
+	}
 }

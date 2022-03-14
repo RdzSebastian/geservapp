@@ -2,6 +2,8 @@ package com.estonianport.geservapp.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +22,15 @@ import com.estonianport.geservapp.service.SalonService;
 public class EventoController {
 
 	@Autowired
-	private EventoService eventosService;
+	private EventoService eventoService;
 
 	@Autowired
 	private SalonService salonService;
 
-	@RequestMapping("/abmEvento")
-	public String abm(Model model) {
+	@RequestMapping("/abmEvento/{id}")
+	public String abm(@PathVariable("id") Long id, Model model, HttpSession session) {
+		Salon salon = salonService.get(id);
+		session.setAttribute("salon", salon);
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO;
 	}
 
@@ -35,7 +39,7 @@ public class EventoController {
 		List<Salon> listaSalones = salonService.getAll();
 		model.addAttribute("listaSalones", listaSalones);
 		if(id != null && id != 0) {
-			model.addAttribute(GeneralPath.EVENTO, eventosService.get(id));
+			model.addAttribute(GeneralPath.EVENTO, eventoService.get(id));
 		}else {
 			model.addAttribute(GeneralPath.EVENTO, new Evento());
 		}
@@ -44,13 +48,13 @@ public class EventoController {
 
 	@PostMapping("/saveEvento")
 	public String save(Evento event, Model model) {
-		eventosService.save(event);
+		eventoService.save(event);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO;
 	}
 
 	@GetMapping("/deleteEvento/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
-		eventosService.delete(id);
+		eventoService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO;
 	}
 }

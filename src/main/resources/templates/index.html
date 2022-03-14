@@ -13,7 +13,7 @@
   
 		<th:block th:each="salon : ${listaSalones}">
 	   		<div class="col-md">
-		      	<form class="form-horizontal" method="post" th:action="@{/abmEvento}" th:object="${Salon}">
+		      	<form class="form-horizontal" method="post" th:action="@{/abmEvento/} + ${salon.id}">
 		        	<div class="card text-center g-4">
 		        	    <div class="card-header">Salones de Eventos</div>
 						<div>

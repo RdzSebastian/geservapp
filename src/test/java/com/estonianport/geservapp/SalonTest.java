@@ -1,7 +1,5 @@
 package com.estonianport.geservapp;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,9 @@ public class SalonTest {
 	void testSalonGetAll() {
 		List<Salon> listaSalones = salonService.getAll();
 		if(!listaSalones.isEmpty()) {
-			System.out.println(listaSalones.get(0));
+			for(Salon salon : listaSalones) {
+				System.out.println(salon.getNombre());
+			}
 		}
 	}
 }

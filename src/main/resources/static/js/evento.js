@@ -6,19 +6,19 @@ document.addEventListener('DOMContentLoaded', function() {
    	 agregarEvento: {
     	text: 'Nuevo Evento',
     	click: function() {
-			window.location = 'saveEvento/0'
+			window.location = '/saveEvento/0'
     		}
     	},
     agregarUsuario: {
     	text: 'Nuevo usuario',
     	click: function() {
-			window.location = 'abmUsuario'
+			window.location = '/abmUsuario'
     		}
     	},
     agregarSalon: {
     	text: 'Nuevo Salon',
     	click: function() {
-			window.location = 'abmSalon'
+			window.location = '/abmSalon'
     		}
     	},
     volverSalones: {

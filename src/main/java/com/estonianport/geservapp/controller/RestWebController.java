@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.FullCalendarJSON;
+import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RestWebController {
 
 	@Autowired
-	private EventoService eventosService;
+	private EventoService eventoService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
@@ -27,14 +30,15 @@ public class RestWebController {
 	 */
 
 	@GetMapping(value = "/all")
-	public String getEventos() {
+	public String getEventos(HttpSession session) {
 		String jsonMsg = null;
 		try {
 
 			List<FullCalendarJSON> eventos = new ArrayList<FullCalendarJSON>();
 			FullCalendarJSON evento = null;
-
-			List<Evento> eventosDDBB = eventosService.getAll();
+			
+			Salon salon = (Salon) session.getAttribute("salon");
+			List<Evento> eventosDDBB = eventoService.getEventosBySalon(salon);
 
 			for (Evento eventoDDBB : eventosDDBB) {
 				evento = new FullCalendarJSON();
