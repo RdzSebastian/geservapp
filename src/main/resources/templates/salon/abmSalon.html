@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Salones</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<div>
+			<a th:href="@{/saveSalon/0}" class="btn btn-primary">Agregar</a>
+		</div>
+		
+		<div>
+			<a th:href="@{/abmEvento}" class="btn btn-primary">Volver Calendario</a>
+		</div>
+
+		<h2 th:if="${#lists.isEmpty(listaSalon)}">No hay salones</h2>
+		<div th:if="${not #lists.isEmpty(listaSalon)}">
+			<h2>Salones</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="salon : ${listaSalon}">
+						<td th:text="${salon.nombre}">
+						<td><a class="btn btn-info" th:href="@{/saveSalon/{id}(id=${salon.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteSalon/{id}(id=${salon.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

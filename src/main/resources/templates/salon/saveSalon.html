@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Save Salon</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar Salon</h2>
+		<form action="#" th:action="@{/saveSalon}" method="post" th:object="${salon}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<div class="form-group">
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+			</div>
+			<button type="submit" class="btn btn-success">Guardar</button>
+			<div>
+				<a th:href="@{/abmSalon}" class="btn btn-primary">Volver</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
