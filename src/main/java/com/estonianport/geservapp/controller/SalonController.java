@@ -1,5 +1,7 @@
 package com.estonianport.geservapp.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.SalonService;
 
 @Controller
@@ -19,6 +23,9 @@ public class SalonController {
 
 	@Autowired
 	private SalonService salonService;
+	
+	@Autowired
+	private EventoService eventoService;
 
 	@RequestMapping("/abmSalon")
 	public String abm(Model model, HttpSession session) {
@@ -49,7 +56,15 @@ public class SalonController {
 
 	@GetMapping("/deleteSalon/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+		
+		//Elimina todos los eventos del salon 
+		List<Evento> listaEventos = eventoService.getEventosBySalon(salonService.get(id));
+		for(Evento evento : listaEventos) {
+			eventoService.delete(evento.getId());
+		}
+		
+		//Elmina el salon
 		salonService.delete(id);
-		return GeneralPath.REDIRECT + GeneralPath.ABM_SALON;
+		return GeneralPath.REDIRECT;
 	}
 }
