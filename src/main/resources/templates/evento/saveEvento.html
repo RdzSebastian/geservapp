@@ -21,14 +21,7 @@
 				<label for="nombre">Nombre</label> 
 				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre" required>
 			</div>
-			
-			<div class="form-group">
-				<label for="rol">Salon</label> 
-				<select th:field="*{salon.id}" class="form-select" id="salon">
-					<option th:each="salon : ${listaSalones}" th:value="${salon.id}" th:text="${salon.nombre}"/>
-				</select>
-			</div>
-			
+
 			<div class="form-group">
 				<label for="start_date">Inicio</label> 
 				<input type="date" class="form-control" id="start_date" th:field="*{start_date}" name="start_date" required>

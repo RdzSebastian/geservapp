@@ -52,12 +52,14 @@ public class EventoController {
 	}
 
 	@PostMapping("/saveEvento")
-	public String save(Evento event, Model model, HttpSession session) {
-		eventoService.save(event);
+	public String save(Evento evento, Model model, HttpSession session) {
 		
-		// Salon en sesion para volver al calendario
+		// Salon en sesion para volver al calendario y setear en el save
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
-
+		
+		evento.setSalon(salon);
+		eventoService.save(evento);
+		
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 
