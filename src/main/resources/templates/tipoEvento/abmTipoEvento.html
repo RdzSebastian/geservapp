@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Tipo Evento</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<div>
+			<a th:href="@{/saveTipoEvento/0}" class="btn btn-primary">Agregar</a>
+		</div>
+		
+		<div>
+			<a th:href="@{/abmEvento/} + ${salon.id}" class="btn btn-primary">Volver Calendario</a>
+		</div>
+
+		<h2 th:if="${#lists.isEmpty(listaTipoEvento)}">No hay Tipos de Eventos</h2>
+		<div th:if="${not #lists.isEmpty(listaTipoEvento)}">
+			<h2>Tipos de Eventos</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tipoEvento : ${listaTipoEvento}">
+						<td th:text="${tipoEvento.nombre}">
+						<td><a class="btn btn-info" th:href="@{/saveTipoEvento/{id}(id=${tipoEvento.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteTipoEvento/{id}(id=${tipoEvento.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

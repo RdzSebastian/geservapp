@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
     	click: function() {
 			window.location = '/abmSalon'
     		}
+    	},    
+    agregarTipoEvento: {
+    	text: 'Nuevo Tipo de Evento',
+    	click: function() {
+			window.location = '/abmTipoEvento'
+    		}
     	},
     volverSalones: {
     	text: 'Volver Salones',
@@ -37,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
      right: 'prevYear,prev,next,nextYear today'
     },
     footerToolbar: {
-		left: 'agregarUsuario,agregarSalon'
+		left: 'agregarUsuario,agregarSalon,agregarTipoEvento'
 	}, events: {
         url : '/api/eventos/all'
       }

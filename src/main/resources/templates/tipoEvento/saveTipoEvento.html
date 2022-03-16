@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Save Tipo Evento</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar Tipo de Evento</h2>
+		<form action="#" th:action="@{/saveTipoEvento}" method="post" th:object="${tipoEvento}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<div class="form-group">
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+			</div>
+			<button type="submit" class="btn btn-success">Guardar</button>
+			<div>
+				<a th:href="@{/abmTipoEvento}" class="btn btn-primary">Volver</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
