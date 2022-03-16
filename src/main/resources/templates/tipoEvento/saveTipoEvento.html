@@ -19,6 +19,22 @@
 				<label for="nombre">Nombre</label> 
 				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
 			</div>
+			<div class="form-group">
+				<label for="duracion">Duracion</label> 
+				<input type="number" class="form-control" id="duracion" th:field="*{duracion}" name="duracion">
+			</div>
+			<div class="form-group">
+				<label for="capacidad">Capacidad</label> 
+				<input type="number" class="form-control" id="capacidad" th:field="*{capacidad}" name="capacidad">
+			</div>
+			<div class="form-group">
+				<label for="cantPersonal">Cantidad de personal base</label> 
+				<input type="number" class="form-control" id="cantPersonal" th:field="*{cantPersonal}" name="cantPersonal">
+			</div>
+			<div class="form-group">
+				<label for="precioBase">precio base</label> 
+				<input type="number" class="form-control" id="precioBase" th:field="*{precioBase}" name="precioBase">
+			</div>
 			<button type="submit" class="btn btn-success">Guardar</button>
 			<div>
 				<a th:href="@{/abmTipoEvento}" class="btn btn-primary">Volver</a>

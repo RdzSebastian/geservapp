@@ -24,6 +24,10 @@ public class Evento {
 	@JoinColumn(name = "salon_id")
 	private Salon salon;
 
+	@ManyToOne
+	@JoinColumn(name = "tipo_evento_id")
+	private TipoEvento tipoEvento;
+
 	@Column
 	private Date start_date;
 
@@ -52,6 +56,14 @@ public class Evento {
 
 	public void setSalon(Salon salon) {
 		this.salon = salon;
+	}
+
+	public TipoEvento getTipoEvento() {
+		return tipoEvento;
+	}
+
+	public void setTipoEvento(TipoEvento tipoEvento) {
+		this.tipoEvento = tipoEvento;
 	}
 
 	public Date getStart_date() {

@@ -21,6 +21,13 @@
 				<label for="nombre">Nombre</label> 
 				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre" required>
 			</div>
+			
+			<div class="form-group">
+				<label for="rol">Tipo de Evento</label> 
+				<select th:field="*{tipoEvento.id}" class="form-select" id="tipoEvento">
+					<option th:each="tipoEvento : ${listaTipoEvento}" th:value="${tipoEvento.id}" th:text="${tipoEvento.nombre}"/>
+				</select>
+			</div>
 
 			<div class="form-group">
 				<label for="start_date">Inicio</label> 

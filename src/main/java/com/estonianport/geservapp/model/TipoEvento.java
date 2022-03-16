@@ -16,6 +16,18 @@ public class TipoEvento {
 	@Column
 	private String nombre;
 
+	@Column
+	private int duracion;
+
+	@Column
+	private int capacidad;
+
+	@Column(name = "cant_personal")
+	private int cantPersonal;
+
+	@Column(name = "precio_base")
+	private int precioBase;
+
 	public Long getId() {
 		return id;
 	}
@@ -30,6 +42,38 @@ public class TipoEvento {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public int getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
+
+	public int getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public int getCantPersonal() {
+		return cantPersonal;
+	}
+
+	public void setCantPersonal(int cantPersonal) {
+		this.cantPersonal = cantPersonal;
+	}
+
+	public int getPrecioBase() {
+		return precioBase;
+	}
+
+	public void setPrecioBase(int precioBase) {
+		this.precioBase = precioBase;
 	}
 
 }
