@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="colorlib.com">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Agregar nuevo evento</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
+
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../css/saveEvento.css">
+    
+    
+</head>
+
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form th:action="@{/saveEvento}" method="post" th:object="${evento}" id="signup-form" class="signup-form">
+                <div>
+                    <h3>Datos iniciales</h3>
+                    <fieldset>
+                        <h2>Agregar nuevo evento</h2>
+                        <p class="desc">Cree el nuevo evento a realizar en el salon X</p>
+                        <div class="fieldset-content">
+                            <div class="form-row">
+                                <label class="form-label">Nombre del evento</label>
+                                <div class="form-flex">
+                                    <div class="form-group">
+										<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="start_date" class="form-label">Inicio</label> 
+								<input type="date" class="form-control" id="start_date" th:field="*{start_date}" name="start_date" required>
+                            </div>
+				  			<div class="form-group">
+								<label for="end_date" class="form-label">Finalizacion</label> 
+								<input type="date" class="form-control" id="end_date" th:field="*{end_date}" name="end_date" required>
+							</div>
+                    </fieldset>
+
+                    <h3>Tipo de Evento</h3>
+                    <fieldset>
+                        <h2>Selecciones tipo de evento a realizar</h2>
+                        <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+
+                            <div class="form-group">
+                                <label for="tipoEvento" class="form-label">Tipo de Evento</label>
+                                <select th:field="*{tipoEvento.id}" class="form-select" id="tipoEvento">
+									<option th:each="tipoEvento : ${listaTipoEvento}" th:value="${tipoEvento.id}" th:text="${tipoEvento.nombre}"/>
+								</select>
+                            </div>
+                        
+                        <div class="fieldset-content">
+                            <div class="choose-bank">
+                                <div class="form-radio-flex">
+                                    <div class="form-radio-item">
+                                        <input type="radio" name="choose_bank" id="bank_1" value="bank_1" checked="checked" />
+                                        <label for="bank_1"><img src="../images/bank-1.jpg" alt=""></label>
+                                    </div>
+
+                                    <div class="form-radio-item">
+                                        <input type="radio" name="choose_bank" id="bank_2" value="bank_2" />
+                                        <label for="bank_2"><img src="../images/bank-2.jpg" alt=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <h3>Cotizacion</h3>
+                    <fieldset>
+                        <h2>Presupuesto</h2>
+                        <p class="desc">Puede agregar extras que cambiaran el precio final</p>
+                        <div class="fieldset-content">
+                        <div class="form-check">
+						  	<input class="form-check-input" type="checkbox" value="" id="accountNonExpired">
+						  	<label class="form-check-label" for="accountNonExpired"> Extra Camarero </label>
+						</div>
+						
+						<div class="form-check">
+						  	<input class="form-check-input" type="checkbox" value="" id="accountNonLocked">
+						  	<label class="form-check-label" for="accountNonLocked"> Extra Animacion </label>
+						</div>
+						
+						<div class="form-check">
+						  	<input class="form-check-input" type="checkbox" value="" id="credentialsNonExpired">
+						  	<label class="form-check-label" for="credentialsNonExpired"> Extra Capacidad </label>
+						</div>
+					
+						<div class="form-check">
+						  	<input class="form-check-input" type="checkbox" value="" id="enabled">
+						  	<label class="form-check-label" for="enabled"> Extra X</label>
+						</div>
+                            <div class="donate-us">
+                                <p class="your-money">
+                                    Presupuesto final:
+                                    <span class="money" id="value-lower"> 10000</span>
+                                </p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" style="display:none;"></button>
+            </form>
+        </div>
+
+    </div>
+    
+
+    <!-- JS -->
+    <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
+    <script src="../vendor/minimalist-picker/dobpicker.js"></script>
+    <script src="../vendor/nouislider/nouislider.min.js"></script>
+    <script src="../vendor/wnumb/wNumb.js"></script>
+    <script src="../js/saveEvento.js"></script>
+</body>
+
+</html>
