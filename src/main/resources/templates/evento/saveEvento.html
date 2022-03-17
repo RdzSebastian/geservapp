@@ -58,27 +58,20 @@
                     <fieldset>
                         <h2>Selecciones tipo de evento a realizar</h2>
                         <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
-
-                            <div class="form-group">
-                                <label for="tipoEvento" class="form-label">Tipo de Evento</label>
-                                <select th:field="*{tipoEvento.id}" class="form-select" id="tipoEvento">
-									<option th:each="tipoEvento : ${listaTipoEvento}" th:value="${tipoEvento.id}" th:text="${tipoEvento.nombre}"/>
-								</select>
-                            </div>
                         
                         <div class="fieldset-content">
                             <div class="choose-bank">
-                                <div class="form-radio-flex">
-                                    <div class="form-radio-item">
-                                        <input type="radio" name="choose_bank" id="bank_1" value="bank_1" checked="checked" />
-                                        <label for="bank_1"><img src="../images/bank-1.jpg" alt=""></label>
-                                    </div>
+                            	<div class="form-radio-flex">
 
-                                    <div class="form-radio-item">
-                                        <input type="radio" name="choose_bank" id="bank_2" value="bank_2" />
-                                        <label for="bank_2"><img src="../images/bank-2.jpg" alt=""></label>
-                                    </div>
-                                </div>
+	                                <th:block th:each="tipoEvento : ${listaTipoEvento}">
+		                                    <div class="form-radio-item">
+											    <input type="radio" name="choose_bank" th:id="${tipoEvento.id}" th:value="${tipoEvento.id}" th:field="*{tipoEvento.id}"/>
+								  			    <label th:for="${tipoEvento.id}"><img src="../images/bank-2.jpg" alt=""></label>
+								  				<h5 class="card-title" th:text="${tipoEvento.nombre}" />
+								  				<p class="card-text" th:text="${tipoEvento.nombre}" />
+								  			</div>
+								  	</th:block>
+						  		</div>
                             </div>
                         </div>
                     </fieldset>
