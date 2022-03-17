@@ -66,10 +66,15 @@
 			  	<input class="form-check-input" type="checkbox" value="" th:field="*{enabled}" id="enabled">
 			  	<label class="form-check-label" for="enabled"> enabled </label>
 			</div>
-			
-			<button type="submit" class="btn btn-success">Guardar</button>
-			<div>
-				<a th:href="@{/abmUsuario}" class="btn btn-primary">Volver</a>
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{/abmUsuario}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success">Guardar</button>
+					</div>
+				</div>
 			</div>
 		</form>
 	</div>

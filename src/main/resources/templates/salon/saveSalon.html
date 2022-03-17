@@ -19,9 +19,15 @@
 				<label for="nombre">Nombre</label> 
 				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
 			</div>
-			<button type="submit" class="btn btn-success">Guardar</button>
-			<div>
-				<a th:href="@{/abmSalon}" class="btn btn-primary">Volver</a>
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{/abmSalon}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success">Guardar</button>
+					</div>
+				</div>
 			</div>
 		</form>
 	</div>
