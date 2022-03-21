@@ -116,4 +116,53 @@
             }
         });
     }
+    
+    
+    
+    var allTipoEventos = $('#subTipoEvento option')
+    $('#tipoEvento').change(function () {
+        $('#subTipoEvento option').remove()
+        var classTipoEvento = $('#tipoEvento option:selected').prop('class');
+        var opts = allTipoEventos.filter('.' + classTipoEvento);
+
+
+        $.each(opts, function (i, j) {
+            $(j).appendTo('#subTipoEvento');
+        });
+        
+        myF();
+        
+		var optionSubTipoEvento =[];
+		$('#subTipoEvento option').each(function(){
+		   if($.inArray(this.value, optionSubTipoEvento) >-1){
+		      $(this).remove()
+		   }else{
+		      optionSubTipoEvento.push(this.value);
+		   }
+		});
+    });
+    
+    const options = []
+
+	var optionValues =[];
+	$('#tipoEvento option').each(function(){
+	   if($.inArray(this.value, optionValues) >-1){
+	      $(this).remove()
+	   }else{
+	      optionValues.push(this.value);
+	   }
+	});
+	
+	function myF() {
+	  var x = document.getElementById("subTipoEvento");
+	  var option = document.createElement("option");
+	  option.value = "Sub Tipo Evento";
+	  console.log(option.value);
+	  option.text = "Sub Tipo Evento";
+	  option.defaultSelected = true
+	  option.hidden = true
+	  x.add(option);
+	}
+
+    
 })(jQuery);

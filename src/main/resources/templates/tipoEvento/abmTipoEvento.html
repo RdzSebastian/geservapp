@@ -20,9 +20,6 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Duracion</th>
-						<th>Capacidad</th>
-						<th>Cantidad de personal base</th>
-						<th>Precio base</th>			
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -31,9 +28,6 @@
 					<tr th:each="tipoEvento : ${listaTipoEvento}">
 						<td th:text="${tipoEvento.nombre}">
 						<td th:text="${tipoEvento.duracion}">
-						<td th:text="${tipoEvento.capacidad}">
-						<td th:text="${tipoEvento.cantPersonal}">
-						<td th:text="${tipoEvento.precioBase}">
 						<td><a class="btn btn-info" th:href="@{/saveTipoEvento/{id}(id=${tipoEvento.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteTipoEvento/{id}(id=${tipoEvento.id})}">Eliminar</a></td>
 					</tr>

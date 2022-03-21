@@ -58,24 +58,21 @@
                     <fieldset>
                         <h2>Selecciones tipo de evento a realizar</h2>
                         <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
-                        
-                        <div class="fieldset-content">
-                            <div class="choose-bank">
-                            	<div class="form-radio-flex">
 
-	                                <th:block th:each="tipoEvento : ${listaTipoEvento}">
-		                                    <div class="form-radio-item">
-											    <input type="radio" name="choose_bank" th:id="${tipoEvento.id}" th:value="${tipoEvento.id}" th:field="*{tipoEvento.id}"/>
-								  			    <label th:for="${tipoEvento.id}"><img src="../images/bank-2.jpg" alt=""></label>
-								  				<h5 class="card-title" th:text="${tipoEvento.nombre}" />
-								  				<p class="card-text" th:text="${tipoEvento.nombre}" />
-								  			</div>
-								  	</th:block>
-						  		</div>
-                            </div>
-                        </div>
+                        <div class="col">
+							<select class="form-select" id="tipoEvento" th:field="*{tipoEvento.id}">
+								<option selected hidden th:value="0">Tipo Evento</option>
+								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
+							</select>
+						</div>
+						<div class="col">
+							<select class="form-select" id="subTipoEvento" th:field="*{subTipoEvento.id}">
+								<option selected hidden th:value="0">Sub Tipo Evento</option>
+								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
+							</select>
+						</div>
                     </fieldset>
-
+                    
                     <h3>Cotizacion</h3>
                     <fieldset>
                         <h2>Presupuesto</h2>

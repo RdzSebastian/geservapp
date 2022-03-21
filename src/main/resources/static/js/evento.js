@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.location = '/abmTipoEvento'
     		}
     	},
+        agregarSubTipoEvento: {
+    	text: 'Nuevo Sub Tipo de Evento',
+    	click: function() {
+			window.location = '/abmSubTipoEvento'
+    		}
+    	},
     volverSalones: {
     	text: 'Volver Salones',
     	click: function() {
@@ -43,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
      right: 'prevYear,prev,next,nextYear today'
     },
     footerToolbar: {
-		left: 'agregarUsuario,agregarSalon,agregarTipoEvento'
+		left: 'agregarUsuario,agregarSalon,agregarTipoEvento,agregarSubTipoEvento'
 	}, events: {
         url : '/api/eventos/all'
       }

@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.SalonService;
+import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
 
 @Controller
@@ -31,6 +33,9 @@ public class EventoController {
 	
 	@Autowired
 	private TipoEventoService tipoEventoService;
+	
+	@Autowired
+	private SubTipoEventoService subTipoEventoService;
 
 	@RequestMapping("/abmEvento/{id}")
 	public String abm(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -41,8 +46,12 @@ public class EventoController {
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
+
 		List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();
 		model.addAttribute("listaTipoEvento", listaTipoEvento);
+		
+		List<SubTipoEvento> listaSubTipoEvento = subTipoEventoService.getAll();
+		model.addAttribute("listaSubTipoEvento", listaSubTipoEvento);
 		
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
