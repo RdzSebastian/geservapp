@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Tipo Evento</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2 th:if="${#lists.isEmpty(listaSubTipoEvento)}">No hay Sub Tipos de Eventos</h2>
+		<div th:if="${not #lists.isEmpty(listaSubTipoEvento)}">
+			<h2 class="jumbotron text-center">Sub Tipos de Eventos</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Tipo Evento</th>
+						<th>Capacidad</th>
+						<th>Cantidad de personal base</th>
+						<th>Precio base</th>			
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="subTipoEvento : ${listaSubTipoEvento}">
+						<td th:text="${subTipoEvento.nombre}">
+						<td th:text="${subTipoEvento.tipoEvento.nombre}">
+						<td th:text="${subTipoEvento.capacidad}">
+						<td th:text="${subTipoEvento.cantPersonal}">
+						<td th:text="${subTipoEvento.precioBase}">
+						<td><a class="btn btn-info" th:href="@{/saveSubTipoEvento/{id}(id=${subTipoEvento.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteSubTipoEvento/{id}(id=${subTipoEvento.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/saveSubTipoEvento/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/abmEvento/} + ${salon.id}" class="btn btn-primary">Volver Calendario</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
