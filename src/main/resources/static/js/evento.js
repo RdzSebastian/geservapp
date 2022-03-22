@@ -39,6 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.location = '/abmExtra'
     		}
     	},
+    	agregarPago: {
+    	text: 'Nuevo Pago',
+    	click: function() {
+			window.location = '/abmPago'
+    		}
+    	},
     volverSalones: {
     	text: 'Volver Salones',
     	click: function() {
@@ -55,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
      right: 'prevYear,prev,next,nextYear today'
     },
     footerToolbar: {
-		left: 'agregarUsuario,agregarSalon,agregarTipoEvento,agregarSubTipoEvento,agregarExtra'
+		left: 'agregarUsuario,agregarSalon,agregarTipoEvento,agregarSubTipoEvento,agregarExtra,agregarPago'
 	}, events: {
         url : '/api/eventos/all'
       }

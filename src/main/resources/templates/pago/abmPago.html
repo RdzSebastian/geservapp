@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Pagos</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2 th:if="${#lists.isEmpty(listaPago)}">No hay pagos</h2>
+		<div th:if="${not #lists.isEmpty(listaPago)}">
+			<h2 class="jumbotron text-center">Pagos</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Pago</th>
+						<th>Fecha</th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="pago : ${listaPago}">
+						<td th:text="${pago.pago}"> </td>
+						<td th:text="${pago.fecha}"> </td>
+						<td> </td>
+						<td> </td>
+						<td> </td>
+						<td><a class="btn btn-info" th:href="@{/savePago/{id}(id=${pago.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deletePago/{id}(id=${pago.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/savePago/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/abmEvento/} + ${salon.id}" class="btn btn-primary">Volver Calendario</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
