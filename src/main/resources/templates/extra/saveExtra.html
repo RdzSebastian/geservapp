@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Save Extra</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar Extra</h2>
+		<form action="#" th:action="@{/saveExtra}" method="post" th:object="${extra}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<div class="form-group">
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+			</div>
+			<div class="form-group">
+				<label for="precio">Precio</label> 
+				<input type="number" class="form-control" id="precio" th:field="*{precio}" name="precio">
+			</div>
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{/abmExtra}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
