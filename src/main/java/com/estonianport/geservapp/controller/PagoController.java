@@ -1,5 +1,7 @@
 package com.estonianport.geservapp.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Pago;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.PagoService;
 
 @Controller
@@ -20,11 +24,14 @@ public class PagoController {
 
 	@Autowired
 	private PagoService pagoService;
+	
+	@Autowired
+	private EventoService eventoService;
 
 	@RequestMapping("/abmPago")
 	public String abm(Model model, HttpSession session) {
 		model.addAttribute("listaPago", pagoService.getAll());
-		
+
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
@@ -34,6 +41,10 @@ public class PagoController {
 
 	@GetMapping("/savePago/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
+		
+		List<Evento> listaEvento = eventoService.getAll();
+		model.addAttribute("listaEvento", listaEvento);
+		
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.PAGO, pagoService.get(id));
 		}else {

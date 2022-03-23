@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Pago {
@@ -20,6 +22,10 @@ public class Pago {
 
 	@Column
 	private Date fecha;
+
+	@ManyToOne
+	@JoinColumn(name = "evento_id")
+	private Evento evento;
 
 	public Long getId() {
 		return id;
@@ -43,6 +49,14 @@ public class Pago {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 }
