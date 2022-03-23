@@ -78,25 +78,18 @@
                         <h2>Presupuesto</h2>
                         <p class="desc">Puede agregar extras que cambiaran el precio final</p>
                         <div class="fieldset-content">
-                        <div class="form-check">
-						  	<input class="form-check-input" type="checkbox" value="" id="accountNonExpired">
-						  	<label class="form-check-label" for="accountNonExpired"> Extra Camarero </label>
-						</div>
-						
-						<div class="form-check">
-						  	<input class="form-check-input" type="checkbox" value="" id="accountNonLocked">
-						  	<label class="form-check-label" for="accountNonLocked"> Extra Animacion </label>
-						</div>
-						
-						<div class="form-check">
-						  	<input class="form-check-input" type="checkbox" value="" id="credentialsNonExpired">
-						  	<label class="form-check-label" for="credentialsNonExpired"> Extra Capacidad </label>
-						</div>
-					
-						<div class="form-check">
-						  	<input class="form-check-input" type="checkbox" value="" id="enabled">
-						  	<label class="form-check-label" for="enabled"> Extra X</label>
-						</div>
+
+							<h5>Extras</h5>
+                            <div class="choose-bank">
+                                <th:block th:each="extra : ${listaExtra}">
+	                                    <div class=form-check>
+										    <input type="checkbox" class="form-check-input" th:id="${extra}" th:value="${extra}" th:field="*{extra}"/>
+							  				<label class="form-check-label" th:for="${extra}"  th:text="${extra.nombre}">
+							  			</div>
+							  	</th:block>
+                            </div>
+
+
                             <div class="donate-us">
                                 <p class="your-money">
                                     Presupuesto final:

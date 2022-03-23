@@ -1,7 +1,9 @@
 package com.estonianport.geservapp.model;
 
 import java.sql.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Evento {
@@ -31,6 +34,10 @@ public class Evento {
 	@ManyToOne
 	@JoinColumn(name = "sub_tipo_evento_id")
 	private SubTipoEvento subTipoEvento;
+
+	@OneToMany(targetEntity = EventoExtra.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "evento_id", referencedColumnName = "id")
+	private Set<EventoExtra> extra;
 
 	@Column
 	private Date start_date;
@@ -92,6 +99,14 @@ public class Evento {
 
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
+	}
+
+	public Set<EventoExtra> getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Set<EventoExtra> extra) {
+		this.extra = extra;
 	}
 
 }

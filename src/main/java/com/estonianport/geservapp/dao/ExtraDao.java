@@ -6,4 +6,6 @@ import com.estonianport.geservapp.model.Extra;
 
 public interface ExtraDao extends CrudRepository<Extra, Long> {
 
+	Extra findExtraByNombre(String nombre);
+
 }

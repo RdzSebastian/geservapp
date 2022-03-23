@@ -22,9 +22,9 @@ public class SalonTest {
 	@Test
 	void testSalonSave() {
 		Salon salon = new Salon();
-		salon.setNombre("Salon");
-		
-		salonService.save(salon);	
+		salon.setNombre("salon1");
+		//BBDD
+		salonService.save(salon);
 	}
 	
 	@Test
