@@ -124,13 +124,11 @@
         $('#subTipoEvento option').remove()
         var classTipoEvento = $('#tipoEvento option:selected').prop('class');
         var opts = allTipoEventos.filter('.' + classTipoEvento);
-
-
         $.each(opts, function (i, j) {
             $(j).appendTo('#subTipoEvento');
         });
         
-        myF();
+        addHiddenFirstOptionOnSelect("subTipoEvento", "Sub Tipo Evento");
         
 		var optionSubTipoEvento =[];
 		$('#subTipoEvento option').each(function(){
@@ -153,12 +151,11 @@
 	   }
 	});
 	
-	function myF() {
-	  var x = document.getElementById("subTipoEvento");
+	function addHiddenFirstOptionOnSelect(elemento, valor) {
+	  var x = document.getElementById(elemento);
 	  var option = document.createElement("option");
-	  option.value = "Sub Tipo Evento";
-	  console.log(option.value);
-	  option.text = "Sub Tipo Evento";
+	  option.value = valor;
+	  option.text = valor;
 	  option.defaultSelected = true
 	  option.hidden = true
 	  x.add(option);
