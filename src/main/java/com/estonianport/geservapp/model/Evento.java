@@ -37,7 +37,7 @@ public class Evento {
 
 	@OneToMany(targetEntity = EventoExtra.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "evento_id", referencedColumnName = "id")
-	private Set<EventoExtra> extra;
+	private Set<EventoExtra> EventoExtra;
 
 	@Column
 	private Date start_date;
@@ -101,12 +101,12 @@ public class Evento {
 		this.end_date = end_date;
 	}
 
-	public Set<EventoExtra> getExtra() {
-		return extra;
+	public Set<EventoExtra> getEventoExtra() {
+		return EventoExtra;
 	}
 
-	public void setExtra(Set<EventoExtra> extra) {
-		this.extra = extra;
+	public void setEventoExtra(Set<EventoExtra> eventoExtra) {
+		EventoExtra = eventoExtra;
 	}
 
 }

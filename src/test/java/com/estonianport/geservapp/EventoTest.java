@@ -94,7 +94,7 @@ class EventoTest {
 		eventoExtra2.setExtra(extraService.get((long) 2));
 		eventoExtra.add(eventoExtra2);
 
-		evento.setExtra(eventoExtra);
+		evento.setEventoExtra(eventoExtra);
 
 		eventoService.save(evento);
 	}

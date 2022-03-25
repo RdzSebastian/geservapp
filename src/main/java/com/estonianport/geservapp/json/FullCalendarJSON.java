@@ -1,4 +1,4 @@
-package com.estonianport.geservapp.model;
+package com.estonianport.geservapp.json;
 
 public class FullCalendarJSON {
 

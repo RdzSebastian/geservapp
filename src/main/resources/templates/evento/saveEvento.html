@@ -29,7 +29,7 @@
     <div class="main">
 
         <div class="container">
-            <form th:action="@{/saveEvento}" method="post" th:object="${evento}" id="signup-form" class="signup-form">
+            <form th:action="@{/saveEvento}" method="post" th:object="${eventoExtraContainer}" id="signup-form" class="signup-form">
                 <div>
                     <h3>Datos iniciales</h3>
                     <fieldset>
@@ -40,17 +40,17 @@
                                 <label class="form-label">Nombre del evento</label>
                                 <div class="form-flex">
                                     <div class="form-group">
-										<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre" required>
+										<input type="text" class="form-control" id="nombre" th:field="*{evento.nombre}" name="nombre" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="start_date" class="form-label">Inicio</label> 
-								<input type="date" class="form-control" id="start_date" th:field="*{start_date}" name="start_date" required>
+								<input type="date" class="form-control" id="start_date" th:field="*{evento.start_date}" name="start_date" required>
                             </div>
 				  			<div class="form-group">
 								<label for="end_date" class="form-label">Finalizacion</label> 
-								<input type="date" class="form-control" id="end_date" th:field="*{end_date}" name="end_date" required>
+								<input type="date" class="form-control" id="end_date" th:field="*{evento.end_date}" name="end_date" required>
 							</div>
                     </fieldset>
 
@@ -60,13 +60,13 @@
                         <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
 
                         <div class="col">
-							<select class="form-select" id="tipoEvento" th:field="*{tipoEvento.id}">
+							<select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
 								<option selected hidden th:value="0">Tipo Evento</option>
 								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
 							</select>
 						</div>
 						<div class="col">
-							<select class="form-select" id="subTipoEvento" th:field="*{subTipoEvento.id}">
+							<select class="form-select" id="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
 								<option selected hidden th:value="0">Sub Tipo Evento</option>
 								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
 							</select>
@@ -83,8 +83,8 @@
                             <div class="choose-bank">
                                 <th:block th:each="extra : ${listaExtra}">
 	                                    <div class=form-check>
-										    <input type="checkbox" class="form-check-input" th:id="${extra}" th:value="${extra}" th:field="*{extra}"/>
-							  				<label class="form-check-label" th:for="${extra}"  th:text="${extra.nombre}">
+										    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}"/>
+							  				<label class="form-check-label" th:text="${extra.nombre}">
 							  			</div>
 							  	</th:block>
                             </div>

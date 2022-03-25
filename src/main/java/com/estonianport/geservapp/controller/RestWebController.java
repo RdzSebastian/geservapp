@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estonianport.geservapp.json.FullCalendarJSON;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.FullCalendarJSON;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
