@@ -1,7 +1,5 @@
 (function($) {
 
-
-
     var form = $("#signup-form");
     form.validate({
         errorPlacement: function errorPlacement(error, element) {

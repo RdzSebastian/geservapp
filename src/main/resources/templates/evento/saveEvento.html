@@ -83,7 +83,7 @@
                             <div class="choose-bank">
                                 <th:block th:each="extra : ${listaExtra}">
 	                                    <div class=form-check>
-										    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}"/>
+										    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|"/>
 							  				<label class="form-check-label" th:text="${extra.nombre}">
 							  			</div>
 							  	</th:block>
@@ -93,7 +93,7 @@
                             <div class="donate-us">
                                 <p class="your-money">
                                     Presupuesto final:
-                                    <span class="money" id="value-lower"> 10000</span>
+                                    <span id="precio" class="money"> </span>
                                 </p>
                             </div>
                         </div>
@@ -105,7 +105,6 @@
 
     </div>
     
-
     <!-- JS -->
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -115,6 +114,35 @@
     <script src="../vendor/nouislider/nouislider.min.js"></script>
     <script src="../vendor/wnumb/wNumb.js"></script>
     <script src="../js/saveEvento.js"></script>
+    
+    <script th:inline="javascript">
+    	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
+		$('#subTipoEvento').change(function () {
+			var index = document.getElementById("subTipoEvento").value -1;
+			var usersArray = /*[[${listaSubTipoEvento}]]*/ [];
+			if (index >= 0 && index <= usersArray.length - 1) {
+				var precio = usersArray[index].precioBase;
+			}
+			var span = document.getElementById("precio");
+			span.textContent = precio;
+		})
+
+		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
+		function changeCheckbox(extraValor, extraId) {
+		    var decider = document.getElementById(extraId);
+			var precio = parseInt(document.getElementById("precio").innerText);
+			
+		    if(decider.checked){
+		        precio += parseInt(extraValor);
+		    } else {
+		        precio -= parseInt(extraValor);		    
+		    }
+
+		    var span = document.getElementById("precio");
+			span.textContent = precio;
+		}
+	</script>
+	
 </body>
 
 </html>
