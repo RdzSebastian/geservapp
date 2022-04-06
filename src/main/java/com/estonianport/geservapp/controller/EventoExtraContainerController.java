@@ -88,16 +88,24 @@ public class EventoExtraContainerController {
 		Set<EventoExtra> setEventoExtra = new HashSet<EventoExtra>();
 		EventoExtra eventoExtra = null;
 
-		for(Extra extra : listaExtra) {
-			eventoExtra = new EventoExtra();
-			eventoExtra.setExtra(extra);
-			setEventoExtra.add(eventoExtra);
+		if(listaExtra != null && !listaExtra.isEmpty()) {
+			for(Extra extra : listaExtra) {
+				eventoExtra = new EventoExtra();
+				eventoExtra.setExtra(extra);
+				setEventoExtra.add(eventoExtra);
+			}
 		}
 
 		// Guarda el Set EventoExtra que contiene los Extras seleccionados en la vista
 		evento.setEventoExtra(setEventoExtra);
 
 		eventoService.save(evento);
+		
+		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
+		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
+
+		eventoService.enviarMailComprabanteReserva(evento, listaExtra);
+		
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 }
