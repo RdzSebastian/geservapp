@@ -53,7 +53,6 @@
             $('button[type="submit"]').trigger('click');
         },
         onStepChanged: function(event, currentIndex, priorIndex) {
-
             return true;
         }
     });
