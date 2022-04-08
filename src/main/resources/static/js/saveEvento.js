@@ -1,19 +1,7 @@
 (function($) {
 
     var form = $("#signup-form");
-    form.validate({
-        errorPlacement: function errorPlacement(error, element) {
-            element.before(error);
-        },
-        rules: {
-            email: {
-                email: true
-            }
-        },
-        onfocusout: function(element) {
-            $(element).valid();
-        },
-    });
+
     form.children("div").steps({
         headerTag: "h3",
         bodyTag: "fieldset",
@@ -157,6 +145,24 @@
 	  option.hidden = true
 	  x.add(option);
 	}
+	
+	$('#date').combodate({
+          value: new Date(),
+          minYear: moment().year(),
+          maxYear: moment().year() + 2,
+          customClass: 'form-control d-inline'
+    });
 
+    $('#time_start').combodate({
+        minuteStep: 30,
+        customClass: 'form-control d-inline'
+    }); 
+
+    $('#time_end').combodate({
+        hourMin: 12,
+        hourMax: 20,
+        minuteStep: 30,
+        customClass: 'form-control d-inline'
+    }); 
     
 })(jQuery);

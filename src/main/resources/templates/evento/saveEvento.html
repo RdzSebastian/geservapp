@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
 
 
+    
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -29,7 +30,7 @@
     <div class="main">
 
         <div class="container">
-            <form th:action="@{/saveEvento}" method="post" th:object="${eventoExtraContainer}" id="signup-form" class="signup-form">
+            <form th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}" id="signup-form" class="signup-form">
                 <div>
                     <h3>Datos iniciales</h3>
                     <fieldset>
@@ -40,18 +41,23 @@
                                 <label class="form-label">Nombre del evento</label>
                                 <div class="form-flex">
                                     <div class="form-group">
-										<input type="text" class="form-control" id="nombre" th:field="*{evento.nombre}" name="nombre" required>
+										<input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="start_date" class="form-label">Inicio</label> 
-								<input type="date" class="form-control" id="start_date" th:field="*{evento.start_date}" name="start_date" required>
+						    <div class="form-group">
+						    	<label for="date" class="form-label">Fecha de evento</label> 
+						        <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
+						    </div>
+                          	<div class="form-group">
+								<label for="time_start" class="form-label">Hora Inicio</label> 
+                            	<input type="text" id="time_start" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{inicio}">
                             </div>
-				  			<div class="form-group">
-								<label for="end_date" class="form-label">Finalizacion</label> 
-								<input type="date" class="form-control" id="end_date" th:field="*{evento.end_date}" name="end_date" required>
-							</div>
+                          	<div class="form-group">
+								<label for="time_end" class="form-label">Hora Final</label> 
+                            	<input type="text" id="time_end" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{fin}">
+                            </div>
+
                     </fieldset>
 
                     <h3>Tipo de Evento</h3>
@@ -88,12 +94,10 @@
 							  			</div>
 							  	</th:block>
                             </div>
-
-
                             <div class="donate-us">
                                 <p class="your-money">
                                     Presupuesto final:
-                                    <span id="precio" class="money"> </span>
+                                	<input type="number" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
                                 </p>
                             </div>
                         </div>
@@ -113,7 +117,12 @@
     <script src="../vendor/minimalist-picker/dobpicker.js"></script>
     <script src="../vendor/nouislider/nouislider.min.js"></script>
     <script src="../vendor/wnumb/wNumb.js"></script>
+	<script src="../vendor/moment/moment.js"></script>
+	<script src="../vendor/moment/locale-es.js"></script> 
+    <script src="../vendor/combodate/combodate.js"></script>
+   
     <script src="../js/saveEvento.js"></script>
+
     
     <script th:inline="javascript">
     	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
@@ -123,23 +132,22 @@
 			if (index >= 0 && index <= usersArray.length - 1) {
 				var precio = usersArray[index].precioBase;
 			}
-			var span = document.getElementById("precio");
-			span.textContent = precio;
+			$("#presupuesto").val(precio);
 		})
 
 		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
 		function changeCheckbox(extraValor, extraId) {
 		    var decider = document.getElementById(extraId);
-			var precio = parseInt(document.getElementById("precio").innerText);
-			
+			var precio = parseInt($("#presupuesto").val());
+
 		    if(decider.checked){
 		        precio += parseInt(extraValor);
 		    } else {
 		        precio -= parseInt(extraValor);		    
 		    }
 
-		    var span = document.getElementById("precio");
-			span.textContent = precio;
+			$("#presupuesto").val(precio);
+
 		}
 	</script>
 	
