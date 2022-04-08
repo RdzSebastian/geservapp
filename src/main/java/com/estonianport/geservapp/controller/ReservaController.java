@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.container.EventoExtraContainer;
+import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
@@ -29,7 +29,7 @@ import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
 
 @Controller
-public class EventoExtraContainerController {
+public class ReservaController {
 
 	@Autowired
 	private EventoService eventoService;
@@ -60,25 +60,25 @@ public class EventoExtraContainerController {
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		if(id != null && id != 0) {
-			model.addAttribute("eventoExtraContainer", "");
+			model.addAttribute("reservaContainer", "");
 		}else {
 			// Crea una instancia de EventoExtraContainer para agregar todos los Extra en la vista
-			EventoExtraContainer eventoExtraContainer = new EventoExtraContainer();
-			eventoExtraContainer.setExtra(new ArrayList<>());
+			ReservaContainer reservaContainer = new ReservaContainer();
+			reservaContainer.setExtra(new ArrayList<>());
 			for(Extra extra : listaExtra) {
-				eventoExtraContainer.getExtra().add(extra);
+				reservaContainer.getExtra().add(extra);
 			}
-			model.addAttribute("eventoExtraContainer", eventoExtraContainer);
+			model.addAttribute("reservaContainer", reservaContainer);
 		}
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 	}
 
 	@PostMapping("/saveEvento")
-	public String save(@ModelAttribute("eventoExtraContainer") EventoExtraContainer eventoExtraContainer, Model model, HttpSession session) {
+	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
 
 		// El container retorna los objetos a usar
-		Evento evento = eventoExtraContainer.getEvento();
-		List<Extra> listaExtra = eventoExtraContainer.getExtra();
+		Evento evento = reservaContainer.getEvento();
+		List<Extra> listaExtra = reservaContainer.getExtra();
 
 		// Salon en sesion para volver al calendario y setear en el save
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
@@ -87,6 +87,8 @@ public class EventoExtraContainerController {
 		// Crea el Set EventoExtra para agregar los Extra y luego a Evento
 		Set<EventoExtra> setEventoExtra = new HashSet<EventoExtra>();
 		EventoExtra eventoExtra = null;
+		
+		//TODO setear la fecha, hora inicio y hora fin al evento 
 
 		if(listaExtra != null && !listaExtra.isEmpty()) {
 			for(Extra extra : listaExtra) {

@@ -1,6 +1,6 @@
 package com.estonianport.geservapp;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,17 +73,17 @@ class EventoTest {
 			}
 		}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	void testEventoConExtras() {
 		Evento evento = new Evento();
 		evento.setNombre("event test");
-		evento.setStart_date(new Date(2022,02,01));
-		evento.setEnd_date(new Date(2022,02,02));
+
+		evento.setStart_date(LocalDateTime.of(2022,02,01,20,30));
+		evento.setEnd_date(LocalDateTime.of(2022,02,01,20,30));
 		evento.setTipoEvento(tipoEventoService.get((long) 1));
 		evento.setSubTipoEvento(subTipoEventoService.get((long) 1));
 		evento.setSalon(salonService.get((long) 1));
-		
+
 		Set<EventoExtra> eventoExtra = new HashSet<EventoExtra>();
 
 		EventoExtra eventoExtra1 = new EventoExtra();

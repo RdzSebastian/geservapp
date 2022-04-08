@@ -1,6 +1,6 @@
 package com.estonianport.geservapp.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 public class Evento {
@@ -40,10 +42,15 @@ public class Evento {
 	private Set<EventoExtra> EventoExtra;
 
 	@Column
-	private Date start_date;
+	@CreationTimestamp
+	private LocalDateTime start_date;
 
 	@Column
-	private Date end_date;
+	@CreationTimestamp
+	private LocalDateTime end_date;
+
+	@Column
+	private int presupuesto;
 
 	public Long getId() {
 		return id;
@@ -85,28 +92,36 @@ public class Evento {
 		this.subTipoEvento = subTipoEvento;
 	}
 
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
-
-	public Date getEnd_date() {
-		return end_date;
-	}
-
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
-	}
-
 	public Set<EventoExtra> getEventoExtra() {
 		return EventoExtra;
 	}
 
 	public void setEventoExtra(Set<EventoExtra> eventoExtra) {
 		EventoExtra = eventoExtra;
+	}
+
+	public LocalDateTime getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(LocalDateTime start_date) {
+		this.start_date = start_date;
+	}
+
+	public LocalDateTime getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(LocalDateTime end_date) {
+		this.end_date = end_date;
+	}
+
+	public int getPresupuesto() {
+		return presupuesto;
+	}
+
+	public void setPresupuesto(int presupuesto) {
+		this.presupuesto = presupuesto;
 	}
 
 }
