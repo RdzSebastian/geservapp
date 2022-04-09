@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ReservaContainer;
+import com.estonianport.geservapp.email.EmailService;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
@@ -44,6 +45,9 @@ public class ReservaController {
 
 	@Autowired
 	private ExtraService extraService;
+
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -115,7 +119,7 @@ public class ReservaController {
 		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
-		eventoService.enviarMailComprabanteReserva(evento, listaExtra);
+		emailService.enviarMailComprabanteReserva(evento, listaExtra);
 		
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}

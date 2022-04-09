@@ -15,6 +15,15 @@ public class Salon {
 
 	@Column
 	private String nombre;
+	
+	@Column
+	private String calle;
+	
+	@Column
+	private String numero;
+	
+	@Column
+	private String municipio;
 
 	public Long getId() {
 		return id;
@@ -30,6 +39,30 @@ public class Salon {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
 }
