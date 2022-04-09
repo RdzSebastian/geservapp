@@ -9,40 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.location = '/saveEvento/0'
     		}
     	},
-    agregarUsuario: {
-    	text: 'Nuevo usuario',
+    Administracion: {
+    	text: 'Panel de administracion',
     	click: function() {
-			window.location = '/abmUsuario'
-    		}
-    	},
-    agregarSalon: {
-    	text: 'Nuevo Salon',
-    	click: function() {
-			window.location = '/abmSalon'
-    		}
-    	},    
-    agregarTipoEvento: {
-    	text: 'Nuevo Tipo de Evento',
-    	click: function() {
-			window.location = '/abmTipoEvento'
-    		}
-    	},
-        agregarSubTipoEvento: {
-    	text: 'Nuevo Sub Tipo de Evento',
-    	click: function() {
-			window.location = '/abmSubTipoEvento'
-    		}
-    	},
-        agregarExtra: {
-    	text: 'Nuevo Extra',
-    	click: function() {
-			window.location = '/abmExtra'
-    		}
-    	},
-    	agregarPago: {
-    	text: 'Nuevo Pago',
-    	click: function() {
-			window.location = '/abmPago'
+			window.location = '/administracion'
     		}
     	},
     volverSalones: {
@@ -61,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
      right: 'prevYear,prev,next,nextYear today'
     },
     footerToolbar: {
-		left: 'agregarUsuario,agregarSalon,agregarTipoEvento,agregarSubTipoEvento,agregarExtra,agregarPago'
+		left: 'Administracion'
 	}, events: {
         url : '/api/eventos/all'
       }

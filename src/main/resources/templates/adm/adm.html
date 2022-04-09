@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+ <html xmlns:th="http://www.thymeleaf.org"  lang='es'>
+ <head>
+ <title>Adminitracion</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+
+ 	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+		
+
+ </head>
+
+ <body>
+ 		
+		<section class="pt-5" id="buttons">
+			<div class="container">
+				<div class="row mb-4">
+					<div class="col-md-12">
+						<h2 class="heading-section"> Administre sus</h2>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmUsuario}" >
+							<div>
+								<h5>Usuarios</h5>
+								<span>x usuarios</span>
+							</div>
+							<div class="col-9 align-items-center col-auto">
+								<i class="fas fa-users fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSalon}">
+							<div>
+								<h5>Salones</h5>
+								<span>x salones</span>
+							</div>
+							<div class="col-9 align-items-center col-auto">
+								<i class="fas fa-building fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmTipoEvento}">
+							<div>
+								<h5>Tipos Eventos</h5>
+								<span>x tipo eventos</span>
+							</div>
+							<div class="col-4 align-items-center col-auto">
+								<i class="fas fa-calendar-week fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSubTipoEvento}">
+							<div class="text-left">
+								<h5>Sub Tipos eventos</h5>
+								<span>x sub tipo eventos</span>
+							</div>
+							<div class="col-3 align-items-center col-auto">
+								<i class="fas fa-calendar-day fa-lg"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtra}">
+							<div>
+								<h5>Extras</h5>
+								<span>x extras</span>
+							</div>
+							<div class="col-9 align-items-center col-auto">
+								<i class="fas fa-calendar-check fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmPago}">
+							<div class="text text-left">
+								<h5>Pagos</h5>
+								<span>x pagos</span>
+							</div>
+							<div class="col-9 align-items-center col-auto">
+								<i class="fas fa-cash-register fa-lg"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+	  </section>
+	  
+    <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+ </body>
+ </html>
+ 
