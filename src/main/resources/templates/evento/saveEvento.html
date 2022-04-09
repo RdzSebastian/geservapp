@@ -57,6 +57,11 @@
 								<label for="time_end" class="form-label">Hora Final</label> 
                             	<input type="text" id="time_end" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{fin}">
                             </div>
+                            
+                            <div class="form-check">
+							  	<input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}" onmousedown="this.form.time_end.disabled = this.checked">
+							  	<label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
+							</div>
 
                     </fieldset>
 

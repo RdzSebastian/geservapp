@@ -1,5 +1,7 @@
 package com.estonianport.geservapp.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -88,8 +90,17 @@ public class ReservaController {
 		Set<EventoExtra> setEventoExtra = new HashSet<EventoExtra>();
 		EventoExtra eventoExtra = null;
 		
-		//TODO setear la fecha, hora inicio y hora fin al evento 
+		// Setea la hora y fecha del evento
+		evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+		
+		if(!reservaContainer.getHastaElOtroDia()) {
+			evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+		}else {
+			LocalDateTime fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+			evento.setEnd_date(fechaFin.plusDays(1));
+		}
 
+		// Guarda el Set EventoExtra que contiene los Extras seleccionados en la vista
 		if(listaExtra != null && !listaExtra.isEmpty()) {
 			for(Extra extra : listaExtra) {
 				eventoExtra = new EventoExtra();
@@ -97,8 +108,6 @@ public class ReservaController {
 				setEventoExtra.add(eventoExtra);
 			}
 		}
-
-		// Guarda el Set EventoExtra que contiene los Extras seleccionados en la vista
 		evento.setEventoExtra(setEventoExtra);
 
 		eventoService.save(evento);

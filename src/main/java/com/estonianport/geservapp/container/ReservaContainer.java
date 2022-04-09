@@ -17,6 +17,8 @@ public class ReservaContainer {
 
 	private String fin;
 
+	private Boolean hastaElOtroDia;
+
 	public Evento getEvento() {
 		return evento;
 	}
@@ -55,6 +57,14 @@ public class ReservaContainer {
 
 	public void setFin(String fin) {
 		this.fin = fin;
+	}
+
+	public Boolean getHastaElOtroDia() {
+		return hastaElOtroDia;
+	}
+
+	public void setHastaElOtroDia(Boolean hastaElOtroDia) {
+		this.hastaElOtroDia = hastaElOtroDia;
 	}
 
 }

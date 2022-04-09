@@ -42,11 +42,9 @@ public class Evento {
 	private Set<EventoExtra> EventoExtra;
 
 	@Column
-	@CreationTimestamp
 	private LocalDateTime start_date;
 
 	@Column
-	@CreationTimestamp
 	private LocalDateTime end_date;
 
 	@Column
