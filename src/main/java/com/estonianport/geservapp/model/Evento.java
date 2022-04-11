@@ -47,6 +47,10 @@ public class Evento {
 
 	@Column
 	private int presupuesto;
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -118,6 +122,14 @@ public class Evento {
 
 	public void setPresupuesto(int presupuesto) {
 		this.presupuesto = presupuesto;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }
