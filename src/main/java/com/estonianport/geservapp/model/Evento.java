@@ -51,6 +51,10 @@ public class Evento {
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
+	
+	@Column
+	private String codigo;
+	
 
 	public Long getId() {
 		return id;
@@ -130,6 +134,14 @@ public class Evento {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 }

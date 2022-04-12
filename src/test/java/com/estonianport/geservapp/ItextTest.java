@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.estonianport.geservapp.itext.ItextService;
+import com.estonianport.geservapp.commons.CodeGenerator;
+import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
@@ -51,13 +52,9 @@ class ItextTest {
 	@Test
 	void testItext() {
         try {
-            Document document = new Document();
-            
-            
-            PdfWriter.getInstance(document, new FileOutputStream(itextService.FILE));
-            document.open();
 
     		Evento evento = new Evento();
+    		evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
     		evento.setNombre("event test");
 
     		evento.setStart_date(LocalDateTime.of(2022,02,01,20,30));
@@ -89,6 +86,11 @@ class ItextTest {
     		
     		evento.setUsuario(usuarioService.get((long) 1));
 
+            Document document = new Document();
+
+            PdfWriter.getInstance(document, new FileOutputStream(itextService.DIRECTORY_PDF + evento.getCodigo() + itextService.EXTENSION_PDF));
+            document.open();
+            
             itextService.addMetaData(document);
             itextService.addTitlePage(document, evento);
             itextService.addContent(document, evento, listaExtra);
