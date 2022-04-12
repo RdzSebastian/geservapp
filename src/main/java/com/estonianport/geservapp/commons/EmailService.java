@@ -1,5 +1,5 @@
 
-package com.estonianport.geservapp.email;
+package com.estonianport.geservapp.commons;
 
 import java.util.List;
 
@@ -17,15 +17,14 @@ import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 
 @Service
-public class EmailService implements EmailPort{
+public class EmailService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
 	@Autowired
 	private JavaMailSender sender;
 
-	@Override
-	public void sendEmail(EmailBody emailBody)  {
+	public void sendEmail(Email emailBody)  {
 		sendEmailTool(emailBody.getContent(), emailBody.getEmail(), emailBody.getSubject());
 	}
 
@@ -43,7 +42,6 @@ public class EmailService implements EmailPort{
 		}
 	}
 
-	@Override
 	public void enviarMailComprabanteReserva(Evento evento, List<Extra> listaExtra) {
 		
 		StringBuilder extraMail = new StringBuilder();
@@ -68,7 +66,7 @@ public class EmailService implements EmailPort{
 		String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
 		String horaFin = String.valueOf(evento.getEnd_date().getHour()) + ":" +String.valueOf(evento.getEnd_date().getMinute());
 
-		EmailBody emailBody = new EmailBody();
+		Email emailBody = new Email();
 		emailBody.setEmail("rdzsebastian@gmail.com");
 		emailBody.setSubject("Tu reserva de evento para el " + evento.getStart_date());
 		emailBody.setContent(

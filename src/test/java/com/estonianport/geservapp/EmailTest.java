@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.estonianport.geservapp.email.EmailBody;
-import com.estonianport.geservapp.email.EmailService;
+import com.estonianport.geservapp.commons.Email;
+import com.estonianport.geservapp.commons.EmailService;
 
 @SpringBootTest
 class EmailTest {
@@ -15,7 +15,7 @@ class EmailTest {
 
 	@Test
 	void testEmail() {
-		EmailBody emailBody = new EmailBody();
+		Email emailBody = new Email();
 		emailBody.setContent("Cuerpo del Email");
 		emailBody.setSubject("Mail prueba GESERVAPP");
 		emailBody.setEmail("rdzsebastian@gmail.com");

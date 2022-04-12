@@ -1,13 +1,13 @@
-package com.estonianport.geservapp.itext;
+package com.estonianport.geservapp.commons;
 
-import java.security.Timestamp;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.itextpdf.text.BadElementException;
@@ -19,15 +19,37 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
 public class ItextService {
 	Random ramdom = new Random();
-	public String FILE = "pdf/" + ramdom.nextInt() +".pdf";
-    
+	public String DIRECTORY_PDF = "pdf/";
+	public String EXTENSION_PDF = ".pdf";
+
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
+    public void createPdf(ReservaContainer reservaContainer) throws Exception {
+    	//Crear Archivo
+    	Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(DIRECTORY_PDF + reservaContainer.getEvento().getCodigo() + EXTENSION_PDF));
+        document.open();
+        this.addMetaData(document);
+        this.addTitlePage(document, reservaContainer.getEvento());
+        this.addContent(document, reservaContainer.getEvento(), reservaContainer.getExtra());
+        document.close();
+//        
+//        // Descargar archivo
+//		File file = new File(DIRECTORY_PDF + reservaContainer.getEvento().getCodigo() + EXTENSION_PDF);
+//	    HttpHeaders respHeaders = new HttpHeaders();
+//	    respHeaders.setContentType(MediaType.APPLICATION_PDF);
+//	    respHeaders.setContentLength(file.length());
+//	    respHeaders.setContentDispositionFormData("attachment", file.getName());
+//
+//	    return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
+//		
+    }
 
     public void addMetaData(Document document) {
         document.addTitle("Comprobante de reserva");
@@ -62,6 +84,7 @@ public class ItextService {
 
         Paragraph paragraph = new Paragraph();
         paragraph.add(new Paragraph("Tu evento: " + evento.getNombre()));
+        paragraph.add(new Paragraph("Codigo: " + evento.getCodigo(), smallBold));
         paragraph.add(new Paragraph("Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "."));
         paragraph.add(new Paragraph("En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "."));
         paragraph.add(new Paragraph("Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "."));

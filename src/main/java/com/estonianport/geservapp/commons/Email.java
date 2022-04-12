@@ -1,6 +1,6 @@
-package com.estonianport.geservapp.email;
+package com.estonianport.geservapp.commons;
 
-public class EmailBody {
+public class Email {
 	private String content;
 	private String email;
 	private String subject;
