@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.estonianport.geservapp.commons.CodeGenerator;
+import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.ReservaContainer;
-import com.estonianport.geservapp.email.EmailService;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
@@ -30,6 +33,7 @@ import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
+import com.estonianport.geservapp.service.UsuarioService;
 
 @Controller
 public class ReservaController {
@@ -48,6 +52,12 @@ public class ReservaController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private ItextService itextService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -80,7 +90,7 @@ public class ReservaController {
 	}
 
 	@PostMapping("/saveEvento")
-	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
+	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session, Authentication authentication) {
 
 		// El container retorna los objetos a usar
 		Evento evento = reservaContainer.getEvento();
@@ -97,6 +107,13 @@ public class ReservaController {
 		// Setea la hora y fecha del evento
 		evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
 		
+		// Setea usuario que genero la reserva
+		evento.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
+		
+		// Crea el codigo del evento
+		evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
+		
+		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
 		if(!reservaContainer.getHastaElOtroDia()) {
 			evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
 		}else {
@@ -113,14 +130,25 @@ public class ReservaController {
 			}
 		}
 		evento.setEventoExtra(setEventoExtra);
-
 		eventoService.save(evento);
 		
+		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
 		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
+		// Envia mail con comprobante
 		emailService.enviarMailComprabanteReserva(evento, listaExtra);
 		
+		// Crea de PDF
+		try {
+			itextService.createPdf(reservaContainer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// Descarga PDF
+		
+
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 }
