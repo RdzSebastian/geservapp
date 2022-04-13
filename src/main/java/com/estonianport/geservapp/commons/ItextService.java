@@ -39,16 +39,7 @@ public class ItextService {
         this.addTitlePage(document, reservaContainer.getEvento());
         this.addContent(document, reservaContainer.getEvento(), reservaContainer.getExtra());
         document.close();
-//        
-//        // Descargar archivo
-//		File file = new File(DIRECTORY_PDF + reservaContainer.getEvento().getCodigo() + EXTENSION_PDF);
-//	    HttpHeaders respHeaders = new HttpHeaders();
-//	    respHeaders.setContentType(MediaType.APPLICATION_PDF);
-//	    respHeaders.setContentLength(file.length());
-//	    respHeaders.setContentDispositionFormData("attachment", file.getName());
-//
-//	    return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
-//		
+
     }
 
     public void addMetaData(Document document) {

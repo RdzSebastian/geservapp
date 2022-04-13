@@ -24,18 +24,6 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(usuarioService);
 	}
 
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		// http builder configurations for authorize requests and form login (see below)
-//        super.configure(http);
-
-//		http
-//		.authorizeRequests()
-//		.antMatchers("/admin/**").hasRole("ADMIN")
-//		.antMatchers("/").hasRole("USER")
-//		.and().formLogin();
-//	}
-
 	@Bean 
 	public static PasswordEncoder passwordEncoder() { 
 		return new BCryptPasswordEncoder(); 
