@@ -71,6 +71,7 @@ public class EmailService{
 		emailBody.setSubject("Tu reserva de evento para el " + evento.getStart_date());
 		emailBody.setContent(
 				"Tu evento: " + evento.getNombre() + ", ha sido reservado exitosamente." + "<br>" +
+				"Codigo: " + evento.getCodigo() + "<br>" +
 				"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
 				"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
 				"Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
