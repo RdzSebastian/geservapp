@@ -27,4 +27,9 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 		return eventosDao.getEventosBySalon(salon);
 	}
 
+	@Override
+	public Evento getEventoByCodigo(String codigo) {
+		return eventosDao.getEventoByCodigo(codigo);
+	}
+
 }

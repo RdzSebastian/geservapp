@@ -22,9 +22,9 @@
 						<th>Fecha</th>
 						<th>Evento</th>
 						<th>Evento Fecha</th>
+						<th>Usuario</th>
 						<th> </th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+						<th> </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -33,9 +33,9 @@
 						<td th:text="${pago.fecha}"> </td>
 						<td th:text="${pago.evento.nombre}"> </td>
 						<td th:text="${pago.evento.start_date}"> </td>
+						<td th:text="${pago.usuario.username}"> </td>
 						<td> </td>
-						<td><a class="btn btn-info" th:href="@{/savePago/{id}(id=${pago.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deletePago/{id}(id=${pago.id})}">Eliminar</a></td>
+						<td> </td>
 					</tr>
 				</tbody>
 			</table>
@@ -43,7 +43,7 @@
 		<div class="container mt-3">
 			<div class="gap-2 d-flex justify-content-between">
 				<div>
-					<a th:href="@{/savePago/0}" class="btn btn-primary">Agregar</a>
+					<a th:href="@{/buscarEvento}" class="btn btn-primary">Agregar</a>
 				</div>
 				<div>
 					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>

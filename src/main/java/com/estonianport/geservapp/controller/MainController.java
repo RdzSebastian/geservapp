@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.SalonService;
 
 @Controller
@@ -27,6 +28,9 @@ public class MainController {
 
 	@Autowired
 	SalonService salonService;
+	
+	@Autowired
+	EventoService eventoService;
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -44,10 +48,9 @@ public class MainController {
 	}
 	
 	@RequestMapping("/download/0")
-	public String descargarComprobante(Model model, String codigo){
+	public String descargarComprobante(Model model){
 		model.addAttribute("codigoContainer", new CodigoContainer());
-		return "download/download";
-		
+		return "download/download";		
 	}
 
 	@RequestMapping("/download")
@@ -67,6 +70,15 @@ public class MainController {
 		    return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
 		}
 		return null;
+	}
+
+	
+	@RequestMapping("/buscarEvento")
+	public String buscarEvento(Model model, HttpSession session){
+		model.addAttribute("codigoContainer", new CodigoContainer());
+		model.addAttribute("volver", session.getAttribute("volver"));
+		return "evento/buscarEvento";
+		
 	}
 
 }

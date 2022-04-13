@@ -10,5 +10,7 @@ import com.estonianport.geservapp.model.Salon;
 public interface EventoDao extends CrudRepository<Evento, Long> {
 	
 	List<Evento> getEventosBySalon(Salon salon);
+
+	Evento getEventoByCodigo(String codigo);
 	
 }

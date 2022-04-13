@@ -9,5 +9,7 @@ import com.estonianport.geservapp.model.Salon;
 public interface EventoService extends GenericService<Evento, Long>{
 
 	List<Evento> getEventosBySalon(Salon salon);
+	
+	Evento getEventoByCodigo(String codigo);
 
 }
