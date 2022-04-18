@@ -233,8 +233,9 @@
                 h12 = this.options.template.indexOf('h') !== -1,
                 h24 = this.options.template.indexOf('H') !== -1,
                 twoDigit = this.options.template.toLowerCase().indexOf('hh') !== -1,
-                min = h12 ? 1 : 0, 
-                max = h12 ? 12 : 23;
+                // Set start and end Hour hh first option, HH second.
+                min = h12 ? 1 : 12, 
+                max = h12 ? 12 : 22;
                 
             for(i=min; i<=max; i++) {
                 name = twoDigit ? this.leadZero(i) : i;
