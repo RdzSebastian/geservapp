@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Salones</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2 th:if="${#lists.isEmpty(listaEvento)}">No hay eventos en esta fecha</h2>
+		<div th:if="${not #lists.isEmpty(listaEvento)}">
+			<h2 class="jumbotron text-center">Salones</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Codigo</th>
+						<th>Fecha</th>
+						<th>Hora Inicio</th>
+						<th>Hora Final</th>
+						<th>Tipo Evento</th>
+						<th>Sub Tipo Evento</th>
+						<th>Presupuesto</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="evento : ${listaEvento}">
+						<td th:text="${evento.nombre}"> </td>
+						<td th:text="${evento.codigo}"> </td>
+						<td th:text="${evento.nombre}"> </td>
+						<td th:text="${evento.nombre}"> </td>
+						<td th:text="${evento.nombre}"> </td>
+						<td th:text="${evento.tipoEvento.nombre}"> </td>
+						<td th:text="${evento.subTipoEvento.nombre}"> </td>
+						<td th:text="${evento.presupuesto}"> </td>
+						<td><a class="btn btn-info" th:href="@{/saveEvento/{id}(id=${evento.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteEvento/{id}(id=${evento.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/saveEvento/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

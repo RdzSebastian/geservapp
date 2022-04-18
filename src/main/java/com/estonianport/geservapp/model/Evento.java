@@ -40,10 +40,10 @@ public class Evento {
 	private Set<EventoExtra> EventoExtra;
 
 	@Column
-	private LocalDateTime start_date;
+	private LocalDateTime startd;
 
 	@Column
-	private LocalDateTime end_date;
+	private LocalDateTime endd;
 
 	@Column
 	private int presupuesto;
@@ -105,19 +105,19 @@ public class Evento {
 	}
 
 	public LocalDateTime getStart_date() {
-		return start_date;
+		return startd;
 	}
 
 	public void setStart_date(LocalDateTime start_date) {
-		this.start_date = start_date;
+		this.startd = start_date;
 	}
 
 	public LocalDateTime getEnd_date() {
-		return end_date;
+		return endd;
 	}
 
 	public void setEnd_date(LocalDateTime end_date) {
-		this.end_date = end_date;
+		this.endd = end_date;
 	}
 
 	public int getPresupuesto() {

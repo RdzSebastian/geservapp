@@ -1,5 +1,6 @@
 package com.estonianport.geservapp.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 	public Evento getEventoByCodigo(String codigo) {
 		return eventosDao.getEventoByCodigo(codigo);
 	}
+
+	@Override
+	public List<Evento> findAllByStartdBetweenAndSalon(LocalDateTime start_date,LocalDateTime end_date, Salon salon){
+		return eventosDao.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
+	}
+
 
 }

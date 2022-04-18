@@ -2,6 +2,8 @@ package com.estonianport.geservapp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.CodigoContainer;
+import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.SalonService;
@@ -79,6 +83,23 @@ public class MainController {
 		model.addAttribute("volver", session.getAttribute("volver"));
 		return "evento/buscarEvento";
 		
+	}
+	
+	@RequestMapping("/seleccionarFecha")
+	public String buscarEvento(Model model, @RequestParam("arr") String fecha, HttpSession session){
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime start_date = LocalDateTime.parse(fecha + " 10:00", formatter);
+		LocalDateTime end_date = LocalDateTime.parse(fecha + " 23:00", formatter);
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+		
+		
+		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
+		model.addAttribute("listaEvento", listaEvento);
+		return "seleccionarFecha/abmSeleccionarFecha";
 	}
 
 }
