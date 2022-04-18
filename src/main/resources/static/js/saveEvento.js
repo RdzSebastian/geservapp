@@ -1,6 +1,13 @@
 (function($) {
 
-    var form = $("#signup-form");
+	window.onload = selectEventoEmpiezaVacio;
+	
+	function selectEventoEmpiezaVacio() {
+		$('#subTipoEvento option').remove()
+		addHiddenFirstOptionOnSelect("subTipoEvento", "Sub Tipo Evento");
+	}
+
+	var form = $("#signup-form");
 
     form.children("div").steps({
         headerTag: "h3",
@@ -114,8 +121,8 @@
         });
         
         addHiddenFirstOptionOnSelect("subTipoEvento", "Sub Tipo Evento");
-        
-		var optionSubTipoEvento =[];
+		
+		var optionSubTipoEvento = [];
 		$('#subTipoEvento option').each(function(){
 		   if($.inArray(this.value, optionSubTipoEvento) >-1){
 		      $(this).remove()
@@ -124,8 +131,6 @@
 		   }
 		});
     });
-    
-    const options = []
 
 	var optionValues =[];
 	$('#tipoEvento option').each(function(){
@@ -150,19 +155,25 @@
           value: new Date(),
           minYear: moment().year(),
           maxYear: moment().year() + 2,
-          customClass: 'form-control d-inline'
+          customClass: 'form-control d-inline',
+          smartDays: true
     });
 
     $('#time_start').combodate({
         minuteStep: 30,
-        customClass: 'form-control d-inline'
+        customClass: 'form-control d-inline',
     }); 
 
     $('#time_end').combodate({
-        hourMin: 12,
-        hourMax: 20,
         minuteStep: 30,
         customClass: 'form-control d-inline'
     }); 
+    
+    $('#hastaElOtroDiaCheckbox').change(function(){
+		if(this.checked)
+		$('#horaFinal').fadeOut('slow');
+		else
+		$('#horaFinal').fadeIn('slow');
+	});
     
 })(jQuery);
