@@ -44,6 +44,8 @@ public class PagoController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 		
+		session.setAttribute("titulo", "Agregar Pago");
+		
 		return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_PAGO;
 	}
 

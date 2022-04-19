@@ -62,22 +62,39 @@ public class ReservaController {
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
 
-		List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();
-		model.addAttribute("listaTipoEvento", listaTipoEvento);
-
-		List<SubTipoEvento> listaSubTipoEvento = subTipoEventoService.getAll();
-		model.addAttribute("listaSubTipoEvento", listaSubTipoEvento);
-
-		List<Extra> listaExtra = extraService.getAll();
-		model.addAttribute("listaExtra", listaExtra);
-
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
+		
+		// Agrega lista Extras
+		List<Extra> listaExtra = extraService.getAll();
+		model.addAttribute("listaExtra", listaExtra);
 
 		if(id != null && id != 0) {
-			model.addAttribute("reservaContainer", "");
+			Evento evento = eventoService.get(id);
+			model.addAttribute("evento", evento);
+			
+			// Setea la lista de extras que tiene el evento seleccionadas
+			List<Extra> listaExtraSeleccioandas =  new ArrayList<Extra>();
+			Set<EventoExtra> listaEventoExtra = evento.getEventoExtra();
+			for(EventoExtra eventoExtra : listaEventoExtra) {
+				listaExtraSeleccioandas.add(eventoExtra.getExtra());
+			}
+
+			model.addAttribute("listaExtraSeleccioandas", listaExtraSeleccioandas);
+
+			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.EDIT_EVENTO;
 		}else {
+			
+			// Agrega lista de Tipo Eventos
+			List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();
+			model.addAttribute("listaTipoEvento", listaTipoEvento);
+
+			// Agrega lista de Sub Tipo Eventos
+			List<SubTipoEvento> listaSubTipoEvento = subTipoEventoService.getAll();
+			model.addAttribute("listaSubTipoEvento", listaSubTipoEvento);
+
 			// Crea una instancia de EventoExtraContainer para agregar todos los Extra en la vista
 			ReservaContainer reservaContainer = new ReservaContainer();
 			reservaContainer.setExtra(new ArrayList<>());
@@ -85,8 +102,8 @@ public class ReservaController {
 				reservaContainer.getExtra().add(extra);
 			}
 			model.addAttribute("reservaContainer", reservaContainer);
+			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 		}
-		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 	}
 
 	@PostMapping("/saveEvento")
@@ -145,9 +162,6 @@ public class ReservaController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		// Descarga PDF
-		
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}

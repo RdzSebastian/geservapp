@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -79,10 +80,13 @@ public class MainController {
 	
 	@RequestMapping("/buscarEvento")
 	public String buscarEvento(Model model, HttpSession session){
+		
+		// Agrega el titulo de la busqueda que sea
+		model.addAttribute("titulo", session.getAttribute("titulo"));
+		
 		model.addAttribute("codigoContainer", new CodigoContainer());
 		model.addAttribute("volver", session.getAttribute("volver"));
 		return "evento/buscarEvento";
-		
 	}
 	
 	@RequestMapping("/seleccionarFecha")
@@ -96,9 +100,39 @@ public class MainController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 		
-		
+		// Agrega el volver de donde venga
+		model.addAttribute("volver", session.getAttribute("volver"));
+
 		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
 		model.addAttribute("listaEvento", listaEvento);
+		
+
+		return "seleccionarFecha/abmSeleccionarFecha";
+	}
+	
+	@RequestMapping("/buscarAllEvento")
+	public String buscarAllEvento(Model model, HttpSession session){
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+		
+		// Agrega el volver de donde venga
+		//model.addAttribute("volver", session.getAttribute("volver"));
+		
+		session.setAttribute("volver", "/eventoEncontrado");
+		
+		List<Evento> listaEvento = eventoService.getAll();
+		model.addAttribute("listaEvento", listaEvento);
+
+		return "seleccionarFecha/abmSeleccionarFecha";
+	}
+	
+	@RequestMapping("/eventoEncontrado")
+	public String eventoEncontrado(Model model, HttpSession session, CodigoContainer codigoContainer){
+		List<Evento> listaEvento = new ArrayList<Evento>();
+		listaEvento.add( eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
+		model.addAttribute("listaEvento",listaEvento);
 		return "seleccionarFecha/abmSeleccionarFecha";
 	}
 

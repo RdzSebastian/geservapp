@@ -1,5 +1,6 @@
 package com.estonianport.geservapp.commons;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +40,6 @@ public class ItextService {
         this.addTitlePage(document, reservaContainer.getEvento());
         this.addContent(document, reservaContainer.getEvento(), reservaContainer.getExtra());
         document.close();
-
     }
 
     public void addMetaData(Document document) {
@@ -108,11 +108,13 @@ public class ItextService {
 			 table.addCell(extra.getNombre());
 			 table.addCell(Integer.toString(extra.getPrecio()));
 		}
-
         paragraph.add(table);
-
     }
 
+    public void deletePdf(String codigo) throws Exception {
+    	File file = new File(DIRECTORY_PDF + codigo + EXTENSION_PDF);
+    	file.delete();
+    }
 
     public void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {

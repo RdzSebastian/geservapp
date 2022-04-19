@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Save Pago</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Editar Evento</h2>
+		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${evento}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			
+			<div class="form-group">
+				<label for="rol">Evento</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.nombre}" readonly/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Dia evento</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.start_date}" readonly/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Codigo</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.codigo}" readonly/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Hora Inicio</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.start_date}"/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Hora Final</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.end_date}"/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Tipo Evento</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.tipoEvento.nombre}" readonly/>
+			</div>
+			<div class="form-group">
+				<label for="rol">Sub Tipo Evento</label>
+                <input type="text" class="form-control" id="evento" th:value="${evento.subTipoEvento.nombre}" readonly/>
+			</div>
+			<label for="rol">Extras</label>
+           	<div class="choose-bank">
+	           <th:block th:each="extra : ${listaExtra}">
+	                    <div class=form-check>
+						    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|"/>
+			  				<label class="form-check-label" th:text="${extra.nombre}">
+			  			</div>
+			  	</th:block>
+			</div>
+			<div class="form-group">
+				<label for="rol">Presupuesto</label> 
+                <input type="number" class="form-control" id="presupuesto" readonly/>
+			</div>
+
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
+
+    <script th:inline="javascript">
+	    $(document).ready( function () {
+		setPresupuesto();
+			function setPresupuesto(){
+				var precio = /*[[${evento.presupuesto}]]*/ [];
+				$("#presupuesto").val(precio);
+	
+			}
+			
+			// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
+			function changeCheckbox(extraValor, extraId) {
+			    var decider = document.getElementById(extraId);
+				var precio = parseInt($("#presupuesto").val());
+	
+			    if(decider.checked){
+			        precio += parseInt(extraValor);
+			    } else {
+			        precio -= parseInt(extraValor);		    
+			    }
+	
+				$("#presupuesto").val(precio);
+			}
+		});
+	</script>
+</body>
+</html>

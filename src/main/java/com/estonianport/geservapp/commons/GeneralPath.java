@@ -26,6 +26,7 @@ public class GeneralPath {
 	public static String SAVE_EXTRA = "saveExtra";
 	public static String SAVE_PAGO = "savePago";
 
+	public static String EDIT_EVENTO = "editEvento";
 	public static String REDIRECT = "redirect:/";
 	public static String PATH_SEPARATOR = "/";
 }
