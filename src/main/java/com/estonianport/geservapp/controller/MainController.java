@@ -85,7 +85,9 @@ public class MainController {
 		model.addAttribute("titulo", session.getAttribute("titulo"));
 		
 		model.addAttribute("codigoContainer", new CodigoContainer());
+		model.addAttribute("action", session.getAttribute("action"));
 		model.addAttribute("volver", session.getAttribute("volver"));
+		
 		return "evento/buscarEvento";
 	}
 	
@@ -120,10 +122,12 @@ public class MainController {
 		// Agrega el volver de donde venga
 		//model.addAttribute("volver", session.getAttribute("volver"));
 		
-		session.setAttribute("volver", "/eventoEncontrado");
+		session.setAttribute("action", "/eventoEncontrado");
+		session.setAttribute("volver", "/buscarAllEvento");
 		
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
+		model.addAttribute("volver", "/administracion");
 
 		return "seleccionarFecha/abmSeleccionarFecha";
 	}
@@ -131,8 +135,9 @@ public class MainController {
 	@RequestMapping("/eventoEncontrado")
 	public String eventoEncontrado(Model model, HttpSession session, CodigoContainer codigoContainer){
 		List<Evento> listaEvento = new ArrayList<Evento>();
-		listaEvento.add( eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
+		listaEvento.add(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
 		model.addAttribute("listaEvento",listaEvento);
+		model.addAttribute("volver", session.getAttribute("volver"));
 		return "seleccionarFecha/abmSeleccionarFecha";
 	}
 

@@ -61,7 +61,6 @@ public class EventoController {
 		// Salon en sesion para volver al calendario
 		Salon salon = salonService.get(id);
 		session.setAttribute("salon", salon);
-		
 
 		// Elimina el archivo pdf de comprobante
 		Evento evento = eventoService.get(id);

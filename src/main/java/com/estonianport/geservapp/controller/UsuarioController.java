@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.SecurityConfig;
 import com.estonianport.geservapp.model.Rol;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.Usuario;
-import com.estonianport.geservapp.security.SecurityConfig;
 import com.estonianport.geservapp.service.RolService;
 import com.estonianport.geservapp.service.UsuarioService;
 

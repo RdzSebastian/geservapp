@@ -38,7 +38,8 @@ public class PagoController {
 	@RequestMapping("/abmPago")
 	public String abm(Model model, HttpSession session) {
 		model.addAttribute("listaPago", pagoService.getAll());
-		session.setAttribute("volver", "/savePago/0");
+		session.setAttribute("action", "/savePago/0");
+		session.setAttribute("volver", "/abmPago");
 
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);

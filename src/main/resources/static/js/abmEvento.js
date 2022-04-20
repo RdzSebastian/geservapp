@@ -62,13 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
    locale: 'es',
    initialView: 'dayGridMonth',
    themeSystem: "bootstrap",
+   selectable: true,
    headerToolbar: {
-    left: 'agregarEvento,volverSalones',
+    left: 'agregarEvento,volverSalones today',
     center: 'title',
-    right: 'prevYear,prev,next,nextYear today'
-   }, 
-   events: {
-    url : '/api/eventos/all'
+    right: 'prevYear,prev,next,nextYear dayGridMonth,timeGridWeek,listWeek'
+   },
+   dateClick: function(info) {
+     window.location = '/seleccionarFecha/?arr=' + info.dateStr;
+   },
+   footerToolbar: {
+   	events: {
+     url : '/api/eventos/all'
+    }
    }
   });
  }

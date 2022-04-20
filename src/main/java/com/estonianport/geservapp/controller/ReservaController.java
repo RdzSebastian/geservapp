@@ -72,16 +72,27 @@ public class ReservaController {
 
 		if(id != null && id != 0) {
 			Evento evento = eventoService.get(id);
-			model.addAttribute("evento", evento);
 			
 			// Setea la lista de extras que tiene el evento seleccionadas
-			List<Extra> listaExtraSeleccioandas =  new ArrayList<Extra>();
+			List<Extra> listaExtraSeleccionadas =  new ArrayList<Extra>();
 			Set<EventoExtra> listaEventoExtra = evento.getEventoExtra();
 			for(EventoExtra eventoExtra : listaEventoExtra) {
-				listaExtraSeleccioandas.add(eventoExtra.getExtra());
+				listaExtraSeleccionadas.add(eventoExtra.getExtra());
 			}
+			
+			ReservaContainer reservaContainer = new ReservaContainer();
+			reservaContainer.setEvento(evento);
 
-			model.addAttribute("listaExtraSeleccioandas", listaExtraSeleccioandas);
+			// Setea la hora y fecha del evento
+			String fecha = evento.getStart_date().getDayOfMonth() + "-" + evento.getStart_date().getMonth().getValue() + "-" + evento.getStart_date().getYear();
+			reservaContainer.setFecha(fecha);
+			String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
+			reservaContainer.setInicio(horaInicio);
+			String horaFin = String.valueOf(evento.getEnd_date().getHour()) + ":" +String.valueOf(evento.getEnd_date().getMinute());
+			reservaContainer.setFin(horaFin);
+
+			model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
+			model.addAttribute("reservaContainer", reservaContainer);
 
 			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
 			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.EDIT_EVENTO;
@@ -122,19 +133,34 @@ public class ReservaController {
 		EventoExtra eventoExtra = null;
 		
 		// Setea la hora y fecha del evento
-		evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+		try{
+			evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:mm")));
+		}catch(Exception e){
+			evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
+		}
 		
 		// Setea usuario que genero la reserva
 		evento.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
 		
-		// Crea el codigo del evento
-		evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
+		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
+			// Crea el codigo del evento
+			evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
+		}
 		
 		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
 		if(!reservaContainer.getHastaElOtroDia()) {
-			evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+			try {
+				evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+			}catch(Exception e){
+				evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
+			}
 		}else {
-			LocalDateTime fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+			LocalDateTime fechaFin = null;
+			try {
+				fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+			}catch(Exception e){
+				fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-M-yyyy HH:m"));
+			}
 			evento.setEnd_date(fechaFin.plusDays(1));
 		}
 
