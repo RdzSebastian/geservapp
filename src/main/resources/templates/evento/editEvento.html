@@ -57,8 +57,8 @@
 				    <select> 
             	</div>
             </div>
-          	<div class="form-group">
-				<label for="time_end" class="form-label">Hora Final</label>
+          	<div id="horaFinal"class="form-group">
+				<label for="horaFinal" class="form-label">Hora Final</label>
 				<div>
 	            	<select id="time_end" class="form-control d-inline" style="width: auto;">
 	            		<option value="12">12</option>
@@ -81,7 +81,7 @@
             	</div>
             </div>
             <div class="form-check">
-			  	<input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
+			  	<input class="form-check-input" type="checkbox" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
 			  	<label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
 			</div>
 			<div class="form-group">
@@ -135,8 +135,6 @@
 			setExtrasSeleccionadas();
 
 			setHora();
-			
-
 
 			function setPresupuesto(){
 				var precio = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
@@ -150,7 +148,6 @@
 					var valorId = parseInt(indice) + 1;
 					document.querySelector("#extraId" + valorId).checked = true
 				});
-				
 			}
 		});
 		
@@ -169,40 +166,35 @@
 		}
 
 	    function setHora() {
-			var fecha = /*[[${reservaContainer.fecha}]]*/ [];
 			var inicio = /*[[${reservaContainer.inicio}]]*/ [];
-			const myArray = inicio.split(":");
-			var fin = /*[[${reservaContainer.fin}]]*/ [];
-			const myArray2 = fin.split(":");
+			var inicio_array = inicio.split(":");
 
-		  	var x = document.getElementById("time_start");
-		  	var option = document.createElement("option");
-		  	option.value = myArray[0];
-		  	option.text = myArray[0];
-		  	option.defaultSelected = true
-		  	x.add(option);
-		  	
-		  	var j = document.getElementById("time_start_min");
-		  	var optiona = document.createElement("option");
-		  	optiona.value = myArray[1];
-		  	optiona.text = myArray[1];
-		  	optiona.defaultSelected = true
-		  	j.add(optiona);
-		  
-		  	var y = document.getElementById("time_end");
-		  	var optionb = document.createElement("option");
-		  	optionb.value = myArray2[0];
-		  	optionb.text = myArray2[0];
-		  	optionb.defaultSelected = true
-		  	y.add(optionb);
-		  	
-		  	var z = document.getElementById("time_end_min");
-		  	var optionc = document.createElement("option");
-		  	optionc.value = myArray2[1];
-		  	optionc.text = myArray2[1];
-		  	optionc.defaultSelected = true
-		  	z.add(optionc);
+			var fin = /*[[${reservaContainer.fin}]]*/ [];
+			var fin_array = fin.split(":");
+
+			selectPreviusOption("time_start", inicio_array[0]);
+			selectPreviusOption("time_start_min", inicio_array[1]);
+			selectPreviusOption("time_end", fin_array[0]);
+			selectPreviusOption("time_end_min", fin_array[1]);
 		}
+
+		function selectPreviusOption(elemento, horario){
+			var element = document.getElementById(elemento);
+			for(var i=0; i < element.options.length; i++){
+			    if(element.options[i].value === agregarCero(horario)) {
+			      element.selectedIndex = i;
+			      break;
+			    }
+			 }
+		}
+
+		function agregarCero(minutos){
+			if(minutos == "0"){
+				return "00";
+			}else{
+				return minutos;
+			}
+		}	
 
 	</script>
 </body>

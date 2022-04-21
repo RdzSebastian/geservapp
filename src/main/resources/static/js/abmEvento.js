@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
          window.location = '/saveEvento/0'
        }
      },
+     Administracion: {
+       text: 'Panel de administracion',
+       click: function() {
+         window.location = '/administracion'
+       }
+     },
      volverSalones: {
        text: 'Volver Salones',
        click: function() {
@@ -71,14 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
    dateClick: function(info) {
      window.location = '/seleccionarFecha/?arr=' + info.dateStr;
    },
-   footerToolbar: {
-   	events: {
-     url : '/api/eventos/all'
-    }
+   events: {
+    url : '/api/eventos/all'
    }
   });
- }
-
+   }
  calendar.render();
 
 });
