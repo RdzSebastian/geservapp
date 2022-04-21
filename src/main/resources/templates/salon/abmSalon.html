@@ -19,9 +19,9 @@
 				<thead>
 					<tr>
 						<th>Nombre</th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
+						<th>Calle</th>
+						<th>Numero</th>
+						<th>Municipio</th>
 						<th> </th>
 						<th>Editar</th>
 						<th>Eliminar</th>
@@ -30,9 +30,9 @@
 				<tbody>
 					<tr th:each="salon : ${listaSalon}">
 						<td th:text="${salon.nombre}"> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
+						<td th:text="${salon.calle}"> </td>
+						<td th:text="${salon.numero}"> </td>
+						<td th:text="${salon.municipio}"> </td>
 						<td> </td>
 						<td><a class="btn btn-info" th:href="@{/saveSalon/{id}(id=${salon.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteSalon/{id}(id=${salon.id})}">Eliminar</a></td>
