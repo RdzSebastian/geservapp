@@ -19,7 +19,8 @@
 						<div>
 							<div class="card-body">
 				  				<h5 class="card-title" th:text="${salon.nombre}" />
-				  				<p class="card-text" th:text="${salon.nombre}" />
+				  				<p class="card-text" th:text="${salon.municipio}" />
+				  				<p class="card-text" th:text="${salon.calle} + ' ' + ${salon.numero}" />
 				  				<button class="btn btn-primary form-control" type="submit">Enter</button>
 				  			</div>
 						</div>
