@@ -26,7 +26,7 @@
 		        <h3>Datos iniciales</h3>
 		        <section>
 		            <h2>Agregar nuevo evento</h2>
-		            <p class="desc">Cree el nuevo evento a realizar en el salon X</p>
+		            <p th:text="'Cree el nuevo evento a realizar en ' + ${salon.nombre}"></p>
 		            <div class="fieldset-content">
 		                
                         <div class="form-group">
@@ -67,7 +67,7 @@
 		        <h3>Tipo de Evento</h3>
 		        <section>
 		            <h2>Selecciones tipo de evento a realizar</h2>
-		            <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+		            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
 		
 		            <div class="col">
 		                <select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
@@ -88,7 +88,7 @@
 		        <h3>Cotizacion</h3>
 		        <section>
 		            <h2>Presupuesto</h2>
-		            <p class="desc">Puede agregar extras que cambiaran el precio final</p>
+		            <p>Puede agregar extras que cambiaran el precio final</p>
 		            <div class="fieldset-content">
 		                <div class="form-group" id="extras">
 		                    <label for="extras" class="form-label">Extras</label> 
