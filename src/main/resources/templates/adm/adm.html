@@ -29,9 +29,9 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmUsuario}" >
 							<div>
 								<h5>Usuarios</h5>
-								<span>x usuarios</span>
+								<span th:text="${cantUsuario} + ' usuarios'"></span>
 							</div>
-							<div class="col-9 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-users fa-lg"></i>
 							</div>
 						</a>
@@ -40,9 +40,9 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSalon}">
 							<div>
 								<h5>Salones</h5>
-								<span>x salones</span>
+								<span th:text="${cantSalon} + ' salones'"></span>
 							</div>
-							<div class="col-9 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-building fa-lg"></i>
 							</div>
 						</a>
@@ -51,7 +51,7 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmTipoEvento}">
 							<div>
 								<h5>Tipos Eventos</h5>
-								<span>x tipo eventos</span>
+								<span th:text="${cantTipoEvento} + ' tipo eventos'"></span>
 							</div>
 							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-calendar-week fa-lg"></i>
@@ -62,7 +62,7 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSubTipoEvento}">
 							<div class="text-left">
 								<h5>Sub Tipos eventos</h5>
-								<span>x sub tipo eventos</span>
+								<span th:text="${cantSubTipoEvento} + ' sub tipo eventos'"></span>
 							</div>
 							<div class="col-3 align-items-center col-auto">
 								<i class="fas fa-calendar-day fa-lg"></i>
@@ -76,9 +76,9 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtra}">
 							<div>
 								<h5>Extras</h5>
-								<span>x extras</span>
+								<span th:text="${cantExtra} + ' extras'"></span>
 							</div>
-							<div class="col-9 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-calendar-check fa-lg"></i>
 							</div>
 						</a>
@@ -87,9 +87,9 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmPago}">
 							<div class="text text-left">
 								<h5>Pagos</h5>
-								<span>x pagos</span>
+								<span th:text="${cantPago} + ' pagos'"></span>
 							</div>
-							<div class="col-9 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-cash-register fa-lg"></i>
 							</div>
 						</a>
@@ -100,7 +100,7 @@
 								<h5>Comprobantes</h5>
 								<span>Descarga compr.</span>
 							</div>
-							<div class="col-9 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-cash-register fa-lg"></i>
 							</div>
 						</a>
@@ -109,9 +109,9 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/buscarAllEvento}">
 							<div class="text text-left">
 								<h5>Buscar Evento</h5>
-								<span>x eventos</span>
+								<span th:text="${cantEvento} + ' eventos'"></span>
 							</div>
-							<div class="col-5 align-items-center col-auto">
+							<div class="col-4 align-items-center col-auto">
 								<i class="fas fa-search fa-lg"></i>
 							</div>
 						</a>
