@@ -128,11 +128,15 @@
     <script th:inline="javascript">
     	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
 		$('#subTipoEvento').change(function () {
-			var index = document.getElementById("subTipoEvento").value -1;
-			var usersArray = /*[[${listaSubTipoEvento}]]*/ [];
-			if (index >= 0 && index <= usersArray.length - 1) {
-				var precio = usersArray[index].precioBase;
-			}
+			var index = document.getElementById("subTipoEvento").value;
+			var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
+			var precio = null;
+			listaSubTipoEvento.forEach( function(valor, indice, array) {
+				if(index == indice){
+					precio = listaSubTipoEvento[index -1].precioBase;
+				}
+			});
+
 			$("#presupuesto").val(precio);
 		})
 
