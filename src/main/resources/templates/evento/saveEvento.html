@@ -4,158 +4,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="colorlib.com">
+    <meta name="author" content="colorlib.com">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Agregar nuevo evento</title>
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="../fonts/material-icon/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="../vendor/nouislider/nouislider.min.css">
-
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-
-    <!-- Main css -->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    
+    <link rel="stylesheet" href="../vendor/jquery-steps/jquery.steps.css">
     <link rel="stylesheet" href="../css/saveEvento.css">
-    
-    
+
 </head>
 
 <body>
-
-    <div class="main">
-
-        <div class="container">
-            <form th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}" id="signup-form" class="signup-form">
-                <div>
-                    <h3>Datos iniciales</h3>
-                    <fieldset>
-                        <h2>Agregar nuevo evento</h2>
-                        <p class="desc">Cree el nuevo evento a realizar en el salon X</p>
-                        <div class="fieldset-content">
-                            <div class="form-row">
-                                <label class="form-label">Nombre del evento</label>
-                                <div class="form-flex">
-                                    <div class="form-group">
-										<input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}">
-                                    </div>
-                                </div>
-                            </div>
-						    <div class="form-group">
-						    	<label for="date" class="form-label">Fecha de evento</label> 
-						        <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
-						    </div>
-                          	<div class="form-group">
-								<label for="time_start" class="form-label">Hora Inicio</label> 
-                            	<input type="text" id="time_start" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{inicio}">
-                            </div>
-                          	<div class="form-group" id="horaFinal">
-								<label for="time_end" class="form-label">Hora Final</label> 
-                            	<input type="text" id="time_end" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{fin}">
-                            </div>
-                            
-                            <div class="form-check">
-							  	<input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
-							  	<label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
-							</div>
-
-                    </fieldset>
-
-                    <h3>Tipo de Evento</h3>
-                    <fieldset>
-                        <h2>Selecciones tipo de evento a realizar</h2>
-                        <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
-
-                        <div class="col">
-							<select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
-								<option selected hidden th:value="0">Tipo Evento</option>
-								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
-							</select>
-						</div>
-						<div class="col">
-							<select class="form-select" id="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
-								<option selected hidden th:value="0">Sub Tipo Evento</option>
-								<option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
-							</select>
-						</div>
-                    </fieldset>
-                    
-                    <h3>Cotizacion</h3>
-                    <fieldset>
-                        <h2>Presupuesto</h2>
-                        <p class="desc">Puede agregar extras que cambiaran el precio final</p>
-                        <div class="fieldset-content">
-
-							<h5>Extras</h5>
-                            <div class="choose-bank">
-                                <th:block th:each="extra : ${listaExtra}">
-	                                    <div class=form-check>
-										    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|" />
-							  				<label class="form-check-label" th:text="${extra.nombre}">
-							  			</div>
-							  	</th:block>
-                            </div>
-                            <div class="donate-us">
-                                <p class="your-money">
-                                    Presupuesto final:
-                                	<input type="number" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
-                                </p>
-                            </div>
+	<div class="wrapper">
+	    <form th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}" id="reservacion-form" class="signup-form">
+	    	<div id="reservacion-wizard">
+	
+		    	<!--===============================================================================================-->
+		        <h3>Datos iniciales</h3>
+		        <section>
+		            <h2>Agregar nuevo evento</h2>
+		            <p class="desc">Cree el nuevo evento a realizar en el salon X</p>
+		            <div class="fieldset-content">
+		                
+                        <div class="form-group">
+                        	<label for="nombre" class="form-label">Nombre del evento</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}" required>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" style="display:none;"></button>
-            </form>
-        </div>
-    </div>
-    
+                        
+		              	<div class="form-group">
+		                    <label for="email" class="form-label">Mail</label> 
+		                    <input type="email" class="form-control" id="email"  name="email" required/>
+		                </div>
+
+		                <div class="form-group">
+		                    <label for="date" class="form-label">Fecha de evento</label> 
+		                    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
+		                </div>
+
+		                <div class="form-group">
+		                    <label for="time_start" class="form-label">Hora Inicio</label> 
+		                    <input type="text" id="time_start" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{inicio}">
+		                </div>
+
+		                <div class="form-group" id="horaFinal">
+		                    <label for="time_end" class="form-label">Hora Final</label> 
+		                    <input type="text" id="time_end" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{fin}">
+		                </div>
+
+		                <div class="form-group">
+		                    <input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
+		                    <label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
+		                </div>
+
+		            </div>
+		        </section>
+		        <!--===============================================================================================-->
+		
+		        <!--===============================================================================================-->
+		        <h3>Tipo de Evento</h3>
+		        <section>
+		            <h2>Selecciones tipo de evento a realizar</h2>
+		            <p class="desc">El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+		
+		            <div class="col">
+		                <select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
+		                    <option selected hidden th:value="0">Tipo Evento</option>
+		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
+		                </select>
+		            </div>
+		            <div class="col">
+		                <select class="form-select" id="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
+		                    <option selected hidden th:value="0">Sub Tipo Evento</option>
+		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
+		                </select>
+		            </div>
+		        </section>
+		    	<!--===============================================================================================-->
+		
+		    	<!--===============================================================================================-->
+		        <h3>Cotizacion</h3>
+		        <section>
+		            <h2>Presupuesto</h2>
+		            <p class="desc">Puede agregar extras que cambiaran el precio final</p>
+		            <div class="fieldset-content">
+		                <div class="form-group" id="extras">
+		                    <label for="extras" class="form-label">Extras</label> 
+		                    <th:block id="extras" th:each="extra : ${listaExtra}">
+			                    <div class=form-check>
+									<input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|" />
+			                    	<label class="form-check-label" th:text="${extra.nombre}">
+			                    </div>
+			                </th:block>
+			            </div>
+
+		                <div class="form-group" id="horaFinal">
+		                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
+		                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
+		                </div>
+		            </div>
+		        </section>
+		    	<!--===============================================================================================-->
+
+	        	<button type="submit" style="display:none;"></button>
+	   		</div>
+		</form>
+	</div>
+
+
     <!-- JS -->
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
-    <script src="../vendor/minimalist-picker/dobpicker.js"></script>
-    <script src="../vendor/nouislider/nouislider.min.js"></script>
-    <script src="../vendor/wnumb/wNumb.js"></script>
-	<script src="../vendor/moment/moment.js"></script>
-	<script src="../vendor/moment/locale-es.js"></script> 
+    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/moment/moment.js"></script>
+    <script src="../vendor/moment/locale-es.js"></script> 
     <script src="../vendor/combodate/combodate.js"></script>
-   
-    <script src="../js/saveEvento.js"></script>
-
     
+    <script src="../js/saveEvento.js"></script>
+    <script src="../js/saveEventoWizard.js"></script>
+
     <script th:inline="javascript">
-    	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
-		$('#subTipoEvento').change(function () {
-			var index = document.getElementById("subTipoEvento").value;
-			var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
-			var precio = null;
-			listaSubTipoEvento.forEach( function(valor, indice, array) {
-				if(index == indice){
-					precio = listaSubTipoEvento[index -1].precioBase;
-				}
-			});
+        // Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
+        $('#subTipoEvento').change(function () {
+            var index = document.getElementById("subTipoEvento").value;
+            var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
+            var precio = null;
+            listaSubTipoEvento.forEach( function(valor, indice, array) {
+                if(index == indice){
+                    precio = listaSubTipoEvento[index -1].precioBase;
+                }
+            });
 
-			$("#presupuesto").val(precio);
-		})
+            $("#presupuesto").val(precio);
+        })
 
-		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-		function changeCheckbox(extraValor, extraId) {
-		    var decider = document.getElementById(extraId);
-			var precio = parseInt($("#presupuesto").val());
+        // Suma o resta al precio del evento, el precio del extra que haya sido checkeado
+        function changeCheckbox(extraValor, extraId) {
+            var decider = document.getElementById(extraId);
+            var precio = parseInt($("#presupuesto").val());
 
-		    if(decider.checked){
-		        precio += parseInt(extraValor);
-		    } else {
-		        precio -= parseInt(extraValor);		    
-		    }
+            if(decider.checked){
+                precio += parseInt(extraValor);
+            } else {
+                precio -= parseInt(extraValor);         
+            }
 
-			$("#presupuesto").val(precio);
+            $("#presupuesto").val(precio);
 
-		}
-	</script>
-	
+        }
+    </script>
+    
 </body>
 
 </html>
