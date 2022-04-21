@@ -26,7 +26,12 @@ import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
+import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.SalonService;
+import com.estonianport.geservapp.service.SubTipoEventoService;
+import com.estonianport.geservapp.service.TipoEventoService;
+import com.estonianport.geservapp.service.UsuarioService;
 
 @Controller
 public class MainController {
@@ -36,6 +41,22 @@ public class MainController {
 	
 	@Autowired
 	EventoService eventoService;
+	
+	@Autowired
+	UsuarioService usuariosService;
+	
+	@Autowired
+	TipoEventoService tipoEventoService;
+	
+	@Autowired
+	SubTipoEventoService subTipoEventoService;
+
+	
+	@Autowired
+	PagoService pagoService;
+
+	@Autowired
+	ExtraService extraService;
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -49,6 +70,14 @@ public class MainController {
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
+		model.addAttribute("cantUsuario", usuariosService.count());
+		model.addAttribute("cantTipoEvento", tipoEventoService.count());
+		model.addAttribute("cantSubTipoEvento", subTipoEventoService.count());
+		model.addAttribute("cantPago", pagoService.count());
+		model.addAttribute("cantSalon", salonService.count());
+		model.addAttribute("cantExtra", extraService.count());
+		model.addAttribute("cantEvento", eventoService.count());
+
 		return "adm/adm";
 	}
 	

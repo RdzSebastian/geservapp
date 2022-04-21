@@ -19,5 +19,10 @@ public class SubTipoEventoServiceImpl extends GenericServiceImpl<SubTipoEvento, 
 	public CrudRepository<SubTipoEvento, Long> getDao() {
 		return subTipoEvento;
 	}
+	
+	public Long count() {
+		return subTipoEvento.count();
+	}
+
 
 }

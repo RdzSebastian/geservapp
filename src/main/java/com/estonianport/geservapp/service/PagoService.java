@@ -10,4 +10,6 @@ public interface PagoService extends GenericService<Pago, Long>{
 
 	List<Pago> findPagosByEvento(Evento evento);
 
+	Long count();
+
 }

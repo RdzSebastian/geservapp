@@ -35,4 +35,8 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
 	public Usuario findUserByUsername(String username) {
 		return usuarioDao.findUserByUsername(username);
 	}
+	
+	public Long count() {
+		return usuarioDao.count();
+	}
 }

@@ -7,4 +7,6 @@ public interface ExtraService extends GenericService<Extra, Long>{
 	
 	Extra findExtraByNombre(String nombre);
 
+	Long count();
+
 }

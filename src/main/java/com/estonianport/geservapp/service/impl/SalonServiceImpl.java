@@ -19,5 +19,9 @@ public class SalonServiceImpl extends GenericServiceImpl<Salon, Long> implements
 	public CrudRepository<Salon, Long> getDao() {
 		return salonDao;
 	}
+	
+	public Long count() {
+		return salonDao.count();
+	}
 
 }

@@ -38,5 +38,8 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 		return eventosDao.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
 	}
 
+	public Long count() {
+		return eventosDao.count();
+	}
 
 }

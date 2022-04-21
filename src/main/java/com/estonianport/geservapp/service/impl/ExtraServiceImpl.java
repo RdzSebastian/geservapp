@@ -24,5 +24,7 @@ public class ExtraServiceImpl extends GenericServiceImpl<Extra, Long> implements
 		return extraDao.findExtraByNombre(nombre);
 	}
 
-
+	public Long count() {
+		return extraDao.count();
+	}
 }

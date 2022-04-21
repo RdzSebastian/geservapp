@@ -28,4 +28,7 @@ public class PagoServiceImpl extends GenericServiceImpl<Pago, Long> implements P
 		return pagoDao.findPagosByEvento(evento);
 	}
 
+	public Long count() {
+		return pagoDao.count();
+	}
 }
