@@ -7,10 +7,10 @@ $(document).ready(function() {
 	    autoFocus: true,
 	    onFinished: function(event, currentIndex) {
             $('button[type="submit"]').trigger('click');
-        }
-	});
-	
-	$("#reservacion-form").validate();
-
-	
+        },
+	}).find('a')
+        .last().parent().parent()
+        .prepend("<li><a href='../abmEvento/1'>Volver Calendario</a></li>");
+        
+    $("#reservacion-form").validate();
 });
