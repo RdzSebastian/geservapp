@@ -27,10 +27,13 @@ import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.model.Sexo;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
+import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
@@ -58,6 +61,12 @@ public class ReservaController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private SexoService sexoService;
+
+	@Autowired
+	private ClienteService clienteService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -69,6 +78,9 @@ public class ReservaController {
 		// Agrega lista Extras
 		List<Extra> listaExtra = extraService.getAll();
 		model.addAttribute("listaExtra", listaExtra);
+
+		List<Sexo> listaSexo = sexoService.getAll();
+		model.addAttribute("listaSexo", listaSexo);
 
 		if(id != null && id != 0) {
 			Evento evento = eventoService.get(id);
@@ -164,6 +176,10 @@ public class ReservaController {
 			evento.setEnd_date(fechaFin.plusDays(1));
 		}
 
+		// Guarda el cliente en la base de datos
+		clienteService.save(reservaContainer.getCliente());
+		evento.setCliente(clienteService.get(reservaContainer.getCliente().getId()));
+
 		// Guarda el Set EventoExtra que contiene los Extras seleccionados en la vista
 		if(listaExtra != null && !listaExtra.isEmpty()) {
 			for(Extra extra : listaExtra) {
@@ -172,6 +188,7 @@ public class ReservaController {
 				setEventoExtra.add(eventoExtra);
 			}
 		}
+
 		evento.setEventoExtra(setEventoExtra);
 		eventoService.save(evento);
 		

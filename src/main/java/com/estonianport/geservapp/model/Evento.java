@@ -52,9 +52,13 @@ public class Evento {
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	
 	@Column
 	private String codigo;
-	
+
 
 	public Long getId() {
 		return id;
@@ -134,6 +138,14 @@ public class Evento {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getCodigo() {

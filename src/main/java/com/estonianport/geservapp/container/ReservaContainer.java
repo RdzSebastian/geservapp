@@ -2,12 +2,15 @@ package com.estonianport.geservapp.container;
 
 import java.util.List;
 
+import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 
 public class ReservaContainer {
 
 	private Evento evento;
+
+	private Cliente cliente;
 
 	private List<Extra> extra;
 
@@ -25,6 +28,14 @@ public class ReservaContainer {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public List<Extra> getExtra() {
