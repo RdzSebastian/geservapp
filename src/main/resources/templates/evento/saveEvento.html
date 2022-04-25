@@ -29,12 +29,12 @@
 		            <p th:text="'Cree el nuevo evento a realizar en ' + ${salon.nombre}"></p>
 		            <div class="fieldset-content">
 		                
-                        <div class="form-group">
+                        <div class="form-group col-6">
                         	<label for="nombre" class="form-label">Nombre del evento</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}" required>
                         </div>
                         
-		              	<div class="form-group">
+		              	<div class="form-group col-6">
 		                    <label for="email" class="form-label">Mail</label> 
 		                    <input type="email" class="form-control" id="email"  name="email" required/>
 		                </div>
@@ -69,13 +69,13 @@
 		            <h2>Selecciones tipo de evento a realizar</h2>
 		            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
 		
-		            <div class="col">
+		            <div class="col-6">
 		                <select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
 		                    <option selected hidden th:value="0">Tipo Evento</option>
 		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
 		                </select>
 		            </div>
-		            <div class="col">
+		            <div class="col-6 mt-3">
 		                <select class="form-select" id="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
 		                    <option selected hidden th:value="0">Sub Tipo Evento</option>
 		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
@@ -100,7 +100,7 @@
 			                </th:block>
 			            </div>
 
-		                <div class="form-group" id="horaFinal">
+		                <div class="form-group col-2" id="horaFinal">
 		                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
 		                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
 		                </div>
@@ -122,40 +122,32 @@
     <script src="../vendor/moment/locale-es.js"></script> 
     <script src="../vendor/combodate/combodate.js"></script>
     
-    <script src="../js/saveEvento.js"></script>
-    <script src="../js/saveEventoWizard.js"></script>
 
     <script th:inline="javascript">
-        // Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
-        $('#subTipoEvento').change(function () {
-            var index = document.getElementById("subTipoEvento").value;
-            var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
-            var precio = null;
-            listaSubTipoEvento.forEach( function(valor, indice, array) {
-                if(index == indice){
-                    precio = listaSubTipoEvento[index -1].precioBase;
-                }
-            });
-
-            $("#presupuesto").val(precio);
-        })
-
-        // Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-        function changeCheckbox(extraValor, extraId) {
-            var decider = document.getElementById(extraId);
-            var precio = parseInt($("#presupuesto").val());
-
-            if(decider.checked){
-                precio += parseInt(extraValor);
-            } else {
-                precio -= parseInt(extraValor);         
-            }
-
-            $("#presupuesto").val(precio);
-
-        }
+    	var salonId = /*[[${salon.id}]]*/ [];
     </script>
+
+    <script src="../js/saveEventoWizard.js"></script>
+    <script src="../js/saveEvento.js"></script>
     
+    <script th:inline="javascript">
+    	$(document).ready(function() {
+	    	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
+	        $('#subTipoEvento').change(function () {
+	            var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
+	            var index = document.getElementById("subTipoEvento").value;
+	            var precio = null;
+	            listaSubTipoEvento.forEach( function(valor, indice, array) {
+	                if(index == indice){
+	                    precio = listaSubTipoEvento[index -1].precioBase;
+	                }
+	            });
+	
+	            $("#presupuesto").val(precio);
+	        })		
+	    });
+    </script>
+
 </body>
 
 </html>

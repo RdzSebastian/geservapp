@@ -1,5 +1,4 @@
-(function($) {
-
+$(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
 
     var allTipoEventos = $('#subTipoEvento option')
@@ -71,5 +70,21 @@
 		else
 		$('#horaFinal').fadeIn('slow');
 	});
-    
-})(jQuery);
+
+});
+
+
+// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
+function changeCheckbox(extraValor, extraId) {
+    var decider = document.getElementById(extraId);
+    var precio = parseInt($("#presupuesto").val());
+
+    if(decider.checked){
+        precio += parseInt(extraValor);
+    } else {
+        precio -= parseInt(extraValor);         
+    }
+
+    $("#presupuesto").val(precio);
+
+}

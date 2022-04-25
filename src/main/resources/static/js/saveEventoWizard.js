@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 	$("#reservacion-wizard").steps({
 	    headerTag: "h3",
 	    bodyTag: "section",
@@ -10,7 +9,7 @@ $(document).ready(function() {
         },
 	}).find('a')
         .last().parent().parent()
-        .prepend("<li><a href='../abmEvento/1'>Volver Calendario</a></li>");
+        .prepend("<li><a href='../abmEvento/" + salonId + "'>Volver Calendario</a></li>");
         
     $("#reservacion-form").validate();
 });
