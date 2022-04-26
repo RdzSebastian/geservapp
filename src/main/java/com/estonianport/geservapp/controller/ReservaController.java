@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.estonianport.geservapp.commons.CodeGenerator;
 import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtra;
@@ -194,7 +193,7 @@ public class ReservaController {
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
 		// Envia mail con comprobante
-		emailService.enviarMailComprabanteReserva(evento, listaExtra);
+		emailService.enviarMailComprabanteReserva(reservaContainer);
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
