@@ -29,4 +29,7 @@ public class GeneralPath {
 	public static String EDIT_EVENTO = "editEvento";
 	public static String REDIRECT = "redirect:/";
 	public static String PATH_SEPARATOR = "/";
+	
+	public static String DIRECTORY_PDF = "pdf/";
+	public static String EXTENSION_PDF = ".pdf";
 }
