@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 
@@ -42,10 +43,12 @@ public class EmailService{
 		}
 	}
 
-	public void enviarMailComprabanteReserva(Evento evento, List<Extra> listaExtra) {
+	public void enviarMailComprabanteReserva(ReservaContainer reservaContainer) {
 		
 		StringBuilder extraMail = new StringBuilder();
-
+		List<Extra> listaExtra = reservaContainer.getExtra();
+		Evento evento = reservaContainer.getEvento();
+		
 		if(listaExtra != null && !listaExtra.isEmpty()) {
 			int i = 0;
 			extraMail.append("Con los siguientes extras ");
@@ -68,7 +71,7 @@ public class EmailService{
 
 		Email emailBody = new Email();
 		emailBody.setEmail("rdzsebastian@gmail.com");
-		emailBody.setSubject("Tu reserva de evento para el " + evento.getStart_date());
+		emailBody.setSubject("Tu reserva de evento para el " + dia);
 		emailBody.setContent(
 				"Tu evento: " + evento.getNombre() + ", ha sido reservado exitosamente." + "<br>" +
 				"Codigo: " + evento.getCodigo() + "<br>" +
