@@ -14,7 +14,6 @@
 		<br>
 		<h2>Editar Evento</h2>
 		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
-			<input type="hidden" th:value="${reservaContainer.evento.tipoEvento.id}" th:field="*{evento.tipoEvento}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento.id}" th:field="*{evento.subTipoEvento}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 			<input type="hidden" id="inicioF" th:field="*{inicio}">
@@ -86,7 +85,7 @@
 			</div>
 			<div class="form-group">
 				<label for="rol">Tipo Evento</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.tipoEvento.nombre}" readonly/>
+                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.subTipoEvento.tipoEvento.nombre}" readonly/>
 			</div>
 			<div class="form-group">
 				<label for="rol">Sub Tipo Evento</label>
@@ -129,7 +128,6 @@
 
     <script th:inline="javascript">
 
-		
 	    $(document).ready( function () {
 			setPresupuesto();
 			setExtrasSeleccionadas();
@@ -145,7 +143,7 @@
 				var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
 				
 				listaExtraSeleccionadas.forEach( function(valor, indice, array) {
-					var valorId = parseInt(indice) + 1;
+					var valorId = parseInt(valor.id);
 					document.querySelector("#extraId" + valorId).checked = true
 				});
 			}

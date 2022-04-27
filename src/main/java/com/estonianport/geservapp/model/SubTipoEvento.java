@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -44,11 +43,7 @@ public class SubTipoEvento {
 	@Column(name = "precio_base")
 	private int precioBase;
 
-	@ManyToMany
-	@JoinTable(
-			name = "sub_tipo_evento_extra",
-			joinColumns = @JoinColumn(name = "sub_tipo_evento_id"),
-			inverseJoinColumns = @JoinColumn(name = "extra_id"))
+	@ManyToMany(mappedBy = "listaSubTipoEvento")
 	private Set<Extra> listaExtra;
 
 }

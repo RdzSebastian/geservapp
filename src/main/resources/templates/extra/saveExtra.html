@@ -23,6 +23,17 @@
 				<label for="precio">Precio</label> 
 				<input type="number" class="form-control" id="precio" th:field="*{precio}" name="precio">
 			</div>
+    		<div class="fieldset-content">
+                <div class="form-group" id="extras">
+                    <label for="subTipoEvento" class="form-label">Sub Tipo Evento</label> 
+                    <th:block id="listaSubTipoEvento" th:each="listaSubTipoEvento : ${listaSubTipoEventoCompleta}">
+	                    <div class=form-check>
+							<input type="checkbox" class="form-check-input" name="listaSubTipoEvento" th:value="${listaSubTipoEvento.id}" th:id="'subTipoEvento' + ${listaSubTipoEvento.id}"/>
+	                    	<label class="form-check-label" th:text="${listaSubTipoEvento.nombre}">
+	                    </div>
+	                </th:block>
+	            </div>
+			</div>
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
@@ -35,5 +46,26 @@
 			</div>
 		</form>
 	</div>
+	
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
+	
+    <script th:inline="javascript">
+	    $(document).ready( function () {
+			setSubTipoEventoSeleccionados();
+
+			function setSubTipoEventoSeleccionados(){
+				var listaSubTipoEventoSeleccionados = /*[[${listaSubTipoEventoSeleccionadas}]]*/ [];
+				
+				listaSubTipoEventoSeleccionados.forEach( function(valor, indice, array) {
+					var valorId = parseInt(valor.id);
+					document.querySelector("#subTipoEvento" + valorId).checked = true
+				});
+			}
+		});
+	</script>
+
 </body>
 </html>

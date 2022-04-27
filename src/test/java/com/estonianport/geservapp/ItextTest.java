@@ -56,7 +56,6 @@ class ItextTest {
 
     		evento.setStartd(LocalDateTime.of(2022,02,01,20,30));
     		evento.setEndd(LocalDateTime.of(2022,02,01,22,30));
-    		evento.setTipoEvento(tipoEventoService.get((long) 1));
     		evento.setSubTipoEvento(subTipoEventoService.get((long) 1));
     		evento.setSalon(salonService.get((long) 1));
 

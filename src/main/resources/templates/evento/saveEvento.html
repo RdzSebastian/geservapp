@@ -29,7 +29,7 @@
 		            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
 		
 		            <div class="col-md-4">
-		                <select class="form-select" id="tipoEvento" th:field="*{evento.tipoEvento.id}">
+		                <select class="form-select" id="tipoEvento">
 		                    <option selected hidden th:value="0">Tipo Evento</option>
 		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
 		                </select>

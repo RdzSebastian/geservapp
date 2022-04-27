@@ -2,6 +2,7 @@ package com.estonianport.geservapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -86,8 +87,18 @@ public class ReservaController {
 			reservaContainer.setInicio(horaInicio);
 			String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 			reservaContainer.setFin(horaFin);
-
-			model.addAttribute("listaExtraSeleccionadas", evento.getListaExtra());
+			
+			//TODO Hace esto porque subTipoEvento, Extra y Evento se volvio recursivo 
+			Set<Extra> listesub = evento.getListaExtra();
+			List<Extra> list = new ArrayList<Extra>();
+			
+			for(Extra subt :  listesub) {
+				subt.setEvento(null);
+				subt.setListaSubTipoEvento(null);
+				list.add(subt);
+			}
+			
+			model.addAttribute("listaExtraSeleccionadas", list);
 			model.addAttribute("reservaContainer", reservaContainer);
 
 			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -102,8 +113,15 @@ public class ReservaController {
 			model.addAttribute("listaTipoEvento", listaTipoEvento);
 
 			// Agrega lista de Sub Tipo Eventos
+			//TODO Hace esto porque subTipoEvento, Extra y Evento se volvio recursivo 
 			List<SubTipoEvento> listaSubTipoEvento = subTipoEventoService.getAll();
-			model.addAttribute("listaSubTipoEvento", listaSubTipoEvento);
+			List<SubTipoEvento> listaSub = new ArrayList<SubTipoEvento>();
+			for(SubTipoEvento subt :  listaSubTipoEvento) {
+				subt.setListaExtra(null);
+				listaSub.add(subt);
+			}
+			
+			model.addAttribute("listaSubTipoEvento", listaSub);
 
 			reservaContainer.setExtra(Set.copyOf(listaExtra));
 			
@@ -157,8 +175,11 @@ public class ReservaController {
 		}
 
 		// Guarda el cliente en la base de datos
-		clienteService.save(reservaContainer.getCliente());
-		evento.setCliente(clienteService.get(reservaContainer.getCliente().getId()));
+		if(reservaContainer.getEvento().getCliente() == null) {
+			clienteService.save(reservaContainer.getCliente());
+			evento.setCliente(clienteService.get(reservaContainer.getCliente().getId()));
+		}
+
 
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtra(reservaContainer.getExtra());
@@ -167,7 +188,6 @@ public class ReservaController {
 		eventoService.save(evento);
 
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
-//		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
 		// Envia mail con comprobante

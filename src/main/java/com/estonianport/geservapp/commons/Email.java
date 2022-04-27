@@ -1,27 +1,13 @@
 package com.estonianport.geservapp.commons;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Email {
 	private String content;
 	private String email;
 	private String subject;
-
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
 
 }

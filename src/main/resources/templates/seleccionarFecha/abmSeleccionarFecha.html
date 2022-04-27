@@ -38,7 +38,7 @@
 						<td th:text="${evento.startd}"> </td>
 						<td th:text="${evento.startd}"> </td>
 						<td th:text="${evento.endd}"> </td>
-						<td th:text="${evento.tipoEvento.nombre}"> </td>
+						<td th:text="${evento.subTipoEvento.tipoEvento.nombre}"> </td>
 						<td th:text="${evento.subTipoEvento.nombre}"> </td>
 						<td th:text="${evento.presupuesto}"> </td>
 						<td><a class="btn btn-info" th:href="@{/saveEvento/{id}(id=${evento.id})}">Editar</a></td>

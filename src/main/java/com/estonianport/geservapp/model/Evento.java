@@ -33,10 +33,6 @@ public class Evento {
 	private Salon salon;
 
 	@ManyToOne
-	@JoinColumn(name = "tipo_evento_id")
-	private TipoEvento tipoEvento;
-
-	@ManyToOne
 	@JoinColumn(name = "sub_tipo_evento_id")
 	private SubTipoEvento subTipoEvento;
 

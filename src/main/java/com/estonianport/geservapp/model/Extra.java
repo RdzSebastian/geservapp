@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import lombok.Getter;
@@ -30,7 +32,11 @@ public class Extra {
 	@ManyToMany(mappedBy = "listaExtra")
 	private Set<Evento> evento;
 
-	@ManyToMany(mappedBy = "listaExtra")
-	private Set<SubTipoEvento> subTipoEvento;
+	@ManyToMany
+	@JoinTable(
+			name = "sub_tipo_evento_extra",
+			joinColumns = @JoinColumn(name = "extra_id"),
+			inverseJoinColumns = @JoinColumn(name = "sub_tipo_evento_id"))
+	private Set<SubTipoEvento> listaSubTipoEvento;
 
 }
