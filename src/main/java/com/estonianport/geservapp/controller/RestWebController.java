@@ -46,12 +46,12 @@ public class RestWebController {
 				evento.setId(eventoDDBB.getId());
 				evento.setTitle(eventoDDBB.getNombre());
 
-				if(eventoDDBB.getStart_date() != null) {
-					evento.setStart(eventoDDBB.getStart_date().toString());
+				if(eventoDDBB.getStartd() != null) {
+					evento.setStart(eventoDDBB.getStartd().toString());
 				}
 
-				if(eventoDDBB.getEnd_date() != null) {
-					evento.setEnd(eventoDDBB.getEnd_date().toString());	
+				if(eventoDDBB.getEndd() != null) {
+					evento.setEnd(eventoDDBB.getEndd().toString());	
 				}
 				eventos.add(evento);
 			}

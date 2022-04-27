@@ -65,9 +65,9 @@ public class EmailService{
 			extraMail.append("Sin ningun extra.");
 		}
 
-		String dia = evento.getStart_date().getDayOfMonth() + "-" + evento.getStart_date().getMonth().getValue() + "-" + evento.getStart_date().getYear();
-		String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
-		String horaFin = String.valueOf(evento.getEnd_date().getHour()) + ":" +String.valueOf(evento.getEnd_date().getMinute());
+		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
+		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
+		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 
 		Email emailBody = new Email();
 		emailBody.setEmail("rdzsebastian@gmail.com");
@@ -77,7 +77,7 @@ public class EmailService{
 				"Codigo: " + evento.getCodigo() + "<br>" +
 				"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
 				"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
-				"Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
+//				"Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
 				extraMail + "<br>" +
 				"<br>" +
 				"El precio final del evento es: " + evento.getPresupuesto());

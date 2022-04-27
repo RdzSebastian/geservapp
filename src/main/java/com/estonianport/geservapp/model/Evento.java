@@ -13,7 +13,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Evento {
 
 	@Id
@@ -50,115 +55,16 @@ public class Evento {
 
 	@Column
 	private int presupuesto;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
-	
+
 	@Column
 	private String codigo;
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Salon getSalon() {
-		return salon;
-	}
-
-	public void setSalon(Salon salon) {
-		this.salon = salon;
-	}
-
-	public TipoEvento getTipoEvento() {
-		return tipoEvento;
-	}
-
-	public void setTipoEvento(TipoEvento tipoEvento) {
-		this.tipoEvento = tipoEvento;
-	}
-
-	public SubTipoEvento getSubTipoEvento() {
-		return subTipoEvento;
-	}
-
-	public void setSubTipoEvento(SubTipoEvento subTipoEvento) {
-		this.subTipoEvento = subTipoEvento;
-	}
-
-
-
-	public LocalDateTime getStart_date() {
-		return startd;
-	}
-
-	public void setStart_date(LocalDateTime start_date) {
-		this.startd = start_date;
-	}
-
-	public LocalDateTime getEnd_date() {
-		return endd;
-	}
-
-	public void setEnd_date(LocalDateTime end_date) {
-		this.endd = end_date;
-	}
-
-	public int getPresupuesto() {
-		return presupuesto;
-	}
-
-	public void setPresupuesto(int presupuesto) {
-		this.presupuesto = presupuesto;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	public Set<Extra> getListaExtra() {
-		return listaExtra;
-	}
-
-	public void setListaExtra(Set<Extra> listaExtra) {
-		this.listaExtra = listaExtra;
-	}
 
 }

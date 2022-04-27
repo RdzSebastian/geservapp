@@ -6,7 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Salon {
 
 	@Id
@@ -15,54 +20,14 @@ public class Salon {
 
 	@Column
 	private String nombre;
-	
+
 	@Column
 	private String calle;
-	
+
 	@Column
 	private String numero;
-	
+
 	@Column
 	private String municipio;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public String getMunicipio() {
-		return municipio;
-	}
-
-	public void setMunicipio(String municipio) {
-		this.municipio = municipio;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
 
 }

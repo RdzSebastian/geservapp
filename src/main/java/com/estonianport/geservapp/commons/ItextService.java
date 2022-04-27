@@ -69,16 +69,16 @@ public class ItextService {
 
     public void addContent(Document document, Evento evento, Set<Extra> set) throws DocumentException {
 
-		String dia = evento.getStart_date().getDayOfMonth() + "-" + evento.getStart_date().getMonth().getValue() + "-" + evento.getStart_date().getYear();
-		String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
-		String horaFin = String.valueOf(evento.getEnd_date().getHour()) + ":" +String.valueOf(evento.getEnd_date().getMinute());
+		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
+		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
+		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 
         Paragraph paragraph = new Paragraph();
         paragraph.add(new Paragraph("Tu evento: " + evento.getNombre()));
         paragraph.add(new Paragraph("Codigo: " + evento.getCodigo(), smallBold));
         paragraph.add(new Paragraph("Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "."));
         paragraph.add(new Paragraph("En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "."));
-        paragraph.add(new Paragraph("Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "."));
+//        paragraph.add(new Paragraph("Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "."));
        
         addEmptyLine(paragraph, 1);
         createTable(paragraph, set);

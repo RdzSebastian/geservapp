@@ -9,7 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Extra {
 
 	@Id
@@ -21,35 +26,11 @@ public class Extra {
 
 	@Column
 	private int precio;
-	
+
 	@ManyToMany(mappedBy = "listaExtra")
 	private Set<Evento> evento;
 
 	@ManyToMany(mappedBy = "listaExtra")
 	private Set<SubTipoEvento> subTipoEvento;
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(int precio) {
-		this.precio = precio;
-	}
 
 }

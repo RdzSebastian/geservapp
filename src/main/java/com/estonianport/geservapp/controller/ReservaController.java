@@ -80,11 +80,11 @@ public class ReservaController {
 			reservaContainer.setEvento(evento);
 
 			// Setea la hora y fecha del evento
-			String fecha = evento.getStart_date().getDayOfMonth() + "-" + evento.getStart_date().getMonth().getValue() + "-" + evento.getStart_date().getYear();
+			String fecha = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
 			reservaContainer.setFecha(fecha);
-			String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
+			String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
 			reservaContainer.setInicio(horaInicio);
-			String horaFin = String.valueOf(evento.getEnd_date().getHour()) + ":" +String.valueOf(evento.getEnd_date().getMinute());
+			String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 			reservaContainer.setFin(horaFin);
 
 			model.addAttribute("listaExtraSeleccionadas", evento.getListaExtra());
@@ -124,17 +124,17 @@ public class ReservaController {
 
 		// Setea la hora y fecha del evento
 		try{
-			evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:mm")));
+			evento.setStartd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:mm")));
 		}catch(Exception e){
-			evento.setStart_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
+			evento.setStartd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
 		}
 
 		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
 		if(!reservaContainer.getHastaElOtroDia()) {
 			try {
-				evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+				evento.setEndd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
 			}catch(Exception e){
-				evento.setEnd_date(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
+				evento.setEndd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
 			}
 		}else {
 			LocalDateTime fechaFin = null;
@@ -143,7 +143,7 @@ public class ReservaController {
 			}catch(Exception e){
 				fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-M-yyyy HH:m"));
 			}
-			evento.setEnd_date(fechaFin.plusDays(1));
+			evento.setEndd(fechaFin.plusDays(1));
 		}
 
 		// Setea usuario que genero la reserva
@@ -167,7 +167,7 @@ public class ReservaController {
 		eventoService.save(evento);
 
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
-		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
+//		evento.setTipoEvento(tipoEventoService.get(evento.getTipoEvento().getId()));
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
 		// Envia mail con comprobante

@@ -13,7 +13,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class SubTipoEvento {
 
 	@Id
@@ -45,53 +50,5 @@ public class SubTipoEvento {
 			joinColumns = @JoinColumn(name = "sub_tipo_evento_id"),
 			inverseJoinColumns = @JoinColumn(name = "extra_id"))
 	private Set<Extra> listaExtra;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public TipoEvento getTipoEvento() {
-		return tipoEvento;
-	}
-
-	public void setTipoEvento(TipoEvento tipoEvento) {
-		this.tipoEvento = tipoEvento;
-	}
-
-	public int getCapacidad() {
-		return capacidad;
-	}
-
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
-	}
-
-	public int getCantPersonal() {
-		return cantPersonal;
-	}
-
-	public void setCantPersonal(int cantPersonal) {
-		this.cantPersonal = cantPersonal;
-	}
-
-	public int getPrecioBase() {
-		return precioBase;
-	}
-
-	public void setPrecioBase(int precioBase) {
-		this.precioBase = precioBase;
-	}
 
 }
