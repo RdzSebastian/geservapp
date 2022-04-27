@@ -3,15 +3,15 @@ package com.estonianport.geservapp.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Evento {
@@ -35,9 +35,12 @@ public class Evento {
 	@JoinColumn(name = "sub_tipo_evento_id")
 	private SubTipoEvento subTipoEvento;
 
-	@OneToMany(targetEntity = EventoExtra.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "evento_id", referencedColumnName = "id")
-	private Set<EventoExtra> EventoExtra;
+	@ManyToMany
+	@JoinTable(
+			name = "evento_extra",
+			joinColumns = @JoinColumn(name = "evento_id"),
+			inverseJoinColumns = @JoinColumn(name = "extra_id"))
+	private Set<Extra> listaExtra;
 
 	@Column
 	private LocalDateTime startd;
@@ -100,13 +103,7 @@ public class Evento {
 		this.subTipoEvento = subTipoEvento;
 	}
 
-	public Set<EventoExtra> getEventoExtra() {
-		return EventoExtra;
-	}
 
-	public void setEventoExtra(Set<EventoExtra> eventoExtra) {
-		EventoExtra = eventoExtra;
-	}
 
 	public LocalDateTime getStart_date() {
 		return startd;
@@ -154,6 +151,14 @@ public class Evento {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	public Set<Extra> getListaExtra() {
+		return listaExtra;
+	}
+
+	public void setListaExtra(Set<Extra> listaExtra) {
+		this.listaExtra = listaExtra;
 	}
 
 }

@@ -26,8 +26,6 @@ import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.EventoExtra;
-import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
@@ -107,13 +105,6 @@ public class MainController {
 				if(!file.exists()){
 					ReservaContainer reservaContainer = new ReservaContainer();
 					reservaContainer.setEvento(evento);
-					List<Extra> listaExtra = new ArrayList<Extra>();
-
-					for(EventoExtra eventoExtra : evento.getEventoExtra()) {
-						listaExtra.add(eventoExtra.getExtra());
-					}
-
-					reservaContainer.setExtra(listaExtra);
 
 					itextService.createPdf(reservaContainer);
 				}
@@ -173,9 +164,7 @@ public class MainController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
-		// Agrega el volver de donde venga
-		//model.addAttribute("volver", session.getAttribute("volver"));
-
+		// Agrega el volver de donde venga y action 
 		session.setAttribute("action", "/eventoEncontrado");
 		session.setAttribute("volver", "/buscarAllEvento");
 

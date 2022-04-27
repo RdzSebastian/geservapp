@@ -1,7 +1,7 @@
 
 package com.estonianport.geservapp.commons;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -46,7 +46,7 @@ public class EmailService{
 	public void enviarMailComprabanteReserva(ReservaContainer reservaContainer) {
 		
 		StringBuilder extraMail = new StringBuilder();
-		List<Extra> listaExtra = reservaContainer.getExtra();
+		Set<Extra> listaExtra = reservaContainer.getExtra();
 		Evento evento = reservaContainer.getEvento();
 		
 		if(listaExtra != null && !listaExtra.isEmpty()) {

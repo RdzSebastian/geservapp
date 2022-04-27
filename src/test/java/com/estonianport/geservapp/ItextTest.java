@@ -2,9 +2,7 @@ package com.estonianport.geservapp;
 
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.estonianport.geservapp.commons.CodeGenerator;
 import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.EventoExtra;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
@@ -63,27 +60,27 @@ class ItextTest {
     		evento.setSubTipoEvento(subTipoEventoService.get((long) 1));
     		evento.setSalon(salonService.get((long) 1));
 
-    		Set<EventoExtra> eventoExtra = new HashSet<EventoExtra>();
+    		// Agrega Extras
+    		Set<Extra> listaExtra = new HashSet<Extra>();
 
-    		EventoExtra eventoExtra1 = new EventoExtra();
-    		eventoExtra1.setExtra(extraService.findExtraByNombre("Animacion"));
-    		eventoExtra.add(eventoExtra1);
+    		Extra extraAnimacion = new Extra();
+    		extraAnimacion.setId((long) 1);
+    		extraAnimacion.setNombre("Animacion");
+    		extraAnimacion.setPrecio(100);
 
-    		EventoExtra eventoExtra2 = new EventoExtra();
-    		eventoExtra2.setExtra(extraService.get((long) 2));
-    		eventoExtra.add(eventoExtra2);
+    		listaExtra.add(extraAnimacion);
+    		
+    		Extra extraPersonal = new Extra();
+    		extraPersonal.setId((long) 1);
+    		extraPersonal.setNombre("Personal");
+    		extraPersonal.setPrecio(100);
 
-    		evento.setEventoExtra(eventoExtra);
+    		listaExtra.add(extraPersonal);
+    		
+    		evento.setListaExtra(listaExtra);
     		
     		evento.setPresupuesto(1000);
 
-            List<Extra> listaExtra = new ArrayList<Extra>();
-
-            
-    		for(EventoExtra eventoExtraLista : evento.getEventoExtra()) {
-    			listaExtra.add(eventoExtraLista.getExtra());
-    		}
-    		
     		evento.setUsuario(usuarioService.get((long) 1));
 
             Document document = new Document();
@@ -93,7 +90,7 @@ class ItextTest {
             
             itextService.addMetaData(document);
             itextService.addTitlePage(document, evento);
-            itextService.addContent(document, evento, listaExtra);
+            itextService.addContent(document, evento, evento.getListaExtra());
             document.close();
         } catch (Exception e) {
             e.printStackTrace();

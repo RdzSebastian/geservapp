@@ -1,6 +1,6 @@
 package com.estonianport.geservapp.container;
 
-import java.util.List;
+import java.util.Set;
 
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
@@ -12,7 +12,7 @@ public class ReservaContainer {
 
 	private Cliente cliente;
 
-	private List<Extra> extra;
+	private Set<Extra> extra;
 
 	private String fecha;
 
@@ -38,13 +38,6 @@ public class ReservaContainer {
 		this.cliente = cliente;
 	}
 
-	public List<Extra> getExtra() {
-		return extra;
-	}
-
-	public void setExtra(List<Extra> extra) {
-		this.extra = extra;
-	}
 
 	public String getFecha() {
 		return fecha;
@@ -76,6 +69,14 @@ public class ReservaContainer {
 
 	public void setHastaElOtroDia(Boolean hastaElOtroDia) {
 		this.hastaElOtroDia = hastaElOtroDia;
+	}
+
+	public Set<Extra> getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Set<Extra> listaExtra) {
+		this.extra = listaExtra;
 	}
 
 }

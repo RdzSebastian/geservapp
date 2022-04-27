@@ -17,7 +17,6 @@ public class TipoEventoTest {
 	void testSalonSave() {
 		TipoEvento tipoEvento = new TipoEvento();
 		tipoEvento.setNombre("Corto");
-		tipoEvento.setDuracion(3);
 		//BBDD
 		tipoEventoService.save(tipoEvento);
 	}

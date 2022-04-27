@@ -1,11 +1,16 @@
 package com.estonianport.geservapp.model;
 
+import java.time.LocalTime;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -25,11 +30,21 @@ public class SubTipoEvento {
 	@Column
 	private int capacidad;
 
+	@Column
+	private LocalTime duracion;
+
 	@Column(name = "cant_personal")
 	private int cantPersonal;
 
 	@Column(name = "precio_base")
 	private int precioBase;
+
+	@ManyToMany
+	@JoinTable(
+			name = "sub_tipo_evento_extra",
+			joinColumns = @JoinColumn(name = "sub_tipo_evento_id"),
+			inverseJoinColumns = @JoinColumn(name = "extra_id"))
+	private Set<Extra> listaExtra;
 
 	public Long getId() {
 		return id;

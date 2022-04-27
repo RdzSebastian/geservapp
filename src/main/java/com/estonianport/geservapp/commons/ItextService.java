@@ -3,8 +3,8 @@ package com.estonianport.geservapp.commons;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class ItextService {
         document.open();
         this.addMetaData(document);
         this.addTitlePage(document, reservaContainer.getEvento());
-        this.addContent(document, reservaContainer.getEvento(), reservaContainer.getExtra());
+        this.addContent(document, reservaContainer.getEvento(), reservaContainer.getEvento().getListaExtra());
         document.close();
     }
 
@@ -67,7 +67,7 @@ public class ItextService {
         document.add(paragraph);
     }
 
-    public void addContent(Document document, Evento evento, List<Extra> listaExtra) throws DocumentException {
+    public void addContent(Document document, Evento evento, Set<Extra> set) throws DocumentException {
 
 		String dia = evento.getStart_date().getDayOfMonth() + "-" + evento.getStart_date().getMonth().getValue() + "-" + evento.getStart_date().getYear();
 		String horaInicio = String.valueOf(evento.getStart_date().getHour()) + ":" +String.valueOf(evento.getStart_date().getMinute());
@@ -81,7 +81,7 @@ public class ItextService {
         paragraph.add(new Paragraph("Contrataste un evento " + evento.getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "."));
        
         addEmptyLine(paragraph, 1);
-        createTable(paragraph, listaExtra);
+        createTable(paragraph, set);
         addEmptyLine(paragraph, 1);
 
         paragraph.add(new Paragraph("El precio final del evento es: " + evento.getPresupuesto()));
@@ -91,7 +91,7 @@ public class ItextService {
 
     }
 
-    public void createTable(Paragraph paragraph, List<Extra> listaExtra) throws BadElementException {
+    public void createTable(Paragraph paragraph, Set<Extra> set) throws BadElementException {
         PdfPTable table = new PdfPTable(2);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Extra"));
@@ -104,7 +104,7 @@ public class ItextService {
 
         table.setHeaderRows(1);
 
-		for(Extra extra : listaExtra) {
+		for(Extra extra : set) {
 			 table.addCell(extra.getNombre());
 			 table.addCell(Integer.toString(extra.getPrecio()));
 		}

@@ -16,9 +16,6 @@ public class TipoEvento {
 	@Column
 	private String nombre;
 
-	@Column
-	private int duracion;
-
 	public Long getId() {
 		return id;
 	}
@@ -33,14 +30,6 @@ public class TipoEvento {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public int getDuracion() {
-		return duracion;
-	}
-
-	public void setDuracion(int duracion) {
-		this.duracion = duracion;
 	}
 
 }
