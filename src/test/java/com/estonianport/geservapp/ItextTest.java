@@ -17,7 +17,6 @@ import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.SalonService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
-import com.estonianport.geservapp.service.TipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -33,9 +32,6 @@ class ItextTest {
 	
 	@Autowired
 	ExtraService extraService;
-	
-	@Autowired
-	private TipoEventoService tipoEventoService;
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;

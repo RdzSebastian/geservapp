@@ -2,7 +2,6 @@ package com.estonianport.geservapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +24,6 @@ import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.Sexo;
-import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
@@ -87,18 +85,8 @@ public class ReservaController {
 			reservaContainer.setInicio(horaInicio);
 			String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 			reservaContainer.setFin(horaFin);
-			
-			//TODO Hace esto porque subTipoEvento, Extra y Evento se volvio recursivo 
-			Set<Extra> listesub = evento.getListaExtra();
-			List<Extra> list = new ArrayList<Extra>();
-			
-			for(Extra subt :  listesub) {
-				subt.setEvento(null);
-				subt.setListaSubTipoEvento(null);
-				list.add(subt);
-			}
-			
-			model.addAttribute("listaExtraSeleccionadas", list);
+
+			model.addAttribute("listaExtraSeleccionadas", evento.getListaExtra());
 			model.addAttribute("reservaContainer", reservaContainer);
 
 			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -113,18 +101,10 @@ public class ReservaController {
 			model.addAttribute("listaTipoEvento", listaTipoEvento);
 
 			// Agrega lista de Sub Tipo Eventos
-			//TODO Hace esto porque subTipoEvento, Extra y Evento se volvio recursivo 
-			List<SubTipoEvento> listaSubTipoEvento = subTipoEventoService.getAll();
-			List<SubTipoEvento> listaSub = new ArrayList<SubTipoEvento>();
-			for(SubTipoEvento subt :  listaSubTipoEvento) {
-				subt.setListaExtra(null);
-				listaSub.add(subt);
-			}
-			
-			model.addAttribute("listaSubTipoEvento", listaSub);
+			model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
 
 			reservaContainer.setExtra(Set.copyOf(listaExtra));
-			
+
 			model.addAttribute("reservaContainer", reservaContainer);
 			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 		}
@@ -170,7 +150,7 @@ public class ReservaController {
 		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
 			// Crea el codigo del evento
 			evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
-			
+
 			//TODO Chequea que el codigo no este en uso 
 		}
 
@@ -183,7 +163,7 @@ public class ReservaController {
 
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtra(reservaContainer.getExtra());
-		
+
 		// Guarda el evento en la base de datos
 		eventoService.save(evento);
 

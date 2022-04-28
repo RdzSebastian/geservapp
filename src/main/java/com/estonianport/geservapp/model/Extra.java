@@ -29,9 +29,6 @@ public class Extra {
 	@Column
 	private int precio;
 
-	@ManyToMany(mappedBy = "listaExtra")
-	private Set<Evento> evento;
-
 	@ManyToMany
 	@JoinTable(
 			name = "sub_tipo_evento_extra",
