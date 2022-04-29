@@ -158,9 +158,13 @@ public class ReservaController {
 
 		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
 			// Crea el codigo del evento
-			evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
-
-			//TODO Chequea que el codigo no este en uso 
+			String codigo = CodeGenerator.GetBase26Only4Letters();
+			
+			//Chequea que el codigo no este en uso 
+			while(eventoService.existsByCodigo(codigo)) {
+				codigo = CodeGenerator.GetBase26Only4Letters();
+			}
+			evento.setCodigo(codigo);
 		}
 
 		// Guarda el cliente en la base de datos

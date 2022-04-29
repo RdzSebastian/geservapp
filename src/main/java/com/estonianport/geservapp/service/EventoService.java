@@ -15,6 +15,8 @@ public interface EventoService extends GenericService<Evento, Long>{
 	
 	List<Evento> findAllByStartdBetweenAndSalon(LocalDateTime start_date,LocalDateTime end_date, Salon salon);
 
+	Boolean existsByCodigo(String codigo);
+	
 	Long count();
 
 }

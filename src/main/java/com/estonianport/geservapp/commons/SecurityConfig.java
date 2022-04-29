@@ -35,7 +35,9 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 		.formLogin().failureUrl("/login?error").permitAll()
 		.and()
 		.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
-		.permitAll();
+		.permitAll()
+		.and()
+        .csrf().disable().cors();
 	}
 	
 	@Bean 

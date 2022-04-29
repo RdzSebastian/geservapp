@@ -36,7 +36,7 @@ public class RestWebController {
 
 			List<FullCalendarJSON> eventos = new ArrayList<FullCalendarJSON>();
 			FullCalendarJSON evento = null;
-			
+
 			Salon salon = (Salon) session.getAttribute("salon");
 			List<Evento> eventosDDBB = eventoService.getEventosBySalon(salon);
 

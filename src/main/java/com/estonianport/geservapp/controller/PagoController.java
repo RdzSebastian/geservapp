@@ -51,18 +51,23 @@ public class PagoController {
 	}
 
 	@PostMapping("/savePago/{id}")
-	public String showSave(@PathVariable("id") Long id, Model model, CodigoContainer codigoContainer) {
+	public String showSave(@PathVariable("id") Long id, Model model, CodigoContainer codigoContainer, HttpSession session) {
 		
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
+		model.addAttribute("titulo", session.getAttribute("titulo"));
+		model.addAttribute("volver", session.getAttribute("volver"));
 
-		if(codigoContainer.getCodigo() != null) {
+		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			Pago pago = new Pago();
 			pago.setEvento(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
 			model.addAttribute(GeneralPath.PAGO, pago);
+			return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_PAGO;
 		}
 
-		return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_PAGO;
+		model.addAttribute("eventoNoEncontrado", true);
+		return "evento/buscarEvento";
+
 	}
 
 	@PostMapping("/savePago")

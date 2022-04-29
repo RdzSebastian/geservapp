@@ -42,4 +42,9 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 		return eventosDao.count();
 	}
 
+	@Override
+	public Boolean existsByCodigo(String codigo) {
+		return eventosDao.existsByCodigo(codigo);
+	}
+
 }

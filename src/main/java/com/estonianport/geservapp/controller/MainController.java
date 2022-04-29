@@ -60,6 +60,7 @@ public class MainController {
 	@Autowired
 	ExtraService extraService;
 
+
 	@Autowired
 	ItextService itextService;
 
@@ -87,49 +88,29 @@ public class MainController {
 	}
 
 	@RequestMapping("/download/0")
-	public String descargarComprobante(Model model){
+	public String descargarComprobante(Model model, HttpSession session){
 		model.addAttribute("codigoContainer", new CodigoContainer());
-		return "download/download";		
+
+		// Trae valor de eventoNoEncontrado en caso de venir de /download y luego lo limpia
+		model.addAttribute("eventoNoEncontrado", session.getAttribute("eventoNoEncontrado"));
+		session.setAttribute("eventoNoEncontrado", null);
+		
+		// Agrega el volver de donde venga y action 
+		model.addAttribute("titulo", "Descargar comprobante");
+		model.addAttribute("action", "/download");
+		model.addAttribute("volver", "/administracion");
+
+		return "evento/buscarEvento";		
 	}
 
-	@RequestMapping("/download")
-	public ResponseEntity<FileSystemResource> download(HttpServletResponse response, CodigoContainer codigoContainer) throws IOException {
-
-		// Busca el evento por codigo y si no existe no devuelve nada
-		Evento evento = eventoService.getEventoByCodigo(codigoContainer.getCodigo());
-		if(evento != null) {
-			try {
-				File file = new File(GeneralPath.DIRECTORY_PDF + codigoContainer.getCodigo() + GeneralPath.EXTENSION_PDF);
-
-				// Crea el archivo si no existe
-				if(!file.exists()){
-					ReservaContainer reservaContainer = new ReservaContainer();
-					reservaContainer.setEvento(evento);
-
-					itextService.createPdf(reservaContainer);
-				}
-				
-				// Prepara archivo para descarga
-				HttpHeaders respHeaders = new HttpHeaders();
-				respHeaders.setContentType(MediaType.APPLICATION_PDF);
-				respHeaders.setContentLength(file.length());
-				respHeaders.setContentDispositionFormData("attachment", file.getName());
-
-				return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
 
 	@RequestMapping("/buscarEvento")
 	public String buscarEvento(Model model, HttpSession session){
 
+		model.addAttribute("codigoContainer", new CodigoContainer());
+
 		// Agrega el titulo de la busqueda que sea
 		model.addAttribute("titulo", session.getAttribute("titulo"));
-
-		model.addAttribute("codigoContainer", new CodigoContainer());
 		model.addAttribute("action", session.getAttribute("action"));
 		model.addAttribute("volver", session.getAttribute("volver"));
 
@@ -165,6 +146,7 @@ public class MainController {
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		// Agrega el volver de donde venga y action 
+		session.setAttribute("titulo", "Buscar evento");
 		session.setAttribute("action", "/eventoEncontrado");
 		session.setAttribute("volver", "/buscarAllEvento");
 
@@ -178,10 +160,57 @@ public class MainController {
 	@RequestMapping("/eventoEncontrado")
 	public String eventoEncontrado(Model model, HttpSession session, CodigoContainer codigoContainer){
 		List<Evento> listaEvento = new ArrayList<Evento>();
-		listaEvento.add(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
-		model.addAttribute("listaEvento",listaEvento);
+		model.addAttribute("titulo", session.getAttribute("titulo"));
 		model.addAttribute("volver", session.getAttribute("volver"));
-		return "seleccionarFecha/abmSeleccionarFecha";
+
+		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
+			listaEvento.add(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
+			model.addAttribute("listaEvento",listaEvento);
+			return "seleccionarFecha/abmSeleccionarFecha";
+		}
+
+		model.addAttribute("eventoNoEncontrado", true);
+		return "evento/buscarEvento";
+	}
+
+	@RequestMapping(value = "/download")
+	public ResponseEntity<FileSystemResource> download(Model model, CodigoContainer codigoContainer, HttpSession session, HttpServletResponse response) throws IOException{
+
+		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
+			// Busca el evento por codigo y si no existe no devuelve nada
+			Evento evento = eventoService.getEventoByCodigo(codigoContainer.getCodigo());
+			if(evento != null) {
+				try {
+					File file = new File(GeneralPath.DIRECTORY_PDF + codigoContainer.getCodigo() + GeneralPath.EXTENSION_PDF);
+
+					// Crea el archivo si no existe
+					if(!file.exists()){
+						ReservaContainer reservaContainer = new ReservaContainer();
+						reservaContainer.setEvento(evento);
+
+						itextService.createPdf(reservaContainer);
+					}
+
+					// Prepara archivo para descarga
+					HttpHeaders respHeaders = new HttpHeaders();
+					respHeaders.setContentType(MediaType.APPLICATION_PDF);
+					respHeaders.setContentLength(file.length());
+					respHeaders.setContentDispositionFormData("attachment", file.getName());
+
+					return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				}
+			}
+		}
+		
+		// Setea el valor de no encontrado
+		session.setAttribute("eventoNoEncontrado", true);
+
+		// Hace que al devolver not found se quede en la pantalla buscar
+		response.sendRedirect("download/0");
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 }
