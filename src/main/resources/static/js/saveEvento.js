@@ -86,10 +86,10 @@ $(document).ready(function() {
         var index = document.getElementById("subTipoEvento").value;
         var precio = null;
         listaSubTipoEvento.forEach( function(valor, indice, array) {
-            if(index == indice){
-                precio = listaSubTipoEvento[index -1].precioBase;
+            if(index == valor.id){
+                precio = valor.precioBase;
                 
-                setExtrasBySubTipoEvento(listaSubTipoEvento[index -1].id);
+                setExtrasBySubTipoEvento(valor.id);
             }
         });
 

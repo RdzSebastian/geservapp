@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.model.Evento;
@@ -34,6 +35,9 @@ public class PagoController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@RequestMapping("/abmPago")
 	public String abm(Model model, HttpSession session) {
@@ -75,8 +79,14 @@ public class PagoController {
 		// Setea usuario que genero el pago
 		pago.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
 		pago.setFecha(LocalDateTime.now());
-		
+
 		pagoService.save(pago);
+		
+		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
+		
+		// Envia mail con comprobante
+		emailService.enviarMailComprabantePago(pago, listaPagos);
+
 		return GeneralPath.REDIRECT + GeneralPath.ABM_PAGO;
 	}
 
