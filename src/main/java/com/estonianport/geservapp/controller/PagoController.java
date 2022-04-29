@@ -29,13 +29,13 @@ public class PagoController {
 
 	@Autowired
 	private PagoService pagoService;
-	
+
 	@Autowired
 	private EventoService eventoService;
 
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -48,15 +48,15 @@ public class PagoController {
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
-		
+
 		session.setAttribute("titulo", "Agregar Pago");
-		
+
 		return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_PAGO;
 	}
 
 	@PostMapping("/savePago/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, CodigoContainer codigoContainer, HttpSession session) {
-		
+
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
 		model.addAttribute("titulo", session.getAttribute("titulo"));
@@ -81,9 +81,9 @@ public class PagoController {
 		pago.setFecha(LocalDateTime.now());
 
 		pagoService.save(pago);
-		
+
 		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
-		
+
 		// Envia mail con comprobante
 		emailService.enviarMailComprabantePago(pago, listaPagos);
 

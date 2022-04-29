@@ -46,11 +46,11 @@ public class EmailService{
 	}
 
 	public void enviarMailComprabanteReserva(ReservaContainer reservaContainer) {
-		
+
 		StringBuilder extraMail = new StringBuilder();
 		Set<Extra> listaExtra = reservaContainer.getExtra();
 		Evento evento = reservaContainer.getEvento();
-		
+
 		if(listaExtra != null && !listaExtra.isEmpty()) {
 			int i = 0;
 			extraMail.append("Con los siguientes extras ");
@@ -73,28 +73,28 @@ public class EmailService{
 
 		Email emailBody = new Email();
 		emailBody.setEmail("rdzsebastian@gmail.com");
-		emailBody.setSubject("Tu reserva de evento para el " + dia);
+		emailBody.setSubject("Tu evento: " +  evento.getNombre() + " para el " + dia + ", codigo: " + evento.getCodigo());
 		emailBody.setContent(
 				"Tu evento: " + evento.getNombre() + ", ha sido reservado exitosamente." + "<br>" +
-				"Codigo: " + evento.getCodigo() + "<br>" +
-				"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
-				"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
-				"Contrataste un evento " + evento.getSubTipoEvento().getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
-				extraMail + "<br>" +
-				"<br>" +
-				"El precio final del evento es: " + evento.getPresupuesto());
+						"Codigo: " + evento.getCodigo() + "<br>" +
+						"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
+						"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
+						"Contrataste un evento " + evento.getSubTipoEvento().getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
+						extraMail + "<br>" +
+						"<br>" +
+						"El precio final del evento es: " + evento.getPresupuesto());
 
 		this.sendEmail(emailBody);
 	}
-	
-	
+
+
 	public void enviarMailComprabantePago(Pago pago, List<Pago> listaPagos) {
-		
+
 		Evento evento = pago.getEvento();
 
 		String diaPago = pago.getFecha().getDayOfMonth() + "-" + pago.getFecha().getMonth().getValue() + "-" + pago.getFecha().getYear();
 		String horaPago = String.valueOf(pago.getFecha().getHour()) + ":" +String.valueOf(pago.getFecha().getMinute());
-		
+
 		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
 		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
 		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
@@ -103,22 +103,20 @@ public class EmailService{
 		for(Pago pagos :listaPagos) {
 			totalPago += pagos.getPago();
 		}
-		
-		
-		
+
 		Email emailBody = new Email();
 		emailBody.setEmail("rdzsebastian@gmail.com");
-		emailBody.setSubject("Tu pago del evento  " + evento.getNombre() + "codigo: " + evento.getCodigo());
+		emailBody.setSubject("Tu pago del evento  " + evento.getNombre() + ", codigo: " + evento.getCodigo());
 		emailBody.setContent(
 				"Tu pago para el evento: " + evento.getNombre() + " ha sido realizado exitosamente." + "<br>" +
-				"Fecha de pago: " + diaPago + " hora: " + horaPago + "<br>" +
-				"Monto abonado: $" + pago.getPago() + "<br>" +
-				"Monto total abonado hasta la fecha: $" + totalPago  + "<br>" +
-				"Monto faltante: $" + Math.abs(evento.getPresupuesto() - totalPago)  + "<br>" +
-				"El precio total del evento: $" + evento.getPresupuesto() + "<br>" +
-				"Acercate cuando quieras al salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
-				"Para terminar de abonarlo." + "<br>" +
-				"Te recordamos que tu evento se realizara el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>");
+						"Fecha de pago: " + diaPago + " hora: " + horaPago + "<br>" +
+						"Monto abonado: $" + pago.getPago() + "<br>" +
+						"Monto total abonado hasta la fecha: $" + totalPago  + "<br>" +
+						"Monto faltante: $" + Math.abs(evento.getPresupuesto() - totalPago)  + "<br>" +
+						"El precio total del evento: $" + evento.getPresupuesto() + "<br>" +
+						"Acercate cuando quieras al salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
+						"Para terminar de abonarlo." + "<br>" +
+						"Te recordamos que tu evento se realizara el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>");
 
 		this.sendEmail(emailBody);
 	}
