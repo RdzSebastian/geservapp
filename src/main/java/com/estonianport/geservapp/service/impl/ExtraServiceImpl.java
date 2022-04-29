@@ -19,12 +19,9 @@ public class ExtraServiceImpl extends GenericServiceImpl<Extra, Long> implements
 	public CrudRepository<Extra, Long> getDao() {
 		return extraDao;
 	}
-	
-	public Extra findExtraByNombre(String nombre) {
-		return extraDao.findExtraByNombre(nombre);
-	}
 
 	public Long count() {
 		return extraDao.count();
 	}
+
 }

@@ -67,10 +67,6 @@ public class ReservaController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
-		// Agrega lista Extras
-		List<Extra> listaExtra = extraService.getAll();
-		model.addAttribute("listaExtra", listaExtra);
-
 		ReservaContainer reservaContainer = new ReservaContainer();
 
 		if(id != null && id != 0) {
@@ -86,7 +82,15 @@ public class ReservaController {
 			String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
 			reservaContainer.setFin(horaFin);
 
-			model.addAttribute("listaExtraSeleccionadas", evento.getListaExtra());
+			// Agrega lista Extras
+			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
+
+			// Agrega lista extra seleccionadas
+			Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
+			for(Extra extra : listaExtraSeleccionadas) {
+				extra.setListaSubTipoEvento(null);
+			}
+			model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
 			model.addAttribute("reservaContainer", reservaContainer);
 
 			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -103,6 +107,11 @@ public class ReservaController {
 			// Agrega lista de Sub Tipo Eventos
 			model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
 
+			// Agrega lista Extras
+			List<Extra> listaExtra = extraService.getAll();
+			model.addAttribute("listaExtra", listaExtra);
+
+			// Agrega lista Extras a Reserva
 			reservaContainer.setExtra(Set.copyOf(listaExtra));
 
 			model.addAttribute("reservaContainer", reservaContainer);

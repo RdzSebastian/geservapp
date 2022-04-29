@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,11 +33,11 @@ public class Evento {
 	@JoinColumn(name = "salon_id")
 	private Salon salon;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sub_tipo_evento_id")
 	private SubTipoEvento subTipoEvento;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "evento_extra",
 			joinColumns = @JoinColumn(name = "evento_id"),

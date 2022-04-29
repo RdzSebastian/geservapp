@@ -1,14 +1,19 @@
 package com.estonianport.geservapp.model;
 
 import java.time.LocalTime;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,5 +45,9 @@ public class SubTipoEvento {
 
 	@Column(name = "precio_base")
 	private int precioBase;
+
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	private Set<Extra> listaExtra;
 
 }
