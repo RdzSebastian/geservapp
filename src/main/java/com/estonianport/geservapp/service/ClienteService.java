@@ -5,4 +5,6 @@ import com.estonianport.geservapp.model.Cliente;
 
 public interface ClienteService  extends GenericService<Cliente, Long>{
 
+	Long count();
+
 }

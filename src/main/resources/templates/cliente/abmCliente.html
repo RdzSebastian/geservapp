@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Cliente</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<h2 th:if="${#lists.isEmpty(listaCliente)}">No hay usuarios</h2>
+		<div th:if="${not #lists.isEmpty(listaCliente)}">
+			<h2 class="jumbotron text-center">Cliente</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>Sexo</th>
+						<th>Cuil</th>
+						<th>Celular</th>
+						<th>Email</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cliente : ${listaCliente}">
+						<td th:text="${cliente.nombre}">
+						<td th:text="${cliente.apellido}">
+						<td th:text="${cliente.sexo.nombre}">
+						<td th:text="${cliente.cuil}">
+						<td th:text="${cliente.celular}">
+						<td th:text="${cliente.email}">
+						<td><a class="btn btn-info" th:href="@{/saveCliente/{id}(id=${cliente.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteCliente/{id}(id=${cliente.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/saveCliente/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

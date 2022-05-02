@@ -19,4 +19,8 @@ public class ClienteServiceImpl  extends GenericServiceImpl<Cliente, Long> imple
 	public CrudRepository<Cliente, Long> getDao() {
 		return clienteDao;
 	}
+	
+	public Long count() {
+		return clienteDao.count();
+	}
 }
