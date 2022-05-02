@@ -67,12 +67,12 @@ public class EmailService{
 			extraMail.append("Sin ningun extra.");
 		}
 
-		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
-		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
-		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
+		String dia = evento.getStartd().format(DateUtil.dateFormatter);
+		String horaInicio = String.valueOf(evento.getStartd().format(DateUtil.timeFormatter));
+		String horaFin = String.valueOf(evento.getEndd().format(DateUtil.timeFormatter));
 
 		Email emailBody = new Email();
-		emailBody.setEmail("rdzsebastian@gmail.com");
+		emailBody.setEmail(evento.getCliente().getEmail());
 		emailBody.setSubject("Tu evento: " +  evento.getNombre() + " para el " + dia + ", codigo: " + evento.getCodigo());
 		emailBody.setContent(
 				"Tu evento: " + evento.getNombre() + ", ha sido reservado exitosamente." + "<br>" +
@@ -92,12 +92,12 @@ public class EmailService{
 
 		Evento evento = pago.getEvento();
 
-		String diaPago = pago.getFecha().getDayOfMonth() + "-" + pago.getFecha().getMonth().getValue() + "-" + pago.getFecha().getYear();
-		String horaPago = String.valueOf(pago.getFecha().getHour()) + ":" +String.valueOf(pago.getFecha().getMinute());
+		String diaPago = pago.getFecha().format(DateUtil.dateFormatter);
+		String horaPago = String.valueOf(pago.getFecha().format(DateUtil.timeFormatter));
 
-		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
-		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
-		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
+		String dia = evento.getStartd().format(DateUtil.dateFormatter);
+		String horaInicio = String.valueOf(evento.getStartd().format(DateUtil.timeFormatter));
+		String horaFin = String.valueOf(evento.getEndd().format(DateUtil.timeFormatter));
 
 		int totalPago = 0;
 		for(Pago pagos :listaPagos) {
@@ -105,7 +105,7 @@ public class EmailService{
 		}
 
 		Email emailBody = new Email();
-		emailBody.setEmail("rdzsebastian@gmail.com");
+		emailBody.setEmail(evento.getCliente().getEmail());
 		emailBody.setSubject("Tu pago del evento  " + evento.getNombre() + ", codigo: " + evento.getCodigo());
 		emailBody.setContent(
 				"Tu pago para el evento: " + evento.getNombre() + " ha sido realizado exitosamente." + "<br>" +
@@ -115,7 +115,6 @@ public class EmailService{
 						"Monto faltante: $" + Math.abs(evento.getPresupuesto() - totalPago)  + "<br>" +
 						"El precio total del evento: $" + evento.getPresupuesto() + "<br>" +
 						"Acercate cuando quieras al salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
-						"Para terminar de abonarlo." + "<br>" +
 						"Te recordamos que tu evento se realizara el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>");
 
 		this.sendEmail(emailBody);

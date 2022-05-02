@@ -3,7 +3,6 @@ package com.estonianport.geservapp.controller;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +20,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.PagoService;
@@ -60,9 +61,11 @@ public class MainController {
 	@Autowired
 	ExtraService extraService;
 
-
 	@Autowired
 	ItextService itextService;
+	
+	@Autowired
+	ClienteService clienteService;
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -83,6 +86,8 @@ public class MainController {
 		model.addAttribute("cantSalon", salonService.count());
 		model.addAttribute("cantExtra", extraService.count());
 		model.addAttribute("cantEvento", eventoService.count());
+		model.addAttribute("cantCliente", clienteService.count());
+		
 
 		return "adm/adm";
 	}
@@ -120,9 +125,8 @@ public class MainController {
 	@RequestMapping("/seleccionarFecha")
 	public String buscarEvento(Model model, @RequestParam("arr") String fecha, HttpSession session){
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime start_date = LocalDateTime.parse(fecha + " 10:00", formatter);
-		LocalDateTime end_date = LocalDateTime.parse(fecha + " 23:00", formatter);
+		LocalDateTime start_date = LocalDateTime.parse(fecha + " 10:00", DateUtil.dateTimeFormatter);
+		LocalDateTime end_date = LocalDateTime.parse(fecha + " 23:00", DateUtil.dateTimeFormatter);
 
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);

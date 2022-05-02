@@ -21,8 +21,12 @@
                 <input type="text" class="form-control" id="evento" th:value="${pago.evento.nombre}" readonly/>
 			</div>
 			<div class="form-group">
+				<label for="rol">Codigo</label> 
+                <input type="text" class="form-control" id="evento" th:value="${pago.evento.codigo}" readonly/>
+			</div>
+			<div class="form-group">
 				<label for="rol">Dia evento</label> 
-                <input type="text" class="form-control" id="evento" th:value="${pago.evento.startd}" readonly/>
+                <input type="text" class="form-control" id="evento" th:value="${pago.evento.startd.getDayOfMonth} + '-' + ${pago.evento.startd.getMonth.getValue} + '-' + ${pago.evento.startd.getYear}" readonly/>
 			</div>
 			<div class="form-group">
 				<label for="pago">Pago</label> 

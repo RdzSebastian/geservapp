@@ -28,19 +28,18 @@
 						<th>Presupuesto</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
-
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="evento : ${listaEvento}">
 						<td th:text="${evento.nombre}"> </td>
 						<td th:text="${evento.codigo}"> </td>
-						<td th:text="${evento.startd}"> </td>
-						<td th:text="${evento.startd}"> </td>
-						<td th:text="${evento.endd}"> </td>
+						<td th:text="${evento.startd.getDayOfMonth} + '-' + ${evento.startd.getMonth.getValue} + '-' + ${evento.startd.getYear}"> </td>
+						<td th:text="${evento.startd.getHour} + ':' + ${evento.startd.getMinute}"> </td>
+						<td th:text="${evento.endd.getHour} + ':' + ${evento.endd.getMinute}"> </td>
 						<td th:text="${evento.subTipoEvento.tipoEvento.nombre}"> </td>
 						<td th:text="${evento.subTipoEvento.nombre}"> </td>
-						<td th:text="${evento.presupuesto}"> </td>
+						<td th:text="'$' + ${evento.presupuesto}"> </td>
 						<td><a class="btn btn-info" th:href="@{/saveEvento/{id}(id=${evento.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteEvento/{id}(id=${evento.id})}">Eliminar</a></td>
 					</tr>
