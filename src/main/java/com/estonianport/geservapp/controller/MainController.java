@@ -54,7 +54,6 @@ public class MainController {
 	@Autowired
 	SubTipoEventoService subTipoEventoService;
 
-
 	@Autowired
 	PagoService pagoService;
 
@@ -63,7 +62,7 @@ public class MainController {
 
 	@Autowired
 	ItextService itextService;
-	
+
 	@Autowired
 	ClienteService clienteService;
 
@@ -72,6 +71,11 @@ public class MainController {
 		List<Salon> listaSalones = salonService.getAll();
 		model.addAttribute("listaSalones", listaSalones);
 		return "index";
+	}
+
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 	@RequestMapping("/administracion")
@@ -87,7 +91,7 @@ public class MainController {
 		model.addAttribute("cantExtra", extraService.count());
 		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
-		
+
 
 		return "adm/adm";
 	}
@@ -99,7 +103,7 @@ public class MainController {
 		// Trae valor de eventoNoEncontrado en caso de venir de /download y luego lo limpia
 		model.addAttribute("eventoNoEncontrado", session.getAttribute("eventoNoEncontrado"));
 		session.setAttribute("eventoNoEncontrado", null);
-		
+
 		// Agrega el volver de donde venga y action 
 		model.addAttribute("titulo", "Descargar comprobante");
 		model.addAttribute("action", "/download");
@@ -207,7 +211,7 @@ public class MainController {
 				}
 			}
 		}
-		
+
 		// Setea el valor de no encontrado
 		session.setAttribute("eventoNoEncontrado", true);
 
