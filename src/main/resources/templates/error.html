@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>404 HTML Template by Colorlib</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Passion+One:900" rel="stylesheet">
+
+  	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+
+    <link rel="stylesheet" type="text/css" href="../css/error.css">
+    
+
+</head>
+
+<body>
+
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>:(</h1>
+			</div>
+			<h2>Ha ocurrido un error</h2>
+			<p>Será redirigido a la página de inicio o haga click en el botón de más abajo para ir directamente.</p>
+			<a class="btn btn-primary" href="/">Pagina de inicio</a>
+		</div>
+	</div>
+
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function() {
+			setTimeout("redireccionar()", 3000);
+		});
+		
+		function redireccionar(){
+			window.location.href = "/";
+		}
+			 
+    </script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
