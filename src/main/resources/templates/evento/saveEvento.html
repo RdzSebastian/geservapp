@@ -28,15 +28,17 @@
 		            <h2>Selecciones tipo de evento a realizar</h2>
 		            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
 		
-		            <div class="col-md-4">
-		                <select class="form-select" id="tipoEvento">
+		            <div class="col-md-5">
+		                <label for="tipoEvento" class="form-label">Tipo Evento</label>
+		                <select class="form-select" id="tipoEvento" name="tipoEvento">
 		                    <option selected hidden th:value="0">Tipo Evento</option>
 		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
 		                </select>
 		            </div>
 
-		            <div class="col-md-4 mt-3">
-		                <select class="form-select" id="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
+		            <div class="col-md-5 mt-3">
+		            	<label for="tipoEvento" class="form-label">Sub Tipo Evento</label>
+		                <select class="form-select" id="subTipoEvento" name="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
 		                    <option selected hidden th:value="0">Sub Tipo Evento</option>
 		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
 		                </select>
@@ -110,18 +112,18 @@
 						<div class="row">
 	                    	<div class="col-md-4">
 	                    		<label for="nombre">Nombre</label>
-	                    		<input type="text" class="form-control" id="nombre" th:field="*{cliente.nombre}" name="nombre">
+	                    		<input type="text" class="form-control" id="nombre" th:field="*{cliente.nombre}" name="nombre" required>
 	                    	</div>
 	                    	<div class="col-md-4">
 	                    		<label for="apellido">Apellido</label>
-								<input type="text" class="form-control" id="apellido" th:field="*{cliente.apellido}" name="apellido">
+								<input type="text" class="form-control" id="apellido" th:field="*{cliente.apellido}" name="apellido" required>
 	                    	</div>
 	                    </div>
 	                  
 						<div class="row mt-2">
 						    <div class="form-group col-md-4">
 		                    	<label for="cuil">CUIT/CUIL</label>
-								<input type="number" class="form-control" id="cuil" th:field="*{cliente.cuil}" name="cuil">	
+								<input type="number" class="form-control" id="cuil" th:field="*{cliente.cuil}" name="cuil" required>	
 							</div>
 						
 						    <div class="form-group col-md-4">
@@ -132,20 +134,15 @@
 							</div>
 						</div>
 
-
 						<div class="row mt-2">
 							<div class="form-group col-md-4">
-		                    	<label for="">
-		                    		E-mail
-		                    	</label>
-								<input type="text" class="form-control" id="email" th:field="*{cliente.email}" name="email">
+		                    	<label for="email">E-mail</label>
+								<input type="text" class="form-control email" id="email" th:field="*{cliente.email}" name="email" required>
 		                    </div>
 	
 							<div class="form-group col-md-4">
-		                    	<label for="">
-		                    		Celular
-		                    	</label>
-								<input type="number" class="form-control" id="celular" th:field="*{cliente.celular}" name="celular">
+		                    	<label for="celular">Celular</label>
+								<input type="number" class="form-control" id="celular" th:field="*{cliente.celular}" name="celular" required>
 							</div>
 						</div>
 						<div class="row mt-2">
@@ -156,6 +153,11 @@
 		            	</div>
 		           	</div>
 		        </section>
+    			<div id="spinner-finish" class="overlay d-none">
+			        <div class="d-flex justify-content-center">
+				        <div class="spinner-border text-primary spinner-margin" style="width: 6rem; height: 6rem;" role="status"> </div>
+					</div>
+				</div>
 		        <!--===============================================================================================-->
 
 	        	<button type="submit" style="display:none;"></button>
@@ -168,6 +170,8 @@
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
     <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/localization/messages_es_AR.js"></script>
+
     <script src="../vendor/moment/moment.js"></script>
     <script src="../vendor/moment/locale-es.js"></script> 
     <script src="../vendor/combodate/combodate.js"></script>
