@@ -35,7 +35,10 @@ public class SubTipoEvento {
 	private TipoEvento tipoEvento;
 
 	@Column
-	private int capacidad;
+	private int capacidad_adultos;
+	
+	@Column
+	private int capacidad_ninos;
 
 	@Column
 	private LocalTime duracion;
@@ -45,6 +48,10 @@ public class SubTipoEvento {
 
 	@Column(name = "precio_base")
 	private int precioBase;
+	
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	private Set<Servicio> listaServicio;
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")

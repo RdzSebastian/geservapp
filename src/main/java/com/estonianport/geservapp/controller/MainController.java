@@ -32,6 +32,7 @@ import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.SalonService;
+import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
@@ -65,6 +66,9 @@ public class MainController {
 
 	@Autowired
 	ClienteService clienteService;
+	
+	@Autowired
+	ServicioService servicioService;
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -91,7 +95,7 @@ public class MainController {
 		model.addAttribute("cantExtra", extraService.count());
 		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
-
+		model.addAttribute("cantServicio", servicioService.count());
 
 		return "adm/adm";
 	}

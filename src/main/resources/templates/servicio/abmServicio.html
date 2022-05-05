@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Servicios</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2 th:if="${#lists.isEmpty(listaServicio)}">No hay servicios</h2>
+		<div th:if="${not #lists.isEmpty(listaServicio)}">
+			<h2 class="jumbotron text-center">Servicios</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="servicio : ${listaServicio}">
+						<td th:text="${servicio.nombre}"> </td>
+						<td> </td>
+						<td> </td>
+						<td> </td>
+						<td><a class="btn btn-info" th:href="@{/saveServicio/{id}(id=${servicio.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteServicio/{id}(id=${servicio.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/saveServicio/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

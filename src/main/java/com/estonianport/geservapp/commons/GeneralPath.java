@@ -8,6 +8,7 @@ public class GeneralPath {
 	public static String TIPO_EVENTO = "tipoEvento";
 	public static String SUB_TIPO_EVENTO = "subTipoEvento";
 	public static String EXTRA = "extra";
+	public static String SERVICIO = "servicio";
 	public static String PAGO = "pago";
 	public static String CLIENTE = "cliente";
 
@@ -17,6 +18,7 @@ public class GeneralPath {
 	public static String ABM_TIPO_EVENTO = "abmTipoEvento";
 	public static String ABM_SUB_TIPO_EVENTO = "abmSubTipoEvento";
 	public static String ABM_EXTRA = "abmExtra";
+	public static String ABM_SERVICIO = "abmServicio";
 	public static String ABM_PAGO = "abmPago";
 	public static String ABM_CLIENTE = "abmCliente";
 
@@ -26,6 +28,7 @@ public class GeneralPath {
 	public static String SAVE_TIPO_EVENTO = "saveTipoEvento";
 	public static String SAVE_SUB_TIPO_EVENTO = "saveSubTipoEvento";
 	public static String SAVE_EXTRA = "saveExtra";
+	public static String SAVE_SERVICIO = "saveServicio";
 	public static String SAVE_PAGO = "savePago";
 	public static String SAVE_CLIENTE = "saveCliente";
 
