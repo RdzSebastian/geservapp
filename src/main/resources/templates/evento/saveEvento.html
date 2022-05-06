@@ -24,25 +24,36 @@
 
 			    <!--===============================================================================================-->
 		        <h3>Tipo de Evento</h3>
-		        <section>
-		            <h2>Selecciones tipo de evento a realizar</h2>
-		            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+		        <section>					
+			        <div class="row">
+						<div class="col-md-6">
+							<div class="col-md-10">
+					            <h2>Selecciones tipo de evento a realizar</h2>
+					            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+						    </div>
+				            <div class="col-md-10">
+				                <label for="tipoEvento" class="form-label">Tipo Evento</label>
+				                <select class="form-select" id="tipoEvento" name="tipoEvento">
+				                    <option selected hidden th:value="0">Tipo Evento</option>
+				                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
+				                </select>
+				            </div>
 		
-		            <div class="col-md-5">
-		                <label for="tipoEvento" class="form-label">Tipo Evento</label>
-		                <select class="form-select" id="tipoEvento" name="tipoEvento">
-		                    <option selected hidden th:value="0">Tipo Evento</option>
-		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:class="${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.tipoEvento.nombre}" th:value="${subTipoEvento.tipoEvento.id}"/>
-		                </select>
-		            </div>
-
-		            <div class="col-md-5 mt-3">
-		            	<label for="tipoEvento" class="form-label">Sub Tipo Evento</label>
-		                <select class="form-select" id="subTipoEvento" name="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
-		                    <option selected hidden th:value="0">Sub Tipo Evento</option>
-		                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
-		                </select>
-		            </div>
+				            <div class="col-md-10 mt-3">
+				            	<label for="tipoEvento" class="form-label">Sub Tipo Evento</label>
+				                <select class="form-select" id="subTipoEvento" name="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
+				                    <option selected hidden th:value="0">Sub Tipo Evento</option>
+				                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
+				                </select>
+				            </div>
+					   	</div>
+						<div class="col-md-6">
+			            	<div class="form-group">
+			                    <label for="servicio" class="form-label">Incluye los siguiente servicios</label> 
+			                    <div id="listaServicio"> </div>
+				            </div>
+						</div>
+					</div>
 		        </section>
 		    	<!--===============================================================================================-->
 
@@ -179,6 +190,7 @@
     	var salonId = /*[[${salon.id}]]*/ [];
     	var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
     	var listaExtra = /*[[${listaExtra}]]*/ [];
+    	var listaServicio = /*[[${listaServicio}]]*/ [];
     </script>
 
     <script src="../js/saveEventoWizard.js"></script>

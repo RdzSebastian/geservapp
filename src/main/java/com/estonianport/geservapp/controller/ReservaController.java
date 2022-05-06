@@ -23,11 +23,13 @@ import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.model.Servicio;
 import com.estonianport.geservapp.model.Sexo;
 import com.estonianport.geservapp.model.TipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.TipoEventoService;
@@ -59,6 +61,9 @@ public class ReservaController {
 
 	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	private ServicioService servicioService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -99,6 +104,10 @@ public class ReservaController {
 			// Agrega lista Sexo
 			List<Sexo> listaSexo = sexoService.getAll();
 			model.addAttribute("listaSexo", listaSexo);
+
+			// Agrega lista Extras
+			List<Servicio> listaServicio = servicioService.getAll();
+			model.addAttribute("listaServicio", listaServicio);
 
 			// Agrega lista de Tipo Eventos
 			List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();

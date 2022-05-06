@@ -89,7 +89,9 @@ $(document).ready(function() {
             if(index == valor.id){
                 precio = valor.precioBase;
                 
+                setServicioBySubTipoEvento(valor.id);
                 setExtrasBySubTipoEvento(valor.id);
+
             }
         });
 
@@ -144,6 +146,32 @@ $(document).ready(function() {
 				}
 			});
 		});
+	}
+	
+	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setServicioBySubTipoEvento(subTipoEventoId) {
+		// Limpia los servicios que se agregaron anteriormente
+		$('#ulServicio').remove();
+		
+		// Obtiene el div donde ira la lista de servicios
+		var listaServicioDiv = document.getElementById("listaServicio");
+		
+		// Crea el ul que contendra a los li
+		var ul = document.createElement('ul');
+		ul.id = "ulServicio"
+
+		// Agrega los extras del subTipoEvento
+		listaServicio.forEach(function(valorServicio, indiceServicio, arrayServicio) {
+			valorServicio.listaSubTipoEvento.forEach(function(valorSubTipoEvento, indiceSubTipoEvento, arraySubTipoEvento) {
+				if(valorSubTipoEvento.id == subTipoEventoId){
+					var li = document.createElement("li");
+					li.appendChild(document.createTextNode(valorServicio.nombre));
+					ul.appendChild(li);
+				}
+			});
+		});
+		// Appendin the ul
+		listaServicioDiv.appendChild(ul);
 	}
 });
 
