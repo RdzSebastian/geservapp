@@ -10,7 +10,6 @@
 	<!--===============================================================================================-->
 
  	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
-		
 
  </head>
 
@@ -18,52 +17,53 @@
  		
 		<section class="pt-5" id="buttons">
 			<div class="container">
-				<div class="row mb-4">
-					<div class="col-md-12">
-						<h2 class="heading-section"> Administre sus</h2>
+				<div class="row mb-5">
+					<div class="col-md-12 text-center">
+						<h2 class="heading-section"> Administración</h2>
 					</div>
 				</div>
+
 				<div class="row ">
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmUsuario}" >
-							<div>
+							<div class="col-8 text-start">
 								<h5>Usuarios</h5>
 								<span th:text="${cantUsuario} + ' usuarios'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-users fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSalon}">
-							<div>
+							<div class="col-8 text-start text-start">
 								<h5>Salones</h5>
 								<span th:text="${cantSalon} + ' salones'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-building fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmTipoEvento}">
-							<div>
-								<h5>Tipos Eventos</h5>
+							<div class="col-8 text-start">
+								<h5>Tipo Eventos</h5>
 								<span th:text="${cantTipoEvento} + ' tipo eventos'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-calendar-week fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSubTipoEvento}">
-							<div class="text-left">
-								<h5>Sub Tipos eventos</h5>
+							<div class="col-8 text-start">
+								<h5>Sub Tipo eventos</h5>
 								<span th:text="${cantSubTipoEvento} + ' sub tipo eventos'"></span>
 							</div>
-							<div class="col-3 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-calendar-day fa-lg"></i>
 							</div>
 						</a>
@@ -73,66 +73,66 @@
 				<div class="row">
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtra}">
-							<div>
+							<div class="col-8 text-start">
 								<h5>Extras</h5>
 								<span th:text="${cantExtra} + ' extras'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-calendar-check fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmPago}">
-							<div class="text text-left">
+							<div class="col-8 text-start">
 								<h5>Pagos</h5>
 								<span th:text="${cantPago} + ' pagos'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-cash-register fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/download/0}">
-							<div class="text text-left">
+							<div class="col-8 text-start">
 								<h5>Comprobantes</h5>
 								<span>Descarga compr.</span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-cash-register fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/buscarAllEvento}">
-							<div class="text text-left">
+							<div class="col-8 text-start">
 								<h5>Buscar Evento</h5>
 								<span th:text="${cantEvento} + ' eventos'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-search fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmCliente}">
-							<div class="text text-left">
+							<div class="col-8 text-start">
 								<h5>Clientes</h5>
 								<span th:text="${cantCliente} + ' clientes'"></span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-search fa-lg"></i>
 							</div>
 						</a>
 					</div>
 					<div class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmServicio}">
-							<div>
+							<div class="col-8 text-start">
 								<h5>Servicios</h5>
 								<span th:text="${cantServicio} + ' servicios'"> </span>
 							</div>
-							<div class="col-4 align-items-center col-auto">
+							<div class="col-4 text-center">
 								<i class="fas fa-calendar-check fa-lg"></i>
 							</div>
 						</a>
