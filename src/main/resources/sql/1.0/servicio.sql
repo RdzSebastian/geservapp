@@ -2,7 +2,7 @@ do $$
 declare
 
 	servicio_invitacion varchar := 'Invitacion digital';
-    servicio_ayudante_cocina varchar := 'Ayudante de cocina';
+    servicio_ayudante_cocina varchar := 'Ayudante de cocina: 1';
     servicio_musicalizacion varchar := 'Musicalizacion durante todo el evento';
    	servicio_zona_aire_libre varchar := 'Zona al aire libre';
     servicio_vajilla_lunch varchar := 'Servicio de vajilla para lunch';
@@ -12,8 +12,12 @@ declare
     servicio_wifi varchar := 'Wifi';
     servicio_asistencia_medica varchar := 'Asistencia médica';
     servicio_seguridad varchar := 'Seguridad';
-	servicio_coordinadora_evento varchar := 'Coordinadora del evento';
-	servicio_animadora varchar := 'Animadora';
+
+
+	servicio_coordinadora_evento varchar := 'Coordinadora del evento: 1';
+	servicio_coordinadora_evento_2 varchar := 'Coordinadora del evento: 2';
+	servicio_animadora varchar := 'Animadora: 1';
+	servicio_animadora_2 varchar := 'Animadora: 2';
     servicio_pelos_locos varchar := 'Pelos locos';
     servicio_pulceras_luminosas varchar := 'Pulceras luminosas';
     servicio_pista_baile varchar := 'Pista de baile';
@@ -22,8 +26,8 @@ declare
     servicio_plaza_blanda varchar := 'Plaza blanda';
     servicio_dj varchar := 'DJ';
     servicio_mesas_sillas_vestidas varchar := 'Mesas y sillas vestidas';
-    servicio_camarero varchar := 'Camarero';
-    servicio_mozo varchar := 'Mozo';
+    servicio_camarero varchar := 'Camarero: 1';
+    servicio_mozo varchar := 'Mozo: 1';
 	servicio_camino_mesas varchar := 'Camino para las mesas';
 
 begin
@@ -63,9 +67,15 @@ begin
 	
 	INSERT INTO servicio (nombre)
 		VALUES (servicio_coordinadora_evento);
+
+	INSERT INTO servicio (nombre)
+		VALUES (servicio_coordinadora_evento_2);
 	
 	INSERT INTO servicio (nombre)
 		VALUES (servicio_animadora);
+
+	INSERT INTO servicio (nombre)
+		VALUES (servicio_animadora_2);
 	
 	INSERT INTO servicio (nombre)
 		VALUES (servicio_pelos_locos);

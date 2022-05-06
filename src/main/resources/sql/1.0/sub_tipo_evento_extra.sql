@@ -14,7 +14,7 @@ declare
     extra_torta_mesa_dulce_candy_bar varchar := 'Torta, mesa dulce y/o candy bar';
     extra_souvenirs varchar := 'Souvenirs';
     extra_video varchar := 'Video';
-	extra_foto_fiesta varchar := 'Fotos de fiesta'
+	extra_foto_fiesta varchar := 'Fotos de fiesta';
 	
 	extra_animadora_ninos_id int := 0;
     extra_animacion_adultos_id int := 0;
@@ -53,7 +53,7 @@ declare
 	sub_tipo_evento_quinces_id int := 0;
 	sub_tipo_evento_cumpleanos_infantil_id int := 0;
 	sub_tipo_evento_cumpleanos_teens_id int := 0;
-	sub_tipo_evento_cumpleanos adulto_id int := 0;
+	sub_tipo_evento_cumpleanos_adulto_id int := 0;
 
 begin
 

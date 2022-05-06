@@ -2,7 +2,7 @@ do $$
 declare
     -- En todos
     servicio_invitacion varchar := 'Invitacion digital';
-    servicio_ayudante_cocina varchar := 'Ayudante de cocina';
+    servicio_ayudante_cocina varchar := 'Ayudante de cocina: 1';
     servicio_musicalizacion varchar := 'Musicalizacion durante todo el evento';
     servicio_zona_aire_libre varchar := 'Zona al aire libre';
     servicio_vajilla_lunch varchar := 'Servicio de vajilla para lunch';
@@ -12,10 +12,12 @@ declare
     servicio_wifi varchar := 'Wifi';
     servicio_asistencia_medica varchar := 'Asistencia médica';
     servicio_seguridad varchar := 'Seguridad';
-
+    
     -- En algunos
-    servicio_coordinadora_evento varchar := 'Coordinadora del evento';
-    servicio_animadora varchar := 'Animadora';
+    servicio_coordinadora_evento varchar := 'Coordinadora del evento: 1';
+    servicio_coordinadora_evento_2 varchar := 'Coordinadora del evento: 2';
+    servicio_animadora varchar := 'Animadora: 1';
+    servicio_animadora_2 varchar := 'Animadora: 2';
     servicio_pelos_locos varchar := 'Pelos locos';
     servicio_pulceras_luminosas varchar := 'Pulceras luminosas';
     servicio_pista_baile varchar := 'Pista de baile';
@@ -24,36 +26,37 @@ declare
     servicio_plaza_blanda varchar := 'Plaza blanda';
     servicio_dj varchar := 'DJ';
     servicio_mesas_sillas_vestidas varchar := 'Mesas y sillas vestidas';
-    servicio_camarero varchar := 'Camarero';
-    servicio_mozo varchar := 'Mozo';
+    servicio_camarero varchar := 'Camarero: 1';
+    servicio_mozo varchar := 'Mozo: 1';
     servicio_camino_mesas varchar := 'Camino para las mesas';
 
+    servicio_invitacion_id int := 0;
+    servicio_ayudante_cocina_id int := 0;
+    servicio_musicalizacion_id int := 0;
+    servicio_zona_aire_libre_id int := 0;
+    servicio_vajilla_lunch_id int := 0;
+    servicio_servicio_te_id int := 0;
+    servicio_espacio_candybar_id int := 0;
+    servicio_proyector_id int := 0;
+    servicio_wifi_id int := 0;
+    servicio_asistencia_medica_id int := 0;
+    servicio_seguridad_id int := 0;
 
-    servicio_invitacion int := 0;
-    servicio_ayudante_cocina int := 0;
-    servicio_musicalizacion int := 0;
-    servicio_zona_aire_libre int := 0;
-    servicio_vajilla_lunch int := 0;
-    servicio_servicio_te int := 0;
-    servicio_espacio_candybar int := 0;
-    servicio_proyector int := 0;
-    servicio_wifi int := 0;
-    servicio_asistencia_medica int := 0;
-    servicio_seguridad int := 0;
-
-    servicio_coordinadora_evento int := 0;
-    servicio_animadora int := 0;
-    servicio_pelos_locos int := 0;
-    servicio_pulceras_luminosas int := 0;
-    servicio_pista_baile int := 0;
-    servicio_snacks int := 0;
-    servicio_pelotero int := 0;
-    servicio_plaza_blanda int := 0;
-    servicio_dj int := 0;
-    servicio_mesas_sillas_vestidas int := 0;
-    servicio_camarero int := 0;
-    servicio_mozo int := 0;
-    servicio_camino_mesas int := 0;
+    servicio_coordinadora_evento_id int := 0;
+    servicio_coordinadora_evento_2_id int := 0;
+    servicio_animadora_id int := 0;
+    servicio_animadora_2_id int := 0;
+    servicio_pelos_locos_id int := 0;
+    servicio_pulceras_luminosas_id int := 0;
+    servicio_pista_baile_id int := 0;
+    servicio_snacks_id int := 0;
+    servicio_pelotero_id int := 0;
+    servicio_plaza_blanda_id int := 0;
+    servicio_dj_id int := 0;
+    servicio_mesas_sillas_vestidas_id int := 0;
+    servicio_camarero_id int := 0;
+    servicio_mozo_id int := 0;
+    servicio_camino_mesas_id int := 0;
 
     sub_tipo_evento_bautismo varchar := 'Bautismo / 1 Añito';
     sub_tipo_evento_baby_shower varchar := 'Baby Shower';
@@ -76,7 +79,7 @@ declare
     sub_tipo_evento_quinces_id int := 0;
     sub_tipo_evento_cumpleanos_infantil_id int := 0;
     sub_tipo_evento_cumpleanos_teens_id int := 0;
-    sub_tipo_evento_cumpleanos adulto_id int := 0;
+    sub_tipo_evento_cumpleanos_adulto_id int := 0;
 
 begin
 
@@ -93,7 +96,9 @@ begin
     servicio_seguridad_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_seguridad);
 
     servicio_coordinadora_evento_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_coordinadora_evento);
+    servicio_coordinadora_evento_2_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_coordinadora_evento_2);
     servicio_animadora_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_animadora);
+    servicio_animadora_2_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_animadora_2);
     servicio_pelos_locos_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_pelos_locos);
     servicio_pulceras_luminosas_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_pulceras_luminosas);
     servicio_pista_baile_id := (SELECT id FROM SERVICIO WHERE nombre = servicio_pista_baile);
@@ -153,7 +158,19 @@ begin
 
     -- Bautismo Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_bautismo_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_bautismo_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_snacks_id,sub_tipo_evento_bautismo_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_pelotero_id,sub_tipo_evento_bautismo_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_plaza_blanda_id,sub_tipo_evento_bautismo_id);
 
 
     -- Baby Shower
@@ -190,87 +207,164 @@ begin
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
         VALUES (servicio_seguridad_id,sub_tipo_evento_baby_shower_id);
         
-    -- Baby Shower Servicio Extendido  
+    -- Baby Shower Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_baby_shower_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_baby_shower_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_animadora_id,sub_tipo_evento_baby_shower_id);
 
 
     -- Cumpleaños infantil
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_invitacion_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_invitacion_id,sub_tipo_evento_cumpleanos_infantil_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_ayudante_cocina_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_ayudante_cocina_id,sub_tipo_evento_cumpleanos_infantil_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_musicalizacion_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_musicalizacion_id,sub_tipo_evento_cumpleanos_infantil_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_zona_aire_libre_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_zona_aire_libre_id,sub_tipo_evento_cumpleanos_infantil_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_vajilla_lunch_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_vajilla_lunch_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_servicio_te_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_servicio_te_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_espacio_candybar_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_espacio_candybar_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_proyector_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_proyector_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_wifi_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_wifi_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_asistencia_medica_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_asistencia_medica_id,sub_tipo_evento_cumpleanos_infantil_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_seguridad_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_seguridad_id,sub_tipo_evento_cumpleanos_infantil_id);
     
-    -- Cumpleaños infantil Servicio Extendido  
+    -- Cumpleaños infantil Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_camarero_id,sub_tipo_evento_cumpleanos_infantil_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_animadora_2,sub_tipo_evento_cumpleanos_infantil_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_snacks_id,sub_tipo_evento_cumpleanos_infantil_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_pelotero_id,sub_tipo_evento_cumpleanos_infantil_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_plaza_blanda_id,sub_tipo_evento_cumpleanos_infantil_id);
+
+    -- Cumpleaños teens
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_invitacion_id,sub_tipo_evento_cumpleanos_teens_id);
+    
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_ayudante_cocina_id,sub_tipo_evento_cumpleanos_teens_id);
+    
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_musicalizacion_id,sub_tipo_evento_cumpleanos_teens_id);
+    
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_zona_aire_libre_id,sub_tipo_evento_cumpleanos_teens_id);
+    
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_vajilla_lunch_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_servicio_te_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_espacio_candybar_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_proyector_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_wifi_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_asistencia_medica_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_seguridad_id,sub_tipo_evento_cumpleanos_teens_id);
+    
+    -- Cumpleaños teens Servicio Extendido
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_coordinadora_evento_2_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_snacks_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_pista_baile_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_pulceras_luminosas_id,sub_tipo_evento_cumpleanos_teens_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_pelos_locos_id,sub_tipo_evento_cumpleanos_teens_id);
 
 
     -- Cumpleaños adulto 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_invitacion_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_invitacion_id,sub_tipo_evento_cumpleanos_adulto_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_ayudante_cocina_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_ayudante_cocina_id,sub_tipo_evento_cumpleanos_adulto_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_musicalizacion_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_musicalizacion_id,sub_tipo_evento_cumpleanos_adulto_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_zona_aire_libre_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_zona_aire_libre_id,sub_tipo_evento_cumpleanos_adulto_id);
     
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_vajilla_lunch_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_vajilla_lunch_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_servicio_te_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_servicio_te_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_espacio_candybar_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_espacio_candybar_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_proyector_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_proyector_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_wifi_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_wifi_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_asistencia_medica_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_asistencia_medica_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (servicio_seguridad_id,sub_tipo_evento_cumpleanos_infantil);
+        VALUES (servicio_seguridad_id,sub_tipo_evento_cumpleanos_adulto_id);
 
     -- Cumpleaños adulto Servicio Extendido  
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_cumpleanos_adulto_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_cumpleanos_adulto_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_animadora_id,sub_tipo_evento_cumpleanos_adulto_id);
 
 
     -- Casamiento
@@ -309,7 +403,16 @@ begin
 
     -- Casamiento Servicio Extendido  
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_casamiento_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_mozo_id,sub_tipo_evento_casamiento_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_dj_id,sub_tipo_evento_casamiento_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_mesas_sillas_vestidas_id,sub_tipo_evento_casamiento_id);
 
 
     -- Quinces
@@ -346,9 +449,18 @@ begin
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
         VALUES (servicio_seguridad_id,sub_tipo_evento_quinces_id);
 
-    -- Quinces Servicio Extendido  
+    -- Quinces Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_quinces_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_mozo_id,sub_tipo_evento_quinces_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_dj_id,sub_tipo_evento_quinces_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_mesas_sillas_vestidas_id,sub_tipo_evento_quinces_id);
 
 
     -- Quinces economico
@@ -385,10 +497,15 @@ begin
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
         VALUES (servicio_seguridad_id,sub_tipo_evento_quinces_corto_id);
 
-    -- Quinces economico Servicio Extendido  
+    -- Quinces economico Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_quinces_corto_id);
 
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_quinces_corto_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_dj_id,sub_tipo_evento_quinces_corto_id);
 
     -- Comunion
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
@@ -423,9 +540,15 @@ begin
 
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
         VALUES (servicio_seguridad_id,sub_tipo_evento_comunion_id);
-    
-    -- Comunion Servicio Extendido  
+
+    -- Comunion Servicio Extendido
     INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
-        VALUES (,sub_tipo_evento_bautismo_id);
+        VALUES (servicio_coordinadora_evento_id,sub_tipo_evento_comunion_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camarero_id,sub_tipo_evento_comunion_id);
+
+    INSERT into sub_tipo_evento_servicio (servicio_id,sub_tipo_evento_id)
+        VALUES (servicio_camino_mesas_id,sub_tipo_evento_comunion_id);
 
 end$$

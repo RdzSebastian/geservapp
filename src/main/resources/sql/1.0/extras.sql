@@ -14,7 +14,7 @@ declare
     extra_torta_mesa_dulce_candy_bar varchar := 'Torta, mesa dulce y/o candy bar';
     extra_souvenirs varchar := 'Souvenirs';
     extra_video varchar := 'Video';
-	extra_foto varchar := 'Fotos de fiesta'
+	extra_foto varchar := 'Fotos de fiesta';
        
 begin
 	
