@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.PagoService;
+import com.estonianport.geservapp.service.RolService;
 import com.estonianport.geservapp.service.SalonService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
@@ -69,6 +71,12 @@ public class MainController {
 	
 	@Autowired
 	ServicioService servicioService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@Autowired
+	private RolService rolService;
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -83,7 +91,7 @@ public class MainController {
 	}
 
 	@RequestMapping("/administracion")
-	public String adm(Model model, HttpSession session) {
+	public String adm(Model model, HttpSession session, Authentication authentication) {
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
@@ -96,6 +104,8 @@ public class MainController {
 		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
 		model.addAttribute("cantServicio", servicioService.count());
+
+		model.addAttribute("admin", usuarioService.findUserByUsername(authentication.getName()).getRol() == rolService.getRolByNombre("ADMIN"));
 
 		return "adm/adm";
 	}

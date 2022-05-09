@@ -19,4 +19,9 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, Long> implements Rol
 	public CrudRepository<Rol, Long> getDao() {
 		return rolDao;
 	}
+
+	@Override
+	public Rol getRolByNombre(String nombre) {
+		return rolDao.getRolByNombre(nombre);
+	}
 }

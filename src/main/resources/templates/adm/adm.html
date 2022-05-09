@@ -24,7 +24,7 @@
 				</div>
 
 				<div class="row ">
-					<div class="col-md-3 mb-3">
+					<div id="usuario" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmUsuario}" >
 							<div class="col-8 text-start">
 								<h5>Usuarios</h5>
@@ -35,7 +35,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-md-3 mb-3">
+					<div id="salon" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSalon}">
 							<div class="col-8 text-start text-start">
 								<h5>Salones</h5>
@@ -46,7 +46,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-md-3 mb-3">
+					<div id="tipoEvento" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmTipoEvento}">
 							<div class="col-8 text-start">
 								<h5>Tipo Eventos</h5>
@@ -57,7 +57,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-md-3 mb-3">
+					<div id="subTipoEvento" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmSubTipoEvento}">
 							<div class="col-8 text-start">
 								<h5>Sub Tipo eventos</h5>
@@ -71,7 +71,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-3 mb-3">
+					<div id="extra" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtra}">
 							<div class="col-8 text-start">
 								<h5>Extras</h5>
@@ -126,7 +126,7 @@
 							</div>
 						</a>
 					</div>
-					<div class="col-md-3 mb-3">
+					<div id="servicio" class="col-md-3 mb-3">
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmServicio}">
 							<div class="col-8 text-start">
 								<h5>Servicios</h5>
@@ -148,6 +148,12 @@
 	  
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script th:inline="javascript">
+  		var admin = /*[[${admin}]]*/ [];
+  	</script>
+ 
+  	<script  src="../js/adm.js"></script>
+
  </body>
  </html>
  
