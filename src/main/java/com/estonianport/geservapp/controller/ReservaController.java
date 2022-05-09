@@ -168,7 +168,7 @@ public class ReservaController {
 		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
 			// Crea el codigo del evento
 			String codigo = CodeGenerator.GetBase26Only4Letters();
-			
+
 			//Chequea que el codigo no este en uso 
 			while(eventoService.existsByCodigo(codigo)) {
 				codigo = CodeGenerator.GetBase26Only4Letters();
@@ -177,11 +177,12 @@ public class ReservaController {
 		}
 
 		// Guarda el cliente en la base de datos
-		if(reservaContainer.getEvento().getCliente() == null) {
+		if(!clienteService.existsByCuil(reservaContainer.getCliente().getCuil())) {
 			clienteService.save(reservaContainer.getCliente());
-			evento.setCliente(clienteService.get(reservaContainer.getCliente().getId()));
+			evento.setCliente(reservaContainer.getCliente());
+		}else {
+			evento.setCliente(clienteService.getClienteByCuil(reservaContainer.getCliente().getCuil()));
 		}
-
 
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtra(reservaContainer.getExtra());

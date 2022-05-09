@@ -7,4 +7,8 @@ public interface ClienteService  extends GenericService<Cliente, Long>{
 
 	Long count();
 
+	boolean existsByCuil(long cuil);
+
+	Cliente getClienteByCuil(long cuil);
+
 }

@@ -115,35 +115,38 @@
 		    	<!--===============================================================================================-->
 		        <h3>Datos de contacto</h3>
 		        <section>
-		            <h2>Finalizar reserva</h2>
-		            <p>Complete con los datos del cliente</p>
+		        	<div class="row">
+		        		<div class="col-4">
+				            <h2>Finalizar reserva</h2>
+				            <p>Complete con los datos del cliente</p>
+				        </div>
+		        		<div id="clienteNoEncontrado" class="col-4 d-none">
+							<div class="alert alert-danger" role="alert">Cliente no encontrado </div>
+						</div>
+					</div>
 
-		            <div class="">
-
+		            <div>
 						<div class="row">
+						    <div class="form-group col-md-4">
+		                    	<label for="cuil">CUIT/CUIL</label>
+								<input type="number" class="form-control" id="cuil" th:field="*{cliente.cuil}" name="cuil" required>	
+							</div>
+							<div class="form-group col-md-4">
+								<label for="buscarClientePorCuil"> Buscar</label>
+								<button id="buscarClientePorCuil" class="form-control btn btn-primary">buscar por cuil</button>
+							</div>
+						</div>
+
+						<div class="row  mt-2">
 	                    	<div class="col-md-4">
-	                    		<label for="nombre">Nombre</label>
-	                    		<input type="text" class="form-control" id="nombre" th:field="*{cliente.nombre}" name="nombre" required>
+	                    		<label for="nombreCliente">Nombre</label>
+	                    		<input type="text" class="form-control" id="nombreCliente" th:field="*{cliente.nombre}" name="nombre" required>
 	                    	</div>
 	                    	<div class="col-md-4">
 	                    		<label for="apellido">Apellido</label>
 								<input type="text" class="form-control" id="apellido" th:field="*{cliente.apellido}" name="apellido" required>
 	                    	</div>
 	                    </div>
-	                  
-						<div class="row mt-2">
-						    <div class="form-group col-md-4">
-		                    	<label for="cuil">CUIT/CUIL</label>
-								<input type="number" class="form-control" id="cuil" th:field="*{cliente.cuil}" name="cuil" required>	
-							</div>
-						
-						    <div class="form-group col-md-4">
-					  			<label for="sexo">Sexo</label>
-				                <select class="form-select" id="sexo" th:field="*{cliente.sexo}">
-				                    <option th:each="sexo : ${listaSexo}" th:value="${sexo.id}" th:text="${sexo.nombre}"/>
-				                </select>
-							</div>
-						</div>
 
 						<div class="row mt-2">
 							<div class="form-group col-md-4">
@@ -156,10 +159,17 @@
 								<input type="number" class="form-control" id="celular" th:field="*{cliente.celular}" name="celular" required>
 							</div>
 						</div>
+
 						<div class="row mt-2">
 							<div class="form-group col-md-4">
 								<label for="empresa">Nombre de la empresa (Opcional)</label>
 								<input type="text" class="form-control" id="empresa" th:field="*{cliente.empresa}" name="empresa">	
+							</div>
+							<div class="form-group col-md-4">
+					  			<label for="sexo">Sexo</label>
+				                <select class="form-select" id="sexo" th:field="*{cliente.sexo}">
+				                    <option th:each="sexo : ${listaSexo}" th:value="${sexo.id}" th:text="${sexo.nombre}"/>
+				                </select>
 							</div>
 		            	</div>
 		           	</div>
@@ -195,6 +205,7 @@
 
     <script src="../js/saveEventoWizard.js"></script>
     <script src="../js/saveEvento.js"></script>
+    <script src="../js/saveEventoAjax.js"></script>
 
 </body>
 

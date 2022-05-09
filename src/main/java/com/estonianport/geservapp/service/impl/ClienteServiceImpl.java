@@ -19,8 +19,18 @@ public class ClienteServiceImpl  extends GenericServiceImpl<Cliente, Long> imple
 	public CrudRepository<Cliente, Long> getDao() {
 		return clienteDao;
 	}
-	
+
 	public Long count() {
 		return clienteDao.count();
+	}
+
+	@Override
+	public boolean existsByCuil(long cuil) {
+		return clienteDao.existsByCuil(cuil);
+	}
+
+	@Override
+	public Cliente getClienteByCuil(long cuil) {
+		return clienteDao.getClienteByCuil(cuil);
 	}
 }

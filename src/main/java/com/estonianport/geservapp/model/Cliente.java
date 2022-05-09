@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,6 +60,7 @@ public class Cliente {
 	@Column
 	private long celular;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "cliente")
 	private Set<Evento> evento;
 

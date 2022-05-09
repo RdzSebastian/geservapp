@@ -18,14 +18,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
+import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ClienteService;
@@ -233,6 +236,16 @@ public class MainController {
 		response.sendRedirect("download/0");
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/buscarClientePorCuil")
+	public @ResponseBody ResponseEntity<Cliente> buscarClientePorCuil(Model model, @RequestParam(value="cuil") long cuil){
+		
+		if(clienteService.existsByCuil(cuil) && cuil != 0) {
+			Cliente cliente = clienteService.getClienteByCuil(cuil);
+			return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+		}
+		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
 	}
 
 }
