@@ -74,15 +74,53 @@
 		                    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
 		                </div>
 
-		                <div class="form-group">
-		                    <label for="time_start" class="form-label w-100">Hora Inicio</label> 
-		                    <input type="text" id="time_start" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{inicio}">
-		                </div>
-
-		                <div class="form-group" id="horaFinal">
-		                    <label for="time_end" class="form-label w-100">Hora Final</label> 
-		                    <input type="text" id="time_end" data-format="HH:mm" data-template="HH : mm" name="datetime" th:field="*{fin}">
-		                </div>
+			            <div>
+		                    <input id="time_start" type="hidden" th:field="*{inicio}">
+			                <label class="form-label w-100">Hora inicio</label>
+			               	<div class="d-inline-flex flex-row">
+			               		<div>
+				               		<div class="form-group">
+						                <select class="form-control" id="time_start_hour">
+						                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+						                </select>
+						         	</div>       
+					            </div>
+					            <div>
+			               			<div class="p-1">:</div>
+					            </div>
+			               		<div>
+			               			<div class="form-group">
+						                <select class="form-control" id="time_start_minute">
+						                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+						                </select>
+					                </div>
+					            </div>
+			              	</div>
+			            </div>
+				            
+			            <div>
+			            	<input id="time_end" type="hidden" th:field="*{fin}">
+		                    <label class="form-label w-100">Hora final</label>
+			               	<div class="d-inline-flex flex-row">
+			               		<div>
+				               		<div class="form-group">
+						                <select class="form-control" id="time_end_hour">
+						                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+						                </select>
+						         	</div>
+					            </div>
+					            <div>
+			               			<div class="p-1"> : </div>
+					            </div>
+					            <div>
+			               			<div class="form-group">
+						                <select class="form-control" id="time_end_minute">
+						                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+						                </select>
+						         	</div> 
+					            </div>
+				            </div>
+			            </div>
 
 		                <div class="form-group mt-2">
 		                    <input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">

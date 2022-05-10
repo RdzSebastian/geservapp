@@ -1,7 +1,6 @@
 package com.estonianport.geservapp.controller;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -17,15 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.estonianport.geservapp.commons.CodeGenerator;
+import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
-import com.estonianport.geservapp.model.Servicio;
-import com.estonianport.geservapp.model.Sexo;
-import com.estonianport.geservapp.model.TipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
@@ -79,13 +76,14 @@ public class ReservaController {
 
 			reservaContainer.setEvento(evento);
 
-			// Setea la hora y fecha del evento
-			String fecha = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
-			reservaContainer.setFecha(fecha);
-			String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
-			reservaContainer.setInicio(horaInicio);
-			String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
-			reservaContainer.setFin(horaFin);
+			// Setea fecha del evento
+			reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
+
+			// Setea hora de inicio
+			reservaContainer.setInicio(DateUtil.getHora(evento.getStartd()));
+
+			// Setea hora de fin
+			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
 
 			// Agrega lista Extras
 			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
@@ -102,28 +100,35 @@ public class ReservaController {
 			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.EDIT_EVENTO;
 		}else {
 			// Agrega lista Sexo
-			List<Sexo> listaSexo = sexoService.getAll();
-			model.addAttribute("listaSexo", listaSexo);
+			model.addAttribute("listaSexo", sexoService.getAll());
 
-			// Agrega lista Extras
-			List<Servicio> listaServicio = servicioService.getAll();
-			model.addAttribute("listaServicio", listaServicio);
+			// Agrega lista Servicio
+			model.addAttribute("listaServicio", servicioService.getAll());
 
 			// Agrega lista de Tipo Eventos
-			List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();
-			model.addAttribute("listaTipoEvento", listaTipoEvento);
+			model.addAttribute("listaTipoEvento", tipoEventoService.getAll());
 
 			// Agrega lista de Sub Tipo Eventos
 			model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
 
-			// Agrega lista Extras
+			// Agrega lista de Hora
+			model.addAttribute("listaHora", DateUtil.horas);
+
+			// Agrega lista de Minuto
+			model.addAttribute("listaMinuto", DateUtil.minutos);
+
+			// Obtiene todos los extra
 			List<Extra> listaExtra = extraService.getAll();
+
+			// Agrega lista Extras al modelo
 			model.addAttribute("listaExtra", listaExtra);
 
 			// Agrega lista Extras a Reserva
 			reservaContainer.setExtra(Set.copyOf(listaExtra));
 
+			// Agrega reservaContainer al modelo
 			model.addAttribute("reservaContainer", reservaContainer);
+
 			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 		}
 	}
@@ -138,33 +143,21 @@ public class ReservaController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		evento.setSalon(salon);
 
-		// Setea la hora y fecha del evento
-		try{
-			evento.setStartd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:mm")));
-		}catch(Exception e){
-			evento.setStartd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getInicio(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
-		}
+		// Setea fecha del evento y hora de inicio
+		evento.setStartd(DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + reservaContainer.getInicio()));
 
 		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
 		if(!reservaContainer.getHastaElOtroDia()) {
-			try {
-				evento.setEndd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
-			}catch(Exception e){
-				evento.setEndd(LocalDateTime.parse(reservaContainer.getFecha() + " " + reservaContainer.getFin(), DateTimeFormatter.ofPattern("dd-M-yyyy HH:m")));
-			}
+			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + reservaContainer.getFin()));
 		}else {
-			LocalDateTime fechaFin = null;
-			try {
-				fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-			}catch(Exception e){
-				fechaFin = LocalDateTime.parse(reservaContainer.getFecha() + " " + "05:00", DateTimeFormatter.ofPattern("dd-M-yyyy HH:m"));
-			}
+			LocalDateTime fechaFin = DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + "05:00");
 			evento.setEndd(fechaFin.plusDays(1));
 		}
 
 		// Setea usuario que genero la reserva
 		evento.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
 
+		// Comprueba que el evento no tenga codigo
 		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
 			// Crea el codigo del evento
 			String codigo = CodeGenerator.GetBase26Only4Letters();

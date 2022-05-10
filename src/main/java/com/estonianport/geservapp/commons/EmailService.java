@@ -67,9 +67,9 @@ public class EmailService{
 			extraMail.append("Sin ningun extra.");
 		}
 
-		String dia = evento.getStartd().format(DateUtil.dateFormatter);
-		String horaInicio = String.valueOf(evento.getStartd().format(DateUtil.timeFormatter));
-		String horaFin = String.valueOf(evento.getEndd().format(DateUtil.timeFormatter));
+		String dia = DateUtil.getFecha(evento.getStartd());
+		String horaInicio = DateUtil.getHora(evento.getStartd());
+		String horaFin = DateUtil.getHora(evento.getEndd());
 
 		Email emailBody = new Email();
 		emailBody.setEmail(evento.getCliente().getEmail());
@@ -92,12 +92,12 @@ public class EmailService{
 
 		Evento evento = pago.getEvento();
 
-		String diaPago = pago.getFecha().format(DateUtil.dateFormatter);
-		String horaPago = String.valueOf(pago.getFecha().format(DateUtil.timeFormatter));
+		String diaPago = DateUtil.getFecha(pago.getFecha());
+		String horaPago = DateUtil.getHora(pago.getFecha());
 
-		String dia = evento.getStartd().format(DateUtil.dateFormatter);
-		String horaInicio = String.valueOf(evento.getStartd().format(DateUtil.timeFormatter));
-		String horaFin = String.valueOf(evento.getEndd().format(DateUtil.timeFormatter));
+		String dia = DateUtil.getFecha(evento.getStartd());
+		String horaInicio = DateUtil.getHora(evento.getStartd());
+		String horaFin = DateUtil.getHora(evento.getEndd());
 
 		int totalPago = 0;
 		for(Pago pagos :listaPagos) {

@@ -60,24 +60,12 @@ $(document).ready(function() {
           smartDays: true
     });
 
-	// Libreria combodate muestra la hora inicio
-    $('#time_start').combodate({
-        minuteStep: 30,
-        customClass: 'form-control d-inline',
-    }); 
-
-	// Libreria combodate muestra la hora final
-    $('#time_end').combodate({
-        minuteStep: 30,
-        customClass: 'form-control d-inline'
-    });
-    
     // Checkbox para ocultar hora final y que se setee hasta el otro dia 
     $('#hastaElOtroDiaCheckbox').change(function(){
 		if(this.checked)
-		$('#horaFinal').fadeOut('slow');
+			$('#time_end').fadeOut('slow');
 		else
-		$('#horaFinal').fadeIn('slow');
+			$('#time_end').fadeIn('slow');
 	});
 
 	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento

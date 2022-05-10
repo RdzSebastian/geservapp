@@ -33,6 +33,20 @@ $(document).ready(function() {
 //		}, 
 //		"Por favor ingrese un celular válido");
 
+	// Setear hora inicio y final elegida
+	function setearHoraDeInicioYFin(){
+		var hora_inicio = $('#time_start_hour').val()
+    	var minuto_inicio = $('#time_start_minute').val()
+
+    	$('#time_start').val(hora_inicio + ":" + minuto_inicio)
+
+		if(!$('#hastaElOtroDiaCheckbox').checked){
+		    var hora_fin = $('#time_end_hour').val()
+    		var minuto_fin = $('#time_end_minute').val()
+    		$('#time_end').val(hora_fin + ":" + minuto_fin)
+		}
+	}
+
 	$("#reservacion-wizard").steps({
 	    headerTag: "h3",
 	    bodyTag: "section",
@@ -54,6 +68,7 @@ $(document).ready(function() {
 	    },
 	    onFinished: function(event, currentIndex) {
 			$("#spinner-finish").removeClass("d-none");
+			setearHoraDeInicioYFin();
             $('button[type="submit"]').trigger('click');
         },
 	}).find('a')

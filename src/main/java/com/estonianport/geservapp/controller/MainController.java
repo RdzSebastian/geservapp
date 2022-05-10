@@ -122,9 +122,9 @@ public class MainController {
 		session.setAttribute("eventoNoEncontrado", null);
 
 		// Agrega el volver de donde venga y action 
-		model.addAttribute("titulo", "Descargar comprobante");
-		model.addAttribute("action", "/download");
-		model.addAttribute("volver", "/administracion");
+		model.addAttribute(GeneralPath.TITULO, "Descargar comprobante");
+		model.addAttribute(GeneralPath.ACTION, "/download");
+		model.addAttribute(GeneralPath.VOLVER, "/administracion");
 
 		return "evento/buscarEvento";		
 	}
@@ -136,9 +136,9 @@ public class MainController {
 		model.addAttribute("codigoContainer", new CodigoContainer());
 
 		// Agrega el titulo de la busqueda que sea
-		model.addAttribute("titulo", session.getAttribute("titulo"));
-		model.addAttribute("action", session.getAttribute("action"));
-		model.addAttribute("volver", session.getAttribute("volver"));
+		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
+		model.addAttribute(GeneralPath.ACTION, session.getAttribute(GeneralPath.ACTION));
+		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 
 		return "evento/buscarEvento";
 	}
@@ -146,15 +146,15 @@ public class MainController {
 	@RequestMapping("/seleccionarFecha")
 	public String buscarEvento(Model model, @RequestParam("arr") String fecha, HttpSession session){
 
-		LocalDateTime start_date = LocalDateTime.parse(fecha + " 10:00", DateUtil.dateTimeFormatter);
-		LocalDateTime end_date = LocalDateTime.parse(fecha + " 23:00", DateUtil.dateTimeFormatter);
+		LocalDateTime start_date = DateUtil.createFechaInvertidaConHora(fecha + " 10:00");
+		LocalDateTime end_date = DateUtil.createFechaInvertidaConHora(fecha + " 23:00");
 
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		// Agrega el volver de donde venga
-		model.addAttribute("volver", session.getAttribute("volver"));
+		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 
 		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
 		model.addAttribute("listaEvento", listaEvento);
@@ -171,13 +171,13 @@ public class MainController {
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		// Agrega el volver de donde venga y action 
-		session.setAttribute("titulo", "Buscar evento");
-		session.setAttribute("action", "/eventoEncontrado");
-		session.setAttribute("volver", "/buscarAllEvento");
+		session.setAttribute(GeneralPath.TITULO, "Buscar evento");
+		session.setAttribute(GeneralPath.ACTION, "/eventoEncontrado");
+		session.setAttribute(GeneralPath.VOLVER, "/buscarAllEvento");
 
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
-		model.addAttribute("volver", "/administracion");
+		model.addAttribute(GeneralPath.VOLVER, "/administracion");
 
 		return "seleccionarFecha/abmSeleccionarFecha";
 	}
@@ -185,8 +185,8 @@ public class MainController {
 	@RequestMapping("/eventoEncontrado")
 	public String eventoEncontrado(Model model, HttpSession session, CodigoContainer codigoContainer){
 		List<Evento> listaEvento = new ArrayList<Evento>();
-		model.addAttribute("titulo", session.getAttribute("titulo"));
-		model.addAttribute("volver", session.getAttribute("volver"));
+		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
+		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			listaEvento.add(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));

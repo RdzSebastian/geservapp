@@ -2,40 +2,45 @@ package com.estonianport.geservapp.commons;
 
 public class GeneralPath {
 
-	public static String EVENTO = "evento";
-	public static String USUARIO = "usuario";
-	public static String SALON = "salon";
-	public static String TIPO_EVENTO = "tipoEvento";
-	public static String SUB_TIPO_EVENTO = "subTipoEvento";
-	public static String EXTRA = "extra";
-	public static String SERVICIO = "servicio";
-	public static String PAGO = "pago";
-	public static String CLIENTE = "cliente";
+	public static final String EVENTO = "evento";
+	public static final String USUARIO = "usuario";
+	public static final String SALON = "salon";
+	public static final String TIPO_EVENTO = "tipoEvento";
+	public static final String SUB_TIPO_EVENTO = "subTipoEvento";
+	public static final String EXTRA = "extra";
+	public static final String SERVICIO = "servicio";
+	public static final String PAGO = "pago";
+	public static final String CLIENTE = "cliente";
 
-	public static String ABM_EVENTO = "abmEvento";
-	public static String ABM_USUARIO = "abmUsuario";
-	public static String ABM_SALON = "abmSalon";
-	public static String ABM_TIPO_EVENTO = "abmTipoEvento";
-	public static String ABM_SUB_TIPO_EVENTO = "abmSubTipoEvento";
-	public static String ABM_EXTRA = "abmExtra";
-	public static String ABM_SERVICIO = "abmServicio";
-	public static String ABM_PAGO = "abmPago";
-	public static String ABM_CLIENTE = "abmCliente";
+	public static final String ABM_EVENTO = "abmEvento";
+	public static final String ABM_USUARIO = "abmUsuario";
+	public static final String ABM_SALON = "abmSalon";
+	public static final String ABM_TIPO_EVENTO = "abmTipoEvento";
+	public static final String ABM_SUB_TIPO_EVENTO = "abmSubTipoEvento";
+	public static final String ABM_EXTRA = "abmExtra";
+	public static final String ABM_SERVICIO = "abmServicio";
+	public static final String ABM_PAGO = "abmPago";
+	public static final String ABM_CLIENTE = "abmCliente";
 
-	public static String SAVE_EVENTO = "saveEvento";
-	public static String SAVE_USUARIO = "saveUsuario";
-	public static String SAVE_SALON = "saveSalon";
-	public static String SAVE_TIPO_EVENTO = "saveTipoEvento";
-	public static String SAVE_SUB_TIPO_EVENTO = "saveSubTipoEvento";
-	public static String SAVE_EXTRA = "saveExtra";
-	public static String SAVE_SERVICIO = "saveServicio";
-	public static String SAVE_PAGO = "savePago";
-	public static String SAVE_CLIENTE = "saveCliente";
+	public static final String SAVE_EVENTO = "saveEvento";
+	public static final String SAVE_USUARIO = "saveUsuario";
+	public static final String SAVE_SALON = "saveSalon";
+	public static final String SAVE_TIPO_EVENTO = "saveTipoEvento";
+	public static final String SAVE_SUB_TIPO_EVENTO = "saveSubTipoEvento";
+	public static final String SAVE_EXTRA = "saveExtra";
+	public static final String SAVE_SERVICIO = "saveServicio";
+	public static final String SAVE_PAGO = "savePago";
+	public static final String SAVE_CLIENTE = "saveCliente";
 
-	public static String EDIT_EVENTO = "editEvento";
-	public static String REDIRECT = "redirect:/";
-	public static String PATH_SEPARATOR = "/";
+	public static final String EDIT_EVENTO = "editEvento";
+	public static final String REDIRECT = "redirect:/";
+	public static final String PATH_SEPARATOR = "/";
 	
-	public static String DIRECTORY_PDF = "pdf/";
-	public static String EXTENSION_PDF = ".pdf";
+	public static final String DIRECTORY_PDF = "pdf/";
+	public static final String EXTENSION_PDF = ".pdf";
+	
+	public static final String TITULO = "titulo";
+	public static final String VOLVER = "volver";
+	public static final String ACTION = "action";
+
 }
