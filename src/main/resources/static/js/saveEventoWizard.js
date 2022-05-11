@@ -34,7 +34,7 @@ $(document).ready(function() {
 //		"Por favor ingrese un celular válido");
 
 	// Setear hora inicio y final elegida
-	function setearHoraDeInicioYFin(){
+	function setHoraDeInicioYFin(){
 		var hora_inicio = $('#time_start_hour').val()
     	var minuto_inicio = $('#time_start_minute').val()
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 	    },
 	    onFinished: function(event, currentIndex) {
 			$("#spinner-finish").removeClass("d-none");
-			setearHoraDeInicioYFin();
+			setHoraDeInicioYFin();
             $('button[type="submit"]').trigger('click');
         },
 	}).find('a')

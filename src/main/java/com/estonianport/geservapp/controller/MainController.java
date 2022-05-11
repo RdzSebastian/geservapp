@@ -146,7 +146,7 @@ public class MainController {
 	@RequestMapping("/seleccionarFecha")
 	public String buscarEvento(Model model, @RequestParam("arr") String fecha, HttpSession session){
 
-		LocalDateTime start_date = DateUtil.createFechaInvertidaConHora(fecha + " 10:00");
+		LocalDateTime start_date = DateUtil.createFechaInvertidaConHora(fecha + " 00:00");
 		LocalDateTime end_date = DateUtil.createFechaInvertidaConHora(fecha + " 23:00");
 
 		// Salon en sesion para volver al calendario

@@ -1,21 +1,32 @@
 $(function () {
-	document.addEventListener("submit", setStartAndEndTime);
+	var buttonA = $('#hastaElOtroDiaCheckbox');
+	hideHoraFinal(buttonA[0]);
 
-	function setStartAndEndTime(){
-		var time_start = document.getElementById("time_start").value;
-	  	var time_start_min = document.getElementById("time_start_min").value;
-	  	var time_end = document.getElementById("time_end").value;
-	  	var time_end_min = document.getElementById("time_end_min").value;
+	document.addEventListener("submit", setHoraDeInicioYFin);
+	
+	// Setear hora inicio y final elegida
+	function setHoraDeInicioYFin(){
+		var hora_inicio = $('#time_start_hour').val()
+    	var minuto_inicio = $('#time_start_minute').val()
 
-		$("#inicioF").val(time_start + ":" + time_start_min)
-		$("#finF").val(time_end + ":" + time_end_min)
-		
+    	$('#time_start').val(hora_inicio + ":" + minuto_inicio)
+
+		if(!$('#hastaElOtroDiaCheckbox').checked){
+		    var hora_fin = $('#time_end_hour').val()
+    		var minuto_fin = $('#time_end_minute').val()
+    		$('#time_end').val(hora_fin + ":" + minuto_fin)
+		}
 	}
 
+    // Checkbox para ocultar hora final y que se setee hasta el otro dia 
     $('#hastaElOtroDiaCheckbox').change(function(){
-		if(this.checked)
-			$('#horaFinal').fadeOut('slow');
-		else
-			$('#horaFinal').fadeIn('slow');
+		hideHoraFinal(this);
 	});
+	
+	function hideHoraFinal(button){
+		if(button.checked)
+			$('#time_end_div').fadeOut('slow');
+		else
+			$('#time_end_div').fadeIn('slow');
+	}
 });

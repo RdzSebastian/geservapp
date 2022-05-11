@@ -69,6 +69,12 @@ public class ReservaController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
+		// Agrega lista de Hora
+		model.addAttribute("listaHora", DateUtil.horas);
+
+		// Agrega lista de Minuto
+		model.addAttribute("listaMinuto", DateUtil.minutos);
+		
 		ReservaContainer reservaContainer = new ReservaContainer();
 
 		if(id != null && id != 0) {
@@ -84,6 +90,11 @@ public class ReservaController {
 
 			// Setea hora de fin
 			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
+
+			// Setea checkbox hastaElotroDia
+			if(reservaContainer.getFin().equals("05:00")) {
+				reservaContainer.setHastaElOtroDia(true);
+			}
 
 			// Agrega lista Extras
 			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
@@ -110,12 +121,6 @@ public class ReservaController {
 
 			// Agrega lista de Sub Tipo Eventos
 			model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
-
-			// Agrega lista de Hora
-			model.addAttribute("listaHora", DateUtil.horas);
-
-			// Agrega lista de Minuto
-			model.addAttribute("listaMinuto", DateUtil.minutos);
 
 			// Obtiene todos los extra
 			List<Extra> listaExtra = extraService.getAll();

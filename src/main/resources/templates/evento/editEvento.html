@@ -16,9 +16,6 @@
 		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento.id}" th:field="*{evento.subTipoEvento}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
-			<input type="hidden" id="inicioF" th:field="*{inicio}">
-			<input type="hidden" id="finF" th:field="*{fin}">
-
 
 			<div class="form-group">
 				<label for="rol">Evento</label>
@@ -32,52 +29,52 @@
 				<label for="rol">Fecha de evento</label>
                 <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.startd}" th:field="*{fecha}" readonly/>
 			</div>
-          	<div class="form-group">
-				<label class="form-label">Hora Inicio</label> 
-            	<div>
-            		
-	            	<select id="time_start" class="form-control d-inline" style="width: auto;">
-	            		<option value="12">12</option>
-	            		<option value="12">13</option>
-		            	<option value="14">14</option>
-					    <option value="15">15</option>
-					    <option value="16">16</option>
-					    <option value="17">17</option>
-					    <option value="18">18</option>
-					    <option value="19">19</option>
-					    <option value="20">20</option>
-					    <option value="21">21</option>
-					    <option value="22">22</option>
-					    <option value="23">23</option>
-				    <select>
-				    <select id="time_start_min" class="form-control d-inline" style="width: auto;"> 
-		            	<option value="00">00</option>
-					    <option value="30">30</option>
-				    <select> 
-            	</div>
+            <div>
+                <input id="time_start" type="hidden" th:field="*{inicio}">
+                <label class="form-label w-100">Hora inicio</label>
+               	<div class="d-inline-flex flex-row">
+               		<div>
+	               		<div class="form-group">
+			                <select class="form-control" id="time_start_hour">
+			                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+			                </select>
+			         	</div>       
+		            </div>
+		            <div>
+               			<div class="p-1">:</div>
+		            </div>
+               		<div>
+               			<div class="form-group">
+			                <select class="form-control" id="time_start_minute">
+			                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+			                </select>
+		                </div>
+		            </div>
+              	</div>
             </div>
-          	<div id="horaFinal"class="form-group">
-				<label for="horaFinal" class="form-label">Hora Final</label>
-				<div>
-	            	<select id="time_end" class="form-control d-inline" style="width: auto;">
-	            		<option value="12">12</option>
-	            		<option value="12">13</option>
-		            	<option value="14">14</option>
-					    <option value="15">15</option>
-					    <option value="16">16</option>
-					    <option value="17">17</option>
-					    <option value="18">18</option>
-					    <option value="19">19</option>
-					    <option value="20">20</option>
-					    <option value="21">21</option>
-					    <option value="22">22</option>
-					    <option value="23">23</option>
-				    <select>
-				    <select id="time_end_min" class="form-control d-inline" style="width: auto;"> 
-		            	<option value="00">00</option>
-					    <option value="30">30</option>
-				    <select> 
-            	</div>
+	            
+            <div id="time_end_div">
+            	<input id="time_end" type="hidden" th:field="*{fin}">
+                <label class="form-label w-100">Hora final</label>
+               	<div class="d-inline-flex flex-row">
+               		<div>
+	               		<div class="form-group">
+			                <select class="form-control" id="time_end_hour">
+			                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+			                </select>
+			         	</div>
+		            </div>
+		            <div>
+               			<div class="p-1"> : </div>
+		            </div>
+		            <div>
+               			<div class="form-group">
+			                <select class="form-control" id="time_end_minute">
+			                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+			                </select>
+			         	</div> 
+		            </div>
+	            </div>
             </div>
             <div class="form-check">
 			  	<input class="form-check-input" type="checkbox" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
@@ -123,7 +120,6 @@
     <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
     
-    <script src="../js/editEvento.js"></script>
 
 
     <script th:inline="javascript">
@@ -170,30 +166,25 @@
 			var fin = /*[[${reservaContainer.fin}]]*/ [];
 			var fin_array = fin.split(":");
 
-			selectPreviusOption("time_start", inicio_array[0]);
-			selectPreviusOption("time_start_min", inicio_array[1]);
-			selectPreviusOption("time_end", fin_array[0]);
-			selectPreviusOption("time_end_min", fin_array[1]);
+			selectPreviusOption("time_start_hour", inicio_array[0]);
+			selectPreviusOption("time_start_minute", inicio_array[1]);
+			selectPreviusOption("time_end_hour", fin_array[0]);
+			selectPreviusOption("time_end_minute", fin_array[1]);
 		}
 
 		function selectPreviusOption(elemento, horario){
 			var element = document.getElementById(elemento);
 			for(var i=0; i < element.options.length; i++){
-			    if(element.options[i].value === agregarCero(horario)) {
+			    if(element.options[i].value === horario) {
 			      element.selectedIndex = i;
 			      break;
 			    }
 			 }
 		}
 
-		function agregarCero(minutos){
-			if(minutos == "0"){
-				return "00";
-			}else{
-				return minutos;
-			}
-		}	
-
 	</script>
+	
+	<script src="../js/editEvento.js"></script>
+
 </body>
 </html>

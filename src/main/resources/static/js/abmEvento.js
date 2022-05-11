@@ -1,47 +1,83 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
+$(function () {
 
-   var calendar = new FullCalendar.Calendar(calendarEl, {
-    customButtons: {
-     agregarEvento: {
-       text: 'Nuevo Evento',
-       click: function() {
-         window.location = '/saveEvento/0'
-       }
-     },
-     Administracion: {
-       text: 'Panel de administracion',
-       click: function() {
-         window.location = '/administracion'
-       }
-     },
-     volverSalones: {
-       text: 'Volver Salones',
-       click: function() {
-         window.location = '/'
-       }
-     }
-   },
-   locale: 'es',
-   initialView: 'dayGridMonth',
-   themeSystem: "bootstrap",
-   selectable: true,
-   headerToolbar: {
-    left: 'agregarEvento,volverSalones today',
-    center: 'title',
-    right: 'prevYear,prev,next,nextYear dayGridMonth,timeGridWeek,listWeek'
-   },
-   dateClick: function(info) {
-     window.location = '/seleccionarFecha/?arr=' + info.dateStr;
-   },
-   footerToolbar: {
-    left: 'Administracion'
-   }, 
-   events: {
-    url : '/api/eventos/all'
-   }
-  });
+	var agregarEvento = document.querySelector('button[aria-label="agregarEvento"]');
+	var iconoAgregarEvento = document.createElement('span');
+	iconoAgregarEvento.classList.add("fa");
+ 	iconoAgregarEvento.classList.add("fa-plus");
+ 	var nuevoEnventoTexto = document.createTextNode("Nuevo Evento");
 
- calendar.render();
+	var volverSalones = document.querySelector('button[aria-label="volverSalones"]');
+	var iconoVolverSalones = document.createElement('span');
+	iconoVolverSalones.classList.add("fa");
+ 	iconoVolverSalones.classList.add("fa-sign-out-alt");
+	var volverSalonesTexto = document.createTextNode("Volver Salones");
 
+	var mes = $(".fc-dayGridMonth-button");
+	var semana = $(".fc-timeGridWeek-button");
+	var agenda = $(".fc-listWeek-button");
+
+	sizeScreen();	
+
+	//listen for window resize event
+	window.addEventListener('resize', function(event){
+		sizeScreen();
+	});
+	
+	function sizeScreen(){
+		var newWidth = window.innerWidth;
+
+	    if(newWidth <= 950){
+			cambiarTextoPorIconos();
+			hacerTituloChico();
+		}else{
+			cambiarIconosPorTexto();
+			hacerTituloGrande()
+		}
+	}
+	
+	function cambiarIconosPorTexto(){
+
+		// Elimina el icono
+		agregarEvento.replaceChildren();
+		volverSalones.replaceChildren();
+
+		// Agrega el text
+		agregarEvento.appendChild(nuevoEnventoTexto);
+		volverSalones.appendChild(volverSalonesTexto);
+
+		mes[0].classList.remove("d-none");
+		semana[0].classList.remove("d-none");
+		agenda[0].classList.remove("d-none");
+
+	}
+	
+	function cambiarTextoPorIconos(){
+
+		// Elimina el texto
+		agregarEvento.replaceChildren();
+		volverSalones.replaceChildren();
+
+		// Agrega el icono
+		agregarEvento.appendChild(iconoAgregarEvento);
+		volverSalones.appendChild(iconoVolverSalones);
+		
+		mes[0].classList.add("d-none");
+		semana[0].classList.add("d-none");
+		agenda[0].classList.add("d-none");
+
+	}
+	
+	function hacerTituloGrande(){
+		var title = document.getElementsByTagName('h5');
+		if(title[0] != null){
+			title[0].outerHTML = '<h2>' + title[0].innerHTML + '</h2>';
+		}
+	}
+
+	function hacerTituloChico(){
+		var title = document.getElementsByTagName('h2');
+		if(title[0] != null){
+			title[0].outerHTML = '<h5>' + title[0].innerHTML + '</h5>';
+		}
+	}
 });

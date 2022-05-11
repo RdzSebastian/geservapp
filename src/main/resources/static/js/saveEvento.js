@@ -62,11 +62,16 @@ $(document).ready(function() {
 
     // Checkbox para ocultar hora final y que se setee hasta el otro dia 
     $('#hastaElOtroDiaCheckbox').change(function(){
-		if(this.checked)
-			$('#time_end').fadeOut('slow');
-		else
-			$('#time_end').fadeIn('slow');
+		hideHoraFinal(this);
 	});
+	
+	function hideHoraFinal(button){
+		if(button.checked)
+			$('#time_end_div').fadeOut('slow');
+		else
+			$('#time_end_div').fadeIn('slow');
+	}
+	
 
 	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
 	// TODO modificar index por valor id 

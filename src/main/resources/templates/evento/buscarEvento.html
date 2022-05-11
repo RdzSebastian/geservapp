@@ -4,22 +4,20 @@
  <title>Adminitracion</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  
+
   	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 	<!--===============================================================================================-->
 
  	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
-		
 
  </head>
 
  <body>
  		
-<div class="container">
+	<div class="container">
 		<br>
-		<h2 th:text=${titulo}></h2>
+		<h2 th:text=${titulo}> </h2>
 		<form action="#" th:action="@{${action}}" method="post" th:object="${codigoContainer}">
 			<div class="form-group">
 				<label for="codigo">Codigo Reserva</label> 
@@ -37,18 +35,15 @@
 					</div>
 					<div>
 						<button type="submit" class="btn btn-success">Buscar</button>
-						<!--button type="button" id="save" class="btn btn-primary">Guardar</button -->
-
 					</div>
 				</div>
 			</div>
 		</form>
-
 	</div>
 	  
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script th:inline="javascript">
+    <script th:inline="javascript">
     	var eventoNoEncontrado = /*[[${eventoNoEncontrado}]]*/ [];
     </script>
     <script src="../js/buscarEvento.js"></script>
