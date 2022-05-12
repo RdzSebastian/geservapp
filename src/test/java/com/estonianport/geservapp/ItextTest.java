@@ -47,7 +47,7 @@ class ItextTest {
         try {
 
     		Evento evento = new Evento();
-    		evento.setCodigo(CodeGenerator.GetBase26Only4Letters());
+    		evento.setCodigo(CodeGenerator.getBase26Only4Letters());
     		evento.setNombre("event test");
 
     		evento.setStartd(LocalDateTime.of(2022,02,01,20,30));

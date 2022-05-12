@@ -14,7 +14,7 @@ $(document).ready(function() {
 		} 
 			return true;
 		}, 
-		"Por favor seleccione un Sub Tipo Evento válido");
+		"Por favor seleccione un Sub Tipo Evento");
 
 //
 //	$.validator.addMethod("cuilValido", function(value, element) {

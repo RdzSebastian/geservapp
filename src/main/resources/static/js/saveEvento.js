@@ -1,6 +1,11 @@
 $(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
-
+	
+	//listen for window resize event
+	window.addEventListener('resize', function(event){
+		sizeScreen();
+	});
+	
 	// Obtiene todas opciones de subTipoEvento en base al tipoEvento escogido
     var allTipoEventos = $('#subTipoEvento option')
     $('#tipoEvento').change(function () {
@@ -74,16 +79,16 @@ $(document).ready(function() {
 	
 
 	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
-	// TODO modificar index por valor id 
     $('#subTipoEvento').change(function () {
-        var index = document.getElementById("subTipoEvento").value;
+        var subTipoEventoId = document.getElementById("subTipoEvento").value;
         var precio = null;
-        listaSubTipoEvento.forEach( function(valor, indice, array) {
-            if(index == valor.id){
-                precio = valor.precioBase;
-                
-                setServicioBySubTipoEvento(valor.id);
-                setExtrasBySubTipoEvento(valor.id);
+        listaSubTipoEvento.forEach( function(subTipoEvento) {
+            if(subTipoEventoId == subTipoEvento.id){
+                precio = subTipoEvento.precioBase;
+
+                setServicioBySubTipoEvento(subTipoEvento.id);
+                setExtrasBySubTipoEvento(subTipoEvento.id);
+                setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 
             }
         });
@@ -97,8 +102,8 @@ $(document).ready(function() {
 		$('#listaExtra div').remove();
 
 		// Agrega los extras del subTipoEvento
-		listaExtra.forEach(function(valorExtra, indiceExtra, arrayExtra) {
-			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento, indiceSubTipoEvento, arraySubTipoEvento) {
+		listaExtra.forEach(function(valorExtra) {
+			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
 				if(valorSubTipoEvento.id == subTipoEventoId){
 
 					var listaExtraDiv = document.getElementById("listaExtra");
@@ -114,7 +119,7 @@ $(document).ready(function() {
 		            checkbox.id = "extraId" + valorExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.onchange = function () { 
-							changeCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
+						changeCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
 					}
 		            
 		            // creating label for checkbox
@@ -152,10 +157,9 @@ $(document).ready(function() {
 		// Crea el ul que contendra a los li
 		var ul = document.createElement('ul');
 		ul.id = "ulServicio"
-
 		// Agrega los extras del subTipoEvento
-		listaServicio.forEach(function(valorServicio, indiceServicio, arrayServicio) {
-			valorServicio.listaSubTipoEvento.forEach(function(valorSubTipoEvento, indiceSubTipoEvento, arraySubTipoEvento) {
+		listaServicio.forEach(function(valorServicio) {
+			valorServicio.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
 				if(valorSubTipoEvento.id == subTipoEventoId){
 					var li = document.createElement("li");
 					li.appendChild(document.createTextNode(valorServicio.nombre));
@@ -166,6 +170,116 @@ $(document).ready(function() {
 		// Appendin the ul
 		listaServicioDiv.appendChild(ul);
 	}
+
+	function sizeScreen(){
+		var newWidth = window.innerWidth;
+
+		if(newWidth <= 800){
+			if($('#reservacion-wizard-t-0')[0].lastChild.data == " Tipo de evento"){
+				$('#reservacion-wizard-t-0')[0].removeChild($('#reservacion-wizard-t-0')[0].lastChild)
+			}
+			
+			if($('#reservacion-wizard-t-1')[0].lastChild.data == " Datos del evento"){
+				$('#reservacion-wizard-t-1')[0].removeChild($('#reservacion-wizard-t-1')[0].lastChild);
+			}
+			
+			if($('#reservacion-wizard-t-2')[0].lastChild.data == " Cotizacion"){
+				$('#reservacion-wizard-t-2')[0].removeChild($('#reservacion-wizard-t-2')[0].lastChild);
+			}
+			
+			if($('#reservacion-wizard-t-3')[0].lastChild.data == " Datos de contacto"){
+				$('#reservacion-wizard-t-3')[0].removeChild($('#reservacion-wizard-t-3')[0].lastChild);
+			}
+		}else{
+			if($('#reservacion-wizard-t-0')[0].lastChild.innerHTML == "1."){
+				$('#reservacion-wizard-t-0')[0].appendChild(document.createTextNode(" Tipo de evento"));
+			}
+			
+			if($('#reservacion-wizard-t-1')[0].lastChild.innerHTML == "2."){
+				$('#reservacion-wizard-t-1')[0].appendChild(document.createTextNode(" Datos del evento"));
+			}
+			
+			if($('#reservacion-wizard-t-2')[0].lastChild.innerHTML == "3."){
+				$('#reservacion-wizard-t-2')[0].appendChild(document.createTextNode(" Cotizacion"));
+			}
+			
+			if($('#reservacion-wizard-t-3')[0].lastChild.innerHTML == "4."){
+				$('#reservacion-wizard-t-3')[0].appendChild(document.createTextNode(" Datos de contacto"));
+			}
+		}
+			
+	}
+	
+	$('#time_start_hour').change(function () {
+		var hora_inicio = $('#time_start_hour').val();
+		
+		var subTipoEventoId = document.getElementById("subTipoEvento").value;
+        var duracion = null;
+        
+        listaSubTipoEvento.forEach( function(subTipoEvento) {
+        	if(subTipoEventoId == subTipoEvento.id){
+				var duracionSplit = subTipoEvento.duracion.split(":");
+				duracion = duracionSplit[0];
+			}
+		});
+
+		var hora_fin = Number(hora_inicio) + Number(duracion);
+		var hora_fin_string = null;
+
+		if(hora_fin.toString().length == 1){
+			hora_fin_string = "0" + hora_fin.toString();
+		}else{
+			hora_fin_string = hora_fin.toString();
+		}
+		
+		$('#time_end_hour').val(hora_fin_string);
+
+	});
+	
+	// TODO En caso de ya haber editado la hora de xx:00 a xx:30, al volver a xx:00 
+	// que deje de sumar y reste la hora que sumo, usar variable global 
+	$('#time_start_minute').change(function () {
+		var minuto_inicio = $('#time_start_minute').val();
+		
+		var subTipoEventoId = document.getElementById("subTipoEvento").value;
+        var duracion = null;
+        
+        listaSubTipoEvento.forEach( function(subTipoEvento) {
+        	if(subTipoEventoId == subTipoEvento.id){
+				var duracionSplit = subTipoEvento.duracion.split(":");
+				duracion = duracionSplit[1];
+			}
+		});
+
+		var minuto_fin = Number(minuto_inicio) + Number(duracion);
+		var minuto_fin_string = null;
+	
+		if(minuto_fin.toString().length == 1){
+			minuto_fin_string = "0" + minuto_fin.toString();
+		}else{
+			minuto_fin_string = minuto_fin.toString();
+		}
+		
+		if(minuto_fin_string == "60"){
+			minuto_fin_string = "00"
+			
+			var hora_fin = $('#time_end_hour').val();
+			
+			hora_fin_number = Number(hora_fin) + 1
+			
+			if(hora_fin_number.toString().length == 1){
+				hora_fin_string = "0" + hora_fin_number.toString();
+			}else{
+				hora_fin_string = hora_fin_number.toString();
+			}
+			
+			$('#time_end_hour').val(hora_fin_string);
+		}
+
+		$('#time_end_minute').val(minuto_fin_string);
+
+	});
+
 });
 
 
@@ -181,5 +295,34 @@ function changeCheckbox(extraValor, extraId) {
     }
 
     $("#presupuesto").val(precio);
+}
 
+// Setea la hora final del evento en caso de no ser empresarial o subTipoEvento largo
+function setTimeEndBySubTipoEvento(duracion) {
+	var hora_inicio = $('#time_start_hour').val();
+	var minuto_inicio = $('#time_start_minute').val();
+
+	var duracionSplit = duracion.split(":");
+	
+	var hora_fin = Number(duracionSplit[0]) + Number(hora_inicio);
+	var minuto_fin = Number(duracionSplit[1]) + Number(minuto_inicio);
+	
+	var hora_fin_string = null;
+	var minuto_fin_string = null;
+
+	
+	if(hora_fin.toString().length == 1){
+		hora_fin_string = "0" + hora_fin.toString();
+	}else{
+		hora_fin_string = hora_fin.toString();
+	}
+	
+	if(minuto_fin.toString().length == 1){
+		minuto_fin_string = "0" + minuto_fin.toString();
+	}else{
+		minuto_fin_string = minuto_fin.toString();
+	}
+	
+	$('#time_end_hour').val(hora_fin_string);
+	$('#time_end_minute').val(minuto_fin_string);
 }

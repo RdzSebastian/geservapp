@@ -7,48 +7,62 @@ import java.util.List;
 
 public class DateUtil {
 
-	private static final String dateSeparatorFormatter = "-";
+	private static final String DATE_SEPARATOR = "-";
 
-	private static final String dayFormatter = "dd";
+	private static final String DAY = "dd";
 
-	private static final String monthFormatter = "MM";
+	private static final String MONTH = "MM";
 
-	private static final String yearFormatter = "yyyy";
+	private static final String YEAR = "yyyy";
 
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dayFormatter + dateSeparatorFormatter + monthFormatter + dateSeparatorFormatter + yearFormatter);
+	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DAY + DATE_SEPARATOR + MONTH + DATE_SEPARATOR + YEAR);
 
-	private static final String timeSeparatorFormatter = ":";
+	private static final String TIME_SEPARATOR = ":";
 
-	private static final String hourFormatter = "HH";
+	private static final String HOUR = "HH";
 
-	private static final String minuteFormatter = "mm";
+	private static final String MINUTE = "mm";
 
-	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(hourFormatter + timeSeparatorFormatter + minuteFormatter);
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(HOUR + TIME_SEPARATOR + MINUTE);
 
-	private static final String spaceSeparatorFormatter = " ";
+	private static final String SPACE_SEPARATOR = " ";
 
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dayFormatter + dateSeparatorFormatter + monthFormatter + dateSeparatorFormatter + yearFormatter + spaceSeparatorFormatter + hourFormatter + timeSeparatorFormatter + minuteFormatter);
+	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DAY + DATE_SEPARATOR + MONTH + DATE_SEPARATOR + YEAR + SPACE_SEPARATOR + HOUR + TIME_SEPARATOR + MINUTE);
 
-	private static final DateTimeFormatter dateTimeFormatterInverted = DateTimeFormatter.ofPattern(yearFormatter + dateSeparatorFormatter + monthFormatter + dateSeparatorFormatter + dayFormatter + spaceSeparatorFormatter + hourFormatter + timeSeparatorFormatter + minuteFormatter);
+	private static final DateTimeFormatter DATETIME_FORMATTER_INVERTED = DateTimeFormatter.ofPattern(YEAR + DATE_SEPARATOR + MONTH + DATE_SEPARATOR + DAY + SPACE_SEPARATOR + HOUR + TIME_SEPARATOR + MINUTE);
 
-	public static final List<String> horas = new ArrayList<>(List.of("00", "01","02" ,"03" ,"04", "05","06", "07", "08", "09", "10", "11","12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"));
+	public static final List<String> HORAS = new ArrayList<>(List.of("00", "01","02" ,"03" ,"04", "05","06", "07", "08", "09", "10", "11","12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"));
 
-	public static final List<String> minutos = new ArrayList<>(List.of("00", "30"));
+	public static final List<String> MINUTOS = new ArrayList<>(List.of("00", "30"));
+
+	public static final String START_TIME = "00:00";
+
+	public static final String LAST_EVENT_TIME = "00:00";
+
+	public static final String END_TIME = "23:59";
 
 	public static String getFecha(LocalDateTime fecha) {
-		return fecha.format(DateUtil.dateFormatter);
+		return fecha.format(DateUtil.DATE_FORMATTER);
 	}
 
 	public static String getHora(LocalDateTime hora) {
-		return hora.format(DateUtil.timeFormatter);
+		return hora.format(DateUtil.TIME_FORMATTER);
 	}
 
-	public static LocalDateTime createFechaConHora(String fecha) {
-		return LocalDateTime.parse(fecha, DateUtil.dateTimeFormatter);
+	public static LocalDateTime createFechaConHora(String fechaConHora) {
+		return LocalDateTime.parse(fechaConHora, DateUtil.DATETIME_FORMATTER);
+	}
+	
+	public static LocalDateTime createFechaConHora(String fecha, String hora) {
+		return LocalDateTime.parse(fecha + SPACE_SEPARATOR + hora, DateUtil.DATETIME_FORMATTER);
 	}
 
-	public static LocalDateTime createFechaInvertidaConHora(String fecha) {
-		return LocalDateTime.parse(fecha, DateUtil.dateTimeFormatterInverted);
+	public static LocalDateTime createFechaInvertidaConHora(String fechaConHora) {
+		return LocalDateTime.parse(fechaConHora, DateUtil.DATETIME_FORMATTER_INVERTED);
+	}
+	
+	public static LocalDateTime createFechaInvertidaConHora(String fecha, String hora) {
+		return LocalDateTime.parse(fecha + SPACE_SEPARATOR + hora, DateUtil.DATETIME_FORMATTER_INVERTED);
 	}
 
 }

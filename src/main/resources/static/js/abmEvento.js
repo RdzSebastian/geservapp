@@ -15,6 +15,7 @@ $(function () {
 	var mes = $(".fc-dayGridMonth-button");
 	var semana = $(".fc-timeGridWeek-button");
 	var agenda = $(".fc-listWeek-button");
+	var hoy = $(".fc-today-button");
 
 	sizeScreen();	
 
@@ -48,6 +49,7 @@ $(function () {
 		mes[0].classList.remove("d-none");
 		semana[0].classList.remove("d-none");
 		agenda[0].classList.remove("d-none");
+		hoy[0].classList.remove("d-none");
 
 	}
 	
@@ -64,7 +66,7 @@ $(function () {
 		mes[0].classList.add("d-none");
 		semana[0].classList.add("d-none");
 		agenda[0].classList.add("d-none");
-
+		hoy[0].classList.add("d-none");
 	}
 	
 	function hacerTituloGrande(){

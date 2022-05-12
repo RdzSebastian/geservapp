@@ -70,10 +70,10 @@ public class ReservaController {
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		// Agrega lista de Hora
-		model.addAttribute("listaHora", DateUtil.horas);
+		model.addAttribute("listaHora", DateUtil.HORAS);
 
 		// Agrega lista de Minuto
-		model.addAttribute("listaMinuto", DateUtil.minutos);
+		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
 		
 		ReservaContainer reservaContainer = new ReservaContainer();
 
@@ -92,13 +92,14 @@ public class ReservaController {
 			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
 
 			// Setea checkbox hastaElotroDia
-			if(reservaContainer.getFin().equals("05:00")) {
+			if(reservaContainer.getFin().equals(DateUtil.LAST_EVENT_TIME)) {
 				reservaContainer.setHastaElOtroDia(true);
 			}
 
 			// Agrega lista Extras
 			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
 
+			// TODO Refactor para no tener que setear el null
 			// Agrega lista extra seleccionadas
 			Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
 			for(Extra extra : listaExtraSeleccionadas) {
@@ -149,13 +150,13 @@ public class ReservaController {
 		evento.setSalon(salon);
 
 		// Setea fecha del evento y hora de inicio
-		evento.setStartd(DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + reservaContainer.getInicio()));
+		evento.setStartd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio()));
 
 		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
 		if(!reservaContainer.getHastaElOtroDia()) {
-			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + reservaContainer.getFin()));
+			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()));
 		}else {
-			LocalDateTime fechaFin = DateUtil.createFechaConHora(reservaContainer.getFecha() + " " + "05:00");
+			LocalDateTime fechaFin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.LAST_EVENT_TIME);
 			evento.setEndd(fechaFin.plusDays(1));
 		}
 
@@ -163,15 +164,8 @@ public class ReservaController {
 		evento.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
 
 		// Comprueba que el evento no tenga codigo
-		if(evento.getCodigo() == null || evento.getCodigo() == "" ){
-			// Crea el codigo del evento
-			String codigo = CodeGenerator.GetBase26Only4Letters();
-
-			//Chequea que el codigo no este en uso 
-			while(eventoService.existsByCodigo(codigo)) {
-				codigo = CodeGenerator.GetBase26Only4Letters();
-			}
-			evento.setCodigo(codigo);
+		if(evento.getCodigo() == null || evento.getCodigo().isEmpty()){
+			evento.setCodigo(generateCodigo());
 		}
 
 		// Guarda el cliente en la base de datos
@@ -195,5 +189,16 @@ public class ReservaController {
 		emailService.enviarMailComprabanteReserva(reservaContainer);
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
+	}
+
+	private String generateCodigo() {
+		// Crea el codigo del evento
+		String codigo = CodeGenerator.getBase26Only4Letters();
+
+		//Chequea que el codigo no este en uso 
+		while(eventoService.existsByCodigo(codigo)) {
+			codigo = CodeGenerator.getBase26Only4Letters();
+		}
+		return codigo;
 	}
 }

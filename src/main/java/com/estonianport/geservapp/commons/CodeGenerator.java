@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class CodeGenerator {
    
-    public static String GetBase26Only4Letters() {
+    public static String getBase26Only4Letters() {
     	Random random = new Random();
     	char[] base26chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     	
