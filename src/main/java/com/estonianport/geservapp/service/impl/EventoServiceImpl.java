@@ -47,4 +47,9 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 		return eventosDao.existsByCodigo(codigo);
 	}
 
+	@Override
+	public boolean existByFechaAndSalon(String fecha, Salon salon) {
+		return eventosDao.existByFechaAndSalon(fecha, salon);
+	}
+
 }

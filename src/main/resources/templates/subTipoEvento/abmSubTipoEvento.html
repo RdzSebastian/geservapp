@@ -20,7 +20,9 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Tipo Evento</th>
-						<th>Capacidad</th>
+						<th>Duracion</th>
+						<th>Capacidad adultos</th>
+						<th>Capacidad Niños</th>
 						<th>Cantidad de personal base</th>
 						<th>Precio base</th>			
 						<th>Editar</th>
@@ -31,7 +33,9 @@
 					<tr th:each="subTipoEvento : ${listaSubTipoEvento}">
 						<td th:text="${subTipoEvento.nombre}">
 						<td th:text="${subTipoEvento.tipoEvento.nombre}">
-						<td th:text="${subTipoEvento.capacidad}">
+						<td th:text="${subTipoEvento.duracion}">
+						<td th:text="${subTipoEvento.capacidad_adultos}">
+						<td th:text="${subTipoEvento.capacidad_ninos}">
 						<td th:text="${subTipoEvento.cantPersonal}">
 						<td th:text="${subTipoEvento.precioBase}">
 						<td><a class="btn btn-info" th:href="@{/saveSubTipoEvento/{id}(id=${subTipoEvento.id})}">Editar</a></td>

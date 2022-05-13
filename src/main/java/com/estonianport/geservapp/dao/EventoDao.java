@@ -17,5 +17,7 @@ public interface EventoDao extends CrudRepository<Evento, Long> {
 	List<Evento> findAllByStartdBetweenAndSalon(LocalDateTime start_date, LocalDateTime end_date, Salon salon);
 
 	Boolean existsByCodigo(String codigo);
+
+	Boolean existByFechaAndSalon(String fecha, Salon salon);
 	
 }

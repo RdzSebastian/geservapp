@@ -236,8 +236,8 @@ $(document).ready(function() {
 
 	});
 	
-	// TODO En caso de ya haber editado la hora de xx:00 a xx:30, al volver a xx:00 
-	// que deje de sumar y reste la hora que sumo, usar variable global 
+	// Set la hora final cada vez que modifica el horario de unicio
+	var yaSumoHora = false;
 	$('#time_start_minute').change(function () {
 		var minuto_inicio = $('#time_start_minute').val();
 		
@@ -259,13 +259,13 @@ $(document).ready(function() {
 		}else{
 			minuto_fin_string = minuto_fin.toString();
 		}
-		
-		if(minuto_fin_string == "60"){
-			minuto_fin_string = "00"
+
+		if(yaSumoHora){
+			yaSumoHora = false;
 			
 			var hora_fin = $('#time_end_hour').val();
 			
-			hora_fin_number = Number(hora_fin) + 1
+			hora_fin_number = Number(hora_fin) - 1;
 			
 			if(hora_fin_number.toString().length == 1){
 				hora_fin_string = "0" + hora_fin_number.toString();
@@ -275,6 +275,24 @@ $(document).ready(function() {
 			
 			$('#time_end_hour').val(hora_fin_string);
 		}
+		
+		if(minuto_fin_string == "60"){
+			minuto_fin_string = "00";
+			yaSumoHora = true;
+			
+			var hora_fin = $('#time_end_hour').val();
+			
+			hora_fin_number = Number(hora_fin) + 1;
+			
+			if(hora_fin_number.toString().length == 1){
+				hora_fin_string = "0" + hora_fin_number.toString();
+			}else{
+				hora_fin_string = hora_fin_number.toString();
+			}
+			
+			$('#time_end_hour').val(hora_fin_string);
+		}
+
 
 		$('#time_end_minute').val(minuto_fin_string);
 

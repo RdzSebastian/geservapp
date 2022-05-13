@@ -247,5 +247,24 @@ public class MainController {
 		}
 		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/horarioDisponible")
+	public @ResponseBody ResponseEntity<Boolean> horarioDisponible(Model model, HttpSession session, ReservaContainer reservaContainer){
+		
+		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
+		
+		if(!eventoService.existByFechaAndSalon(reservaContainer.getFecha(), salon)) {
+
+			LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio());
+			LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin());
+			
+			List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
+
+			if(!listaEvento.isEmpty()) {
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+	}
 
 }

@@ -25,9 +25,36 @@
 					<option th:each="tipoEvento : ${listaTipoEvento}" th:value="${tipoEvento.id}" th:text="${tipoEvento.nombre}"/>
 				</select>
 			</div>
+            <div>
+                <input id="duracion" type="hidden" th:field="*{duracion}">
+                <label class="form-label w-100">Duracion</label>
+               	<div class="d-inline-flex flex-row">
+               		<div>
+	               		<div class="form-group">
+			                <select class="form-control" id="time_start_hour">
+			                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+			                </select>
+			         	</div>       
+		            </div>
+		            <div>
+               			<div class="p-1">:</div>
+		            </div>
+               		<div>
+               			<div class="form-group">
+			                <select class="form-control" id="time_start_minute">
+			                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+			                </select>
+		                </div>
+		            </div>
+              	</div>
+            </div>
 			<div class="form-group">
-				<label for="capacidad">Capacidad</label> 
-				<input type="number" class="form-control" id="capacidad" th:field="*{capacidad}" name="capacidad">
+				<label for="capacidad">Capacidad Adultos</label> 
+				<input type="number" class="form-control" id="capacidad_adultos" th:field="*{capacidad_adultos}" name="capacidad_adultos">
+			</div>
+			<div class="form-group">
+				<label for="capacidad">Capacidad Niños</label> 
+				<input type="number" class="form-control" id="capacidad_ninos" th:field="*{capacidad_ninos}" name="capacidad_ninos">
 			</div>
 			<div class="form-group">
 				<label for="cantPersonal">Cantidad de personal base</label> 
@@ -49,5 +76,16 @@
 			</div>
 		</form>
 	</div>
+	
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script th:inline="javascript">
+		var duracion = /*[[${subTipoEvento.duracion}]]*/ [];
+	</script>
+
+	<script src="../js/saveSubTipoEvento.js"></script>
+
+
 </body>
 </html>

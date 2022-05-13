@@ -19,4 +19,6 @@ public interface EventoService extends GenericService<Evento, Long>{
 	
 	Long count();
 
+	boolean existByFechaAndSalon(String fecha, Salon salon);
+
 }

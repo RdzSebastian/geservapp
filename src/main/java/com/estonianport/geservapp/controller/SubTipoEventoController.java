@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.estonianport.geservapp.commons.DateUtil;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
@@ -44,6 +45,12 @@ public class SubTipoEventoController {
 
 		List<TipoEvento> listaTipoEvento = tipoEventoService.getAll();
 		model.addAttribute("listaTipoEvento", listaTipoEvento);
+
+		// Agrega lista de Hora
+		model.addAttribute("listaHora", DateUtil.HORAS);
+
+		// Agrega lista de Minuto
+		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
 
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.SUB_TIPO_EVENTO, subTipoEventoService.get(id));
