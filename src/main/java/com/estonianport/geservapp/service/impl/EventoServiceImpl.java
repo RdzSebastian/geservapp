@@ -48,8 +48,8 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento, Long> implemen
 	}
 
 	@Override
-	public boolean existByFechaAndSalon(String fecha, Salon salon) {
-		return eventosDao.existByFechaAndSalon(fecha, salon);
+	public boolean existByFechaAndSalon(LocalDateTime startd, Salon salon) {
+		return false; //eventosDao.existByStartd(Timestamp.valueOf(startd));
 	}
 
 }

@@ -60,74 +60,90 @@
 		    	<!--===============================================================================================-->
 		        <h3>Datos del evento</h3>
 		        <section>
-		            <h2>Agregar nuevo evento</h2>
-		            <p th:text="'Cree el nuevo evento a realizar en ' + ${salon.nombre}"></p>
-		            <div class="fieldset-content">
-		                
-                        <div class="form-group col-md-4">
-                        	<label for="nombre" class="form-label">Nombre del evento</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}" required>
-                        </div>
-
-		                <div class="form-group">
-		                    <label for="date" class="form-label w-100">Fecha de evento</label> 
-		                    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
-		                </div>
-
-			            <div>
-		                    <input id="time_start" type="hidden" th:field="*{inicio}">
-			                <label class="form-label w-100">Hora inicio</label>
-			               	<div class="d-inline-flex flex-row">
-			               		<div>
-				               		<div class="form-group">
-						                <select class="form-control" id="time_start_hour">
-						                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
-						                </select>
-						         	</div>       
-					            </div>
+		        
+		        	<div class="row">
+		        		<div class="col-5 mr-1">
+		            		<h2>Agregar nuevo evento</h2>
+		            		<p th:text="'Cree el nuevo evento a realizar en ' + ${salon.nombre}"></p>
+		        
+				            <div class="fieldset-content">
+				                
+		                        <div class="form-group">
+		                        	<label for="nombre" class="form-label">Nombre del evento</label>
+		                            <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}" required>
+		                        </div>
+		
+				                <div class="form-group">
+				                    <label for="date" class="form-label w-100">Fecha de evento</label> 
+				                    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" th:field="*{fecha}"/>
+				                </div>
+		
 					            <div>
-			               			<div class="p-1">:</div>
+				                    <input id="time_start" type="hidden" th:field="*{inicio}">
+					                <label class="form-label w-100">Hora inicio</label>
+					               	<div class="d-inline-flex flex-row">
+					               		<div>
+						               		<div class="form-group">
+								                <select class="form-control" id="time_start_hour">
+								                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+								                </select>
+								         	</div>       
+							            </div>
+							            <div>
+					               			<div class="p-1">:</div>
+							            </div>
+					               		<div>
+					               			<div class="form-group">
+								                <select class="form-control" id="time_start_minute">
+								                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+								                </select>
+							                </div>
+							            </div>
+					              	</div>
 					            </div>
-			               		<div>
-			               			<div class="form-group">
-						                <select class="form-control" id="time_start_minute">
-						                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
-						                </select>
-					                </div>
+						            
+					            <div id="time_end_div">
+					            	<input id="time_end" type="hidden" th:field="*{fin}">
+				                    <label class="form-label w-100">Hora final</label>
+					               	<div class="d-inline-flex flex-row">
+					               		<div>
+						               		<div class="form-group">
+								                <select class="form-control" id="time_end_hour" disabled>
+								                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+								                </select>
+								         	</div>
+							            </div>
+							            <div>
+					               			<div class="p-1"> : </div>
+							            </div>
+							            <div>
+					               			<div class="form-group">
+								                <select class="form-control" id="time_end_minute" disabled>
+								                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+								                </select>
+								         	</div> 
+							            </div>
+						            </div>
 					            </div>
-			              	</div>
-			            </div>
-				            
-			            <div id="time_end_div">
-			            	<input id="time_end" type="hidden" th:field="*{fin}">
-		                    <label class="form-label w-100">Hora final</label>
-			               	<div class="d-inline-flex flex-row">
-			               		<div>
-				               		<div class="form-group">
-						                <select class="form-control" id="time_end_hour" disabled>
-						                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
-						                </select>
-						         	</div>
-					            </div>
-					            <div>
-			               			<div class="p-1"> : </div>
-					            </div>
-					            <div>
-			               			<div class="form-group">
-						                <select class="form-control" id="time_end_minute" disabled>
-						                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
-						                </select>
-						         	</div> 
-					            </div>
-				            </div>
-			            </div>
-
-		                <div class="form-group mt-2">
-		                    <input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
-		                    <label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
-		                </div>
-
+		
+				                <div class="form-group mt-2">
+				                    <input class="form-check-input" type="checkbox" value="" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
+				                    <label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
+				                </div>
+							</div>				                
+						</div> 
+				        <div class="col-7">
+			        		<div id="fechaNoDisponible" class="d-none">
+								<div class="alert alert-danger" role="alert">Fecha no disponible</div>
+							</div>
+							<div id="fechaDisponible" class="d-none">
+								<div class="alert alert-success" role="alert">Fecha disponible</div>
+							</div>
+							<div id="listaEvento"></div>
+						</div>
 		            </div>
+		            
+		            
 		        </section>
 		        <!--===============================================================================================-->
 

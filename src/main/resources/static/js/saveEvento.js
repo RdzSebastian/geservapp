@@ -1,3 +1,5 @@
+var resto24 = false
+
 $(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
 	
@@ -89,7 +91,7 @@ $(document).ready(function() {
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
-
+				setDisabledHoraFinal(subTipoEvento.id);
             }
         });
 
@@ -209,7 +211,7 @@ $(document).ready(function() {
 		}
 			
 	}
-	
+
 	$('#time_start_hour').change(function () {
 		var hora_inicio = $('#time_start_hour').val();
 		
@@ -228,8 +230,16 @@ $(document).ready(function() {
 
 		if(hora_fin.toString().length == 1){
 			hora_fin_string = "0" + hora_fin.toString();
-		}else{
-			hora_fin_string = hora_fin.toString();
+			}else{
+				if(hora_fin >= 24){
+					hora_fin -= 24;
+					resto24 = true;
+					if(hora_fin.toString().length == 1){
+						hora_fin_string = "0" + hora_fin.toString();
+					}
+			}else{
+				hora_fin_string = hora_fin.toString();
+			}
 		}
 		
 		$('#time_end_hour').val(hora_fin_string);
@@ -265,12 +275,25 @@ $(document).ready(function() {
 			
 			var hora_fin = $('#time_end_hour').val();
 			
-			hora_fin_number = Number(hora_fin) - 1;
+			if(resto24){
+				hora_fin_number = Number(hora_fin) + 23;
+				resto24 = false
+			}else{
+				hora_fin_number = Number(hora_fin) - 1;
+			}
 			
 			if(hora_fin_number.toString().length == 1){
 				hora_fin_string = "0" + hora_fin_number.toString();
-			}else{
-				hora_fin_string = hora_fin_number.toString();
+				}else{
+					if(hora_fin_number >= 24){
+						hora_fin_number -= 24;
+						resto24 = true;
+						if(hora_fin_number.toString().length == 1){
+							hora_fin_string = "0" + hora_fin_number.toString();
+						}
+				}else{
+					hora_fin_string = hora_fin_number.toString();
+				}
 			}
 			
 			$('#time_end_hour').val(hora_fin_string);
@@ -286,8 +309,16 @@ $(document).ready(function() {
 			
 			if(hora_fin_number.toString().length == 1){
 				hora_fin_string = "0" + hora_fin_number.toString();
-			}else{
-				hora_fin_string = hora_fin_number.toString();
+				}else{
+					if(hora_fin_number >= 24){
+						hora_fin_number -= 24;
+						resto24 = true;
+						if(hora_fin_number.toString().length == 1){
+							hora_fin_string = "0" + hora_fin_number.toString();
+						}
+				}else{
+					hora_fin_string = hora_fin_number.toString();
+				}
 			}
 			
 			$('#time_end_hour').val(hora_fin_string);
@@ -343,4 +374,19 @@ function setTimeEndBySubTipoEvento(duracion) {
 	
 	$('#time_end_hour').val(hora_fin_string);
 	$('#time_end_minute').val(minuto_fin_string);
+}
+
+
+// Setea disabled la hora y minuto final en base al subTipoEvento
+// TODO agregar una lista de subTipoEvento con disabled horario 
+function setDisabledHoraFinal(id) {
+	if(id == 4){
+		$('#time_end_hour').removeAttr("disabled");
+		$('#time_end_minute').removeAttr("disabled");
+	}else{
+		if (!$('#time_end_hour').attr("disabled")) {
+			$('#time_end_hour').prop("disabled", true);
+		 	$('#time_end_minute').prop("disabled", true);
+		 }
+	}
 }

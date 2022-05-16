@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -247,24 +248,58 @@ public class MainController {
 		}
 		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
 	}
-	
+
+	//TODO hacer que busque por fecha de inicio o fecha de fin
 	@GetMapping("/horarioDisponible")
 	public @ResponseBody ResponseEntity<Boolean> horarioDisponible(Model model, HttpSession session, ReservaContainer reservaContainer){
 		
 		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
 		
-		if(!eventoService.existByFechaAndSalon(reservaContainer.getFecha(), salon)) {
+		if(!eventoService.existByFechaAndSalon(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio()), salon)) {
 
 			LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio());
-			LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin());
+			LocalDateTime fin = null;
+			
+			if(reservaContainer.getResto24()) {
+				fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin());
+				fin = fin.plusDays(1);
+			}else {
+				fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin());
+			}
 			
 			List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
 
-			if(!listaEvento.isEmpty()) {
+			if(listaEvento.isEmpty()) {
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 			}
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+	}
+	
+	@GetMapping("/listaEventosByDia")
+	public @ResponseBody ResponseEntity<List<String>> listaEventosByDia(Model model, HttpSession session, ReservaContainer reservaContainer){
+		
+		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
+
+		LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.START_TIME);
+		LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.END_TIME);
+
+		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
+		
+		List<String> listaFecha = new ArrayList<String>();
+
+		if(!listaEvento.isEmpty()) {
+			for(Evento evento : listaEvento) {
+				String fecha = DateUtil.getFechaConHora(evento.getStartd()) + " hasta " + DateUtil.getFechaConHora(evento.getEndd());
+				listaFecha.add(fecha);
+				
+				// Ordena la lista de mas temprano a mas tarde
+				Collections.sort(listaFecha);
+			}
+ 
+			return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.CONFLICT);
 	}
 
 }
