@@ -93,7 +93,7 @@ public class ReservaController {
 			// Setea hora de fin
 			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
 
-			// Setea checkbox hastaElotroDia
+			// Setea checkbox hastaElotroDia en caso de que el dia de caundo termina del evento es 1 mas que cuando empieza
 			if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
 				reservaContainer.setHastaElOtroDia(true);
 			}

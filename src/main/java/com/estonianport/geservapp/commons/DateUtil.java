@@ -41,8 +41,6 @@ public class DateUtil {
 
 	public static final String START_TIME = "00:00";
 
-	public static final String LAST_EVENT_TIME = "00:00";
-
 	public static final String END_TIME = "23:59";
 
 	public static String getFecha(LocalDateTime fecha) {

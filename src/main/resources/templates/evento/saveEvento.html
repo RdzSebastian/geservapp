@@ -20,6 +20,8 @@
 <body>
 	<div class="wrapper">
 	    <form th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}" id="reservacion-form" class="signup-form">
+	    	<input id="resto24" type="hidden" th:field="*{resto24}">
+
 	    	<div id="reservacion-wizard">
 
 			    <!--===============================================================================================-->

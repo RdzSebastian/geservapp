@@ -200,32 +200,53 @@ $(document).ready(function() {
 	}
 
 	$('#time_start_hour').change(function () {
+		// Obtiene el valor de hora seteado
 		var hora_inicio = $('#time_start_hour').val();
 		
-		var subTipoEventoId = document.getElementById("subTipoEvento").value;
-        var duracion = null;
-        
+		// Obtiene el subTipoEvento
+		var subTipoEventoId = $("#subTipoEvento").val();
+		
+		// Prepara variables
+        var duracion_hora = null;
+        var duracion_minuto = null;
+
+		// Set los tiempos de duracion del subTipoEvento elegido
         listaSubTipoEvento.forEach( function(subTipoEvento) {
         	if(subTipoEventoId == subTipoEvento.id){
 				var duracionSplit = subTipoEvento.duracion.split(":");
-				duracion = duracionSplit[0];
+				duracion_hora = duracionSplit[0];
+				duracion_minuto = duracionSplit[1];
 			}
 		});
 
-		var hora_fin = Number(hora_inicio) + Number(duracion);
+		// Suma  la hora seteada mas la hora de duracion del subTipoEvento elegido
+		var hora_fin = Number(hora_inicio) + Number(duracion_hora);
 		var hora_fin_string = null;
 
+		// Si el subTipoEvento tiene 30 min de duracion y el tiempo seteado es 30 suma 1 hora
+		if(duracion_minuto == "30" && $('#time_start_minute').val() == "30"){
+			hora_fin += 1;
+		}
+
+		// Si el resultado da un numero de hora con 1 solo espacio le agrega un 0 al principio
 		if(hora_fin.toString().length == 1){
 			hora_fin_string = "0" + hora_fin.toString();
+		}else{
+			// Si el resultado es mayor a 24 le resta para que quede en hora 00 
+			if(hora_fin >= 24){
+				hora_fin -= 24;
+				resto24 = true;
+				$('#resto24').val(resto24);
+				
+				// Si el resultado da un numero de hora con 1 solo espacio le agrega un 0 al principio
+				if(hora_fin.toString().length == 1){
+					hora_fin_string = "0" + hora_fin.toString();
+				}
 			}else{
-				if(hora_fin >= 24){
-					hora_fin -= 24;
-					resto24 = true;
-					if(hora_fin.toString().length == 1){
-						hora_fin_string = "0" + hora_fin.toString();
-					}
-			}else{
+				// El resultado no resto 24 horas asique setea en false resto
 				hora_fin_string = hora_fin.toString();
+				resto24 = false;
+				$('#resto24').val(resto24);
 			}
 		}
 		
@@ -264,7 +285,8 @@ $(document).ready(function() {
 			
 			if(resto24){
 				hora_fin_number = Number(hora_fin) + 23;
-				resto24 = false
+				resto24 = false;
+				$('#resto24').val(resto24);
 			}else{
 				hora_fin_number = Number(hora_fin) - 1;
 			}
@@ -275,6 +297,7 @@ $(document).ready(function() {
 					if(hora_fin_number >= 24){
 						hora_fin_number -= 24;
 						resto24 = true;
+						$('#resto24').val(resto24);
 						if(hora_fin_number.toString().length == 1){
 							hora_fin_string = "0" + hora_fin_number.toString();
 						}
@@ -296,13 +319,14 @@ $(document).ready(function() {
 			
 			if(hora_fin_number.toString().length == 1){
 				hora_fin_string = "0" + hora_fin_number.toString();
-				}else{
-					if(hora_fin_number >= 24){
-						hora_fin_number -= 24;
-						resto24 = true;
-						if(hora_fin_number.toString().length == 1){
-							hora_fin_string = "0" + hora_fin_number.toString();
-						}
+			}else{
+				if(hora_fin_number >= 24){
+					hora_fin_number -= 24;
+					resto24 = true;
+					$('#resto24').val(resto24);
+					if(hora_fin_number.toString().length == 1){
+						hora_fin_string = "0" + hora_fin_number.toString();
+					}
 				}else{
 					hora_fin_string = hora_fin_number.toString();
 				}
