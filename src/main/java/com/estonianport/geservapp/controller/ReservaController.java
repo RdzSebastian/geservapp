@@ -80,7 +80,10 @@ public class ReservaController {
 			Evento evento = eventoService.get(id);
 
 			reservaContainer.setEvento(evento);
-
+			
+			// Setea el cliente
+			reservaContainer.setCliente(evento.getCliente());
+			
 			// Setea fecha del evento
 			reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
 

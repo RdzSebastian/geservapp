@@ -15,6 +15,7 @@
 		<h2>Editar Evento</h2>
 		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento.id}" th:field="*{evento.subTipoEvento}">
+			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 
 			<div class="form-group">
