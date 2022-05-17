@@ -67,19 +67,6 @@ $(document).ready(function() {
           smartDays: true
     });
 
-    // Checkbox para ocultar hora final y que se setee hasta el otro dia 
-    $('#hastaElOtroDiaCheckbox').change(function(){
-		hideHoraFinal(this);
-	});
-	
-	function hideHoraFinal(button){
-		if(button.checked)
-			$('#time_end_div').fadeOut('slow');
-		else
-			$('#time_end_div').fadeIn('slow');
-	}
-	
-
 	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
     $('#subTipoEvento').change(function () {
         var subTipoEventoId = document.getElementById("subTipoEvento").value;
@@ -91,7 +78,7 @@ $(document).ready(function() {
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
-				setDisabledHoraFinal(subTipoEvento.id);
+				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
             }
         });
 
@@ -378,15 +365,12 @@ function setTimeEndBySubTipoEvento(duracion) {
 
 
 // Setea disabled la hora y minuto final en base al subTipoEvento
-// TODO agregar una lista de subTipoEvento con disabled horario 
-function setDisabledHoraFinal(id) {
-	if(id == 4){
+function setDisabledHoraFinal(horarioFinalAutomatico) {
+	if(horarioFinalAutomatico){
+		$('#time_end_hour').prop("disabled", true);
+	 	$('#time_end_minute').prop("disabled", true);
+	}else{
 		$('#time_end_hour').removeAttr("disabled");
 		$('#time_end_minute').removeAttr("disabled");
-	}else{
-		if (!$('#time_end_hour').attr("disabled")) {
-			$('#time_end_hour').prop("disabled", true);
-		 	$('#time_end_minute').prop("disabled", true);
-		 }
 	}
 }

@@ -1,6 +1,5 @@
 package com.estonianport.geservapp.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -92,7 +91,7 @@ public class ReservaController {
 			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
 
 			// Setea checkbox hastaElotroDia
-			if(reservaContainer.getFin().equals(DateUtil.LAST_EVENT_TIME)) {
+			if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
 				reservaContainer.setHastaElOtroDia(true);
 			}
 
@@ -152,12 +151,11 @@ public class ReservaController {
 		// Setea fecha del evento y hora de inicio
 		evento.setStartd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio()));
 
-		// Chequea si el evento es toda la noche, en vaso de serlo le setea una fecha de final 1 dia despues y a las 5am
+		// Chequea si el evento es toda la noche, en caso de serlo le setea una fecha de final 1 dia despues
 		if(!reservaContainer.getHastaElOtroDia()) {
 			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()));
 		}else {
-			LocalDateTime fechaFin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.LAST_EVENT_TIME);
-			evento.setEndd(fechaFin.plusDays(1));
+			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()).plusDays(1));
 		}
 
 		// Setea usuario que genero la reserva

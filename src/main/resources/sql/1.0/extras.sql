@@ -1,6 +1,6 @@
 do $$ 
 declare
-	extra_animadora_ninos varchar := 'Animadora de ninos';
+	extra_animadora_ninos varchar := 'Animadora de niños';
     extra_animacion_adultos varchar := 'Animacion de adultos';
     extra_capacidad varchar := 'Capacidad';
     extra_camarero varchar := 'Camarero';

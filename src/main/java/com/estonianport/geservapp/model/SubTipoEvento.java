@@ -49,6 +49,9 @@ public class SubTipoEvento {
 	@Column(name = "precio_base")
 	private int precioBase;
 	
+	@Column(name = "horario_final_automatico")
+	private boolean horarioFinalAutomatico;
+	
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
 	private Set<Servicio> listaServicio;
