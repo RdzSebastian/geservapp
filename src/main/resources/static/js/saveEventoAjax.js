@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$("#buscarClientePorCuil").click(function(){
+	$("#cuil").change(function(){
 
 	  $("#nombreCliente").val(null);
 	  $("#apellido").val(null);
@@ -26,12 +26,13 @@ $(document).ready(function() {
 				 $("#empresa").val(response.empresa);
 				 $("#sexo").val(response.sexo.id);
 				 
-				 $("#clienteNoEncontrado").classList.add("d-none");
+				 $("#clienteEncontrado").removeClass("d-none");
+				 $("#clienteNoEncontrado").addClass("d-none");
 
-				 
 			},
 			error : function() {
-				$("#clienteNoEncontrado").classList.remove("d-none");
+				$("#clienteEncontrado").addClass("d-none");
+				$("#clienteNoEncontrado").removeClass("d-none");
 			}
 		});
 	});

@@ -64,7 +64,7 @@
 		        <section>
 		        
 		        	<div class="row">
-		        		<div class="col-5 mr-1">
+		        		<div class="col-md-5">
 		            		<h2>Agregar nuevo evento</h2>
 		            		<p th:text="'Cree el nuevo evento a realizar en ' + ${salon.nombre}"></p>
 		        
@@ -134,12 +134,15 @@
 				                </div>
 							</div>				                
 						</div> 
-				        <div class="col-7">
+				        <div class="col-md-7">
 			        		<div id="fechaNoDisponible" class="d-none">
-								<div class="alert alert-danger" role="alert">Fecha no disponible</div>
+								<div class="alert alert-danger" role="alert">
+									<strong>Fecha no disponible,</strong> Tenga en cuenta que entre evento y evento calcula 1 hora de margen.</p>
+								</div>
+								
 							</div>
-							<div id="fechaDisponible" class="d-none">
-								<div class="alert alert-success" role="alert">Fecha disponible</div>
+							<div id="fechaDisponible" class="d-none col-md-8">
+								<div class="alert alert-success" role="alert"><strong>Fecha disponible</strong></div>
 							</div>
 							<div id="listaEvento"></div>
 						</div>
@@ -152,19 +155,48 @@
 		    	<!--===============================================================================================-->
 		        <h3>Cotizacion</h3>
 		        <section>
-		            <h2>Presupuesto</h2>
-		            <p>Puede agregar extras que cambiaran el precio final</p>
-		            <div class="fieldset-content">
-		                <div class="form-group">
-		                    <label for="extras" class="form-label">Extras</label> 
-		                    <div id="listaExtra"> </div>
-			            </div>
-
-		                <div class="form-group col-md-2" id="horaFinal">
-		                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
-		                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
-		                </div>
-		            </div>
+            		<h2>Presupuesto</h2>
+            		<p>Puede agregar extras que cambiaran el precio final</p>
+		           	<div class="row">
+		        		<div class="col-md-6">
+				            <div class="fieldset-content">
+				                <div class="form-group">
+				                    <label for="extras" class="form-label">Extras</label> 
+				                    <div id="listaExtra"> </div>
+					            </div>
+							</div>
+						</div>
+						<div class="col-md-6" >
+							<div id="plato">
+								<div class="row">
+								    <div class="form-group col-6">
+				                    	<label for="cantidad_plato_adulto">Cantidad de platos adultos</label>
+										<input type="number" class="form-control" id="cantidad_plato_adulto" onChange="sumarPresupuesto();">	
+									</div>
+									<div class="form-group col-6">
+					                    <label for="precio_plato_adulto" class="form-label">Precio de platos adultos</label> 
+					                    <input type="number" class="form-control" id="precio_plato_adulto" onChange="sumarPresupuesto();">
+					                </div>
+					            </div>
+				                <div class="row mt-2">
+									<div class="form-group col-6">
+				                    	<label for="cantidad_plato_nino">Cantidad de platos niños</label>
+										<input type="number" class="form-control" id="cantidad_plato_nino" onChange="sumarPresupuesto();">	
+									</div>
+									<div class="form-group col-6">
+				                    	<label for="precio_plato_nino">Precio de platos niños</label>
+										<input type="number" class="form-control" id="precio_plato_nino" onChange="sumarPresupuesto();">	
+									</div>
+								</div>
+							</div>				
+							<div class="row mt-2">
+								<div class="form-group col-md-8">
+				                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
+				                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
+								</div>
+							</div>
+						</div>
+					</div> 
 		        </section>
 		    	<!--===============================================================================================-->
 
@@ -179,6 +211,9 @@
 		        		<div id="clienteNoEncontrado" class="col-4 d-none">
 							<div class="alert alert-danger" role="alert">Cliente no encontrado </div>
 						</div>
+						<div id="clienteEncontrado" class="col-4 d-none">
+							<div class="alert alert-success" role="alert">Cliente encontrado </div>
+						</div>
 					</div>
 
 		            <div>
@@ -186,10 +221,6 @@
 						    <div class="form-group col-md-4">
 		                    	<label for="cuil">CUIT/CUIL</label>
 								<input type="number" class="form-control" id="cuil" th:field="*{cliente.cuil}" name="cuil" required>	
-							</div>
-							<div class="form-group col-md-4">
-								<label for="buscarClientePorCuil"> Buscar</label>
-								<button id="buscarClientePorCuil" class="form-control btn btn-primary">buscar por cuil</button>
 							</div>
 						</div>
 

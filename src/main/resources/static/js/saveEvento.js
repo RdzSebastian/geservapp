@@ -1,4 +1,5 @@
 var resto24 = false
+var presupuesto = 0;
 
 $(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
@@ -7,7 +8,8 @@ $(document).ready(function() {
 	window.addEventListener('resize', function(event){
 		sizeScreen();
 	});
-	
+
+	// ----------------------------------------------------------------------------------
 	// Obtiene todas opciones de subTipoEvento en base al tipoEvento escogido
     var allTipoEventos = $('#subTipoEvento option')
     $('#tipoEvento').change(function () {
@@ -29,7 +31,9 @@ $(document).ready(function() {
 		   }
 		});
     });
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
 	// Borra las opciones de subTipoEvento que no corresponden la tipoEvento escogido
 	var optionValues =[];
 	$('#tipoEvento option').each(function(){
@@ -39,13 +43,17 @@ $(document).ready(function() {
 	      optionValues.push(this.value);
 	   }
 	});
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
 	// Limpia opciones de subTipoEvento al cambiar de tipoEvento
 	function selectEventoEmpiezaVacio() {
 		$('#subTipoEvento option').remove()
 		addHiddenFirstOptionOnSelect("subTipoEvento", "Sub Tipo Evento");
 	}
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
 	// Presetea una opcion oculta de subTipoEvento al cambiar de tipoEvento
 	function addHiddenFirstOptionOnSelect(elemento, valor) {
 	  var x = document.getElementById(elemento);
@@ -56,8 +64,9 @@ $(document).ready(function() {
 	  option.hidden = true
 	  x.add(option);
 	}
-	
-	
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------	
 	// Libreria combodate muestra el dia
 	$('#date').combodate({
           value: new Date(),
@@ -66,25 +75,32 @@ $(document).ready(function() {
           customClass: 'form-control d-inline',
           smartDays: true
     });
+	// ----------------------------------------------------------------------------------
 
-	// Busca el subTipoEvento seleccionado y setea el precio base de dicho subTipoEvento
+	// ----------------------------------------------------------------------------------
+	// Busca el subTipoEvento seleccionado y setea el precio base, extras, hora inicio 
+	// y final (disabled o enabled) de dicho subTipoEvento
     $('#subTipoEvento').change(function () {
-        var subTipoEventoId = document.getElementById("subTipoEvento").value;
-        var precio = null;
+        var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
-                precio = subTipoEvento.precioBase;
+                presupuesto = subTipoEvento.precioBase;
 
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
+				setPlatoDisabled(subTipoEvento.horarioFinalAutomatico);
             }
         });
 
-        $("#presupuesto").val(precio);
+        $("#presupuesto").val(presupuesto);
     })
-    
+    // ----------------------------------------------------------------------------------
+
+
+
+    // ----------------------------------------------------------------------------------
    	// Muestra los extras que correspondan en base a el subTipoEvento elegido
 	function setExtrasBySubTipoEvento(subTipoEventoId) {
 		// Limpia los extra que se agregaron anteriormente
@@ -107,6 +123,7 @@ $(document).ready(function() {
 		            checkbox.value = valorExtra.id;
 		            checkbox.id = "extraId" + valorExtra.id;
 		            checkbox.classList.add("form-check-input");
+		            checkbox.classList.add("extraCheckbox");
 		            checkbox.onchange = function () { 
 						changeCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
 					}
@@ -117,8 +134,8 @@ $(document).ready(function() {
 		            // assigning attributes for 
 		            // the created label tag 
 		            label.htmlFor = "id";
-//		            label.classList.add("form-check-label");
-//		            label.classList.add("ml-2");
+					//label.classList.add("form-check-label");
+					//label.classList.add("ml-2");
 		            
 		            // appending the created text to 
 		            // the created label tag 
@@ -134,7 +151,9 @@ $(document).ready(function() {
 			});
 		});
 	}
-	
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
 	// Muestra los extras que correspondan en base a el subTipoEvento elegido
 	function setServicioBySubTipoEvento(subTipoEventoId) {
 		// Limpia los servicios que se agregaron anteriormente
@@ -159,7 +178,10 @@ $(document).ready(function() {
 		// Appendin the ul
 		listaServicioDiv.appendChild(ul);
 	}
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
+	// En base a la dimencion de la pantalla saca o pone el titulo del wizard
 	function sizeScreen(){
 		var newWidth = window.innerWidth;
 
@@ -198,7 +220,10 @@ $(document).ready(function() {
 		}
 			
 	}
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
+	// Set la hora final en base a la hora del subTipoEvento
 	$('#time_start_hour').change(function () {
 		// Obtiene el valor de hora seteado
 		var hora_inicio = $('#time_start_hour').val();
@@ -253,8 +278,10 @@ $(document).ready(function() {
 		$('#time_end_hour').val(hora_fin_string);
 
 	});
+	// ----------------------------------------------------------------------------------
 	
-	// Set la hora final cada vez que modifica el horario de unicio
+	// ----------------------------------------------------------------------------------
+	// Set la hora basada en los minutos final cada vez que modifica el horario de unicio
 	var yaSumoHora = false;
 	$('#time_start_minute').change(function () {
 		var minuto_inicio = $('#time_start_minute').val();
@@ -335,14 +362,26 @@ $(document).ready(function() {
 			$('#time_end_hour').val(hora_fin_string);
 		}
 
-
 		$('#time_end_minute').val(minuto_fin_string);
 
 	});
+	
+	// ----------------------------------------------------------------------------------
+	
+	// ----------------------------------------------------------------------------------
+	// platos
+	function setPlatoDisabled(horarioFinalAutomatico){
+		if(horarioFinalAutomatico){
+			$("#plato").addClass("d-none");
+		}else{
+			$("#plato").removeClass("d-none");
+		}
+	}
+	// ----------------------------------------------------------------------------------
 
 });
 
-
+// ----------------------------------------------------------------------------------
 // Suma o resta al precio del evento, el precio del extra que haya sido checkeado
 function changeCheckbox(extraValor, extraId) {
     var decider = document.getElementById(extraId);
@@ -356,7 +395,9 @@ function changeCheckbox(extraValor, extraId) {
 
     $("#presupuesto").val(precio);
 }
+// ----------------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------------
 // Setea la hora final del evento en caso de no ser empresarial o subTipoEvento largo
 function setTimeEndBySubTipoEvento(duracion) {
 	var hora_inicio = $('#time_start_hour').val();
@@ -386,8 +427,9 @@ function setTimeEndBySubTipoEvento(duracion) {
 	$('#time_end_hour').val(hora_fin_string);
 	$('#time_end_minute').val(minuto_fin_string);
 }
+// ----------------------------------------------------------------------------------
 
-
+// ----------------------------------------------------------------------------------
 // Setea disabled la hora y minuto final en base al subTipoEvento
 function setDisabledHoraFinal(horarioFinalAutomatico) {
 	if(horarioFinalAutomatico){
@@ -398,3 +440,55 @@ function setDisabledHoraFinal(horarioFinalAutomatico) {
 		$('#time_end_minute').removeAttr("disabled");
 	}
 }
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+
+function precioExtras() {
+	var checkboxes = $(".extraCheckbox" );
+	var totalExtras = 0
+
+	listaExtra.forEach(function(extra) {
+		$.each(checkboxes, function(idArray, extraInput) {
+			var id = "extraId" + extra.id
+			 if(extraInput.checked){
+				if(extraInput.id == id){
+					totalExtras += extra.precio
+				}
+			}
+		});
+	});
+	return totalExtras
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea disabled la hora y minuto final en base al subTipoEvento
+function sumarPresupuesto() {
+	var presupuesto_con_plato = 0;
+	var cantidad_plato_adulto = parseInt($("#cantidad_plato_adulto").val());
+	var precio_plato_adulto = parseInt($("#precio_plato_adulto").val());
+	var cantidad_plato_nino = parseInt($("#cantidad_plato_nino").val());
+	var precio_plato_nino = parseInt($("#precio_plato_nino").val());
+	var precio_adulto = 0;
+	var precio_nino = 0;
+
+	
+	if(!isNaN(cantidad_plato_adulto) && !isNaN(precio_plato_adulto)){
+		precio_adulto = cantidad_plato_adulto * precio_plato_adulto
+	}
+	
+	if(!isNaN(cantidad_plato_nino) && !isNaN(precio_plato_nino)){
+		precio_nino = cantidad_plato_nino * precio_plato_nino
+	}
+	
+	if(!isNaN(cantidad_plato_adulto) || !isNaN(precio_plato_nino)){
+		presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras()
+	}else{
+		presupuesto_con_plato = parseInt(presupuesto) + precioExtras()
+	}
+
+	$("#presupuesto").val(presupuesto_con_plato);
+
+}
+// ---------------------------------------------------------------------------------
