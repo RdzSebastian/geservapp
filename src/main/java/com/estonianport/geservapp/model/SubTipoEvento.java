@@ -34,11 +34,9 @@ public class SubTipoEvento {
 	@JoinColumn(name = "tipo_evento_id")
 	private TipoEvento tipoEvento;
 
-	@Column
-	private int capacidad_adultos;
-	
-	@Column
-	private int capacidad_ninos;
+	@ManyToOne
+	@JoinColumn(name = "capacidad_id")
+	private Capacidad capacidad;
 
 	@Column
 	private LocalTime duracion;

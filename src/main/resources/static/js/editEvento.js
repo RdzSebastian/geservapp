@@ -1,6 +1,5 @@
 $(function () {
-	var buttonA = $('#hastaElOtroDiaCheckbox');
-
+	setPlatoDisabled();
 	document.addEventListener("submit", setHoraDeInicioYFin);
 	
 	// Setear hora inicio y final elegida
@@ -14,4 +13,18 @@ $(function () {
 		var minuto_fin = $('#time_end_minute').val()
 		$('#time_end').val(hora_fin + ":" + minuto_fin)
 	}
+
+    // ----------------------------------------------------------------------------------
+	// platos
+	function setPlatoDisabled(){
+		if(capacidadVariable){
+			$("#plato").removeClass("d-none");
+			capacidadYPrecio.cantidad
+			
+		}else{
+			$("#plato").addClass("d-none");
+		}
+	}
+	// ----------------------------------------------------------------------------------
+    
 });

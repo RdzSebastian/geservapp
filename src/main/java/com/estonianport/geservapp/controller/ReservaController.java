@@ -22,6 +22,7 @@ import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.service.CapacidadYPrecioService;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
@@ -60,6 +61,9 @@ public class ReservaController {
 
 	@Autowired
 	private ServicioService servicioService;
+
+	@Autowired
+	private CapacidadYPrecioService capacidadYPrecioService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -171,8 +175,7 @@ public class ReservaController {
 
 		// Guarda el cliente en la base de datos
 		if(!clienteService.existsByCuil(reservaContainer.getCliente().getCuil())) {
-			clienteService.save(reservaContainer.getCliente());
-			evento.setCliente(reservaContainer.getCliente());
+			evento.setCliente(clienteService.save(reservaContainer.getCliente()));
 		}else {
 			evento.setCliente(clienteService.getClienteByCuil(reservaContainer.getCliente().getCuil()));
 		}
@@ -180,11 +183,16 @@ public class ReservaController {
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtra(reservaContainer.getExtra());
 
-		// Guarda el evento en la base de datos
-		eventoService.save(evento);
-
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
+
+		// Capacidad variable o fija y setea precio de plato y capacidadYPrecio
+		if(evento.getSubTipoEvento().getCapacidad().getCapacidadVariable()) {
+			evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getCapacidadYPrecio()));
+		}
+
+		// Guarda el evento en la base de datos
+		eventoService.save(evento);
 
 		// Envia mail con comprobante
 		emailService.enviarMailComprabanteReserva(reservaContainer);

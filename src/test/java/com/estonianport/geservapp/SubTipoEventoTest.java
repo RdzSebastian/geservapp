@@ -23,8 +23,8 @@ public class SubTipoEventoTest {
 		subTipoEvento.setTipoEvento(tipoEventoService.get((long) 1));
 		subTipoEvento.setNombre("Teens");
 		subTipoEvento.setCantPersonal(10);
-		subTipoEvento.setCapacidad_adultos(10);
-		subTipoEvento.setCapacidad_adultos(10);
+//		subTipoEvento.setCapacidad_adultos(10);
+//		subTipoEvento.setCapacidad_adultos(10);
 		subTipoEvento.setPrecioBase(12000);
 		//BBDD
 		subTipoEventoService.save(subTipoEvento);

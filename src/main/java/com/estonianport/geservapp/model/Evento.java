@@ -50,6 +50,10 @@ public class Evento {
 	@Column
 	private LocalDateTime endd;
 
+	@ManyToOne
+	@JoinColumn(name = "capacidadyprecio_id")
+	private CapacidadYPrecio capacidadYPrecio;
+
 	@Column
 	private int presupuesto;
 
@@ -63,5 +67,6 @@ public class Evento {
 
 	@Column
 	private String codigo;
+
 
 }

@@ -90,7 +90,8 @@ $(document).ready(function() {
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
-				setPlatoDisabled(subTipoEvento.horarioFinalAutomatico);
+				setPlatoDisabled(subTipoEvento.capacidad.capacidadVariable);
+				borrarErrorJquerrySteps();
             }
         });
 
@@ -369,16 +370,23 @@ $(document).ready(function() {
 	// ----------------------------------------------------------------------------------
 	
 	// ----------------------------------------------------------------------------------
-	// platos
-	function setPlatoDisabled(horarioFinalAutomatico){
-		if(horarioFinalAutomatico){
-			$("#plato").addClass("d-none");
-		}else{
+	// En base a la capacidad variable del subTipoEvento deja o no setear la cantidad de platos
+	// y de este saldra el presupuesto
+	function setPlatoDisabled(capacidadVariable){
+		if(capacidadVariable){
 			$("#plato").removeClass("d-none");
+		}else{
+			$("#plato").addClass("d-none");
 		}
 	}
 	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
+	// Borra error en subTipoEvento al elegirlo
+	function borrarErrorJquerrySteps(){
+		$('#tipoEvento-error').remove();
+	}
+	// ----------------------------------------------------------------------------------
 });
 
 // ----------------------------------------------------------------------------------
@@ -435,9 +443,15 @@ function setDisabledHoraFinal(horarioFinalAutomatico) {
 	if(horarioFinalAutomatico){
 		$('#time_end_hour').prop("disabled", true);
 	 	$('#time_end_minute').prop("disabled", true);
+	 	
+		// Oculta CheckboxduraHastaElOtroDia
+		$('#hastaElOtroDiaCheckbox').addClass("d-none");
 	}else{
 		$('#time_end_hour').removeAttr("disabled");
 		$('#time_end_minute').removeAttr("disabled");
+		
+		// Muestra CheckboxduraHastaElOtroDia
+		$('#hastaElOtroDiaCheckbox').removeClass("d-none");
 	}
 }
 // ----------------------------------------------------------------------------------
