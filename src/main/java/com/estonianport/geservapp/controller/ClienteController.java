@@ -14,12 +14,16 @@ import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ClienteService;
+import com.estonianport.geservapp.service.SexoService;
 
 @Controller
 public class ClienteController {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private SexoService sexoService;
 
 	@RequestMapping("/abmCliente")
 	public String abm(Model model, HttpSession session) {
@@ -34,6 +38,9 @@ public class ClienteController {
 
 	@GetMapping("/saveCliente/{id}")
 	public String showCliente(@PathVariable("id") Long id, Model model) {
+		// Agrega lista Sexo
+		model.addAttribute("listaSexo", sexoService.getAll());
+
 		if(id != null && id != 0) {
 			model.addAttribute(GeneralPath.CLIENTE, clienteService.get(id));
 		}else {
@@ -51,6 +58,6 @@ public class ClienteController {
 	@GetMapping("/deleteCliente/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
 		clienteService.delete(id);
-		return GeneralPath.REDIRECT;
+		return GeneralPath.REDIRECT + GeneralPath.ABM_CLIENTE;
 	}
 }
