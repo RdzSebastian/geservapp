@@ -93,7 +93,7 @@ public class RestWebController {
 			Cliente cliente = clienteService.getClienteByCuil(cuil);
 			return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
 		}
-		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Cliente>(HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")
@@ -142,7 +142,7 @@ public class RestWebController {
 			// Si contiene a alguna fecha devuelve false
 			for(List<Integer> rangos : listaDeRangos) {
 				if(CollectionUtils.containsAny(rangos, rangoEventoNuevo)) {
-					return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
+					return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 				}
 			}
 		}
@@ -220,7 +220,7 @@ public class RestWebController {
 			}
 			return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
 		}
-		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.CONFLICT);
+		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
 	}
 
 }
