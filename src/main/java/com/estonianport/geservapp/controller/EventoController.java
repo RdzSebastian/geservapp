@@ -49,7 +49,7 @@ public class EventoController {
 	@GetMapping("/deleteEvento/{id}")
 	public String delete(@PathVariable("id") Long id, Model model, HttpSession session) throws Exception {
 		// Salon en sesion para volver al calendario
-		Salon salon = salonService.get(id);
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		session.setAttribute("salon", salon);
 
 		// Elimina el archivo pdf de comprobante
@@ -64,6 +64,6 @@ public class EventoController {
 		
 		// Elimina el registro en la base de datos
 		eventoService.delete(id);
-		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO;
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 }
