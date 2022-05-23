@@ -24,8 +24,10 @@
 				<input type="text" class="form-control" id="apellido" th:field="*{apellido}" name="apellido" required>
 			</div>
 			<div class="form-group">
-				<label for="nombre_usuario">Sexo</label> 
-				<input type="text" class="form-control" id="sexo" th:field="*{sexo}" name="sexo" readonly>
+	  			<label for="sexo">Sexo</label>
+                <select class="form-select" id="sexo" th:field="*{sexo}">
+                    <option th:each="sexo : ${listaSexo}" th:value="${sexo.id}" th:text="${sexo.nombre}"/>
+                </select>
 			</div>
 			<div class="form-group">
 				<label for="email">Cuil</label> 
