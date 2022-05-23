@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,18 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
-import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ClienteService;
@@ -75,10 +68,10 @@ public class MainController {
 
 	@Autowired
 	ClienteService clienteService;
-	
+
 	@Autowired
 	ServicioService servicioService;
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
 
@@ -240,144 +233,6 @@ public class MainController {
 		response.sendRedirect("download/0");
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-	@GetMapping("/buscarClientePorCuil")
-	public @ResponseBody ResponseEntity<Cliente> buscarClientePorCuil(Model model, @RequestParam(value="cuil") long cuil){
-		
-		if(clienteService.existsByCuil(cuil) && cuil != 0) {
-			Cliente cliente = clienteService.getClienteByCuil(cuil);
-			return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
-		}
-		return new ResponseEntity<Cliente>(HttpStatus.NOT_FOUND);
-	}
-
-	@GetMapping("/horarioDisponible")
-	public @ResponseBody ResponseEntity<Boolean> horarioDisponible(Model model, HttpSession session, ReservaContainer reservaContainer){
-		
-		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
-		
-		// Crea la hora inicio y la hora final de un dia para buscar todos los eventos en X dia
-		LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.START_TIME);
-		LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.END_TIME);
-
-		// lista de todos los eventos
-		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
-		
-		// En caso de no existir ningun evento para esa fecha devolver disponible
-		if(!listaEvento.isEmpty()) {
-
-			// lista de todas las lista de rangos horarios
-			List<List<Integer>> listaDeRangos = new ArrayList<List<Integer>>();
-			
-			// Variable usada para obtener la hora final del evento
-			String horaFinal = null;
-			
-			// Obtiene el rango horario de los eventos agendados
-			for(Evento evento : listaEvento) {
-				
-				if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
-					horaFinal = suma24Horas(evento.getEndd());
-				}else {
-					horaFinal = DateUtil.getHora(evento.getEndd());
-				}
-				
-				listaDeRangos.add(getRango(DateUtil.getHora(evento.getStartd()), horaFinal));
-			}
-
-			// Obtiene el rango horario del nuevo evento a agendar
-			if(reservaContainer.getResto24()) {
-				horaFinal = suma24Horas(DateUtil.createFechaConHora(reservaContainer.getFin()));
-			}else {
-				horaFinal = reservaContainer.getFin();
-			}
-			
-			List<Integer> rangoEventoNuevo = getRangoConMargen(reservaContainer.getInicio(), horaFinal);
-
-			// Si contiene a alguna fecha devuelve false
-			for(List<Integer> rangos : listaDeRangos) {
-				if(CollectionUtils.containsAny(rangos, rangoEventoNuevo)) {
-					return new ResponseEntity<Boolean>(false, HttpStatus.CONFLICT);
-				}
-			}
-		}
-		// Si no intercepta a ninguna da el disponible
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);	
-	}
-	
-	private List<Integer> getRango(String inicio, String fin) {
-		String[] horaInicioSplit = inicio.split(":");
-		String[] horaFinSplit =  fin.split(":");
-		
-		int horaInicio = Integer.parseInt(horaInicioSplit[0] + horaInicioSplit[1]);
-		int horaFin = Integer.parseInt(horaFinSplit[0] + horaFinSplit[1]);
-
-		List<Integer> range = IntStream.range(horaInicio, horaFin).boxed().collect(Collectors.toList());
-		
-		return range;
-	}
-	
-	private List<Integer> getRangoConMargen(String inicio, String fin) {
-		String[] horaInicioSplit = inicio.split(":");
-		String[] horaFinSplit =  fin.split(":");
-		
-		int horaInicio = Integer.parseInt(horaInicioSplit[0] + horaInicioSplit[1]);
-		int horaFin = Integer.parseInt(horaFinSplit[0] + horaFinSplit[1]);
-
-		// Le agrega una hora antes y una hora despues para tener margen
-		horaInicio -= 100;
-		horaFin += 100;
-		
-		List<Integer> range = IntStream.range(horaInicio, horaFin).boxed().collect(Collectors.toList());
-		
-		return range;
-	}
-
-
-	
-	private String suma24Horas(LocalDateTime fecha) {
-		
-		String[] horaFinSplit =  DateUtil.getHora(fecha).split(":");
-		
-		int finHoraEventos = Integer.parseInt(horaFinSplit[0]) + 24;
-		 
-		horaFinSplit[0] = Integer.toString(finHoraEventos);
-
-		return horaFinSplit[0] + ":" + horaFinSplit[1];
-	}
-
-	
-	@GetMapping("/listaEventosByDia")
-	public @ResponseBody ResponseEntity<List<String>> listaEventosByDia(Model model, HttpSession session, ReservaContainer reservaContainer){
-		
-		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
-
-		LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.START_TIME);
-		LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.END_TIME);
-
-		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
-		
-		List<String> listaFecha = new ArrayList<String>();
-
-		if(!listaEvento.isEmpty()) {
-			for(Evento evento : listaEvento) {
-				StringBuilder fecha = new StringBuilder();
-				// En caso de que sea el dia siguiente le agrega la fecha tambien no solo la hora
-				if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
-					fecha.append(DateUtil.getHora(evento.getStartd()) + " hasta " + DateUtil.getHora(evento.getEndd()) + " del dia " + DateUtil.getFecha(evento.getEndd()));
-				}else {
-					fecha.append(DateUtil.getHora(evento.getStartd()) + " hasta " + DateUtil.getHora(evento.getEndd()));
-				}
-				fecha.append(" (" + evento.getSubTipoEvento().getNombre() + ")");
-				
-				listaFecha.add(fecha.toString());
-				
-				// Ordena la lista de mas temprano a mas tarde
-				Collections.sort(listaFecha);
-			}
-			return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
-		}
-		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.CONFLICT);
 	}
 
 }

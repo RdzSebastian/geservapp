@@ -262,6 +262,7 @@ $(document).ready(function() {
 			if(hora_fin >= 24){
 				hora_fin -= 24;
 				resto24 = true;
+				$('#hastaElOtroDiaCheckbox').prop("checked", true );
 				$('#resto24').val(resto24);
 				
 				// Si el resultado da un numero de hora con 1 solo espacio le agrega un 0 al principio
@@ -272,6 +273,7 @@ $(document).ready(function() {
 				// El resultado no resto 24 horas asique setea en false resto
 				hora_fin_string = hora_fin.toString();
 				resto24 = false;
+				$('#hastaElOtroDiaCheckbox').prop("checked", false );
 				$('#resto24').val(resto24);
 			}
 		}
@@ -314,6 +316,7 @@ $(document).ready(function() {
 			if(resto24){
 				hora_fin_number = Number(hora_fin) + 23;
 				resto24 = false;
+				$('#hastaElOtroDiaCheckbox').prop("checked", false );
 				$('#resto24').val(resto24);
 			}else{
 				hora_fin_number = Number(hora_fin) - 1;
@@ -325,6 +328,7 @@ $(document).ready(function() {
 					if(hora_fin_number >= 24){
 						hora_fin_number -= 24;
 						resto24 = true;
+						$('#hastaElOtroDiaCheckbox').prop("checked", true );
 						$('#resto24').val(resto24);
 						if(hora_fin_number.toString().length == 1){
 							hora_fin_string = "0" + hora_fin_number.toString();
@@ -351,6 +355,8 @@ $(document).ready(function() {
 				if(hora_fin_number >= 24){
 					hora_fin_number -= 24;
 					resto24 = true;
+					$('#hastaElOtroDiaCheckbox').prop("checked", true );
+
 					$('#resto24').val(resto24);
 					if(hora_fin_number.toString().length == 1){
 						hora_fin_string = "0" + hora_fin_number.toString();
@@ -445,13 +451,14 @@ function setDisabledHoraFinal(horarioFinalAutomatico) {
 	 	$('#time_end_minute').prop("disabled", true);
 	 	
 		// Oculta CheckboxduraHastaElOtroDia
-		$('#hastaElOtroDiaCheckbox').addClass("d-none");
+		$('#hastaElOtroDia').addClass("d-none");
+
 	}else{
 		$('#time_end_hour').removeAttr("disabled");
 		$('#time_end_minute').removeAttr("disabled");
 		
 		// Muestra CheckboxduraHastaElOtroDia
-		$('#hastaElOtroDiaCheckbox').removeClass("d-none");
+		$('#hastaElOtroDia').removeClass("d-none");
 	}
 }
 // ----------------------------------------------------------------------------------
