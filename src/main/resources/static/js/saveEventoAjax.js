@@ -15,7 +15,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type: 'GET',
-			url: "http://138.219.42.251/api/eventos/buscarClientePorCuil",
+			url: "http://localhost:8080/api/eventos/buscarClientePorCuil",
 			data : data,
 			contentType: "application/json",
 			success : function(response) {
@@ -70,7 +70,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type: 'GET',
-			url: "http://138.219.42.251/api/eventos/horarioDisponible",
+			url: "http://localhost:8080/api/eventos/horarioDisponible",
 			data : data,
 			contentType: "application/json",
 			success : function() {
@@ -91,7 +91,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type: 'GET',
-			url: "http://138.219.42.251/api/eventos/listaEventosByDia",
+			url: "http://localhost:8080/api/eventos/listaEventosByDia",
 			data : data,
 			contentType: "application/json",
 			success : function(response) {

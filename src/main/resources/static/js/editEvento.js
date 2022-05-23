@@ -18,7 +18,9 @@ $(function () {
 	// platos
 	function setPlatoDisabled(){
 		if(capacidadVariable){
-			$("#plato").removeClass("d-none");			
+			$("#plato").removeClass("d-none");
+			capacidadYPrecio.cantidad
+			
 		}else{
 			$("#plato").addClass("d-none");
 		}
