@@ -115,7 +115,7 @@
 			<label for="rol">Extras</label>
            	<div class="choose-bank">
 	           <th:block th:each="extra : ${listaExtra}">
-	                    <div class=form-check>
+	                    <div class="form-check extraCheckbox">
 						    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|" />
 			  				<label class="form-check-label" th:text="${extra.nombre}">
 			  			</div>
@@ -147,6 +147,8 @@
     <script th:inline="javascript">
 		var capacidadVariable = /*[[${reservaContainer.evento.subTipoEvento.capacidad.capacidadVariable}]]*/ [];
 		var capacidadYPrecio = /*[[${reservaContainer.evento.capacidadYPrecio}]]*/ [];
+		var listaExtraJS = /*[[${listaExtra}]]*/ [];
+		var presupuesto = /*[[${reservaContainer.evento.subTipoEvento.precioBase}]]*/ [];
 
 	    $(document).ready( function () {
 			setPresupuesto();
