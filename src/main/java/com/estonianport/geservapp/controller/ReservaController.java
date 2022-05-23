@@ -105,6 +105,21 @@ public class ReservaController {
 			// Agrega lista Extras
 			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
 
+			
+			// Obtiene todos los extra
+			List<Extra> listaExtra = extraService.getAll();
+			
+			// TODO Refactor para no tener que setear el null
+			// Agrega lista extra seleccionadas
+			for(Extra extra : listaExtra) {
+				extra.setListaSubTipoEvento(null);
+			}
+			
+			// Agrega lista Extras al modelo
+			model.addAttribute("listaExtraJS", listaExtra);
+			
+			
+
 			// TODO Refactor para no tener que setear el null
 			// Agrega lista extra seleccionadas
 			Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
@@ -188,7 +203,11 @@ public class ReservaController {
 
 		// Capacidad variable o fija y setea precio de plato y capacidadYPrecio
 		if(evento.getSubTipoEvento().getCapacidad().getCapacidadVariable()) {
-			evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getCapacidadYPrecio()));
+			if(reservaContainer.getCapacidadYPrecio() != null) {
+				evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getCapacidadYPrecio()));
+			}else {
+				evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getEvento().getCapacidadYPrecio()));
+			}
 		}
 
 		// Guarda el evento en la base de datos

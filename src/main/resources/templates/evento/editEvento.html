@@ -147,14 +147,14 @@
     <script th:inline="javascript">
 		var capacidadVariable = /*[[${reservaContainer.evento.subTipoEvento.capacidad.capacidadVariable}]]*/ [];
 		var capacidadYPrecio = /*[[${reservaContainer.evento.capacidadYPrecio}]]*/ [];
-		var listaExtraJS = /*[[${listaExtra}]]*/ [];
+		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
+		var listaExtraJS = /*[[${listaExtraJS}]]*/ [];
 		var presupuesto = /*[[${reservaContainer.evento.subTipoEvento.precioBase}]]*/ [];
 
 	    $(document).ready( function () {
 			setPresupuesto();
 			setExtrasSeleccionadas();
 			setHora();
-			
 
 			function setPresupuesto(){
 				var precio = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
@@ -162,8 +162,6 @@
 			}
 			
 			function setExtrasSeleccionadas(){
-				var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
-				
 				listaExtraSeleccionadas.forEach( function(valor, indice, array) {
 					var valorId = parseInt(valor.id);
 					document.querySelector("#extraId" + valorId).checked = true
