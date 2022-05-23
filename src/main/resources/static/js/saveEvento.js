@@ -464,7 +464,7 @@ function setDisabledHoraFinal(horarioFinalAutomatico) {
 // ----------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
-
+// Setea el precio final de todos los extras seleccionados
 function precioExtras() {
 	var checkboxes = $(".extraCheckbox" );
 	var totalExtras = 0
@@ -484,7 +484,7 @@ function precioExtras() {
 // ----------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
-// Setea disabled la hora y minuto final en base al subTipoEvento
+// Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
 function sumarPresupuesto() {
 	var presupuesto_con_plato = 0;
 	var cantidad_plato_adulto = parseInt($("#cantidad_plato_adulto").val());
