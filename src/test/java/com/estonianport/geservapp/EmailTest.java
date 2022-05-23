@@ -20,7 +20,7 @@ class EmailTest {
 		emailBody.setSubject("Mail prueba GESERVAPP");
 		emailBody.setEmail("rdzsebastian@gmail.com");
 
-		emailService.sendEmail(emailBody);
+//		emailService.sendEmail(emailBody);
 	}
 
 }

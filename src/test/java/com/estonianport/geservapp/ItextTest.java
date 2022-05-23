@@ -1,6 +1,5 @@
 package com.estonianport.geservapp;
 
-import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +17,6 @@ import com.estonianport.geservapp.service.ExtraService;
 import com.estonianport.geservapp.service.SalonService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
 
 @SpringBootTest
 class ItextTest {
@@ -77,16 +74,16 @@ class ItextTest {
     		evento.setPresupuesto(1000);
 
     		evento.setUsuario(usuarioService.get((long) 1));
-
-            Document document = new Document();
-
-            PdfWriter.getInstance(document, new FileOutputStream(itextService.DIRECTORY_PDF + evento.getCodigo() + itextService.EXTENSION_PDF));
-            document.open();
-            
-            itextService.addMetaData(document);
-            itextService.addTitlePage(document, evento);
-            itextService.addContent(document, evento, evento.getListaExtra());
-            document.close();
+//
+//            Document document = new Document();
+//
+//            PdfWriter.getInstance(document, new FileOutputStream(itextService.DIRECTORY_PDF + evento.getCodigo() + itextService.EXTENSION_PDF));
+//            document.open();
+//            
+//            itextService.addMetaData(document);
+//            itextService.addTitlePage(document, evento);
+//            itextService.addContent(document, evento, evento.getListaExtra());
+//            document.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

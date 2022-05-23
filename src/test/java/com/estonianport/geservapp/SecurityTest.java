@@ -93,7 +93,7 @@ public class SecurityTest {
 		}
 
 		u1.setRol(rolAdmin);
-		usuarioDao.save(u1);
+//		usuarioDao.save(u1);
 
 	}
 

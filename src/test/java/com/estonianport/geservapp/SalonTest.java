@@ -24,7 +24,7 @@ public class SalonTest {
 		Salon salon = new Salon();
 		salon.setNombre("salon1");
 		//BBDD
-		salonService.save(salon);
+//		salonService.save(salon);
 	}
 	
 	@Test
