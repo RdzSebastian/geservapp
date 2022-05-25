@@ -58,18 +58,18 @@ public class SecurityTest {
 //		usuarioDao.save(u2);
 //	}
 	
-	@Test
-	void testRoles() {
-		Rol rol = new Rol();
-		rol.setNombre("ADMIN");
-		
-		rolDao.save(rol);
-		
-		rol = new Rol();
-		rol.setNombre("USER");
-		
-		rolDao.save(rol);
-	}
+//	@Test
+//	void testRoles() {
+//		Rol rol = new Rol();
+//		rol.setNombre("ADMIN");
+//		
+//		rolDao.save(rol);
+//		
+//		rol = new Rol();
+//		rol.setNombre("USER");
+//		
+//		rolDao.save(rol);
+//	}
 	
 	@Test
 	void testUsuarioAdmin() {
