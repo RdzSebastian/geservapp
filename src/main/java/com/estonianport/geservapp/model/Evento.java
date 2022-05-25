@@ -67,6 +67,12 @@ public class Evento {
 
 	@Column
 	private String codigo;
+	
+	@Column
+	private int extraOtro;
+	
+	@Column
+	private int descuento;
 
 
 }

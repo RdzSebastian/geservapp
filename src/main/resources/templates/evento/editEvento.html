@@ -117,13 +117,22 @@
 	           <th:block th:each="extra : ${listaExtra}">
 	                    <div class="form-check extraCheckbox">
 						    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|" />
-			  				<label class="form-check-label" th:text="${extra.nombre}">
+			  				<label class="form-check-label" th:text="${extra.nombre} + ' $' + ${extra.precio}">
 			  			</div>
 			  	</th:block>
 			</div>
 			<div class="form-group">
+				<label for="rol">Extra otro</label> 
+                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}"/>
+			</div>
+			
+			<div class="form-group">
+				<label for="rol">Descuento</label> 
+                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}"/>
+			</div>
+			<div class="form-group">
 				<label for="rol">Presupuesto</label> 
-                <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
+                <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
 			</div>
 
 			<div class="container mt-3">

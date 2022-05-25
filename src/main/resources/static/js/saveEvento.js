@@ -126,7 +126,7 @@ $(document).ready(function() {
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraCheckbox");
 		            checkbox.onchange = function () { 
-						changeCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
+						changeExtraCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
 					}
 		            
 		            // creating label for checkbox
@@ -140,7 +140,7 @@ $(document).ready(function() {
 		            
 		            // appending the created text to 
 		            // the created label tag 
-		            label.appendChild(document.createTextNode(valorExtra.nombre));
+		            label.appendChild(document.createTextNode(valorExtra.nombre + ' $' + valorExtra.precio));
 		              
 		            // appending the checkbox
 		            // and label to div
@@ -397,7 +397,7 @@ $(document).ready(function() {
 
 // ----------------------------------------------------------------------------------
 // Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-function changeCheckbox(extraValor, extraId) {
+function changeExtraCheckbox(extraValor, extraId) {
     var decider = document.getElementById(extraId);
     var precio = parseInt($("#presupuesto").val());
 
@@ -503,13 +503,27 @@ function sumarPresupuesto() {
 		precio_nino = cantidad_plato_nino * precio_plato_nino
 	}
 	
-	if(!isNaN(cantidad_plato_adulto) || !isNaN(precio_plato_nino)){
-		presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras()
-	}else{
-		presupuesto_con_plato = parseInt(presupuesto) + precioExtras()
-	}
+	presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras() + precioExtraOtro()
+
+ 	presupuesto_con_plato -= descuento()
 
 	$("#presupuesto").val(presupuesto_con_plato);
 
 }
 // ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Suma el Extra Otro al presupuesto
+function precioExtraOtro() {
+	return parseInt($("#extraOtro").val());
+}
+// ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Aplica el descuento al presupuesto
+function descuento() {
+	return presupuesto * (parseInt($("#descuento").val()) / 10);
+}
+// ---------------------------------------------------------------------------------
+
+
