@@ -2,7 +2,6 @@ do $$
 declare
 	extra_animadora_ninos varchar := 'Animadora de niños';
     extra_animacion_adultos varchar := 'Animacion de adultos';
-    extra_capacidad varchar := 'Capacidad';
     extra_camarero varchar := 'Camarero';
    	extra_media_hora varchar := 'Media Hora';
     extra_hora varchar := 'Hora';
@@ -18,7 +17,6 @@ declare
 	
 	extra_animadora_ninos_id int := 0;
     extra_animacion_adultos_id int := 0;
-    extra_capacidad_id int := 0;
 	extra_camarero_id int := 0;
 	extra_media_hora_id int := 0;
 	extra_hora_id int := 0;
@@ -59,7 +57,6 @@ begin
 
 	extra_animadora_ninos_id :=(SELECT id FROM EXTRA WHERE nombre = extra_animadora_ninos);
 	extra_animacion_adultos_id := (SELECT id FROM EXTRA WHERE nombre = extra_animacion_adultos);
-	extra_capacidad_id := (SELECT id FROM EXTRA WHERE nombre = extra_capacidad);
 	extra_camarero_id := (SELECT id FROM EXTRA WHERE nombre = extra_camarero);
 	extra_media_hora_id := (SELECT id FROM EXTRA WHERE nombre = extra_media_hora);
 	extra_hora_id := (SELECT id FROM EXTRA WHERE nombre = extra_hora);
@@ -88,9 +85,6 @@ begin
 
 	-- Bautismo
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
-		VALUES (extra_capacidad_id,sub_tipo_evento_bautismo_id);
-	
-	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_animadora_ninos_id,sub_tipo_evento_bautismo_id);
 	
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
@@ -103,9 +97,6 @@ begin
 		VALUES (extra_hora_id,sub_tipo_evento_bautismo_id);
 
 	-- Baby Shower
-	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
-		VALUES (extra_capacidad_id,sub_tipo_evento_baby_shower_id);
-	
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_animadora_ninos_id,sub_tipo_evento_baby_shower_id);
 	
@@ -120,9 +111,6 @@ begin
 	
 		-- Cumpleaños infantil
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
-		VALUES (extra_capacidad_id,sub_tipo_evento_cumpleanos_infantil_id);
-	
-	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_animadora_ninos_id,sub_tipo_evento_cumpleanos_infantil_id);
 	
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
@@ -136,18 +124,12 @@ begin
 	
 	-- Cumpleaños Teens
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
-		VALUES (extra_capacidad_id,sub_tipo_evento_cumpleanos_teens_id);
-	
-	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_animadora_ninos_id,sub_tipo_evento_cumpleanos_teens_id);
 	
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_camarero_id,sub_tipo_evento_cumpleanos_teens_id);
 	
 	-- Cumpleaños adulto
-	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
-		VALUES (extra_capacidad_id,sub_tipo_evento_cumpleanos_adulto_id);
-	
 	INSERT into sub_tipo_evento_extra (extra_id,sub_tipo_evento_id)
 		VALUES (extra_animadora_ninos_id,sub_tipo_evento_cumpleanos_adulto_id);
 	

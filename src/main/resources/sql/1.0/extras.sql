@@ -2,7 +2,6 @@ do $$
 declare
 	extra_animadora_ninos varchar := 'Animadora de niños';
     extra_animacion_adultos varchar := 'Animacion de adultos';
-    extra_capacidad varchar := 'Capacidad';
     extra_camarero varchar := 'Camarero';
     extra_mozo varchar := 'Mozo';
    	extra_media_hora varchar := 'Media Hora';
@@ -23,9 +22,6 @@ begin
 	
 	INSERT INTO extra (nombre,precio)
 		VALUES (extra_animacion_adultos,1);
-	
-	INSERT INTO extra (nombre,precio)
-		VALUES (extra_capacidad,1);
 	
 	INSERT INTO extra (nombre,precio)
 		VALUES (extra_camarero,1);
