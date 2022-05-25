@@ -77,17 +77,17 @@ public class ReservaController {
 
 		// Agrega lista de Minuto
 		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
-		
+
 		ReservaContainer reservaContainer = new ReservaContainer();
 
 		if(id != null && id != 0) {
 			Evento evento = eventoService.get(id);
 
 			reservaContainer.setEvento(evento);
-			
+
 			// Setea el cliente
 			reservaContainer.setCliente(evento.getCliente());
-			
+
 			// Setea fecha del evento
 			reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
 
@@ -105,20 +105,17 @@ public class ReservaController {
 			// Agrega lista Extras
 			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
 
-			
 			// Obtiene todos los extra
 			List<Extra> listaExtra = extraService.getAll();
-			
+
 			// TODO Refactor para no tener que setear el null
 			// Agrega lista extra seleccionadas
 			for(Extra extra : listaExtra) {
 				extra.setListaSubTipoEvento(null);
 			}
-			
+
 			// Agrega lista Extras al modelo
 			model.addAttribute("listaExtraJS", listaExtra);
-			
-			
 
 			// TODO Refactor para no tener que setear el null
 			// Agrega lista extra seleccionadas
