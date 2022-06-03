@@ -39,6 +39,8 @@ public class DateUtil {
 
 	public static final List<String> MINUTOS = new ArrayList<>(List.of("00", "30"));
 
+	public static final List<String> MESES = new ArrayList<>(List.of("Enero", "Febrero","Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"));
+
 	public static final String START_TIME = "00:00";
 
 	public static final String END_TIME = "23:59";
