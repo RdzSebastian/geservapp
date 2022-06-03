@@ -13,20 +13,20 @@
 	<div class="container">
 		<br>
 		<h2>Agregar Sub Tipo de Evento</h2>
-		<form action="#" th:action="@{/saveSubTipoEvento}" method="post" th:object="${subTipoEvento}">
-			<input type="hidden" th:field="*{id}" name="id" id="id">
+		<form action="#" th:action="@{/saveSubTipoEvento}" method="post" th:object="${subTipoEventoContainer}">
+			<input type="hidden" th:field="*{subTipoEvento.id}" name="id" id="id">
 			<div class="form-group">
 				<label for="nombre">Nombre</label> 
-				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+				<input type="text" class="form-control" id="nombre" th:field="*{subTipoEvento.nombre}" name="nombre">
 			</div>
 			<div class="form-group">
 				<label for="rol">Tipo Evento</label> 
-				<select th:field="*{tipoEvento.id}" class="form-select" id="tipoEvento">
+				<select th:field="*{subTipoEvento.tipoEvento.id}" class="form-select" id="tipoEvento">
 					<option th:each="tipoEvento : ${listaTipoEvento}" th:value="${tipoEvento.id}" th:text="${tipoEvento.nombre}"/>
 				</select>
 			</div>
             <div>
-                <input id="duracion" type="hidden" th:field="*{duracion}">
+                <input id="duracion" value="Doe" type="hidden" th:field="*{subTipoEvento.duracion}">
                 <label class="form-label w-100">Duracion</label>
                	<div class="d-inline-flex flex-row">
                		<div>
@@ -49,69 +49,278 @@
               	</div>
             </div>
             <div class="form-check">
-			  	<input class="form-check-input" type="checkbox" id="capacidad_variable" th:field="*{capacidad.capacidadVariable}">
+			  	<input class="form-check-input" type="checkbox" id="capacidad_variable" th:field="*{subTipoEvento.capacidad.capacidadVariable}">
 				<label for="capacidad_variable">Capacidad variable</label> 
 			</div>
-			<div class="form-group">
-				<label for="capacidad">Capacidad Adultos</label> 
-				<input type="number" class="form-control" id="capacidad_adultos" th:field="*{capacidad.capacidadAdultos}">
-			</div>
-			<div class="form-group">
-				<label for="capacidad">Capacidad Niños</label> 
-				<input type="number" class="form-control" id="capacidad_ninos" th:field="*{capacidad.capacidadNinos}">
-			</div>
+			<div id="capaciadVariableInputs">
+				<div class="form-group">
+					<label for="capacidad">Capacidad Adultos</label> 
+					<input type="number" class="form-control" id="capacidad_adultos" th:field="*{subTipoEvento.capacidad.capacidadAdultos}">
+				</div>
+				<div class="form-group">
+					<label for="capacidad">Capacidad Niños</label> 
+					<input type="number" class="form-control" id="capacidad_ninos" th:field="*{subTipoEvento.capacidad.capacidadNinos}">
+				</div>
+			</div>				
 			<div class="form-group">
 				<label for="cantPersonal">Cantidad de personal base</label> 
-				<input type="number" class="form-control" id="cantPersonal" th:field="*{cantPersonal}" name="cantPersonal">
+				<input type="number" class="form-control" id="cantPersonal" th:field="*{subTipoEvento.cantPersonal}" name="cantPersonal">
+			</div>
+
+			<div class="form-group">
+				<label for="cantPersonal">Valor extra de fin de semana</label> 
+				<input type="number" class="form-control" id="valorFinSemana" th:field="*{subTipoEvento.valorFinSemana}" name="valorFinSemana">
+			<small id="passwordHelpBlock" class="form-text text-muted"> Este valor se sumara al precio del evento en caso de que sea en fin de semana</small>
+			</div>
+
+			<div class="border-top my-3"></div>
+
+			<div class="row text-center">
+				<div class="form-group col-1">
+					<label for="">Año</label> 
+					<input class="form-control" type="text" id="year1" readonly/>
+				</div>
+				<div class="form-group col-6">
+					<div class="row col-10">
+						<div class="form-group col-4">
+							<label for="">Precio base</label> 
+							<input type="number" class="form-control" th:field="*{precioConFecha[0].precio}" id="0precio">
+						</div>
+						<div class="form-group col-4">
+							<label for="">Desde</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[0].desde}" id="0desdeValor">
+			                <select class="form-select" id="0desde">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+						<div class="form-group col-4">
+							<label for="">Hasta</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[0].hasta}" id="0hastaValor">
+							<select class="form-select" id="0hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[1].precio}" id="1precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[1].desde}" id="1desdeValor">
+				                <select class="form-select" id="1desde" disabled>
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[1].hasta}" id="1hastaValor">
+				                <select class="form-select" id="1hasta">
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+				    	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[2].precio}" id="2precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[2].desde}" id="2desdeValor">
+			                <select class="form-select" id="2desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[2].hasta}" id="2hastaValor">
+			                <select class="form-select" id="2hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[3].precio}" id="3precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[3].desde}" id="3desdeValor">
+			                <select class="form-select" id="3desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[3].hasta}" id="3hastaValor">
+			                <select class="form-select" id="3hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+				</div>
 			</div>
 			
 			<div class="border-top my-3"></div>
 
 			<div class="row text-center">
-
-				<div class="form-group col-2">
-					<div>
-						<label for="">Año</label>
-						<input type="text" id="date1" data-format="YYYY" data-template="YYYY"/>
-					</div>
-
-					<div>
-						<label for="">Año</label> 
-						<input type="text" id="date2" data-format="YYYY" data-template="YYYY"/>
-					</div>
-				
-					<div>
-						<label for="">Año</label> 
-						<input type="text" id="date3" data-format="YYYY" data-template="YYYY"/>
-		        	</div>
+				<div class="form-group col-1">
+					<label for="">Año</label> 
+					<input class="form-control" type="text" id="year2" readonly/>
 				</div>
-<!-- de ultima repetir 4 veces sola el bucle -->
-				<div class="form-group col-10">
-		            <tr th:each="precioConFecha, itemStat : *{listaPrecioConFecha}">
-		            	
-		            	
-		            	<div class="row text-center">
-			            	<div class="row col-10">
-			            	
-			            	
-								<div class="form-group col-4">
-									<label for="">Precio base</label> 
-									<input class="form-control" th:field="*{listaPrecioConFecha[__${itemStat.index}__].precio}" />
-			                	</div>
-			                	<div class="form-group col-4">
-									<label for="">Desde</label> 
-						            <input type="text" th:id="${itemStat.index} + 'desde'" data-format="MM" data-template="MMM" th:field="*{listaPrecioConFecha[__${itemStat.index}__].desde}"/>
-			                	</div>
-								<div class="form-group col-4">
-									<label for="">Hasta</label> 
-						            <input type="text" th:id="${itemStat.index} + 'hasta'" data-format="MM" data-template="MMM" th:field="*{listaPrecioConFecha[__${itemStat.index}__].hasta}"/>
-			                	</div>
-		                	</div>
-		                </div>
-		            </tr>
-		    	</div>
-           	</div>
+				<div class="form-group col-6">
+					<div class="row col-10">
+						<div class="form-group col-4">
+							<label for="">Precio base</label> 
+							<input type="number" class="form-control" th:field="*{precioConFecha[4].precio}" id="4precio">
+						</div>
+						<div class="form-group col-4">
+							<label for="">Desde</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[4].desde}" id="4desdeValor">
+			                <select class="form-select" id="4desde">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+						<div class="form-group col-4">
+							<label for="">Hasta</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[4].hasta}" id="4hastaValor">
+							<select class="form-select" id="4hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[5].precio}" id="5precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[5].desde}" id="5desdeValor">
+				                <select class="form-select" id="5desde" disabled>
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[5].hasta}" id="5hastaValor">
+				                <select class="form-select" id="5hasta">
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+				    	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[6].precio}" id="6precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[6].desde}" id="6desdeValor">
+			                <select class="form-select" id="6desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[6].hasta}" id="6hastaValor">
+			                <select class="form-select" id="6hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[7].precio}" id="7precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[7].desde}" id="7desdeValor">
+			                <select class="form-select" id="7desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[7].hasta}" id="7hastaValor">
+			                <select class="form-select" id="7hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+				</div>
+			</div>
 			
+			<div class="border-top my-3"></div>
+
+			
+
+			<div class="row text-center">
+				<div class="form-group col-1">
+					<label for="">Año</label> 
+					<input class="form-control" type="text" id="year3" readonly/>
+				</div>
+				<div class="form-group col-6">
+					<div class="row col-10">
+						<div class="form-group col-4">
+							<label for="">Precio base</label> 
+							<input type="number" class="form-control" th:field="*{precioConFecha[8].precio}" id="8precio">
+						</div>
+						<div class="form-group col-4">
+							<label for="">Desde</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[8].desde}" id="8desdeValor">
+			                <select class="form-select" id="8desde">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+						<div class="form-group col-4">
+							<label for="">Hasta</label>
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[8].hasta}" id="8hastaValor">
+							<select class="form-select" id="8hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[9].precio}" id="9precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[9].desde}" id="9desdeValor">
+				                <select class="form-select" id="9desde" disabled>
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[9].hasta}" id="9hastaValor">
+				                <select class="form-select" id="9hasta">
+				                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+				                </select>							
+				    	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[10].precio}" id="10precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[10].desde}" id="10desdeValor">
+			                <select class="form-select" id="10desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[10].hasta}" id="10hastaValor">
+			                <select class="form-select" id="10hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>						
+			        	</div>
+					</div>
+					<div class="row col-10 mt-1">
+						<div class="form-group col-4">
+							<input type="number" class="form-control" th:field="*{precioConFecha[11].precio}" id="11precio">
+						</div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[11].desde}" id="11desdeValor">
+			                <select class="form-select" id="11desde" disabled>
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			            </div>
+						<div class="form-group col-4">
+							<input type="text" class="form-control d-none" th:field="*{precioConFecha[11].hasta}" id="11hastaValor">
+			                <select class="form-select" id="11hasta">
+			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
+			                </select>
+			        	</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
@@ -132,7 +341,8 @@
     <script src="../vendor/moment/locale-es.js"></script> 
     <script src="../vendor/combodate/combodate.js"></script>
 	<script th:inline="javascript">
-		var duracion = /*[[${subTipoEvento.duracion}]]*/ [];
+		var duracion = /*[[${subTipoEventoContainer.subTipoEvento.duracion}]]*/ [];
+		var listaPrecioConFecha = /*[[${subTipoEventoContainer.subTipoEvento.listaPrecioConFecha}]]*/ [];
 	</script>
 
 	<script src="../js/saveSubTipoEvento.js"></script>

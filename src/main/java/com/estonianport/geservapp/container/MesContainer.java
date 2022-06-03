@@ -5,8 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CodigoContainer {
+public class MesContainer {
 
-	private String codigo;
+	private String nombre;
+
+	private int valor;
 
 }

@@ -5,8 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CodigoContainer {
+public class PrecioConFechaContainer {
 
-	private String codigo;
+	private int precio;
 
+	private String desde;
+	
+	private String hasta;
+	
 }

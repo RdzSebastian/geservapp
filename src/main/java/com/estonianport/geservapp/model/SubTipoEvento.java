@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,10 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,12 +47,19 @@ public class SubTipoEvento {
 
 	@Column(name = "cant_personal")
 	private int cantPersonal;
+	
+	@Column(name = "valor_fin_semana")
+	private int valorFinSemana;
 
 	@Column(name = "horario_final_automatico")
 	private boolean horarioFinalAutomatico;
 
-	@JsonBackReference
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	@JsonManagedReference
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "sub_tipo_evento_precio_con_fecha",
+			joinColumns = @JoinColumn(name = "sub_tipo_evento_id"),
+			inverseJoinColumns = @JoinColumn(name = "precio_con_fecha_id"))
 	private List<PrecioConFecha> listaPrecioConFecha;
 
 	@JsonBackReference
