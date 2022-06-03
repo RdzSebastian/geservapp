@@ -84,7 +84,7 @@ $(document).ready(function() {
         var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
-                presupuesto = subTipoEvento.precioBase;
+                presupuesto = subTipoEvento.precioConFecha;
 
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);

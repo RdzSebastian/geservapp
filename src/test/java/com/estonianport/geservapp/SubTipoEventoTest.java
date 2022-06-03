@@ -16,7 +16,6 @@ public class SubTipoEventoTest {
 		subTipoEvento.setCantPersonal(10);
 //		subTipoEvento.setCapacidad_adultos(10);
 //		subTipoEvento.setCapacidad_adultos(10);
-		subTipoEvento.setPrecioBase(12000);
 		//BBDD
 //		subTipoEventoService.save(subTipoEvento);
 	}

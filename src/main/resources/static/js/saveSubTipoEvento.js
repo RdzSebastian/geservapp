@@ -27,4 +27,39 @@ $(function () {
 		    }
 		}
 	}
+	
+	$(function(){
+		for (var i = 0; i <= 11; i++) {
+    		$('#' + i + 'desde').combodate({
+          		customClass: 'form-control w-100'
+			});
+    		$('#' + i + 'hasta').combodate({
+          		customClass: 'form-control w-100'
+			});
+	    }
+	});
+	
+	// ----------------------------------------------------------------------------------	
+	// Libreria combodate muestra el dia
+	$('#date1').combodate({
+          value: new Date(),
+          minYear: moment().year(),
+          maxYear: moment().year(),
+          customClass: 'form-control w-100'
+    });
+    
+    $('#date2').combodate({
+          value: new Date(),
+          minYear: moment().year() + 1,
+          maxYear: moment().year() + 1,
+          customClass: 'form-control w-100'
+    });
+    
+    $('#date3').combodate({
+          value: new Date(),
+          minYear: moment().year() + 2,
+          maxYear: moment().year() + 2,
+          customClass: 'form-control w-100'
+    });
+	
 });

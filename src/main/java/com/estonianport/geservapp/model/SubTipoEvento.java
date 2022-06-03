@@ -1,6 +1,7 @@
 package com.estonianport.geservapp.model;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -44,12 +45,13 @@ public class SubTipoEvento {
 	@Column(name = "cant_personal")
 	private int cantPersonal;
 
-	@Column(name = "precio_base")
-	private int precioBase;
-	
 	@Column(name = "horario_final_automatico")
 	private boolean horarioFinalAutomatico;
-	
+
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	private List<PrecioConFecha> listaPrecioConFecha;
+
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
 	private Set<Servicio> listaServicio;

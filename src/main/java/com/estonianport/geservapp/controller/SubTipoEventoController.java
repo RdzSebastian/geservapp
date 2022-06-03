@@ -1,5 +1,6 @@
 package com.estonianport.geservapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
@@ -52,10 +54,27 @@ public class SubTipoEventoController {
 		// Agrega lista de Minuto
 		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
 
+		SubTipoEvento subTipoEvento = new SubTipoEvento();
+		
+		List<PrecioConFecha> listaPrecioConFecha = new ArrayList<PrecioConFecha>();
+		
+	    for (int i = 0; i <= 11; i++) {
+	    	listaPrecioConFecha.add(new PrecioConFecha());
+	    }
+
+	    subTipoEvento.setListaPrecioConFecha(listaPrecioConFecha);
+	    
+	    SubTipoEvento subTipoEventoEnBase = subTipoEventoService.get(id);
+	    
+	    if(subTipoEventoEnBase.getListaPrecioConFecha().isEmpty()) {
+		    subTipoEventoEnBase.setListaPrecioConFecha(listaPrecioConFecha);
+	    }
+
+		
 		if(id != null && id != 0) {
-			model.addAttribute(GeneralPath.SUB_TIPO_EVENTO, subTipoEventoService.get(id));
+			model.addAttribute(GeneralPath.SUB_TIPO_EVENTO, subTipoEventoEnBase);
 		}else {
-			model.addAttribute(GeneralPath.SUB_TIPO_EVENTO, new SubTipoEvento());
+			model.addAttribute(GeneralPath.SUB_TIPO_EVENTO, subTipoEvento);
 		}
 		return GeneralPath.SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_SUB_TIPO_EVENTO;
 	}
