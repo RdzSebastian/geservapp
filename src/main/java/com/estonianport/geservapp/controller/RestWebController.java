@@ -28,9 +28,12 @@ import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.json.FullCalendarJSON;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
+import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -42,6 +45,9 @@ public class RestWebController {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private SubTipoEventoService subTipoEventoService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
@@ -222,5 +228,28 @@ public class RestWebController {
 		}
 		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "*")	
+	@GetMapping("/precioEventoBySubTipoEventoYFecha")
+	public @ResponseBody ResponseEntity<Integer> precioEventoBySubTipoEventoYFecha(Model model, @RequestParam(value="fecha") String fecha, @RequestParam(value="subTipoEventoId") long subTipoEventoId){
+
+		SubTipoEvento subTipoEvento = subTipoEventoService.get(subTipoEventoId);
+		LocalDateTime fechaEvento = DateUtil.createFechaConHora(fecha, DateUtil.START_TIME);
+		
+		List<PrecioConFecha> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
+		
+		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
+			
+			if(fechaEvento.getYear() == precioConFecha.getDesde().getYear()) {
+				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
+
+				if(rangoMeses.contains(fechaEvento.getMonthValue())){
+					return new ResponseEntity<Integer>(precioConFecha.getPrecio(), HttpStatus.OK);
+				}
+			}
+		}
+		return new ResponseEntity<Integer>(HttpStatus.OK);
+	}
+	
 
 }

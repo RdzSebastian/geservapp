@@ -18,15 +18,15 @@ $(document).ready(function() {
 			url: "http://localhost:8080/api/eventos/buscarClientePorCuil",
 			data : data,
 			contentType: "application/json",
-			success : function(response) {
+			success : function(cliente) {
 				
-				if(response != ""){
-					$("#nombreCliente").val(response.nombre);
-					$("#apellido").val(response.apellido);
-					$("#email").val(response.email);
-					$("#celular").val(response.celular);
-					$("#empresa").val(response.empresa);
-					$("#sexo").val(response.sexo.id);
+				if(cliente != ""){
+					$("#nombreCliente").val(cliente.nombre);
+					$("#apellido").val(cliente.apellido);
+					$("#email").val(cliente.email);
+					$("#celular").val(cliente.celular);
+					$("#empresa").val(cliente.empresa);
+					$("#sexo").val(cliente.sexo.id);
 					 
 					$("#clienteEncontrado").removeClass("d-none");
 					$("#clienteNoEncontrado").addClass("d-none");
@@ -48,6 +48,7 @@ $(document).ready(function() {
 	$("#date").change(function(){
 		horarioDisponible();
 		listaEventosByDia();
+		precioEventoBySubTipoEventoYFecha();
 	});
 
 	$("#time_start_hour").change(function(){
@@ -107,12 +108,12 @@ $(document).ready(function() {
 			url: "http://localhost:8080/api/eventos/listaEventosByDia",
 			data : data,
 			contentType: "application/json",
-			success : function(response) {
+			success : function(listaEvento) {
 
 				// Limpia las fechas que se agregaron anteriormente
 				$('#ulEvento').remove();
 
-				if(response != ""){
+				if(listaEvento != ""){
 					// Obtiene el div donde ira la lista de servicios
 					var listaEventoDiv = document.getElementById("listaEvento");
 					
@@ -120,13 +121,32 @@ $(document).ready(function() {
 					var ul = document.createElement('ul');
 					ul.id = "ulEvento"
 			
-					response.forEach(function(fecha) {
+					listaEvento.forEach(function(fecha) {
 						var li = document.createElement("li");
 						li.appendChild(document.createTextNode(fecha));
 						ul.appendChild(li);
 					});
 					listaEventoDiv.appendChild(ul);
 				}
+			}
+		});
+	}
+	
+					
+	function precioEventoBySubTipoEventoYFecha(){
+		data = {
+			fecha: $("#date").val(),
+			subTipoEventoId: $("#subTipoEvento").val()
+		};
+
+		$.ajax({
+			type: 'GET',
+			url: "http://localhost:8080/api/eventos/precioEventoBySubTipoEventoYFecha",
+			data : data,
+			contentType: "application/json",
+			success : function(precio) {
+				$("#presupuesto").val(parseInt(precio))
+				presupuesto();
 			}
 		});
 	}

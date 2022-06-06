@@ -84,7 +84,8 @@ $(document).ready(function() {
         var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
-                presupuesto = subTipoEvento.precioConFecha;
+	
+                //presupuesto = subTipoEvento.precioConFecha;
 
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
@@ -95,7 +96,8 @@ $(document).ready(function() {
             }
         });
 
-        $("#presupuesto").val(presupuesto);
+		// El presupuesto ahora se calcula segun la fecha y el subtipoevento por AJAX
+        //$("#presupuesto").val(presupuesto);
     })
     // ----------------------------------------------------------------------------------
 
@@ -505,9 +507,9 @@ function sumarPresupuesto() {
 	
 	presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras() + precioExtraOtro()
 
- 	presupuesto_con_plato -= descuento()
+ 	presupuesto_con_plato -= descuento(presupuesto_con_plato)
 
-	$("#presupuesto").val(presupuesto_con_plato);
+	$("#presupuesto").val(parseInt(presupuesto_con_plato));
 
 }
 // ---------------------------------------------------------------------------------
@@ -520,10 +522,9 @@ function precioExtraOtro() {
 // ---------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
-// Aplica el descuento al presupuesto
-function descuento() {
-	return presupuesto * (parseInt($("#descuento").val()) / 10);
+// Aplica el descuento al presupuestoTotal con extras y todo
+function descuento(presupuestoTotal) {
+	return presupuestoTotal * (parseInt($("#descuento").val()) / 100);
 }
 // ---------------------------------------------------------------------------------
-
 

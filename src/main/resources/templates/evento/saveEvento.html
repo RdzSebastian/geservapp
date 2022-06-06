@@ -195,14 +195,19 @@
 					                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}" onChange="sumarPresupuesto();">
 								</div>
 								<div class="form-group col-6">
-									<label for="rol">Descuento</label> 
-					                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();">
+									<label for="rol">Descuento</label>
+									<div class="input-group mb-2">
+				                		<input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();">
+										<div class="input-group-prepend">
+								          <div class="input-group-text">%</div>
+								        </div>
+									</div>
 								</div>
 							</div>
 							<div class="row mt-2">
 								<div class="form-group col-md-8">
 				                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
-				                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
+				                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
 								</div>
 							</div>
 						</div>
@@ -303,6 +308,15 @@
     <script src="../js/saveEventoWizard.js"></script>
     <script src="../js/saveEvento.js"></script>
     <script src="../js/saveEventoAjax.js"></script>
+    
+    <script type="text/javascript">
+		// ----------------------------------------------------------------------------------
+		// Setea el presupuesto que viene en el AJAX
+		function presupuesto() {
+			presupuesto = parseInt(document.getElementById("presupuesto").value);
+		}
+		// ---------------------------------------------------------------------------------
+	</script>
 
 </body>
 
