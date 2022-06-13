@@ -65,6 +65,6 @@ public class SalonController {
 		
 		//Elmina el salon
 		salonService.delete(id);
-		return GeneralPath.REDIRECT;
+		return GeneralPath.REDIRECT + GeneralPath.ABM_SALON;
 	}
 }

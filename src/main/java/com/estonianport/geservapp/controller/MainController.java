@@ -174,8 +174,7 @@ public class MainController {
 		session.setAttribute(GeneralPath.ACTION, "/eventoEncontrado");
 		session.setAttribute(GeneralPath.VOLVER, "/buscarAllEvento");
 
-		List<Evento> listaEvento = eventoService.getAll();
-		model.addAttribute("listaEvento", listaEvento);
+		model.addAttribute("listaEvento", eventoService.getEventosBySalon(salon));
 		model.addAttribute(GeneralPath.VOLVER, "/administracion");
 
 		return "seleccionarFecha/abmSeleccionarFecha";
