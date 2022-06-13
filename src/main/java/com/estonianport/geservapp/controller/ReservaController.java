@@ -163,11 +163,6 @@ public class ReservaController {
 		// El container retorna los objetos a usar
 		Evento evento = reservaContainer.getEvento();
 
-		// En caso de que sea un evento que no tiene capacidad variable le seteo null para que no lo inserte
-		if(evento.getCapacidadYPrecio().getCapacidadAdultos() == 0 && evento.getCapacidadYPrecio().getCapacidadNinos() == 0) {
-			evento.setCapacidadYPrecio(null);
-		}
-		
 		// Salon en sesion para volver al calendario y setear en el save
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		evento.setSalon(salon);
@@ -210,6 +205,9 @@ public class ReservaController {
 			}else {
 				evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getEvento().getCapacidadYPrecio()));
 			}
+		}else {
+			// En caso de que sea un evento que no tiene capacidad variable le seteo null para que no lo inserte
+			evento.setCapacidadYPrecio(null);
 		}
 
 		// Guarda el evento en la base de datos
@@ -231,4 +229,5 @@ public class ReservaController {
 		}
 		return codigo;
 	}
+
 }
