@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -196,30 +198,41 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/download")
-	public ResponseEntity<FileSystemResource> download(Model model, CodigoContainer codigoContainer, HttpSession session, HttpServletResponse response) throws IOException{
+	public ResponseEntity<FileSystemResource> download(Model model, CodigoContainer codigoContainer, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws IOException{
 
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			// Busca el evento por codigo y si no existe no devuelve nada
 			Evento evento = eventoService.getEventoByCodigo(codigoContainer.getCodigo());
 			if(evento != null) {
 				try {
-					File file = new File(GeneralPath.DIRECTORY_PDF + codigoContainer.getCodigo() + GeneralPath.EXTENSION_PDF);
+					
+					ServletContext adminContext = request.getServletContext();
+					ServletContext uploadsContext = adminContext.getContext(GeneralPath.PATH_SEPARATOR + GeneralPath.DIRECTORY_PDF);
+					String absolutePath = uploadsContext.getRealPath("");
+
+					File fileDirectory = new File(absolutePath + GeneralPath.DIRECTORY_PDF);
+
+					// Crea el directorio si no existe
+					if(!fileDirectory.exists()){
+						fileDirectory.mkdir();
+					}
 
 					// Crea el archivo si no existe
-					if(!file.exists()){
+					File fileDirectoryFile = new File(absolutePath + GeneralPath.DIRECTORY_PDF + codigoContainer.getCodigo() + GeneralPath.EXTENSION_PDF);
+					if(!fileDirectoryFile.exists()) {
 						ReservaContainer reservaContainer = new ReservaContainer();
 						reservaContainer.setEvento(evento);
 
-						itextService.createPdf(reservaContainer);
+						itextService.createPdf(reservaContainer, fileDirectoryFile.getAbsolutePath());
 					}
 
 					// Prepara archivo para descarga
 					HttpHeaders respHeaders = new HttpHeaders();
 					respHeaders.setContentType(MediaType.APPLICATION_PDF);
-					respHeaders.setContentLength(file.length());
-					respHeaders.setContentDispositionFormData("attachment", file.getName());
+					respHeaders.setContentLength(fileDirectoryFile.length());
+					respHeaders.setContentDispositionFormData("attachment", fileDirectoryFile.getName());
 
-					return new ResponseEntity<FileSystemResource>(new FileSystemResource(file), respHeaders, HttpStatus.OK);
+					return new ResponseEntity<FileSystemResource>(new FileSystemResource(fileDirectoryFile), respHeaders, HttpStatus.OK);
 				} catch (Exception e) {
 					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 				}

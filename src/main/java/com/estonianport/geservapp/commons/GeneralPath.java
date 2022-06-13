@@ -35,7 +35,8 @@ public class GeneralPath {
 	public static final String EDIT_EVENTO = "editEvento";
 	public static final String REDIRECT = "redirect:/";
 	public static final String PATH_SEPARATOR = "/";
-	
+
+	public static final String DIRECTORY_WEBAPPS = "webapps/";
 	public static final String DIRECTORY_PDF = "pdf/";
 	public static final String EXTENSION_PDF = ".pdf";
 	

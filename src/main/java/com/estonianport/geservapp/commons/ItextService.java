@@ -31,10 +31,10 @@ public class ItextService {
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-    public void createPdf(ReservaContainer reservaContainer) throws Exception {
+    public void createPdf(ReservaContainer reservaContainer, String path) throws Exception {
     	//Crear Archivo
     	Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(DIRECTORY_PDF + reservaContainer.getEvento().getCodigo() + EXTENSION_PDF));
+        PdfWriter.getInstance(document, new FileOutputStream(path));
         document.open();
         this.addMetaData(document);
         this.addTitlePage(document, reservaContainer.getEvento());
