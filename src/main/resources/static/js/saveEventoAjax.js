@@ -2,12 +2,12 @@ $(document).ready(function() {
 
 	$("#cuil").change(function(){
 
+	  // Setea todos los campos vacios menos sexo
 	  $("#nombreCliente").val(null);
 	  $("#apellido").val(null);
 	  $("#email").val(null);
 	  $("#celular").val(null);
 	  $("#empresa").val(null);
-	  $("#sexo").val(null);
 
 		data = {
 			cuil: $("#cuil").val()
@@ -21,6 +21,15 @@ $(document).ready(function() {
 			success : function(cliente) {
 				
 				if(cliente != ""){
+					// Todos los campos en disabled para que no edite al cliente encontrado
+					$('#nombreCliente').prop("disabled", true);
+					$('#apellido').prop("disabled", true);
+					$('#email').prop("disabled", true);
+					$('#celular').prop("disabled", true);
+					$('#empresa').prop("disabled", true);
+					$('#sexo').prop("disabled", true);
+					
+					// Setea todos los valores del cliente encontrado
 					$("#nombreCliente").val(cliente.nombre);
 					$("#apellido").val(cliente.apellido);
 					$("#email").val(cliente.email);
@@ -28,16 +37,19 @@ $(document).ready(function() {
 					$("#empresa").val(cliente.empresa);
 					$("#sexo").val(cliente.sexo.id);
 					 
+					// Esconde cartel de cliente NO encontrado y muestra cartel de cliente encontrado
 					$("#clienteEncontrado").removeClass("d-none");
 					$("#clienteNoEncontrado").addClass("d-none");
 				}else{
-					$("#nombreCliente").val();
-					$("#apellido").val();
-					$("#email").val();
-					$("#celular").val();
-					$("#empresa").val();
-					$("#sexo").val();
-					
+					// Remueve los disabled para que ingrese un nuevo cliente al no haberlo encontrado
+					$('#nombreCliente').removeAttr("disabled");
+					$('#apellido').removeAttr("disabled");
+					$('#email').removeAttr("disabled");
+					$('#celular').removeAttr("disabled");
+					$('#empresa').removeAttr("disabled");
+					$('#sexo').removeAttr("disabled");
+
+					// Esconde cartel de cliente encontrado y muestra cartel de cliente NO encontrado
 					$("#clienteEncontrado").addClass("d-none");
 					$("#clienteNoEncontrado").removeClass("d-none");
 				}
@@ -45,33 +57,39 @@ $(document).ready(function() {
 		});
 	});
 	
+	// Al modificar la fecha que chequee los horarios disponibles, traiga la lista de eventos de ese dia 
+	// y el precio de ese dia
 	$("#date").change(function(){
 		horarioDisponible();
 		listaEventosByDia();
 		precioEventoBySubTipoEventoYFecha();
 	});
 
+	// Al modificar la hora de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_hour").change(function(){
 		horarioDisponible();
 		listaEventosByDia();
 
 	});
-	
+
+	// Al modificar los minutos de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_minute").change(function(){
 		horarioDisponible();
 		listaEventosByDia();
 	});
 	
-	
+
+	// Al modificar la horade inicio que chequee los horarios disponibles
 	$("#time_end_hour").change(function(){
 		horarioDisponible();
 	});
-	
-	
+
+	// Al modificar la horade inicio que chequee los horarios disponibles
 	$("#time_end_minute").change(function(){
 		horarioDisponible();
 	});
 
+	// Busca si el horario esta disponible, al finalizar muestra el cartel correspondiente 
 	function horarioDisponible(){
 		data = {
 			fecha: $("#date").val(),
@@ -98,6 +116,7 @@ $(document).ready(function() {
 		});
 	}
 
+	// Trae la lista de eventos por dia con su respectivo subTipoEvento y horario del evento
 	function listaEventosByDia(){
 		data = {
 			fecha: $("#date").val()
@@ -131,8 +150,8 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
-					
+
+	// Trae el precio del subTipoEvento, en caso de ser fin de semana le agrega un extra
 	function precioEventoBySubTipoEventoYFecha(){
 		data = {
 			fecha: $("#date").val(),

@@ -242,34 +242,34 @@
 						<div class="row  mt-2">
 	                    	<div class="col-md-4">
 	                    		<label for="nombreCliente">Nombre</label>
-	                    		<input type="text" class="form-control" id="nombreCliente" th:field="*{cliente.nombre}" name="nombre" required>
+	                    		<input type="text" class="form-control" id="nombreCliente" th:field="*{cliente.nombre}" name="nombre" required disabled>
 	                    	</div>
 	                    	<div class="col-md-4">
 	                    		<label for="apellido">Apellido</label>
-								<input type="text" class="form-control" id="apellido" th:field="*{cliente.apellido}" name="apellido" required>
+								<input type="text" class="form-control" id="apellido" th:field="*{cliente.apellido}" name="apellido" required disabled>
 	                    	</div>
 	                    </div>
 
 						<div class="row mt-2">
 							<div class="form-group col-md-4">
 		                    	<label for="email">E-mail</label>
-								<input type="text" class="form-control email" id="email" th:field="*{cliente.email}" name="email" required>
+								<input type="text" class="form-control email" id="email" th:field="*{cliente.email}" name="email" required disabled>
 		                    </div>
 	
 							<div class="form-group col-md-4">
 		                    	<label for="celular">Celular</label>
-								<input type="number" class="form-control" id="celular" th:field="*{cliente.celular}" name="celular" required>
+								<input type="number" class="form-control" id="celular" th:field="*{cliente.celular}" name="celular" required disabled>
 							</div>
 						</div>
 
 						<div class="row mt-2">
 							<div class="form-group col-md-4">
 								<label for="empresa">Nombre de la empresa (Opcional)</label>
-								<input type="text" class="form-control" id="empresa" th:field="*{cliente.empresa}" name="empresa">	
+								<input type="text" class="form-control" id="empresa" th:field="*{cliente.empresa}" name="empresa" disabled>	
 							</div>
 							<div class="form-group col-md-4">
 					  			<label for="sexo">Sexo</label>
-				                <select class="form-select" id="sexo" th:field="*{cliente.sexo}">
+				                <select class="form-select" id="sexo" th:field="*{cliente.sexo}" disabled>
 				                    <option th:each="sexo : ${listaSexo}" th:value="${sexo.id}" th:text="${sexo.nombre}"/>
 				                </select>
 							</div>
