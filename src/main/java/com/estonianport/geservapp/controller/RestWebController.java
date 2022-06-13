@@ -244,11 +244,15 @@ public class RestWebController {
 				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
 
 				if(rangoMeses.contains(fechaEvento.getMonthValue())){
-					return new ResponseEntity<Integer>(precioConFecha.getPrecio(), HttpStatus.OK);
+					if(DateUtil.isFinDeSemana(fechaEvento)) {
+						return new ResponseEntity<Integer>(precioConFecha.getPrecio() + subTipoEvento.getValorFinSemana(), HttpStatus.OK);
+					}else {
+						return new ResponseEntity<Integer>(precioConFecha.getPrecio(), HttpStatus.OK);
+					}
 				}
 			}
 		}
-		return new ResponseEntity<Integer>(HttpStatus.OK);
+		return new ResponseEntity<Integer>(0, HttpStatus.OK);
 	}
 	
 

@@ -1,14 +1,17 @@
 package com.estonianport.geservapp.commons;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class DateUtil {
 
 	private static final String DATE_SEPARATOR = "-";
-	
+
 	private static final String DATE_SEPARATOR_SLASH = "/";
 
 	private static final String DAY = "dd";
@@ -45,6 +48,8 @@ public class DateUtil {
 
 	public static final String END_TIME = "23:59";
 
+	static Set<DayOfWeek> WEEKEND = EnumSet.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+
 	public static String getFecha(LocalDateTime fecha) {
 		return fecha.format(DateUtil.DATE_FORMATTER);
 	}
@@ -52,7 +57,7 @@ public class DateUtil {
 	public static String getHora(LocalDateTime hora) {
 		return hora.format(DateUtil.TIME_FORMATTER);
 	}
-	
+
 	public static String getFechaConHora(LocalDateTime fechaConHora) {
 		return fechaConHora.format(DateUtil.DATETIME_FORMATTER);
 	}
@@ -60,11 +65,11 @@ public class DateUtil {
 	public static LocalDateTime createFechaConHora(String fechaConHora) {
 		return LocalDateTime.parse(fechaConHora, DateUtil.DATETIME_FORMATTER);
 	}
-	
+
 	public static LocalDateTime createFechaConHora(String fecha, String hora) {
 		return LocalDateTime.parse(fecha + SPACE_SEPARATOR + hora, DateUtil.DATETIME_FORMATTER);
 	}
-	
+
 	public static LocalDateTime createFechaConHoraSlash(String fecha, String hora) {
 		return LocalDateTime.parse(fecha + SPACE_SEPARATOR + hora, DateUtil.DATETIME_FORMATTER_SLASH);
 	}
@@ -72,9 +77,13 @@ public class DateUtil {
 	public static LocalDateTime createFechaInvertidaConHora(String fechaConHora) {
 		return LocalDateTime.parse(fechaConHora, DateUtil.DATETIME_FORMATTER_INVERTED);
 	}
-	
+
 	public static LocalDateTime createFechaInvertidaConHora(String fecha, String hora) {
 		return LocalDateTime.parse(fecha + SPACE_SEPARATOR + hora, DateUtil.DATETIME_FORMATTER_INVERTED);
+	}
+
+	public static boolean isFinDeSemana(LocalDateTime dateTime) {        
+		return WEEKEND.contains(dateTime.getDayOfWeek());
 	}
 
 }
