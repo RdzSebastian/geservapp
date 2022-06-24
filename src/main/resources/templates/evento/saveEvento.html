@@ -26,12 +26,12 @@
 
 			    <!--===============================================================================================-->
 		        <h3>Tipo de evento</h3>
-		        <section>					
+		        <section>
 			        <div class="row">
 						<div class="col-md-6">
 							<div class="col-md-10">
 					            <h2>Selecciones tipo de evento a realizar</h2>
-					            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto final</p>
+					            <p>El tipo de evento a seleccionar cambiara la cantidad de horas de duracion y presupuesto base.</p>
 						    </div>
 				            <div class="col-md-10">
 				                <label for="tipoEvento" class="form-label">Tipo Evento</label>
@@ -47,6 +47,20 @@
 				                    <option selected hidden th:value="0">Sub Tipo Evento</option>
 				                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
 				                </select>
+				            </div>
+				            
+							<div class="col-md-10 mt-3">
+								<h2>Ingrese cantidad de personas</h2>
+								<div class="row  mt-3">
+								    <div class="form-group col-6">
+				                    	<label for="cantidad_plato_adulto">Cantidad Adultos</label>
+										<input type="number" class="form-control" id="cantidad_plato_adulto" onChange="">
+									</div>
+									<div class="form-group col-6">
+					                    <label for="precio_plato_adulto" class="form-label">Cantidad Niños</label> 
+					                    <input type="number" class="form-control" id="cantidad_plato_nino" onChange="">
+					                </div>
+					            </div>
 				            </div>
 					   	</div>
 						<div class="col-md-6">
@@ -72,7 +86,7 @@
 				                
 		                        <div class="form-group">
 		                        	<label for="nombre" class="form-label">Nombre del evento</label>
-		                            <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}" required>
+		                            <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{evento.nombre}">
 		                        </div>
 		
 				                <div class="form-group">
@@ -159,36 +173,18 @@
             		<p>Puede agregar extras que cambiaran el precio final</p>
 		           	<div class="row">
 		        		<div class="col-md-6">
-				            <div class="fieldset-content">
-				                <div class="form-group">
-				                    <label for="extras" class="form-label">Extras</label> 
+		        			<div class="row">
+				                <div class="col-md-6 form-group">
+				                    <h4>Extras fijos</h4> 
 				                    <div id="listaExtra"> </div>
+					            </div>
+					            <div class="col-md-6 form-group">
+				                    <h4>Extras variables</h4> 
+				                    <div id="listaExtraVariable"> </div>
 					            </div>
 							</div>
 						</div>
 						<div class="col-md-6" >
-							<div id="plato">
-								<div class="row">
-								    <div class="form-group col-6">
-				                    	<label for="cantidad_plato_adulto">Cantidad de platos adultos</label>
-										<input type="number" class="form-control" id="cantidad_plato_adulto" th:field="*{capacidadYPrecio.capacidadAdultos}" onChange="sumarPresupuesto();">
-									</div>
-									<div class="form-group col-6">
-					                    <label for="precio_plato_adulto" class="form-label">Precio de platos adultos</label> 
-					                    <input type="number" class="form-control" id="precio_plato_adulto" th:field="*{capacidadYPrecio.precioAdultos}" onChange="sumarPresupuesto();">
-					                </div>
-					            </div>
-				                <div class="row mt-2">
-									<div class="form-group col-6">
-				                    	<label for="cantidad_plato_nino">Cantidad de platos niños</label>
-										<input type="number" class="form-control" id="cantidad_plato_nino" th:field="*{capacidadYPrecio.capacidadNinos}" onChange="sumarPresupuesto();">
-									</div>
-									<div class="form-group col-6">
-				                    	<label for="precio_plato_nino">Precio de platos niños</label>
-										<input type="number" class="form-control" id="precio_plato_nino" th:field="*{capacidadYPrecio.precioNinos}" onChange="sumarPresupuesto();">
-									</div>
-								</div>
-							</div>
 							<div class="row mt-2">
 								<div class="form-group col-6">
 									<label for="rol">Extra otro</label> 
@@ -199,7 +195,7 @@
 									<div class="input-group mb-2">
 				                		<input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();">
 										<div class="input-group-prepend">
-								          <div class="input-group-text">%</div>
+								        	<div class="input-group-text">%</div>
 								        </div>
 									</div>
 								</div>
@@ -207,11 +203,74 @@
 							<div class="row mt-2">
 								<div class="form-group col-md-8">
 				                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
-				                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
+				                    <div class="input-group mb-2">
+				                    	<div class="input-group-prepend">
+									    	<div class="input-group-text">$</div>
+									    </div>
+					                    <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div> 
+		        </section>
+		    	<!--===============================================================================================-->
+
+			    <!--===============================================================================================-->
+		        <h3>Catering</h3>
+		        <section>
+		        	<div class="col-md-10">
+						<h2>Seleccione opciones de catering</h2>
+					    <p>Puede agregar un servicio de catering al evento</p>
+			    		<div class="form-group mt-2">
+		                    <input class="form-check-input" type="checkbox" id="catering_checkbox" >
+		                    <label class="form-check-label">Agregar servicio de catering</label>
+		                </div>
+					</div>
+					<div id="catering">
+				        <div class="row">
+							<div class="col-md-6">
+							    <div class="row">
+						            <div class="col-6">
+						            	Tipos de catering
+						            </div>
+				
+						            <div class="col-6">
+						            	Extras de catering
+						            </div>
+						    	</div>       
+						   	</div>
+						   	<div class="col-md-6">
+								<div class="col-12">
+					            	<h4>La cantidad de personas del evento es: X<h4>
+								</div>
+							   	<div id="plato">
+									<div class="row">
+										<div class="form-group col-6">
+						                    <label for="precio_plato_adulto" class="form-label">Precio de platos adultos</label> 
+						                    <input type="number" class="form-control" id="precio_plato_adulto" th:field="*{capacidadYPrecio.precioAdultos}" onChange="sumarPresupuesto();">
+						                </div>
+						                <div class="form-group col-6">
+					                    	<label for="precio_plato_nino">Precio de platos niños</label>
+											<input type="number" class="form-control" id="precio_plato_nino" th:field="*{capacidadYPrecio.precioNinos}" onChange="sumarPresupuesto();">
+										</div>
+						            </div>
+								</div>
+								<div class="col-12">
+									<div class="form-group col-md-8">
+						                <label for="presupuesto" class="form-label">Precio de catering</label> 
+										<div class="input-group mb-2">
+					                    	<div class="input-group-prepend">
+										    	<div class="input-group-text">$</div>
+										    </div>
+						                    <input type="number" class="form-control" readonly/>
+										</div>
+									</div>
+				
+								</div>
+							</div>
+						</div>
+					</div>
 		        </section>
 		    	<!--===============================================================================================-->
 
@@ -302,6 +361,7 @@
     	var salonId = /*[[${salon.id}]]*/ [];
     	var listaSubTipoEvento = /*[[${listaSubTipoEvento}]]*/ [];
     	var listaExtra = /*[[${listaExtra}]]*/ [];
+    	var listaExtraVariable = /*[[${listaExtraVariable}]]*/ [];
     	var listaServicio = /*[[${listaServicio}]]*/ [];
     </script>
 

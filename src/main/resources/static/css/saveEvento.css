@@ -24,3 +24,8 @@
 .spinner-margin{
 	margin-top: 15%;
 }
+
+.wizard > .steps > ul > li
+{
+    width: 20%;
+}  

@@ -4,6 +4,8 @@ var presupuesto = 0;
 $(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
 	
+	hideCatering();
+	
 	//listen for window resize event
 	window.addEventListener('resize', function(event){
 		sizeScreen();
@@ -84,11 +86,10 @@ $(document).ready(function() {
         var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
-	
-                //presupuesto = subTipoEvento.precioConFecha;
 
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
+                setExtrasVariableBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
 				setPlatoDisabled(subTipoEvento.capacidad.capacidadVariable);
@@ -96,8 +97,6 @@ $(document).ready(function() {
             }
         });
 
-		// El presupuesto ahora se calcula segun la fecha y el subtipoevento por AJAX
-        //$("#presupuesto").val(presupuesto);
     })
     // ----------------------------------------------------------------------------------
 
@@ -119,6 +118,7 @@ $(document).ready(function() {
 					
 					var extraDiv = document.createElement('div');
 					extraDiv.setAttribute("id", "extraCheckbox");
+					
 					// Assigning the attributes
 		            // to created checkbox
 		            checkbox.type = "checkbox";
@@ -142,7 +142,7 @@ $(document).ready(function() {
 		            
 		            // appending the created text to 
 		            // the created label tag 
-		            label.appendChild(document.createTextNode(valorExtra.nombre + ' $' + valorExtra.precio));
+		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
 		              
 		            // appending the checkbox
 		            // and label to div
@@ -155,6 +155,78 @@ $(document).ready(function() {
 		});
 	}
 	// ----------------------------------------------------------------------------------
+	
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#listaExtraVariable div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaExtraVariable.forEach(function(valorVariableExtra) {
+			valorVariableExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
+				if(valorSubTipoEvento.id == subTipoEventoId){
+
+					var listaExtraDiv = document.getElementById("listaExtraVariable");
+					var checkbox = document.createElement('input');
+					
+					var rowDiv = document.createElement('div');
+		            rowDiv.className = "row";
+		            
+					var extraDiv = document.createElement('div');
+					extraDiv.setAttribute("id", "extraVariableCheckbox");
+					extraDiv.className = "col-6";
+
+					// Assigning the attributes to created checkbox
+		            checkbox.type = "checkbox";
+		            checkbox.name = "extra";
+		            checkbox.value = valorVariableExtra.id;
+		            checkbox.id = "extraVariableId" + valorVariableExtra.id;
+		            checkbox.classList.add("form-check-input");
+		            checkbox.classList.add("extraVariableCheckbox");
+		            checkbox.onchange = function () { 
+						changeExtraVariableCantidadDisabled('extraVariableId' + valorVariableExtra.id);
+					}
+		            
+		            // creating label for checkbox
+		            var label = document.createElement('label');
+		              
+		            // assigning attributes for 
+		            // the created label tag 
+		            label.htmlFor = "id";
+		            
+		            // appending the created text to the created label tag 
+		            label.appendChild(document.createTextNode("\u00A0" + valorVariableExtra.nombre + ' $' + valorVariableExtra.precio));
+		            
+		            var extraVariableDiv = document.createElement('div');
+		            extraVariableDiv.className = "col-3";
+					
+		            var input = document.createElement('input');
+				    input.type = "text";
+					input.classList.add("form-control");
+					input.id = "extraVariableId" + valorVariableExtra.id + "Cantidad";
+					input.setAttribute('disabled', '');
+					input.onchange = function () { 
+						changeExtraVariableCheckbox(valorVariableExtra.precio , 'extraVariableId' + valorVariableExtra.id);
+					}
+					 
+		            // appending the checkbox and label to div
+		            extraDiv.appendChild(checkbox);
+		            extraDiv.appendChild(label);
+		            
+		            extraVariableDiv.appendChild(input);
+		            
+		            rowDiv.appendChild(extraDiv)
+		            rowDiv.appendChild(extraVariableDiv)
+		            
+		           	listaExtraDiv.appendChild(rowDiv);
+
+				}
+			});
+		});
+	}
+	// ----------------------------------------------------------------------------------
+
 
 	// ----------------------------------------------------------------------------------
 	// Muestra los extras que correspondan en base a el subTipoEvento elegido
@@ -395,6 +467,19 @@ $(document).ready(function() {
 		$('#tipoEvento-error').remove();
 	}
 	// ----------------------------------------------------------------------------------
+	
+	// Checkbox para ocultar hora final y que se setee hasta el otro dia 
+	$('#catering_checkbox').change(function(){
+		hideCatering();
+	});
+	
+	function hideCatering(){
+		if($('#catering_checkbox').is(':checked')){
+			$('#catering').fadeIn('slow');
+		}else{
+			$('#catering').fadeOut('slow');
+		}
+	}
 });
 
 // ----------------------------------------------------------------------------------
@@ -410,6 +495,30 @@ function changeExtraCheckbox(extraValor, extraId) {
     }
 
     $("#presupuesto").val(precio);
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
+function changeExtraVariableCheckbox(extraValor, extraVariableId) {
+    sumarPresupuesto();
+}
+// ----------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------
+// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
+function changeExtraVariableCantidadDisabled(extraVariableId) {
+    var decider = document.getElementById(extraVariableId);
+    var inputCantidad = $("#" + extraVariableId + "Cantidad");
+
+    if(decider.checked){
+		inputCantidad.removeAttr("disabled");
+    } else {
+		inputCantidad.val(0);
+		sumarPresupuesto();
+		inputCantidad.prop("disabled", true);
+    }
 }
 // ----------------------------------------------------------------------------------
 
@@ -486,6 +595,26 @@ function precioExtras() {
 // ----------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
+// Setea el precio final de todos los extras variables seleccionados
+function precioExtrasVariables() {
+	var checkboxes = $(".extraVariableCheckbox" );
+	var totalExtras = 0
+
+	listaExtraVariable.forEach(function(extraVariable) {
+		$.each(checkboxes, function(idArray, extraInput) {
+			var extraVariableId = "extraVariableId" + extraVariable.id
+			 if(extraInput.checked){
+				if(extraInput.id == extraVariableId){
+					totalExtras += parseInt(extraVariable.precio) * parseInt($("#" + extraVariableId + "Cantidad").val());
+				}
+			}
+		});
+	});
+	return totalExtras
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
 // Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
 function sumarPresupuesto() {
 	var presupuesto_con_plato = 0;
@@ -505,7 +634,7 @@ function sumarPresupuesto() {
 		precio_nino = cantidad_plato_nino * precio_plato_nino
 	}
 	
-	presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras() + precioExtraOtro()
+	presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras() + precioExtraOtro() + precioExtrasVariables()
 
  	presupuesto_con_plato -= descuento(presupuesto_con_plato)
 
@@ -527,4 +656,5 @@ function descuento(presupuestoTotal) {
 	return presupuestoTotal * (parseInt($("#descuento").val()) / 100);
 }
 // ---------------------------------------------------------------------------------
+
 

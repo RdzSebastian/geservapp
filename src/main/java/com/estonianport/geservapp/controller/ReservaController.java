@@ -1,5 +1,6 @@
 package com.estonianport.geservapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -146,6 +147,11 @@ public class ReservaController {
 
 			// Agrega lista Extras al modelo
 			model.addAttribute("listaExtra", listaExtra);
+			
+			// Agrega lista Extras Variables al modelo
+			List<Extra> listaExtraVariable = new ArrayList<Extra>();
+			listaExtraVariable.add(extraService.get((long) 5));
+			model.addAttribute("listaExtraVariable", listaExtraVariable);
 
 			// Agrega lista Extras a Reserva
 			reservaContainer.setExtra(Set.copyOf(listaExtra));

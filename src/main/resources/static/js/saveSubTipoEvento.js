@@ -128,16 +128,16 @@ $(function () {
 });
 
 	
-	// Checkbox para ocultar hora final y que se setee hasta el otro dia 
-    $('#capacidad_variable').change(function(){
-		hideCapacidad();
-	});
-	
-	function hideCapacidad(){
-		if($('#capacidad_variable').is(':checked')){
-			$('#capaciadVariableInputs').fadeOut('slow');
-		}else{
-			$('#capaciadVariableInputs').fadeIn('slow');
-		}
+// Checkbox para ocultar hora final y que se setee hasta el otro dia 
+$('#capacidad_variable').change(function(){
+	hideCapacidad();
+});
+
+function hideCapacidad(){
+	if($('#capacidad_variable').is(':checked')){
+		$('#capaciadVariableInputs').fadeOut('slow');
+	}else{
+		$('#capaciadVariableInputs').fadeIn('slow');
 	}
+}
 
