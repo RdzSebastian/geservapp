@@ -23,7 +23,7 @@ import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
-import com.estonianport.geservapp.service.CapacidadYPrecioService;
+import com.estonianport.geservapp.service.CapacidadService;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraService;
@@ -64,7 +64,7 @@ public class ReservaController {
 	private ServicioService servicioService;
 
 	@Autowired
-	private CapacidadYPrecioService capacidadYPrecioService;
+	private CapacidadService capacidadService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -81,88 +81,140 @@ public class ReservaController {
 
 		ReservaContainer reservaContainer = new ReservaContainer();
 
-		if(id != null && id != 0) {
-			Evento evento = eventoService.get(id);
+		// Agrega lista Sexo
+		model.addAttribute("listaSexo", sexoService.getAll());
 
-			reservaContainer.setEvento(evento);
+		// Agrega lista Servicio
+		model.addAttribute("listaServicio", servicioService.getAll());
 
-			// Setea el cliente
-			reservaContainer.setCliente(evento.getCliente());
+		// Agrega lista de Tipo Eventos
+		model.addAttribute("listaTipoEvento", tipoEventoService.getAll());
 
-			// Setea fecha del evento
-			reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
+		// Agrega lista de Sub Tipo Eventos
+		model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
 
-			// Setea hora de inicio
-			reservaContainer.setInicio(DateUtil.getHora(evento.getStartd()));
+		// Obtiene todos los extra
+		List<Extra> listaExtra = extraService.getAll();
 
-			// Setea hora de fin
-			reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
+		// Agrega lista Extras al modelo
+		model.addAttribute("listaExtra", listaExtra);
+		
+		// Agrega lista Extras Variables al modelo
+		List<Extra> listaExtraVariable = new ArrayList<Extra>();
+		listaExtraVariable.add(extraService.get((long) 5));
+		model.addAttribute("listaExtraVariable", listaExtraVariable);
 
-			// Setea checkbox hastaElotroDia en caso de que el dia de caundo termina del evento es 1 mas que cuando empieza
-			if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
-				reservaContainer.setHastaElOtroDia(true);
-			}
+		// Agrega lista Extras a Reserva
+		reservaContainer.setExtra(Set.copyOf(listaExtra));
 
-			// Agrega lista Extras
-			model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
+		// Agrega reservaContainer al modelo
+		model.addAttribute("reservaContainer", reservaContainer);
 
-			// Obtiene todos los extra
-			List<Extra> listaExtra = extraService.getAll();
-
-			// TODO Refactor para no tener que setear el null
-			// Agrega lista extra seleccionadas
-			for(Extra extra : listaExtra) {
-				extra.setListaSubTipoEvento(null);
-			}
-
-			// Agrega lista Extras al modelo
-			model.addAttribute("listaExtraJS", listaExtra);
-
-			// TODO Refactor para no tener que setear el null
-			// Agrega lista extra seleccionadas
-			Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
-			for(Extra extra : listaExtraSeleccionadas) {
-				extra.setListaSubTipoEvento(null);
-			}
-			model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
-			model.addAttribute("reservaContainer", reservaContainer);
-
-			model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
-			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.EDIT_EVENTO;
-		}else {
-			// Agrega lista Sexo
-			model.addAttribute("listaSexo", sexoService.getAll());
-
-			// Agrega lista Servicio
-			model.addAttribute("listaServicio", servicioService.getAll());
-
-			// Agrega lista de Tipo Eventos
-			model.addAttribute("listaTipoEvento", tipoEventoService.getAll());
-
-			// Agrega lista de Sub Tipo Eventos
-			model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
-
-			// Obtiene todos los extra
-			List<Extra> listaExtra = extraService.getAll();
-
-			// Agrega lista Extras al modelo
-			model.addAttribute("listaExtra", listaExtra);
-			
-			// Agrega lista Extras Variables al modelo
-			List<Extra> listaExtraVariable = new ArrayList<Extra>();
-			listaExtraVariable.add(extraService.get((long) 5));
-			model.addAttribute("listaExtraVariable", listaExtraVariable);
-
-			// Agrega lista Extras a Reserva
-			reservaContainer.setExtra(Set.copyOf(listaExtra));
-
-			// Agrega reservaContainer al modelo
-			model.addAttribute("reservaContainer", reservaContainer);
-
-			return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
-		}
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
+	
 	}
 
+	@GetMapping("/saveEventoExtra/{id}")
+	public String showSaveExtra(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		ReservaContainer reservaContainer = new ReservaContainer();
+
+		Evento evento = eventoService.get(id);
+
+		reservaContainer.setEvento(evento);
+
+		// Agrega lista Extras
+		model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
+
+		// Obtiene todos los extra
+		List<Extra> listaExtra = extraService.getAll();
+
+		// TODO Refactor para no tener que setear el null
+		// Agrega lista extra seleccionadas
+		for(Extra extra : listaExtra) {
+			extra.setListaSubTipoEvento(null);
+		}
+
+		// Agrega lista Extras al modelo
+		model.addAttribute("listaExtraJS", listaExtra);
+
+		// TODO Refactor para no tener que setear el null
+		// Agrega lista extra seleccionadas
+		Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
+		for(Extra extra : listaExtraSeleccionadas) {
+			extra.setListaSubTipoEvento(null);
+		}
+		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
+		model.addAttribute("reservaContainer", reservaContainer);
+
+		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoExtra";
+
+	}
+
+	
+	@GetMapping("/saveEventoHora/{id}")
+	public String showSaveHora(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		// Agrega lista de Hora
+		model.addAttribute("listaHora", DateUtil.HORAS);
+
+		// Agrega lista de Minuto
+		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
+
+		ReservaContainer reservaContainer = new ReservaContainer();
+
+		Evento evento = eventoService.get(id);
+
+		reservaContainer.setEvento(evento);
+
+		// Setea fecha del evento
+		reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
+
+		// Setea hora de inicio
+		reservaContainer.setInicio(DateUtil.getHora(evento.getStartd()));
+
+		// Setea hora de fin
+		reservaContainer.setFin(DateUtil.getHora(evento.getEndd()));
+
+		// Setea checkbox hastaElotroDia en caso de que el dia de caundo termina del evento es 1 mas que cuando empieza
+		if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
+			reservaContainer.setHastaElOtroDia(true);
+		}
+
+		model.addAttribute("reservaContainer", reservaContainer);
+
+		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoHora";
+
+	}
+	
+	
+	@GetMapping("/saveEventoCatering/{id}")
+	public String showSaveCatering(@PathVariable("id") Long id, Model model, HttpSession session) {
+		
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+		
+		Evento evento = eventoService.get(id);
+		ReservaContainer reservaContainer = new ReservaContainer();
+		reservaContainer.setEvento(evento);
+		model.addAttribute("reservaContainer", reservaContainer);
+		
+		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoCatering";
+	}
+
+	
 	@PostMapping("/saveEvento")
 	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session, Authentication authentication) {
 
@@ -204,17 +256,8 @@ public class ReservaController {
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
 
-		// Capacidad variable o fija y setea precio de plato y capacidadYPrecio
-		if(evento.getSubTipoEvento().getCapacidad().getCapacidadVariable()) {
-			if(reservaContainer.getCapacidadYPrecio() != null) {
-				evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getCapacidadYPrecio()));
-			}else {
-				evento.setCapacidadYPrecio(capacidadYPrecioService.save(reservaContainer.getEvento().getCapacidadYPrecio()));
-			}
-		}else {
-			// En caso de que sea un evento que no tiene capacidad variable le seteo null para que no lo inserte
-			evento.setCapacidadYPrecio(null);
-		}
+		// TODO Setea la capacidad del evento
+		evento.setCapacidad(capacidadService.save(reservaContainer.getCapacidad()));
 
 		// Guarda el evento en la base de datos
 		eventoService.save(evento);

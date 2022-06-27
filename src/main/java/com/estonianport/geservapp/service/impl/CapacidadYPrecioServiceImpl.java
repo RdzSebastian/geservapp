@@ -6,17 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.estonianport.geservapp.commons.GenericServiceImpl;
 import com.estonianport.geservapp.dao.CapacidadYPrecioDao;
-import com.estonianport.geservapp.model.CapacidadYPrecio;
+import com.estonianport.geservapp.model.Catering;
 import com.estonianport.geservapp.service.CapacidadYPrecioService;
 
 @Service
-public class CapacidadYPrecioServiceImpl  extends GenericServiceImpl<CapacidadYPrecio, Long> implements CapacidadYPrecioService{
+public class CapacidadYPrecioServiceImpl  extends GenericServiceImpl<Catering, Long> implements CapacidadYPrecioService{
 
 	@Autowired
 	private CapacidadYPrecioDao capacidadYPrecioDao;
 
 	@Override
-	public CrudRepository<CapacidadYPrecio, Long> getDao() {
+	public CrudRepository<Catering, Long> getDao() {
 		return capacidadYPrecioDao;
 	}
 

@@ -21,10 +21,7 @@
 						<th>Nombre</th>
 						<th>Tipo Evento</th>
 						<th>Duracion</th>
-						<th>Capacidad variable</th>
-						<th>Capacidad adultos</th>
-						<th>Capacidad Niños</th>
-						<th>Cantidad de personal base</th>
+						<th>Precio</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -34,10 +31,7 @@
 						<td th:text="${subTipoEvento.nombre}">
 						<td th:text="${subTipoEvento.tipoEvento.nombre}">
 						<td th:text="${subTipoEvento.duracion}">
-						<td th:text="${subTipoEvento.capacidad.capacidadVariable}">
-						<td th:text="${subTipoEvento.capacidad.capacidadAdultos}">
-						<td th:text="${subTipoEvento.capacidad.capacidadNinos}">
-						<td th:text="${subTipoEvento.cantPersonal}">
+						<td><a class="btn btn-info" th:href="@{/saveSubTipoEventoPrecio/{id}(id=${subTipoEvento.id})}">Precio</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveSubTipoEvento/{id}(id=${subTipoEvento.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteSubTipoEvento/{id}(id=${subTipoEvento.id})}">Eliminar</a></td>
 					</tr>

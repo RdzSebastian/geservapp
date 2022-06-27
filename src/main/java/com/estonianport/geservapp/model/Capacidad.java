@@ -17,9 +17,6 @@ public class Capacidad {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "capacidad_variable")
-	private Boolean capacidadVariable;
-
 	@Column(name = "capacidad_adultos")
 	private int capacidadAdultos;
 

@@ -202,7 +202,7 @@ $(document).ready(function() {
 		            extraVariableDiv.className = "col-3";
 					
 		            var input = document.createElement('input');
-				    input.type = "text";
+				    input.type = "number";
 					input.classList.add("form-control");
 					input.id = "extraVariableId" + valorVariableExtra.id + "Cantidad";
 					input.setAttribute('disabled', '');

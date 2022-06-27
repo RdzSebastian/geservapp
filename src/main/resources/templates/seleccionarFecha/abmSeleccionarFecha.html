@@ -23,10 +23,10 @@
 						<th>Fecha</th>
 						<th>Hora Inicio</th>
 						<th>Hora Final</th>
-						<th>Tipo Evento</th>
 						<th>Sub Tipo Evento</th>
-						<th>Presupuesto</th>
-						<th>Editar</th>
+						<th>Extras</th>
+						<th>Catering</th>
+						<th>Hora</th>
 						<th>Eliminar</th>
 					</tr>
 				</thead>
@@ -37,10 +37,10 @@
 						<td th:text="${evento.startd.getDayOfMonth} + '-' + ${evento.startd.getMonth.getValue} + '-' + ${evento.startd.getYear}"> </td>
 						<td th:text="${evento.startd.getHour} + ':' + ${evento.startd.getMinute}"> </td>
 						<td th:text="${evento.endd.getHour} + ':' + ${evento.endd.getMinute}"> </td>
-						<td th:text="${evento.subTipoEvento.tipoEvento.nombre}"> </td>
 						<td th:text="${evento.subTipoEvento.nombre}"> </td>
-						<td th:text="'$' + ${evento.presupuesto}"> </td>
-						<td><a class="btn btn-info" th:href="@{/saveEvento/{id}(id=${evento.id})}">Editar</a></td>
+						<td><a class="btn btn-info" th:href="@{/saveEventoExtra/{id}(id=${evento.id})}">Extras</a></td>
+						<td><a class="btn btn-info" th:href="@{/saveEventoCatering/{id}(id=${evento.id})}">Catering</a></td>
+						<td><a class="btn btn-info" th:href="@{/saveEventoHora/{id}(id=${evento.id})}">Hora</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteEvento/{id}(id=${evento.id})}">Eliminar</a></td>
 					</tr>
 				</tbody>

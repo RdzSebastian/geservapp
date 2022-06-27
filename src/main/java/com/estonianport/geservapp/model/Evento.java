@@ -51,8 +51,12 @@ public class Evento {
 	private LocalDateTime endd;
 
 	@ManyToOne
-	@JoinColumn(name = "capacidadyprecio_id")
-	private CapacidadYPrecio capacidadYPrecio;
+	@JoinColumn(name = "capacidad_id")
+	private Capacidad capacidad;
+	
+	@ManyToOne
+	@JoinColumn(name = "catering_id")
+	private Catering catering;
 
 	@Column
 	private int presupuesto;

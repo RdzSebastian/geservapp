@@ -2,7 +2,7 @@ package com.estonianport.geservapp.container;
 
 import java.util.Set;
 
-import com.estonianport.geservapp.model.CapacidadYPrecio;
+import com.estonianport.geservapp.model.Capacidad;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
@@ -30,6 +30,6 @@ public class ReservaContainer {
 	
 	private Boolean resto24;
 	
-	private CapacidadYPrecio capacidadYPrecio;
+	private Capacidad capacidad;
 
 }
