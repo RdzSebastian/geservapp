@@ -13,7 +13,7 @@ import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.SalonService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
@@ -28,7 +28,7 @@ class ItextTest {
 	EventoService eventoService;
 	
 	@Autowired
-	ExtraService extraService;
+	ExtraSubTipoEventoService extraService;
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
@@ -55,21 +55,21 @@ class ItextTest {
     		// Agrega Extras
     		Set<Extra> listaExtra = new HashSet<Extra>();
 
-    		Extra extraAnimacion = new Extra();
-    		extraAnimacion.setId((long) 1);
-    		extraAnimacion.setNombre("Animacion");
-    		extraAnimacion.setPrecio(100);
+//    		Extra extraAnimacion = new Extra();
+//    		extraAnimacion.setId((long) 1);
+//    		extraAnimacion.setNombre("Animacion");
+//    		extraAnimacion.setPrecio(100);
+//
+//    		listaExtra.add(extraAnimacion);
+//    		
+//    		Extra extraPersonal = new Extra();
+//    		extraPersonal.setId((long) 1);
+//    		extraPersonal.setNombre("Personal");
+//    		extraPersonal.setPrecio(100);
 
-    		listaExtra.add(extraAnimacion);
+//    		listaExtra.add(extraPersonal);
     		
-    		Extra extraPersonal = new Extra();
-    		extraPersonal.setId((long) 1);
-    		extraPersonal.setNombre("Personal");
-    		extraPersonal.setPrecio(100);
-
-    		listaExtra.add(extraPersonal);
-    		
-    		evento.setListaExtra(listaExtra);
+//    		evento.setListaExtra(listaExtra);
     		
     		evento.setPresupuesto(1000);
 

@@ -21,12 +21,13 @@ import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.Extra;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.CapacidadService;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
@@ -46,7 +47,10 @@ public class ReservaController {
 	private SubTipoEventoService subTipoEventoService;
 
 	@Autowired
-	private ExtraService extraService;
+	private ExtraSubTipoEventoService extraSubTipoEventoService;
+
+	@Autowired
+	private ExtraCateringService extraCateringService;
 
 	@Autowired
 	private EmailService emailService;
@@ -94,24 +98,26 @@ public class ReservaController {
 		model.addAttribute("listaSubTipoEvento", subTipoEventoService.getAll());
 
 		// Obtiene todos los extra
-		List<Extra> listaExtra = extraService.getAll();
+		List<ExtraSubTipoEvento> listaExtra = extraSubTipoEventoService.getAll();
 
 		// Agrega lista Extras al modelo
 		model.addAttribute("listaExtra", listaExtra);
-		
+
 		// Agrega lista Extras Variables al modelo
-		List<Extra> listaExtraVariable = new ArrayList<Extra>();
-		listaExtraVariable.add(extraService.get((long) 5));
+		List<ExtraSubTipoEvento> listaExtraVariable = new ArrayList<ExtraSubTipoEvento>();
+		listaExtraVariable.add(extraSubTipoEventoService.get((long) 5));
 		model.addAttribute("listaExtraVariable", listaExtraVariable);
 
 		// Agrega lista Extras a Reserva
-		reservaContainer.setExtra(Set.copyOf(listaExtra));
+		reservaContainer.setExtraSubTipoEvento(Set.copyOf(listaExtra));
+
+		// Agrega lista Extras Catering al modelo
+		model.addAttribute("listaCatering", extraCateringService.getAll());
 
 		// Agrega reservaContainer al modelo
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
-	
 	}
 
 	@GetMapping("/saveEventoExtra/{id}")
@@ -128,15 +134,15 @@ public class ReservaController {
 		reservaContainer.setEvento(evento);
 
 		// Agrega lista Extras
-		model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtra());
+		model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtraSubTipoEvento());
 
 		// Obtiene todos los extra
-		List<Extra> listaExtra = extraService.getAll();
+		List<ExtraSubTipoEvento> listaExtra = extraSubTipoEventoService.getAll();
 
 		// TODO Refactor para no tener que setear el null
 		// Agrega lista extra seleccionadas
-		for(Extra extra : listaExtra) {
-			extra.setListaSubTipoEvento(null);
+		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtra) {
+			extraSubTipoEvento.setListaSubTipoEvento(null);
 		}
 
 		// Agrega lista Extras al modelo
@@ -144,9 +150,9 @@ public class ReservaController {
 
 		// TODO Refactor para no tener que setear el null
 		// Agrega lista extra seleccionadas
-		Set<Extra> listaExtraSeleccionadas = evento.getListaExtra();
-		for(Extra extra : listaExtraSeleccionadas) {
-			extra.setListaSubTipoEvento(null);
+		Set<ExtraSubTipoEvento> listaExtraSeleccionadas = evento.getListaExtraSubTipoEvento();
+		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtraSeleccionadas) {
+			extraSubTipoEvento.setListaSubTipoEvento(null);
 		}
 		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
 		model.addAttribute("reservaContainer", reservaContainer);
@@ -156,7 +162,7 @@ public class ReservaController {
 
 	}
 
-	
+
 	@GetMapping("/saveEventoHora/{id}")
 	public String showSaveHora(@PathVariable("id") Long id, Model model, HttpSession session) {
 
@@ -196,25 +202,25 @@ public class ReservaController {
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoHora";
 
 	}
-	
-	
+
+
 	@GetMapping("/saveEventoCatering/{id}")
 	public String showSaveCatering(@PathVariable("id") Long id, Model model, HttpSession session) {
-		
+
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
-		
+
 		Evento evento = eventoService.get(id);
 		ReservaContainer reservaContainer = new ReservaContainer();
 		reservaContainer.setEvento(evento);
 		model.addAttribute("reservaContainer", reservaContainer);
-		
+
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoCatering";
 	}
 
-	
+
 	@PostMapping("/saveEvento")
 	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session, Authentication authentication) {
 
@@ -251,7 +257,7 @@ public class ReservaController {
 		}
 
 		// Agrega la lista de Extras seleccionados
-		evento.setListaExtra(reservaContainer.getExtra());
+		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));

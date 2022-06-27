@@ -39,11 +39,18 @@ public class Evento {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "evento_extra",
+			name = "evento_extra_sub_tipo_evento",
 			joinColumns = @JoinColumn(name = "evento_id"),
-			inverseJoinColumns = @JoinColumn(name = "extra_id"))
-	private Set<Extra> listaExtra;
+			inverseJoinColumns = @JoinColumn(name = "extra_sub_tipo_evento_id"))
+	private Set<ExtraSubTipoEvento> listaExtraSubTipoEvento;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "evento_extra_catering",
+			joinColumns = @JoinColumn(name = "evento_id"),
+			inverseJoinColumns = @JoinColumn(name = "extra_catering_id"))
+	private Set<ExtraCatering> listaExtraCatering;
+	
 	@Column
 	private LocalDateTime startd;
 

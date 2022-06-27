@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.Pago;
 
 @Service
@@ -48,7 +49,7 @@ public class EmailService{
 	public void enviarMailComprabanteReserva(ReservaContainer reservaContainer) {
 
 		StringBuilder extraMail = new StringBuilder();
-		Set<Extra> listaExtra = reservaContainer.getExtra();
+		Set<ExtraSubTipoEvento> listaExtra = reservaContainer.getExtraSubTipoEvento();
 		Evento evento = reservaContainer.getEvento();
 
 		if(listaExtra != null && !listaExtra.isEmpty()) {

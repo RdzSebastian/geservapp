@@ -2,7 +2,6 @@ package com.estonianport.geservapp.model;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,19 +29,10 @@ public class Catering {
 			name = "catering_tipo_catering",
 			joinColumns = @JoinColumn(name = "catering_id"),
 			inverseJoinColumns = @JoinColumn(name = "tipo_catering_id"))
-	private Set<Extra> listaTipoCatering;
+	private Set<TipoCatering> listaTipoCatering;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "catering_extra",
-			joinColumns = @JoinColumn(name = "catering_id"),
-			inverseJoinColumns = @JoinColumn(name = "extra_id"))
-	private Set<Extra> listaExtra;
-	
-	@Column(name = "precio_adultos")
-	private int precioAdultos;
-
-	@Column(name = "precio_ninos")
-	private int precioNinos;
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaCatering")
+	private Set<ExtraCatering> listaExtraCatering;
 
 }

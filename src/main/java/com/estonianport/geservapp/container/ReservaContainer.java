@@ -5,7 +5,7 @@ import java.util.Set;
 import com.estonianport.geservapp.model.Capacidad;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.Extra;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class ReservaContainer {
 
 	private Cliente cliente;
 
-	private Set<Extra> extra;
+	private Set<ExtraSubTipoEvento> extraSubTipoEvento;
 
 	private String fecha;
 

@@ -11,29 +11,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.model.Extra;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
-import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
-public class ExtraController {
+public class ExtraSubTipoEventoController {
 
 	@Autowired
-	private ExtraService extraService;
+	private ExtraSubTipoEventoService extraSubTipoEventoService;
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
 
-	@RequestMapping("/abmExtra")
+	@RequestMapping("/abmExtraSubTipoEvento")
 	public String abm(Model model, HttpSession session) {
-		model.addAttribute("listaExtra", extraService.getAll());
+		model.addAttribute("listaExtra", extraSubTipoEventoService.getAll());
 
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
-		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EXTRA;
+		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
 
 	@GetMapping("/saveExtra/{id}")
@@ -42,24 +42,24 @@ public class ExtraController {
 		model.addAttribute("listaSubTipoEventoCompleta", subTipoEventoService.getAll());
 
 		if(id != null && id != 0) {
-			Extra extra = extraService.get(id);
+			ExtraSubTipoEvento extra = extraSubTipoEventoService.get(id);
 			model.addAttribute("listaSubTipoEventoSeleccionadas", extra.getListaSubTipoEvento());
 			model.addAttribute(GeneralPath.EXTRA, extra);
 		}else {
-			model.addAttribute(GeneralPath.EXTRA, new Extra());
+			model.addAttribute(GeneralPath.EXTRA, new ExtraSubTipoEvento());
 		}
-		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA;
+		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA_SUB_TIPO_EVENTO;
 	}
 
 	@PostMapping("/saveExtra")
-	public String save(Extra extra, Model model) {
-		extraService.save(extra);
-		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA;
+	public String save(ExtraSubTipoEvento extraSubTipoEvento, Model model) {
+		extraSubTipoEventoService.save(extraSubTipoEvento);
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
 
 	@GetMapping("/deleteExtra/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
-		extraService.delete(id);
-		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA;
+		extraSubTipoEventoService.delete(id);
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
 }

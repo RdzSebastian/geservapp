@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+ <html xmlns:th="http://www.thymeleaf.org"  lang='es'>
+ <head>
+ <title>Adminitracion</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+
+ 	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+
+ </head>
+
+ <body>
+ 		
+		<section class="pt-5" id="buttons">
+			<div class="container">
+				<div class="row mb-5">
+					<div class="col-md-12 text-center">
+						<h2 class="heading-section"> Extras</h2>
+					</div>
+				</div>
+
+				<div class="row ">
+					<div id="usuario" class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraSubTipoEvento}" >
+							<div class="col-8 text-start">
+								<h5>Sub Tipo Evento</h5>
+								<span th:text="${cantExtraSubTipoEvento} + ' Extras'"></span>
+							</div>
+							<div class="col-4 text-center">
+								<i class="fas fa-users fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div id="salon" class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraCatering}">
+							<div class="col-8 text-start text-start">
+								<h5>Catering</h5>
+								<span th:text="${cantExtraCatering} + ' Extras'"></span>
+							</div>
+							<div class="col-4 text-center">
+								<i class="fas fa-building fa-lg"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div>
+					<a th:href="@{/administracion}" class="btn btn-primary mt-5">Volver</a>
+				</div>
+			</div>
+
+	  </section>
+	  
+    <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+ </body>
+ </html>
+ 

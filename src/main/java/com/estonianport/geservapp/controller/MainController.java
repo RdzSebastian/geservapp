@@ -32,7 +32,8 @@ import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraService;
+import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.RolService;
 import com.estonianport.geservapp.service.SalonService;
@@ -63,7 +64,10 @@ public class MainController {
 	PagoService pagoService;
 
 	@Autowired
-	ExtraService extraService;
+	ExtraSubTipoEventoService extraSubTipoEventoService;
+	
+	@Autowired
+	ExtraCateringService extraCateringService;
 
 	@Autowired
 	ItextService itextService;
@@ -102,14 +106,27 @@ public class MainController {
 		model.addAttribute("cantSubTipoEvento", subTipoEventoService.count());
 		model.addAttribute("cantPago", pagoService.count());
 		model.addAttribute("cantSalon", salonService.count());
-		model.addAttribute("cantExtra", extraService.count());
+		model.addAttribute("cantExtra", extraSubTipoEventoService.count() + extraCateringService.count());
 		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
 		model.addAttribute("cantServicio", servicioService.count());
 
 		model.addAttribute("admin", usuarioService.findUserByUsername(authentication.getName()).getRol() == rolService.getRolByNombre("ADMIN"));
 
-		return "adm/adm";
+		return GeneralPath.ADM + GeneralPath.PATH_SEPARATOR + GeneralPath.ADM;
+	}
+	
+	@RequestMapping("/extra")
+	public String extraAdm(Model model, HttpSession session) {
+		
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		model.addAttribute("cantExtraSubTipoEvento", extraSubTipoEventoService.count());
+		model.addAttribute("cantExtraCatering", extraCateringService.count());
+
+		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA;
 	}
 
 	@RequestMapping("/download/0")

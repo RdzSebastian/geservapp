@@ -18,7 +18,4 @@ public interface EventoDao extends CrudRepository<Evento, Long> {
 
 	Boolean existsByCodigo(String codigo);
 
-	//TODO 
-//	Boolean existByStartd(Timestamp startd);
-	
 }

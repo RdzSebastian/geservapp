@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Extra;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -38,7 +39,7 @@ public class ItextService {
         document.open();
         this.addMetaData(document);
         this.addTitlePage(document, reservaContainer.getEvento());
-        this.addContent(document, reservaContainer.getEvento(), reservaContainer.getEvento().getListaExtra());
+        this.addContent(document, reservaContainer.getEvento(), reservaContainer.getEvento().getListaExtraSubTipoEvento());
         document.close();
     }
 
@@ -67,7 +68,7 @@ public class ItextService {
         document.add(paragraph);
     }
 
-    public void addContent(Document document, Evento evento, Set<Extra> set) throws DocumentException {
+    public void addContent(Document document, Evento evento, Set<ExtraSubTipoEvento> set) throws DocumentException {
 
 		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
 		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
@@ -91,7 +92,7 @@ public class ItextService {
 
     }
 
-    public void createTable(Paragraph paragraph, Set<Extra> set) throws BadElementException {
+    public void createTable(Paragraph paragraph, Set<ExtraSubTipoEvento> set) throws BadElementException {
         PdfPTable table = new PdfPTable(2);
 
         PdfPCell c1 = new PdfPCell(new Phrase("Extra"));

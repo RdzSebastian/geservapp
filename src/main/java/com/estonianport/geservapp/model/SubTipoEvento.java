@@ -68,6 +68,10 @@ public class SubTipoEvento {
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
-	private Set<Extra> listaExtra;
+	private Set<ExtraSubTipoEvento> listaExtraSubTipoEvento;
+	
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	private Set<TipoCatering> listaTipoCatering;
 
 }

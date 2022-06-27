@@ -97,21 +97,21 @@ class EventoTest {
 		// Agrega Extras
 		Set<Extra> listaExtra = new HashSet<Extra>();
 
-		Extra extraAnimacion = new Extra();
-		extraAnimacion.setId((long) 1);
-		extraAnimacion.setNombre("Animacion");
-		extraAnimacion.setPrecio(100);
+//		Extra extraAnimacion = new Extra();
+//		extraAnimacion.setId((long) 1);
+//		extraAnimacion.setNombre("Animacion");
+//		extraAnimacion.setPrecio(100);
+//
+//		listaExtra.add(extraAnimacion);
+//		
+//		Extra extraPersonal = new Extra();
+//		extraPersonal.setId((long) 1);
+//		extraPersonal.setNombre("Personal");
+//		extraPersonal.setPrecio(100);
 
-		listaExtra.add(extraAnimacion);
+//		listaExtra.add(extraPersonal);
 		
-		Extra extraPersonal = new Extra();
-		extraPersonal.setId((long) 1);
-		extraPersonal.setNombre("Personal");
-		extraPersonal.setPrecio(100);
-
-		listaExtra.add(extraPersonal);
-		
-		evento.setListaExtra(listaExtra);
+//		evento.setListaExtra(listaExtra);
 
 		System.out.println(eventoService.existsByCodigo("AAAA"));
 	}
