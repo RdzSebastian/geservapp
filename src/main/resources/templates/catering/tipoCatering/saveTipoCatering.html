@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Save Extra</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Agregar Extra</h2>
+		<form action="#" th:action="@{/saveTipoCatering}" method="post" th:object="${tipoCatering}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<div class="form-group">
+				<label for="nombre">Nombre</label> 
+				<input type="text" class="form-control" id="nombre" th:field="*{nombre}" name="nombre">
+			</div>
+			<div class="form-group">
+				<label for="precio">Precio</label> 
+				<input type="number" class="form-control" id="precio" th:field="*{precio}" name="precio">
+			</div>
+    		<div class="fieldset-content">
+                <div class="form-group" id="extras">
+                    <label for="subTipoEvento" class="form-label">Sub Tipo Evento</label> 
+                    <th:block id="listaSubTipoEvento" th:each="listaSubTipoEvento : ${listaSubTipoEventoCompleta}">
+	                    <div class=form-check>
+							<input type="checkbox" class="form-check-input" name="listaSubTipoEvento" th:value="${listaSubTipoEvento.id}" th:id="'subTipoEvento' + ${listaSubTipoEvento.id}"/>
+	                    	<label class="form-check-label" th:text="${listaSubTipoEvento.nombre}">
+	                    </div>
+	                </th:block>
+	            </div>
+			</div>
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{/abmTipoCatering}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
+	
+    <script th:inline="javascript">
+	    $(document).ready( function () {
+			setSubTipoEventoSeleccionados();
+
+			function setSubTipoEventoSeleccionados(){
+				var listaSubTipoEventoSeleccionados = /*[[${listaSubTipoEventoSeleccionadas}]]*/ [];
+				
+				listaSubTipoEventoSeleccionados.forEach( function(valor, indice, array) {
+					var valorId = parseInt(valor.id);
+					document.querySelector("#subTipoEvento" + valorId).checked = true
+				});
+			}
+		});
+	</script>
+
+</body>
+</html>

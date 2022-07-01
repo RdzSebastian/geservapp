@@ -34,11 +34,13 @@ import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraCateringService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
+import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.RolService;
 import com.estonianport.geservapp.service.SalonService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
+import com.estonianport.geservapp.service.TipoCateringService;
 import com.estonianport.geservapp.service.TipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
 
@@ -65,9 +67,15 @@ public class MainController {
 
 	@Autowired
 	ExtraSubTipoEventoService extraSubTipoEventoService;
-	
+
+	@Autowired
+	ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
+
 	@Autowired
 	ExtraCateringService extraCateringService;
+
+	@Autowired
+	TipoCateringService tipoCateringService;
 
 	@Autowired
 	ItextService itextService;
@@ -106,7 +114,8 @@ public class MainController {
 		model.addAttribute("cantSubTipoEvento", subTipoEventoService.count());
 		model.addAttribute("cantPago", pagoService.count());
 		model.addAttribute("cantSalon", salonService.count());
-		model.addAttribute("cantExtra", extraSubTipoEventoService.count() + extraCateringService.count());
+		model.addAttribute("cantExtra", extraSubTipoEventoService.count() + extraVariableSubTipoEventoService.count());
+		model.addAttribute("cantCatering", tipoCateringService.count() + extraCateringService.count());
 		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
 		model.addAttribute("cantServicio", servicioService.count());
@@ -115,18 +124,31 @@ public class MainController {
 
 		return GeneralPath.ADM + GeneralPath.PATH_SEPARATOR + GeneralPath.ADM;
 	}
-	
+
 	@RequestMapping("/extra")
 	public String extraAdm(Model model, HttpSession session) {
-		
+
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		model.addAttribute("cantExtraSubTipoEvento", extraSubTipoEventoService.count());
-		model.addAttribute("cantExtraCatering", extraCateringService.count());
+		model.addAttribute("cantExtraVariableSubTipoEvento", extraVariableSubTipoEventoService.count());
 
 		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA;
+	}
+
+	@RequestMapping("/catering")
+	public String cateringAdm(Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		model.addAttribute("cantTipoCatering", tipoCateringService.count());
+		model.addAttribute("cantExtraCatering", extraCateringService.count());
+
+		return GeneralPath.CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.CATERING;
 	}
 
 	@RequestMapping("/download/0")
@@ -221,7 +243,7 @@ public class MainController {
 			Evento evento = eventoService.getEventoByCodigo(codigoContainer.getCodigo());
 			if(evento != null) {
 				try {
-					
+
 					ServletContext adminContext = request.getServletContext();
 					ServletContext uploadsContext = adminContext.getContext(GeneralPath.PATH_SEPARATOR + GeneralPath.DIRECTORY_PDF);
 					String absolutePath = uploadsContext.getRealPath("");

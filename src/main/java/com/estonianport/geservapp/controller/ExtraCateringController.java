@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.ExtraCatering;
-import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.CateringService;
 import com.estonianport.geservapp.service.ExtraCateringService;
@@ -34,7 +33,7 @@ public class ExtraCateringController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
-		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EXTRA_CATERING;
+		return GeneralPath.CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EXTRA_CATERING;
 	}
 
 	@GetMapping("/saveExtraCatering/{id}")
@@ -47,9 +46,9 @@ public class ExtraCateringController {
 			model.addAttribute("listaCateringSeleccionadas", extraCatering.getListaCatering());
 			model.addAttribute(GeneralPath.EXTRA, extraCatering);
 		}else {
-			model.addAttribute(GeneralPath.EXTRA, new ExtraSubTipoEvento());
+			model.addAttribute(GeneralPath.EXTRA, new ExtraCatering());
 		}
-		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA_CATERING;
+		return GeneralPath.CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA_CATERING;
 	}
 
 	@PostMapping("/saveExtraCatering")

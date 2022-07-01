@@ -1,6 +1,5 @@
 package com.estonianport.geservapp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +27,7 @@ import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraCateringService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
+import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
@@ -48,6 +48,9 @@ public class ReservaController {
 
 	@Autowired
 	private ExtraSubTipoEventoService extraSubTipoEventoService;
+	
+	@Autowired
+	private ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
 
 	@Autowired
 	private ExtraCateringService extraCateringService;
@@ -104,9 +107,7 @@ public class ReservaController {
 		model.addAttribute("listaExtra", listaExtra);
 
 		// Agrega lista Extras Variables al modelo
-		List<ExtraSubTipoEvento> listaExtraVariable = new ArrayList<ExtraSubTipoEvento>();
-		listaExtraVariable.add(extraSubTipoEventoService.get((long) 5));
-		model.addAttribute("listaExtraVariable", listaExtraVariable);
+		model.addAttribute("listaExtraVariable", extraVariableSubTipoEventoService.getAll());
 
 		// Agrega lista Extras a Reserva
 		reservaContainer.setExtraSubTipoEvento(Set.copyOf(listaExtra));

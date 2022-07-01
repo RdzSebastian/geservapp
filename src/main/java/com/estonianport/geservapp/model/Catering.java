@@ -2,6 +2,7 @@ package com.estonianport.geservapp.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,12 @@ public class Catering {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "precio_adultos")
+	private int precioAdultos;
+
+	@Column(name = "precio_ninos")
+	private int precioNinos;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "catering_tipo_catering",

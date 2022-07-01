@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>ABM Extras</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2 th:if="${#lists.isEmpty(listaTipoCatering)}">No hay tipos catering</h2>
+		<div th:if="${not #lists.isEmpty(listaTipoCatering)}">
+			<h2 class="jumbotron text-center">Tipo Catering</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Precio</th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tipoCatering : ${listaTipoCatering}">
+						<td th:text="${tipoCatering.nombre}"> </td>
+						<td th:text="${tipoCatering.precio}"> </td>
+						<td> </td>
+						<td> </td>
+						<td> </td>
+						<td><a class="btn btn-info" th:href="@{/saveTipoCatering/{id}(id=${tipoCatering.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteTipoCatering/{id}(id=${tipoCatering.id})}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-between">
+				<div>
+					<a th:href="@{/saveTipoCatering/0}" class="btn btn-primary">Agregar</a>
+				</div>
+				<div>
+					<a th:href="@{/catering}" class="btn btn-primary">Volver</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

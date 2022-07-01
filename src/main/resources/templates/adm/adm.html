@@ -75,7 +75,7 @@
 						<a type="button" class="btn btn-primary d-flex" th:href="@{/extra}">
 							<div class="col-8 text-start">
 								<h5>Extras</h5>
-								<span th:text="${cantExtra} + ' extras'"></span>
+								<span th:text="${cantExtra} + ' extras y extras var'"></span>
 							</div>
 							<div class="col-4 text-center">
 								<i class="fas fa-calendar-check fa-lg"></i>
@@ -120,6 +120,17 @@
 							<div class="col-8 text-start">
 								<h5>Clientes</h5>
 								<span th:text="${cantCliente} + ' clientes'"></span>
+							</div>
+							<div class="col-4 text-center">
+								<i class="fas fa-search fa-lg"></i>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 mb-3">
+						<a type="button" class="btn btn-primary d-flex" th:href="@{/catering}">
+							<div class="col-8 text-start">
+								<h5>Catering</h5>
+								<span th:text="${cantCatering} + ' tipos y extras'"></span>
 							</div>
 							<div class="col-4 text-center">
 								<i class="fas fa-search fa-lg"></i>

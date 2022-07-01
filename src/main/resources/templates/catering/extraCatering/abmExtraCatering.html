@@ -12,9 +12,9 @@
 <body>
 	<div class="container">
 		<br>
-		<h2 th:if="${#lists.isEmpty(listaExtra)}">No hay extras</h2>
+		<h2 th:if="${#lists.isEmpty(listaExtra)}">No hay extras catering</h2>
 		<div th:if="${not #lists.isEmpty(listaExtra)}">
-			<h2 class="jumbotron text-center">Extras</h2>
+			<h2 class="jumbotron text-center">Extras Catering</h2>
 			<table class="table">
 				<thead>
 					<tr>
@@ -34,8 +34,8 @@
 						<td> </td>
 						<td> </td>
 						<td> </td>
-						<td><a class="btn btn-info" th:href="@{/saveExtra/{id}(id=${extra.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteExtra/{id}(id=${extra.id})}">Eliminar</a></td>
+						<td><a class="btn btn-info" th:href="@{/saveExtraCatering/{id}(id=${extra.id})}">Editar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteExtraCatering/{id}(id=${extra.id})}">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -46,7 +46,7 @@
 					<a th:href="@{/saveExtraCatering/0}" class="btn btn-primary">Agregar</a>
 				</div>
 				<div>
-					<a th:href="@{/extra}" class="btn btn-primary">Volver</a>
+					<a th:href="@{/catering}" class="btn btn-primary">Volver</a>
 				</div>
 			</div>
 		</div>

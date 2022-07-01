@@ -17,7 +17,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class ExtraCatering extends Extra{
+public class ExtraCatering extends Extra {
 
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
