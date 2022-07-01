@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.ExtraCatering;
 import com.estonianport.geservapp.model.Salon;
-import com.estonianport.geservapp.service.CateringService;
 import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
 public class ExtraCateringController {
@@ -23,7 +23,7 @@ public class ExtraCateringController {
 	private ExtraCateringService extraCateringService;
 
 	@Autowired
-	private CateringService cateringService;
+	private SubTipoEventoService subTipoEventoService;
 
 	@RequestMapping("/abmExtraCatering")
 	public String abm(Model model, HttpSession session) {
@@ -39,11 +39,11 @@ public class ExtraCateringController {
 	@GetMapping("/saveExtraCatering/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
 
-		model.addAttribute("listaCateringCompleta", cateringService.getAll());
+		model.addAttribute("listaSubTipoEventoCompleta", subTipoEventoService.getAll());
 
 		if(id != null && id != 0) {
 			ExtraCatering extraCatering = extraCateringService.get(id);
-			model.addAttribute("listaCateringSeleccionadas", extraCatering.getListaCatering());
+			model.addAttribute("listaSubTipoEventoSeleccionadas", extraCatering.getListaSubTipoEvento());
 			model.addAttribute(GeneralPath.EXTRA, extraCatering);
 		}else {
 			model.addAttribute(GeneralPath.EXTRA, new ExtraCatering());

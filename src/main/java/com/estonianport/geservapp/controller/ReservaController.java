@@ -31,6 +31,7 @@ import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
+import com.estonianport.geservapp.service.TipoCateringService;
 import com.estonianport.geservapp.service.TipoEventoService;
 import com.estonianport.geservapp.service.UsuarioService;
 
@@ -52,6 +53,9 @@ public class ReservaController {
 	@Autowired
 	private ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
 
+	@Autowired
+	private TipoCateringService tipoCateringService;
+	
 	@Autowired
 	private ExtraCateringService extraCateringService;
 
@@ -113,8 +117,11 @@ public class ReservaController {
 		reservaContainer.setExtraSubTipoEvento(Set.copyOf(listaExtra));
 
 		// Agrega lista Extras Catering al modelo
-		model.addAttribute("listaCatering", extraCateringService.getAll());
+		model.addAttribute("listaExtraCatering", extraCateringService.getAll());
 
+		// Agrega lista Tipo Catering al modelo
+		model.addAttribute("listaTipoCatering", tipoCateringService.getAll());
+		
 		// Agrega reservaContainer al modelo
 		model.addAttribute("reservaContainer", reservaContainer);
 

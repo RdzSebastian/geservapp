@@ -22,9 +22,9 @@ public class ExtraCatering extends Extra {
 	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(
-			name = "catering_extra_catering",
-			joinColumns = @JoinColumn(name = "extra_id"),
-			inverseJoinColumns = @JoinColumn(name = "catering_id"))
-	private Set<Catering> listaCatering;
+			name = "sub_tipo_evento_extra_catering",
+			joinColumns = @JoinColumn(name = "extra_catering_id"),
+			inverseJoinColumns = @JoinColumn(name = "sub_tipo_evento_id"))
+	private Set<SubTipoEvento> listaSubTipoEvento;
 
 }

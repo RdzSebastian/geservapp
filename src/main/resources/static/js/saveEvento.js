@@ -5,7 +5,7 @@ $(document).ready(function() {
 	window.onload = selectEventoEmpiezaVacio;
 	
 	hideCatering();
-	
+
 	//listen for window resize event
 	window.addEventListener('resize', function(event){
 		sizeScreen();
@@ -90,6 +90,8 @@ $(document).ready(function() {
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setExtrasVariableBySubTipoEvento(subTipoEvento.id);
+                setExtraCateringBySubTipoEvento(subTipoEvento.id);
+                setTipoCateringBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
 				setPlatoDisabled(subTipoEvento.capacidad.capacidadVariable);
@@ -99,8 +101,6 @@ $(document).ready(function() {
 
     })
     // ----------------------------------------------------------------------------------
-
-
 
     // ----------------------------------------------------------------------------------
    	// Muestra los extras que correspondan en base a el subTipoEvento elegido
@@ -155,7 +155,61 @@ $(document).ready(function() {
 		});
 	}
 	// ----------------------------------------------------------------------------------
-	
+
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#listaExtraCatering div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaExtraCatering.forEach(function(valorExtra) {
+			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
+				if(valorSubTipoEvento.id == subTipoEventoId){
+
+					var listaExtraDiv = document.getElementById("listaExtraCatering");
+					var checkbox = document.createElement('input');
+					
+					var extraDiv = document.createElement('div');
+					extraDiv.setAttribute("id", "extraCheckbox");
+					
+					// Assigning the attributes
+		            // to created checkbox
+		            checkbox.type = "checkbox";
+		            checkbox.name = "extra";
+		            checkbox.value = valorExtra.id;
+		            checkbox.id = "extraCateringId" + valorExtra.id;
+		            checkbox.classList.add("form-check-input");
+		            checkbox.classList.add("extraCheckbox");
+		            checkbox.onchange = function () { 
+						changeExtraCheckbox(valorExtra.precio , 'extraCateringId' + valorExtra.id);
+					}
+		            
+		            // creating label for checkbox
+		            var label = document.createElement('label');
+		              
+		            // assigning attributes for 
+		            // the created label tag 
+		            label.htmlFor = "id";
+					//label.classList.add("form-check-label");
+					//label.classList.add("ml-2");
+		            
+		            // appending the created text to 
+		            // the created label tag 
+		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
+		              
+		            // appending the checkbox
+		            // and label to div
+		            extraDiv.appendChild(checkbox);
+		            extraDiv.appendChild(label);
+		           	listaExtraDiv.appendChild(extraDiv);
+
+				}
+			});
+		});
+	}
+	// ----------------------------------------------------------------------------------
+
 	// ----------------------------------------------------------------------------------
    	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
 	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
@@ -227,6 +281,58 @@ $(document).ready(function() {
 	}
 	// ----------------------------------------------------------------------------------
 
+	// Muestra los tipo catering que correspondan en base a el subTipoEvento elegido
+	function setTipoCateringBySubTipoEvento(subTipoEventoId) {
+		// Limpia los tipo catering que se agregaron anteriormente
+		$('#listaTipoCatering div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaTipoCatering.forEach(function(tipoCatering) {
+			tipoCatering.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
+				if(valorSubTipoEvento.id == subTipoEventoId){
+
+					var listaExtraDiv = document.getElementById("listaTipoCatering");
+					var checkbox = document.createElement('input');
+					
+					var extraDiv = document.createElement('div');
+					extraDiv.setAttribute("id", "extraCheckbox");
+					
+					// Assigning the attributes
+		            // to created checkbox
+		            checkbox.type = "checkbox";
+		            checkbox.name = "extra";
+		            checkbox.value = tipoCatering.id;
+		            checkbox.id = "tipoCateringId" + tipoCatering.id;
+		            checkbox.classList.add("form-check-input");
+		            checkbox.classList.add("extraCheckbox");
+		            checkbox.onchange = function () { 
+						changeExtraCheckbox(tipoCatering.precio , 'extraId' + tipoCatering.id);
+					}
+		            
+		            // creating label for checkbox
+		            var label = document.createElement('label');
+		              
+		            // assigning attributes for 
+		            // the created label tag 
+		            label.htmlFor = "id";
+					//label.classList.add("form-check-label");
+					//label.classList.add("ml-2");
+		            
+		            // appending the created text to 
+		            // the created label tag 
+		            label.appendChild(document.createTextNode("\u00A0" + tipoCatering.nombre + ' $' + tipoCatering.precio));
+		              
+		            // appending the checkbox
+		            // and label to div
+		            extraDiv.appendChild(checkbox);
+		            extraDiv.appendChild(label);
+		           	listaExtraDiv.appendChild(extraDiv);
+
+				}
+			});
+		});
+	}
+	// ----------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------
 	// Muestra los extras que correspondan en base a el subTipoEvento elegido

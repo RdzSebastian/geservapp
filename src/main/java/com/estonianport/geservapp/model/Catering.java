@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -37,9 +38,9 @@ public class Catering {
 			joinColumns = @JoinColumn(name = "catering_id"),
 			inverseJoinColumns = @JoinColumn(name = "tipo_catering_id"))
 	private Set<TipoCatering> listaTipoCatering;
-	
+
 	@JsonBackReference
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaCatering")
+	@OneToMany
 	private Set<ExtraCatering> listaExtraCatering;
 
 }

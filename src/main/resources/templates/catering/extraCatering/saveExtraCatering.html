@@ -13,7 +13,7 @@
 	<div class="container">
 		<br>
 		<h2>Agregar Extra</h2>
-		<form action="#" th:action="@{/saveExtra}" method="post" th:object="${extra}">
+		<form action="#" th:action="@{/saveExtraCatering}" method="post" th:object="${extra}">
 			<input type="hidden" th:field="*{id}" name="id" id="id">
 			<div class="form-group">
 				<label for="nombre">Nombre</label> 
@@ -23,17 +23,7 @@
 				<label for="precio">Precio</label> 
 				<input type="number" class="form-control" id="precio" th:field="*{precio}" name="precio">
 			</div>
-    		<div class="fieldset-content">
-                <div class="form-group" id="extras">
-                    <label for="subTipoEvento" class="form-label">Sub Tipo Evento</label> 
-                    <th:block id="listaSubTipoEvento" th:each="listaSubTipoEvento : ${listaSubTipoEventoCompleta}">
-	                    <div class=form-check>
-							<input type="checkbox" class="form-check-input" name="listaSubTipoEvento" th:value="${listaSubTipoEvento.id}" th:id="'subTipoEvento' + ${listaSubTipoEvento.id}"/>
-	                    	<label class="form-check-label" th:text="${listaSubTipoEvento.nombre}">
-	                    </div>
-	                </th:block>
-	            </div>
-			</div>
+
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
@@ -43,6 +33,17 @@
 						<button type="submit" class="btn btn-success">Guardar</button>
 					</div>
 				</div>
+			</div>
+			<div class="fieldset-content">
+                <div class="form-group" id="extras">
+                    <label for="subTipoEvento" class="form-label">Sub Tipo Evento</label> 
+                    <th:block id="listaSubTipoEvento" th:each="listaSubTipoEvento : ${listaSubTipoEventoCompleta}">
+	                    <div class=form-check>
+							<input type="checkbox" class="form-check-input" name="listaSubTipoEvento" th:value="${listaSubTipoEvento.id}" th:id="'subTipoEvento' + ${listaSubTipoEvento.id}"/>
+	                    	<label class="form-check-label" th:text="${listaSubTipoEvento.nombre}">
+	                    </div>
+	                </th:block>
+	            </div>
 			</div>
 		</form>
 	</div>
