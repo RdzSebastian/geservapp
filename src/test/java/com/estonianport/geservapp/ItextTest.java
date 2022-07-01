@@ -1,8 +1,6 @@
 package com.estonianport.geservapp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.estonianport.geservapp.commons.CodeGenerator;
 import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.SalonService;
@@ -53,7 +50,7 @@ class ItextTest {
     		evento.setSalon(salonService.get((long) 1));
 
     		// Agrega Extras
-    		Set<Extra> listaExtra = new HashSet<Extra>();
+//    		Set<Extra> listaExtra = new HashSet<Extra>();
 
 //    		Extra extraAnimacion = new Extra();
 //    		extraAnimacion.setId((long) 1);

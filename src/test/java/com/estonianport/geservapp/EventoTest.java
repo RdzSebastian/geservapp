@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.Extra;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
@@ -95,7 +92,7 @@ class EventoTest {
 		evento.setSalon(salon);
 
 		// Agrega Extras
-		Set<Extra> listaExtra = new HashSet<Extra>();
+//		Set<Extra> listaExtra = new HashSet<Extra>();
 
 //		Extra extraAnimacion = new Extra();
 //		extraAnimacion.setId((long) 1);
