@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity(name="precio_con_fecha")
 @Getter
 @Setter
-@Entity(name="precio_con_fecha")
 public class PrecioConFecha {
 
 	@Id

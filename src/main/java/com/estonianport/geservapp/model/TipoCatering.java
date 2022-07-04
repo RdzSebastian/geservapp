@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity(name="tipo_catering")
 @Getter
 @Setter
-@Entity(name="tipo_catering")
 public class TipoCatering extends Extra {
 
 	@JsonManagedReference
