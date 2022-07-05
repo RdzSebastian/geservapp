@@ -46,13 +46,6 @@ public class Evento {
 			inverseJoinColumns = @JoinColumn(name = "extra_sub_tipo_evento_id"))
 	private Set<ExtraSubTipoEvento> listaExtraSubTipoEvento;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "evento_extra_catering",
-			joinColumns = @JoinColumn(name = "evento_id"),
-			inverseJoinColumns = @JoinColumn(name = "extra_catering_id"))
-	private Set<ExtraCatering> listaExtraCatering;
-	
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private Set<EventoExtraVariableSubTipoEvento> eventoExtraVariable;
     
