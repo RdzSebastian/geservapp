@@ -122,67 +122,13 @@ $(document).ready(function() {
 					// Assigning the attributes
 		            // to created checkbox
 		            checkbox.type = "checkbox";
-		            checkbox.name = "extra";
+		            checkbox.name = "extraSubTipoEvento";
 		            checkbox.value = valorExtra.id;
-		            checkbox.id = "extraId" + valorExtra.id;
+		            checkbox.id = "extraSubTipoEventoId" + valorExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraCheckbox(valorExtra.precio , 'extraId' + valorExtra.id);
-					}
-		            
-		            // creating label for checkbox
-		            var label = document.createElement('label');
-		              
-		            // assigning attributes for 
-		            // the created label tag 
-		            label.htmlFor = "id";
-					//label.classList.add("form-check-label");
-					//label.classList.add("ml-2");
-		            
-		            // appending the created text to 
-		            // the created label tag 
-		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
-		              
-		            // appending the checkbox
-		            // and label to div
-		            extraDiv.appendChild(checkbox);
-		            extraDiv.appendChild(label);
-		           	listaExtraDiv.appendChild(extraDiv);
-
-				}
-			});
-		});
-	}
-	// ----------------------------------------------------------------------------------
-
-    // ----------------------------------------------------------------------------------
-   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
-	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
-		// Limpia los extra que se agregaron anteriormente
-		$('#listaExtraCatering div').remove();
-
-		// Agrega los extras del subTipoEvento
-		listaExtraCatering.forEach(function(valorExtra) {
-			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
-				if(valorSubTipoEvento.id == subTipoEventoId){
-
-					var listaExtraDiv = document.getElementById("listaExtraCatering");
-					var checkbox = document.createElement('input');
-					
-					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraCheckbox");
-					
-					// Assigning the attributes
-		            // to created checkbox
-		            checkbox.type = "checkbox";
-		            checkbox.name = "extra";
-		            checkbox.value = valorExtra.id;
-		            checkbox.id = "extraCateringId" + valorExtra.id;
-		            checkbox.classList.add("form-check-input");
-		            checkbox.classList.add("extraCheckbox");
-		            checkbox.onchange = function () { 
-						changeExtraCheckbox(valorExtra.precio , 'extraCateringId' + valorExtra.id);
+						changeExtraCheckbox(valorExtra.precio , 'extraSubTipoEventoId' + valorExtra.id);
 					}
 		            
 		            // creating label for checkbox
@@ -228,18 +174,18 @@ $(document).ready(function() {
 		            rowDiv.className = "row";
 		            
 					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraVariableCheckbox");
+					extraDiv.setAttribute("id", "extraCheckbox");
 					extraDiv.className = "col-6";
 
 					// Assigning the attributes to created checkbox
 		            checkbox.type = "checkbox";
-		            checkbox.name = "extra";
+		            checkbox.name = "extraVariableSubTipoEvento";
 		            checkbox.value = valorVariableExtra.id;
-		            checkbox.id = "extraVariableId" + valorVariableExtra.id;
+		            checkbox.id = "extraVariableSubTipoEventoId" + valorVariableExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraVariableCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraVariableCantidadDisabled('extraVariableId' + valorVariableExtra.id);
+						changeExtraVariableCantidadDisabled('extraVariableSubTipoEventoId' + valorVariableExtra.id);
 					}
 		            
 		            // creating label for checkbox
@@ -257,11 +203,12 @@ $(document).ready(function() {
 					
 		            var input = document.createElement('input');
 				    input.type = "number";
+				    input.name = "cantidad";
 					input.classList.add("form-control");
-					input.id = "extraVariableId" + valorVariableExtra.id + "Cantidad";
+					input.id = "extraVariableSubTipoEventoId" + valorVariableExtra.id + "Cantidad";
 					input.setAttribute('disabled', '');
 					input.onchange = function () { 
-						changeExtraVariableCheckbox(valorVariableExtra.precio , 'extraVariableId' + valorVariableExtra.id);
+						changeExtraVariableCheckbox(valorVariableExtra.precio , 'extraVariableSubTipoEventoId' + valorVariableExtra.id);
 					}
 					 
 		            // appending the checkbox and label to div
@@ -274,6 +221,60 @@ $(document).ready(function() {
 		            rowDiv.appendChild(extraVariableDiv)
 		            
 		           	listaExtraDiv.appendChild(rowDiv);
+
+				}
+			});
+		});
+	}
+	// ----------------------------------------------------------------------------------
+
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras catering que correspondan en base a el subTipoEvento elegido
+	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#listaExtraCatering div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaExtraCatering.forEach(function(valorExtra) {
+			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
+				if(valorSubTipoEvento.id == subTipoEventoId){
+
+					var listaExtraDiv = document.getElementById("listaExtraCatering");
+					var checkbox = document.createElement('input');
+					
+					var extraDiv = document.createElement('div');
+					extraDiv.setAttribute("id", "extraCheckbox");
+					
+					// Assigning the attributes
+		            // to created checkbox
+		            checkbox.type = "checkbox";
+		            checkbox.name = "extraCatering";
+		            checkbox.value = valorExtra.id;
+		            checkbox.id = "extraCateringId" + valorExtra.id;
+		            checkbox.classList.add("form-check-input");
+		            checkbox.classList.add("extraCheckbox");
+		            checkbox.onchange = function () { 
+						changeExtraCheckbox(valorExtra.precio , 'extraCateringId' + valorExtra.id);
+					}
+		            
+		            // creating label for checkbox
+		            var label = document.createElement('label');
+		              
+		            // assigning attributes for 
+		            // the created label tag 
+		            label.htmlFor = "id";
+					//label.classList.add("form-check-label");
+					//label.classList.add("ml-2");
+		            
+		            // appending the created text to 
+		            // the created label tag 
+		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
+		              
+		            // appending the checkbox
+		            // and label to div
+		            extraDiv.appendChild(checkbox);
+		            extraDiv.appendChild(label);
+		           	listaExtraDiv.appendChild(extraDiv);
 
 				}
 			});
@@ -300,13 +301,13 @@ $(document).ready(function() {
 					// Assigning the attributes
 		            // to created checkbox
 		            checkbox.type = "checkbox";
-		            checkbox.name = "extra";
+		            checkbox.name = "tipoCatering";
 		            checkbox.value = tipoCatering.id;
 		            checkbox.id = "tipoCateringId" + tipoCatering.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraCheckbox(tipoCatering.precio , 'extraId' + tipoCatering.id);
+						changeExtraCheckbox(tipoCatering.precio , 'tipoCateringId' + tipoCatering.id);
 					}
 		            
 		            // creating label for checkbox

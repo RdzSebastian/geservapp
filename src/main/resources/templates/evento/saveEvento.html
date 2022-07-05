@@ -54,11 +54,11 @@
 								<div class="row  mt-3">
 								    <div class="form-group col-6">
 				                    	<label for="cantidad_plato_adulto">Cantidad Adultos</label>
-										<input type="number" class="form-control" id="cantidad_plato_adulto" onChange="">
+										<input type="number" class="form-control" id="cantidad_plato_adulto" th:field="*{evento.capacidad.capacidadAdultos}" onChange="">
 									</div>
 									<div class="form-group col-6">
 					                    <label for="precio_plato_adulto" class="form-label">Cantidad Niños</label> 
-					                    <input type="number" class="form-control" id="cantidad_plato_nino" onChange="">
+					                    <input type="number" class="form-control" id="cantidad_plato_nino" th:field="*{evento.capacidad.capacidadNinos}" onChange="">
 					                </div>
 					            </div>
 				            </div>

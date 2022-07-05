@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Capacidad {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

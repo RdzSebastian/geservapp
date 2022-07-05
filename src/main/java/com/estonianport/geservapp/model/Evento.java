@@ -47,7 +47,7 @@ public class Evento {
 	private Set<ExtraSubTipoEvento> listaExtraSubTipoEvento;
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
-    private Set<EventoExtraVariableSubTipoEvento> eventoExtraVariable;
+    private Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariable;
     
 	@Column
 	private LocalDateTime startd;
@@ -55,7 +55,7 @@ public class Evento {
 	@Column
 	private LocalDateTime endd;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "capacidad_id")
 	private Capacidad capacidad;
 	
