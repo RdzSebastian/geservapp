@@ -161,7 +161,7 @@ $(document).ready(function() {
 	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
 		// Limpia los extra que se agregaron anteriormente
 		$('#listaExtraVariable div').remove();
-
+		var index = 0
 		// Agrega los extras del subTipoEvento
 		listaExtraVariable.forEach(function(valorVariableExtra) {
 			valorVariableExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
@@ -179,13 +179,14 @@ $(document).ready(function() {
 
 					// Assigning the attributes to created checkbox
 		            checkbox.type = "checkbox";
-		            checkbox.name = "extraVariableSubTipoEvento";
+
+		            checkbox.name = "eventoExtraVariableSubTipoEvento[" + index + "].extraVariableSubTipoEvento";
 		            checkbox.value = valorVariableExtra.id;
-		            checkbox.id = "extraVariableSubTipoEventoId" + valorVariableExtra.id;
+		            checkbox.id = "eventoExtraVariableSubTipoEventoId" + valorVariableExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraVariableCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraVariableCantidadDisabled('extraVariableSubTipoEventoId' + valorVariableExtra.id);
+						changeExtraVariableCantidadDisabled('eventoExtraVariableSubTipoEventoId' + valorVariableExtra.id);
 					}
 		            
 		            // creating label for checkbox
@@ -203,14 +204,14 @@ $(document).ready(function() {
 					
 		            var input = document.createElement('input');
 				    input.type = "number";
-				    input.name = "cantidad";
+				    input.name = "eventoExtraVariableSubTipoEvento[" + index + "].cantidad";
 					input.classList.add("form-control");
-					input.id = "extraVariableSubTipoEventoId" + valorVariableExtra.id + "Cantidad";
+					input.id = "eventoExtraVariableSubTipoEventoId" + valorVariableExtra.id + "Cantidad";
 					input.setAttribute('disabled', '');
 					input.onchange = function () { 
-						changeExtraVariableCheckbox(valorVariableExtra.precio , 'extraVariableSubTipoEventoId' + valorVariableExtra.id);
+						changeExtraVariableCheckbox(valorVariableExtra.precio , 'eventoExtraVariableSubTipoEventoId' + valorVariableExtra.id);
 					}
-					 
+
 		            // appending the checkbox and label to div
 		            extraDiv.appendChild(checkbox);
 		            extraDiv.appendChild(label);
@@ -709,7 +710,7 @@ function precioExtrasVariables() {
 
 	listaExtraVariable.forEach(function(extraVariable) {
 		$.each(checkboxes, function(idArray, extraInput) {
-			var extraVariableId = "extraVariableId" + extraVariable.id
+			var extraVariableId = "eventoExtraVariableSubTipoEventoId" + extraVariable.id
 			 if(extraInput.checked){
 				if(extraInput.id == extraVariableId){
 					totalExtras += parseInt(extraVariable.precio) * parseInt($("#" + extraVariableId + "Cantidad").val());

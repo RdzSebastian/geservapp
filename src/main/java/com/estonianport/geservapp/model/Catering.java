@@ -43,4 +43,7 @@ public class Catering {
 			inverseJoinColumns = @JoinColumn(name = "extra_catering_id"))
 	private Set<ExtraCatering> listaExtraCatering;
 
+	@Column
+	int presupuesto;
+
 }

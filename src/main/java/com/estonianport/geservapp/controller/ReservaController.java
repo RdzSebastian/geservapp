@@ -25,7 +25,6 @@ import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.TipoCatering;
-import com.estonianport.geservapp.service.CapacidadService;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraCateringService;
@@ -76,9 +75,6 @@ public class ReservaController {
 
 	@Autowired
 	private ServicioService servicioService;
-
-	@Autowired
-	private CapacidadService capacidadService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -142,6 +138,9 @@ public class ReservaController {
 
 		// Agrega lista Tipo Catering a Reserva
 		reservaContainer.setTipoCatering(Set.copyOf(listaTipoCatering));
+		
+//		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSubTipoEvento = new HashSet<EventoExtraVariableSubTipoEvento>();
+//		reservaContainer.setEventoExtraVariableSubTipoEvento(listaEventoExtraVariableSubTipoEvento);
 
 		// Agrega reservaContainer al modelo
 		model.addAttribute("reservaContainer", reservaContainer);
@@ -284,7 +283,10 @@ public class ReservaController {
 		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
 		// Agrega la lista de Extras Varibles seleccionados
-		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
+		evento.setListaEventoExtraVariable(Set.copyOf(reservaContainer.getEventoExtraVariableSubTipoEvento()));
+
+		// Setea el evento a cada uno de los EventoExtraVariable
+		evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
 
 		// Agrega la lista de Extras Catering
 		evento.getCatering().setListaExtraCatering(reservaContainer.getExtraCatering());

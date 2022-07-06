@@ -59,7 +59,7 @@ public class Evento {
 	@JoinColumn(name = "capacidad_id")
 	private Capacidad capacidad;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "catering_id")
 	private Catering catering;
 
