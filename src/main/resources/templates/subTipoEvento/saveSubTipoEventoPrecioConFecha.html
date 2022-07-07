@@ -13,7 +13,7 @@
 	<div class="container">
 		<br>
 		<h2>Agregar precio Sub Tipo de Evento</h2>
-		<form action="#" th:action="@{/saveSubTipoEvento}" method="post" th:object="${subTipoEventoContainer}">
+		<form action="#" th:action="@{/saveSubTipoEventoPrecioConFecha}" method="post" th:object="${subTipoEventoContainer}">
 			<input type="hidden" th:field="*{subTipoEvento.id}" name="id" id="id">
 			
 			<div class="border-top my-3"></div>
@@ -287,7 +287,7 @@
 		var listaPrecioConFecha = /*[[${subTipoEventoContainer.subTipoEvento.listaPrecioConFecha}]]*/ [];
 	</script>
 
-	<script src="../js/saveSubTipoEvento.js"></script>
+	<script src="../js/saveSubTipoEventoPrecioConFecha.js"></script>
 
 
 </body>

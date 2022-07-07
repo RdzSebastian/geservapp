@@ -45,7 +45,7 @@ public class RestWebController {
 
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
 
@@ -228,24 +228,26 @@ public class RestWebController {
 		}
 		return new ResponseEntity<List<String>>(listaFecha, HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin(origins = "*")	
 	@GetMapping("/precioEventoBySubTipoEventoYFecha")
-	public @ResponseBody ResponseEntity<Integer> precioEventoBySubTipoEventoYFecha(Model model, @RequestParam(value="fecha") String fecha, @RequestParam(value="subTipoEventoId") long subTipoEventoId){
+	public @ResponseBody ResponseEntity<Integer> precioEventoBySubTipoEventoYFecha(Model model, @RequestParam(value="fecha") String fecha, @RequestParam(value="subTipoEventoId") long subTipoEventoId, HttpSession session){
 
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		SubTipoEvento subTipoEvento = subTipoEventoService.get(subTipoEventoId);
 		LocalDateTime fechaEvento = DateUtil.createFechaConHora(fecha, DateUtil.START_TIME);
-		
+
 		List<PrecioConFecha> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
-		
+
 		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
-			
+
 			if(fechaEvento.getYear() == precioConFecha.getDesde().getYear()) {
 				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
 
-				if(rangoMeses.contains(fechaEvento.getMonthValue())){
+				if(rangoMeses.contains(fechaEvento.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
+
 					if(DateUtil.isFinDeSemana(fechaEvento)) {
-						return new ResponseEntity<Integer>(precioConFecha.getPrecio() + subTipoEvento.getValorFinSemana(), HttpStatus.OK);
+						return new ResponseEntity<Integer>( + subTipoEvento.getValorFinSemana(), HttpStatus.OK);
 					}else {
 						return new ResponseEntity<Integer>(precioConFecha.getPrecio(), HttpStatus.OK);
 					}
@@ -254,6 +256,6 @@ public class RestWebController {
 		}
 		return new ResponseEntity<Integer>(0, HttpStatus.OK);
 	}
-	
+
 
 }

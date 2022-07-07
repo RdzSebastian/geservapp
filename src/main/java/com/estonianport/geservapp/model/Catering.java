@@ -2,6 +2,7 @@ package com.estonianport.geservapp.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +25,12 @@ public class Catering {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "precio_adultos")
-	private int precioAdultos;
+	@Column
+	private int presupuesto;
 
-	@Column(name = "precio_ninos")
-	private int precioNinos;
-	
+	@Column(name = "catering_otro")
+	private int canteringOtro;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "catering_tipo_catering",
@@ -36,14 +38,7 @@ public class Catering {
 			inverseJoinColumns = @JoinColumn(name = "tipo_catering_id"))
 	private Set<TipoCatering> listaTipoCatering;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "catering_extra_catering",
-			joinColumns = @JoinColumn(name = "catering_id"),
-			inverseJoinColumns = @JoinColumn(name = "extra_catering_id"))
-	private Set<ExtraCatering> listaExtraCatering;
-
-	@Column
-	int presupuesto;
+    @OneToMany(mappedBy = "catering", cascade = CascadeType.ALL)
+    private Set<CateringExtraVariableCatering> listaCateringExtraVariableCatering;
 
 }

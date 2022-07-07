@@ -20,14 +20,14 @@ import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.ExtraCatering;
+import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.TipoCatering;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.ServicioService;
@@ -59,7 +59,7 @@ public class ReservaController {
 	private TipoCateringService tipoCateringService;
 
 	@Autowired
-	private ExtraCateringService extraCateringService;
+	private ExtraVariableCateringService extraCateringService;
 
 	@Autowired
 	private EmailService emailService;
@@ -122,7 +122,7 @@ public class ReservaController {
 		reservaContainer.setExtraVariableSubTipoEvento(Set.copyOf(listaExtraVariable));
 
 		// Obtiene todos los Extra Catering
-		List<ExtraCatering> listaExtraCatering = extraCateringService.getAll();
+		List<ExtraVariableCatering> listaExtraCatering = extraCateringService.getAll();
 
 		// Agrega lista Extras Catering al modelo
 		model.addAttribute("listaExtraCatering", listaExtraCatering);
@@ -138,9 +138,9 @@ public class ReservaController {
 
 		// Agrega lista Tipo Catering a Reserva
 		reservaContainer.setTipoCatering(Set.copyOf(listaTipoCatering));
-		
-//		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSubTipoEvento = new HashSet<EventoExtraVariableSubTipoEvento>();
-//		reservaContainer.setEventoExtraVariableSubTipoEvento(listaEventoExtraVariableSubTipoEvento);
+
+		//		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSubTipoEvento = new HashSet<EventoExtraVariableSubTipoEvento>();
+		//		reservaContainer.setEventoExtraVariableSubTipoEvento(listaEventoExtraVariableSubTipoEvento);
 
 		// Agrega reservaContainer al modelo
 		model.addAttribute("reservaContainer", reservaContainer);
@@ -285,11 +285,14 @@ public class ReservaController {
 		// Agrega la lista de Extras Varibles seleccionados
 		evento.setListaEventoExtraVariable(Set.copyOf(reservaContainer.getEventoExtraVariableSubTipoEvento()));
 
-		// Setea el evento a cada uno de los EventoExtraVariable
+		// Setea el evento a cada uno de los ExtraVariable
 		evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
 
 		// Agrega la lista de Extras Catering
-		evento.getCatering().setListaExtraCatering(reservaContainer.getExtraCatering());
+		evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
+
+		// Setea el catering a cada uno de los ExtraVariableCatering
+		evento.getCatering().getListaCateringExtraVariableCatering().stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(evento.getCatering()));
 
 		// Agrega la lista de Tipo Catering
 		evento.getCatering().setListaTipoCatering(reservaContainer.getTipoCatering());

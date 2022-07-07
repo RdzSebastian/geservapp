@@ -1,7 +1,5 @@
 package com.estonianport.geservapp.controller;
 
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.container.MesContainer;
-import com.estonianport.geservapp.container.PrecioConFechaContainer;
-import com.estonianport.geservapp.container.SubTipoEventoContainer;
 import com.estonianport.geservapp.model.Capacidad;
-import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoEvento;
@@ -70,66 +64,9 @@ public class SubTipoEventoController {
 		}
 		return GeneralPath.SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_SUB_TIPO_EVENTO;
 	}
-	
-	@GetMapping("/saveSubTipoEventoPrecio/{id}")
-	public String setPrecio(@PathVariable("id") Long id, Model model) {
-
-		// ---------------- Agrega lista de Meses -----------------------
-		List<MesContainer> listaMesContainer = new ArrayList<MesContainer>();
-
-		int mesValor = 1;
-		for(String mes : DateUtil.MESES) {
-			MesContainer mesContainer = new MesContainer();
-			mesContainer.setNombre(mes);
-			mesContainer.setValor(mesValor);
-			listaMesContainer.add(mesContainer);
-			mesValor++;
-		}
-
-
-		model.addAttribute("listaMeses", listaMesContainer);
-		// -----------------------------------------------------------
-		
-		SubTipoEventoContainer subTipoEventoContainer = new SubTipoEventoContainer();
-
-		SubTipoEvento subTipoEvento = subTipoEventoService.get(id);
-
-		// ---------------- Agrega lista de Precio con fecha -----------------------
-		if(subTipoEvento.getListaPrecioConFecha().isEmpty()) {
-
-			List<PrecioConFecha> listaPrecioConFecha = new ArrayList<PrecioConFecha>();
-
-			for (int i = 0; i <= 11; i++) {
-				listaPrecioConFecha.add(new PrecioConFecha());
-			}
-
-			subTipoEvento.setListaPrecioConFecha(listaPrecioConFecha);
-}
-		// -----------------------------------------------------------------------
-
-
-		subTipoEventoContainer.setSubTipoEvento(subTipoEvento);
-		model.addAttribute("subTipoEventoContainer", subTipoEventoContainer);
-
-		return GeneralPath.SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + "saveSubTipoEventoPrecio";
-	}
 
 	@PostMapping("/saveSubTipoEvento")
-	public String save(SubTipoEventoContainer subTipoEventoContainer, Model model) {
-		SubTipoEvento subTipoEvento = subTipoEventoContainer.getSubTipoEvento();
-
-		// Setea fecha del evento y hora de inicio
-		List<PrecioConFecha> listaPrecioConFecha = new ArrayList<PrecioConFecha>();
-		for(PrecioConFechaContainer precioConFechaContainer : subTipoEventoContainer.getPrecioConFecha()) {
-
-			PrecioConFecha precioConFecha = new PrecioConFecha();
-			precioConFecha.setPrecio(precioConFechaContainer.getPrecio());
-			precioConFecha.setDesde(DateUtil.createFechaConHora(precioConFechaContainer.getDesde(), DateUtil.START_TIME));
-			precioConFecha.setHasta(DateUtil.createFechaConHora(precioConFechaContainer.getHasta(), DateUtil.END_TIME).with(TemporalAdjusters.lastDayOfMonth()));
-
-			listaPrecioConFecha.add(precioConFecha);
-		}
-		subTipoEvento.setListaPrecioConFecha(listaPrecioConFecha);
+	public String save(SubTipoEvento subTipoEvento, Model model) {
 
 		List<Capacidad> listaCapacidad = capacidadService.getAll();
 		for(Capacidad capacidad : listaCapacidad) {

@@ -32,7 +32,7 @@ import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.PagoService;
@@ -72,7 +72,7 @@ public class MainController {
 	ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
 
 	@Autowired
-	ExtraCateringService extraCateringService;
+	ExtraVariableCateringService extraCateringService;
 
 	@Autowired
 	TipoCateringService tipoCateringService;
@@ -106,9 +106,16 @@ public class MainController {
 
 	@RequestMapping("/administracion")
 	public String adm(Model model, HttpSession session, Authentication authentication) {
+		
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
+		
+		// Trae los eventos por el salon que este preguntando
+		List<Evento> listaEvento =  eventoService.getEventosBySalon(salon);
+
+		// Setea la cantidad de todo para la vista de administracion
+		model.addAttribute("cantEvento", listaEvento.size());
 		model.addAttribute("cantUsuario", usuariosService.count());
 		model.addAttribute("cantTipoEvento", tipoEventoService.count());
 		model.addAttribute("cantSubTipoEvento", subTipoEventoService.count());
@@ -116,10 +123,10 @@ public class MainController {
 		model.addAttribute("cantSalon", salonService.count());
 		model.addAttribute("cantExtra", extraSubTipoEventoService.count() + extraVariableSubTipoEventoService.count());
 		model.addAttribute("cantCatering", tipoCateringService.count() + extraCateringService.count());
-		model.addAttribute("cantEvento", eventoService.count());
 		model.addAttribute("cantCliente", clienteService.count());
 		model.addAttribute("cantServicio", servicioService.count());
 
+		// Setea si es administrador o rol user
 		model.addAttribute("admin", usuarioService.findUserByUsername(authentication.getName()).getRol() == rolService.getRolByNombre("ADMIN"));
 
 		return GeneralPath.ADM + GeneralPath.PATH_SEPARATOR + GeneralPath.ADM;
@@ -132,6 +139,7 @@ public class MainController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
+		// Setea la cantidad de todo para la vista de administracion
 		model.addAttribute("cantExtraSubTipoEvento", extraSubTipoEventoService.count());
 		model.addAttribute("cantExtraVariableSubTipoEvento", extraVariableSubTipoEventoService.count());
 
@@ -145,6 +153,7 @@ public class MainController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
+		// Setea la cantidad de todo para la vista de administracion
 		model.addAttribute("cantTipoCatering", tipoCateringService.count());
 		model.addAttribute("cantExtraCatering", extraCateringService.count());
 
@@ -166,7 +175,6 @@ public class MainController {
 
 		return "evento/buscarEvento";		
 	}
-
 
 	@RequestMapping("/buscarEvento")
 	public String buscarEvento(Model model, HttpSession session){
@@ -197,7 +205,6 @@ public class MainController {
 		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(start_date, end_date, salon);
 		model.addAttribute("listaEvento", listaEvento);
 
-
 		return "seleccionarFecha/abmSeleccionarFecha";
 	}
 
@@ -227,7 +234,7 @@ public class MainController {
 
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			listaEvento.add(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
-			model.addAttribute("listaEvento",listaEvento);
+			model.addAttribute("listaEvento", listaEvento);
 			return "seleccionarFecha/abmSeleccionarFecha";
 		}
 

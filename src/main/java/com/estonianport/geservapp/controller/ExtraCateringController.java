@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.model.ExtraCatering;
+import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.Salon;
-import com.estonianport.geservapp.service.ExtraCateringService;
+import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
 public class ExtraCateringController {
 
 	@Autowired
-	private ExtraCateringService extraCateringService;
+	private ExtraVariableCateringService extraCateringService;
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
@@ -42,17 +42,17 @@ public class ExtraCateringController {
 		model.addAttribute("listaSubTipoEventoCompleta", subTipoEventoService.getAll());
 
 		if(id != null && id != 0) {
-			ExtraCatering extraCatering = extraCateringService.get(id);
+			ExtraVariableCatering extraCatering = extraCateringService.get(id);
 			model.addAttribute("listaSubTipoEventoSeleccionadas", extraCatering.getListaSubTipoEvento());
 			model.addAttribute(GeneralPath.EXTRA, extraCatering);
 		}else {
-			model.addAttribute(GeneralPath.EXTRA, new ExtraCatering());
+			model.addAttribute(GeneralPath.EXTRA, new ExtraVariableCatering());
 		}
 		return GeneralPath.CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_CATERING + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA_CATERING;
 	}
 
 	@PostMapping("/saveExtraCatering")
-	public String save(ExtraCatering extraCatering, Model model) {
+	public String save(ExtraVariableCatering extraCatering, Model model) {
 		extraCateringService.save(extraCatering);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_CATERING;
 	}

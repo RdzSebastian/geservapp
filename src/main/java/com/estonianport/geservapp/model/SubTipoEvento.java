@@ -12,12 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -54,13 +53,8 @@ public class SubTipoEvento {
 	@Column(name = "horario_final_automatico")
 	private boolean horarioFinalAutomatico;
 
-	@JsonManagedReference
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "sub_tipo_evento_precio_con_fecha",
-			joinColumns = @JoinColumn(name = "sub_tipo_evento_id"),
-			inverseJoinColumns = @JoinColumn(name = "precio_con_fecha_id"))
-	private List<PrecioConFecha> listaPrecioConFecha;
+    @OneToMany(mappedBy = "subTipoEvento", cascade = CascadeType.ALL)
+    private List<PrecioConFecha> listaPrecioConFecha;
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
@@ -73,7 +67,11 @@ public class SubTipoEvento {
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
 	private Set<ExtraVariableSubTipoEvento> listaExtraVariableSubTipoEvento;
-	
+
+	@JsonBackReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
+	private Set<ExtraVariableCatering> listaExtraVariableCatering;
+
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")
 	private Set<TipoCatering> listaTipoCatering;
