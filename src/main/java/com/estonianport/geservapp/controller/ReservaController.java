@@ -243,6 +243,22 @@ public class ReservaController {
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoCatering";
 	}
+	
+	@GetMapping("/saveEventoPago/{id}")
+	public String showSavePago(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		Evento evento = eventoService.get(id);
+		ReservaContainer reservaContainer = new ReservaContainer();
+		reservaContainer.setEvento(evento);
+		model.addAttribute("reservaContainer", reservaContainer);
+
+		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoPago";
+	}
 
 	@PostMapping("/saveEvento")
 	public String save(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session, Authentication authentication) {

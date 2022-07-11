@@ -86,7 +86,6 @@ $(document).ready(function() {
         var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
-
                 setServicioBySubTipoEvento(subTipoEvento.id);
                 setExtrasBySubTipoEvento(subTipoEvento.id);
                 setExtrasVariableBySubTipoEvento(subTipoEvento.id);
@@ -102,18 +101,20 @@ $(document).ready(function() {
     })
     // ----------------------------------------------------------------------------------
 
-    // ----------------------------------------------------------------------------------
+
+
+	// ----------------------------------------------------------------------------------
    	// Muestra los extras que correspondan en base a el subTipoEvento elegido
-	function setExtrasBySubTipoEvento(subTipoEventoId) {
+	function setExtras(subTipoEventoId, idDiv, listaExtras, nameExtra) {
 		// Limpia los extra que se agregaron anteriormente
-		$('#listaExtra div').remove();
+		$('#' + idDiv + ' div').remove();
 
 		// Agrega los extras del subTipoEvento
-		listaExtra.forEach(function(valorExtra) {
+		listaExtras.forEach(function(valorExtra) {
 			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
 				if(valorSubTipoEvento.id == subTipoEventoId){
 
-					var listaExtraDiv = document.getElementById("listaExtra");
+					var listaExtraDiv = document.getElementById(idDiv);
 					var checkbox = document.createElement('input');
 					
 					var extraDiv = document.createElement('div');
@@ -122,30 +123,25 @@ $(document).ready(function() {
 					// Assigning the attributes
 		            // to created checkbox
 		            checkbox.type = "checkbox";
-		            checkbox.name = "extraSubTipoEvento";
+		            checkbox.name = nameExtra;
 		            checkbox.value = valorExtra.id;
-		            checkbox.id = "extraSubTipoEventoId" + valorExtra.id;
+		            checkbox.id = nameExtra + "Id" + valorExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraCheckbox(valorExtra.precio , 'extraSubTipoEventoId' + valorExtra.id);
+						changeExtraCheckbox(valorExtra.precio , nameExtra + 'Id' + valorExtra.id);
 					}
 		            
 		            // creating label for checkbox
 		            var label = document.createElement('label');
 		              
-		            // assigning attributes for 
-		            // the created label tag 
+		            // assigning attributes for the created label tag 
 		            label.htmlFor = "id";
-					//label.classList.add("form-check-label");
-					//label.classList.add("ml-2");
-		            
-		            // appending the created text to 
-		            // the created label tag 
+
+		            // appending the created text to the created label tag 
 		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
 		              
-		            // appending the checkbox
-		            // and label to div
+		            // appending the checkbox and label to div
 		            extraDiv.appendChild(checkbox);
 		            extraDiv.appendChild(label);
 		           	listaExtraDiv.appendChild(extraDiv);
@@ -158,16 +154,17 @@ $(document).ready(function() {
 
 	// ----------------------------------------------------------------------------------
    	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
-	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
+	function setExtrasVariables(subTipoEventoId, idDiv, listaExtras, nameExtra, nameObjectExtra) {
 		// Limpia los extra que se agregaron anteriormente
-		$('#listaExtraVariable div').remove();
+		$('#' + idDiv +' div').remove();
 		var index = 0
+		
 		// Agrega los extras del subTipoEvento
-		listaExtraVariable.forEach(function(valorVariableExtra) {
+		listaExtras.forEach(function(valorVariableExtra) {
 			valorVariableExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
 				if(valorSubTipoEvento.id == subTipoEventoId){
 
-					var listaExtraDiv = document.getElementById("listaExtraVariable");
+					var listaExtraDiv = document.getElementById(idDiv);
 					var checkbox = document.createElement('input');
 					
 					var rowDiv = document.createElement('div');
@@ -180,20 +177,19 @@ $(document).ready(function() {
 					// Assigning the attributes to created checkbox
 		            checkbox.type = "checkbox";
 
-		            checkbox.name = "eventoExtraVariableSubTipoEvento[" + index + "].extraVariableSubTipoEvento";
+		            checkbox.name = nameExtra + "[" + index + "]." + nameObjectExtra;
 		            checkbox.value = valorVariableExtra.id;
-		            checkbox.id = "eventoExtraVariableSubTipoEventoId" + valorVariableExtra.id;
+		            checkbox.id = nameExtra + "Id" + valorVariableExtra.id;
 		            checkbox.classList.add("form-check-input");
 		            checkbox.classList.add("extraVariableCheckbox");
 		            checkbox.onchange = function () { 
-						changeExtraVariableCantidadDisabled('eventoExtraVariableSubTipoEventoId' + valorVariableExtra.id);
+						changeExtraVariableCantidadDisabled(nameExtra + 'Id' + valorVariableExtra.id);
 					}
 		            
 		            // creating label for checkbox
 		            var label = document.createElement('label');
 		              
-		            // assigning attributes for 
-		            // the created label tag 
+		            // assigning attributes for the created label tag 
 		            label.htmlFor = "id";
 		            
 		            // appending the created text to the created label tag 
@@ -204,12 +200,12 @@ $(document).ready(function() {
 					
 		            var input = document.createElement('input');
 				    input.type = "number";
-				    input.name = "eventoExtraVariableSubTipoEvento[" + index + "].cantidad";
+				    input.name = nameExtra + "[" + index + "].cantidad";
 					input.classList.add("form-control");
-					input.id = "eventoExtraVariableSubTipoEventoId" + valorVariableExtra.id + "Cantidad";
+					input.id = nameExtra + "Id" + valorVariableExtra.id + "Cantidad";
 					input.setAttribute('disabled', '');
 					input.onchange = function () { 
-						changeExtraVariableCheckbox(valorVariableExtra.precio , 'eventoExtraVariableSubTipoEventoId' + valorVariableExtra.id);
+						changeExtraVariableCheckbox(valorVariableExtra.precio , nameExtra + 'Id' + valorVariableExtra.id);
 					}
 
 		            // appending the checkbox and label to div
@@ -229,110 +225,33 @@ $(document).ready(function() {
 	}
 	// ----------------------------------------------------------------------------------
 
+
+
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setExtrasBySubTipoEvento(subTipoEventoId) {
+		setExtras(subTipoEventoId, "listaExtra", listaExtra, "extraSubTipoEvento");
+	}
+
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
+		setExtrasVariables(subTipoEventoId, "listaExtraVariable", listaExtraVariable, "eventoExtraVariableSubTipoEvento", "extraVariableSubTipoEvento");
+	}
+	// ----------------------------------------------------------------------------------
+
     // ----------------------------------------------------------------------------------
    	// Muestra los extras catering que correspondan en base a el subTipoEvento elegido
 	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
-		// Limpia los extra que se agregaron anteriormente
-		$('#listaExtraCatering div').remove();
-
-		// Agrega los extras del subTipoEvento
-		listaExtraCatering.forEach(function(valorExtra) {
-			valorExtra.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
-				if(valorSubTipoEvento.id == subTipoEventoId){
-
-					var listaExtraDiv = document.getElementById("listaExtraCatering");
-					var checkbox = document.createElement('input');
-					
-					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraCheckbox");
-					
-					// Assigning the attributes
-		            // to created checkbox
-		            checkbox.type = "checkbox";
-		            checkbox.name = "extraCatering";
-		            checkbox.value = valorExtra.id;
-		            checkbox.id = "extraCateringId" + valorExtra.id;
-		            checkbox.classList.add("form-check-input");
-		            checkbox.classList.add("extraCheckbox");
-		            checkbox.onchange = function () { 
-						changeExtraCheckbox(valorExtra.precio , 'extraCateringId' + valorExtra.id);
-					}
-		            
-		            // creating label for checkbox
-		            var label = document.createElement('label');
-		              
-		            // assigning attributes for 
-		            // the created label tag 
-		            label.htmlFor = "id";
-					//label.classList.add("form-check-label");
-					//label.classList.add("ml-2");
-		            
-		            // appending the created text to 
-		            // the created label tag 
-		            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
-		              
-		            // appending the checkbox
-		            // and label to div
-		            extraDiv.appendChild(checkbox);
-		            extraDiv.appendChild(label);
-		           	listaExtraDiv.appendChild(extraDiv);
-
-				}
-			});
-		});
+		setExtrasVariables(subTipoEventoId, "listaExtraCatering", listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCatering");
 	}
 	// ----------------------------------------------------------------------------------
 
 	// Muestra los tipo catering que correspondan en base a el subTipoEvento elegido
 	function setTipoCateringBySubTipoEvento(subTipoEventoId) {
-		// Limpia los tipo catering que se agregaron anteriormente
-		$('#listaTipoCatering div').remove();
-
-		// Agrega los extras del subTipoEvento
-		listaTipoCatering.forEach(function(tipoCatering) {
-			tipoCatering.listaSubTipoEvento.forEach(function(valorSubTipoEvento) {
-				if(valorSubTipoEvento.id == subTipoEventoId){
-
-					var listaExtraDiv = document.getElementById("listaTipoCatering");
-					var checkbox = document.createElement('input');
-					
-					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraCheckbox");
-					
-					// Assigning the attributes
-		            // to created checkbox
-		            checkbox.type = "checkbox";
-		            checkbox.name = "tipoCatering";
-		            checkbox.value = tipoCatering.id;
-		            checkbox.id = "tipoCateringId" + tipoCatering.id;
-		            checkbox.classList.add("form-check-input");
-		            checkbox.classList.add("extraCheckbox");
-		            checkbox.onchange = function () { 
-						changeExtraCheckbox(tipoCatering.precio , 'tipoCateringId' + tipoCatering.id);
-					}
-		            
-		            // creating label for checkbox
-		            var label = document.createElement('label');
-		              
-		            // assigning attributes for 
-		            // the created label tag 
-		            label.htmlFor = "id";
-					//label.classList.add("form-check-label");
-					//label.classList.add("ml-2");
-		            
-		            // appending the created text to 
-		            // the created label tag 
-		            label.appendChild(document.createTextNode("\u00A0" + tipoCatering.nombre + ' $' + tipoCatering.precio));
-		              
-		            // appending the checkbox
-		            // and label to div
-		            extraDiv.appendChild(checkbox);
-		            extraDiv.appendChild(label);
-		           	listaExtraDiv.appendChild(extraDiv);
-
-				}
-			});
-		});
+		setExtras(subTipoEventoId, "listaTipoCatering", listaTipoCatering, "tipoCatering");
 	}
 	// ----------------------------------------------------------------------------------
 
