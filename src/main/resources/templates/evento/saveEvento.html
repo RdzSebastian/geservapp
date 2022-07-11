@@ -54,11 +54,11 @@
 								<div class="row  mt-3">
 								    <div class="form-group col-6">
 				                    	<label for="cantidad_plato_adulto">Cantidad Adultos</label>
-										<input type="number" class="form-control" id="cantidad_plato_adulto" th:field="*{evento.capacidad.capacidadAdultos}" onChange="">
+										<input type="number" class="form-control" id="cantidad_plato_adulto" th:field="*{evento.capacidad.capacidadAdultos}" onChange="setCantidadAdultos();">
 									</div>
 									<div class="form-group col-6">
 					                    <label for="precio_plato_adulto" class="form-label">Cantidad Niños</label> 
-					                    <input type="number" class="form-control" id="cantidad_plato_nino" th:field="*{evento.capacidad.capacidadNinos}" onChange="">
+					                    <input type="number" class="form-control" id="cantidad_plato_nino" th:field="*{evento.capacidad.capacidadNinos}">
 					                </div>
 					            </div>
 				            </div>
@@ -202,7 +202,7 @@
 							</div>
 							<div class="row mt-2">
 								<div class="form-group col-md-8">
-				                    <label for="presupuesto" class="form-label">Presupuesto final</label> 
+				                    <label for="presupuesto" class="form-label">Presupuesto</label> 
 				                    <div class="input-group mb-2">
 				                    	<div class="input-group-prepend">
 									    	<div class="input-group-text">$</div>
@@ -219,14 +219,28 @@
 			    <!--===============================================================================================-->
 		        <h3>Catering</h3>
 		        <section>
-		        	<div class="col-md-10">
-						<h2>Seleccione opciones de catering</h2>
-					    <p>Puede agregar un servicio de catering al evento</p>
-			    		<div class="form-group mt-2">
-		                    <input class="form-check-input" type="checkbox" id="catering_checkbox" >
-		                    <label class="form-check-label">Agregar servicio de catering</label>
-		                </div>
-					</div>
+		        	<div class="row">
+			        	<div class="col-6">
+							<h2>Seleccione opciones de catering</h2>
+						    <p>Puede agregar un servicio de catering al evento</p>
+				    		<div class="form-group mt-2">
+			                    <input class="form-check-input" type="checkbox" id="catering_checkbox" >
+			                    <label class="form-check-label">Agregar servicio de catering</label>
+			                </div>
+						</div>
+
+						<div id="catering_otro" class="col-6">
+							<div class="form-group mt-2">
+			                    <input class="form-check-input" type="checkbox" value="" id="catering_otro_checkbox">
+			                    <label class="form-check-label" for="catering_otro_checkbox"> Catering Otro </label>
+			                    <small class="form-text text-muted">(Permite ingresar un precio personalizado de plato)</small>
+			                </div>
+							<div id="catering_otro_precio" class="form-group col-6">
+			                    <label for="precio_plato_adulto" class="form-label">Precio del plato</label> 
+			                    <input type="number" class="form-control" id="precio_plato_adulto" th:field="*{evento.catering.canteringOtro}" onChange="sumarPresupuestoCatering();">
+			                </div>
+						</div>
+					</div>					
 					<div id="catering">
 				        <div class="row">
 							<div class="col-md-6">
@@ -244,15 +258,7 @@
 						   	</div>
 						   	<div class="col-md-6">
 								<div class="col-12">
-					            	<h4>La cantidad de personas del evento es: X<h4>
-								</div>
-							   	<div id="plato">
-									<div class="row">
-										<div class="form-group col-6">
-						                    <label for="precio_plato_adulto" class="form-label">Precio de platos adultos</label> 
-						                    <input type="number" class="form-control" id="precio_plato_adulto" th:field="*{evento.catering.canteringOtro}" onChange="sumarPresupuesto();">
-						                </div>
-						            </div>
+					            	<h4 id="titulo_cantidad_adultos"><h4>
 								</div>
 								<div class="col-12">
 									<div class="form-group col-md-8">
@@ -261,7 +267,7 @@
 					                    	<div class="input-group-prepend">
 										    	<div class="input-group-text">$</div>
 										    </div>
-						                    <input type="number" class="form-control" readonly/>
+					                    	<input type="number" class="form-control" id="presupuesto_catering" th:field="*{evento.catering.presupuesto}" readonly/>
 										</div>
 									</div>
 				
@@ -363,6 +369,7 @@
     	var listaExtraCatering = /*[[${listaExtraCatering}]]*/ [];
 		var listaTipoCatering = /*[[${listaTipoCatering}]]*/ [];
     	var listaServicio = /*[[${listaServicio}]]*/ [];
+    	var presupuesto = 0;
     </script>
 
     <script src="../js/saveEventoWizard.js"></script>

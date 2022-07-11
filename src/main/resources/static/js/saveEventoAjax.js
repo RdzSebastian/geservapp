@@ -69,7 +69,6 @@ $(document).ready(function() {
 	$("#time_start_hour").change(function(){
 		horarioDisponible();
 		listaEventosByDia();
-
 	});
 
 	// Al modificar los minutos de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
@@ -88,6 +87,11 @@ $(document).ready(function() {
 	$("#time_end_minute").change(function(){
 		horarioDisponible();
 	});
+
+ 	$('#subTipoEvento').change(function () {
+		precioEventoBySubTipoEventoYFecha();
+	});
+	
 
 	// Busca si el horario esta disponible, al finalizar muestra el cartel correspondiente 
 	function horarioDisponible(){
@@ -166,6 +170,7 @@ $(document).ready(function() {
 			success : function(precio) {
 				$("#presupuesto").val(parseInt(precio))
 				presupuesto();
+				sumarPresupuesto();
 			}
 		});
 	}

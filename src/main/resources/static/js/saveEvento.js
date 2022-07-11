@@ -1,12 +1,22 @@
 var resto24 = false
-var presupuesto = 0;
 
 $(document).ready(function() {
+	// Al iniciar la pantalla el select de sub tipo evento empieza vacio
 	window.onload = selectEventoEmpiezaVacio;
 	
-	hideCatering();
+	// Oculta el catering al iniciar la pantalla
+	hideWithCheckbox("catering_checkbox", "catering");
 
-	//listen for window resize event
+	// Oculta el catering otro al iniciar la pantalla
+	hideWithCheckbox("catering_checkbox", "catering_otro");
+
+	// Oculta el precio de catering otro al iniciar la pantalla
+	hideWithCheckbox("catering_otro_checkbox", "catering_otro_precio");
+
+	// Setea la cantidad de Adultos al iniciar la pantalla
+	setCantidadAdultos();
+
+	// Al modificar el tamaño de pantalla llama a sizeScreen()
 	window.addEventListener('resize', function(event){
 		sizeScreen();
 	});
@@ -93,7 +103,6 @@ $(document).ready(function() {
                 setTipoCateringBySubTipoEvento(subTipoEvento.id);
                 setTimeEndBySubTipoEvento(subTipoEvento.duracion);
 				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
-				setPlatoDisabled(subTipoEvento.capacidad.capacidadVariable);
 				borrarErrorJquerrySteps();
             }
         });
@@ -101,11 +110,36 @@ $(document).ready(function() {
     })
     // ----------------------------------------------------------------------------------
 
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setExtrasBySubTipoEvento(subTipoEventoId) {
+		setExtras(subTipoEventoId, "listaExtra", listaExtra, "extraSubTipoEvento", "extraCheckboxSubTipoEvento");
+	}
+	// ----------------------------------------------------------------------------------
 
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
+		setExtrasVariables(subTipoEventoId, "listaExtraVariable", listaExtraVariable, "eventoExtraVariableSubTipoEvento", "extraVariableSubTipoEvento", "extraVariableCheckboxSubTipoEvento");
+	}
+	// ----------------------------------------------------------------------------------
+
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras catering que correspondan en base a el subTipoEvento elegido
+	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
+		setExtrasVariables(subTipoEventoId, "listaExtraCatering", listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCatering", "extraVariableCheckboxCatering");
+	}
+	// ----------------------------------------------------------------------------------
+
+	// Muestra los tipo catering que correspondan en base a el subTipoEvento elegido
+	function setTipoCateringBySubTipoEvento(subTipoEventoId) {
+		setExtras(subTipoEventoId, "listaTipoCatering", listaTipoCatering, "tipoCatering", "extraCheckboxCatering");
+	}
+	// ----------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------
    	// Muestra los extras que correspondan en base a el subTipoEvento elegido
-	function setExtras(subTipoEventoId, idDiv, listaExtras, nameExtra) {
+	function setExtras(subTipoEventoId, idDiv, listaExtras, nameExtra, nameExtraCheckbox) {
 		// Limpia los extra que se agregaron anteriormente
 		$('#' + idDiv + ' div').remove();
 
@@ -118,7 +152,7 @@ $(document).ready(function() {
 					var checkbox = document.createElement('input');
 					
 					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraCheckbox");
+					extraDiv.setAttribute("id", nameExtraCheckbox);
 					
 					// Assigning the attributes
 		            // to created checkbox
@@ -127,9 +161,9 @@ $(document).ready(function() {
 		            checkbox.value = valorExtra.id;
 		            checkbox.id = nameExtra + "Id" + valorExtra.id;
 		            checkbox.classList.add("form-check-input");
-		            checkbox.classList.add("extraCheckbox");
+		            checkbox.classList.add(nameExtraCheckbox);
 		            checkbox.onchange = function () { 
-						changeExtraCheckbox(valorExtra.precio , nameExtra + 'Id' + valorExtra.id);
+						changeExtraCheckbox();
 					}
 		            
 		            // creating label for checkbox
@@ -154,7 +188,7 @@ $(document).ready(function() {
 
 	// ----------------------------------------------------------------------------------
    	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
-	function setExtrasVariables(subTipoEventoId, idDiv, listaExtras, nameExtra, nameObjectExtra) {
+	function setExtrasVariables(subTipoEventoId, idDiv, listaExtras, nameExtra, nameObjectExtra, nameExtraCheckbox) {
 		// Limpia los extra que se agregaron anteriormente
 		$('#' + idDiv +' div').remove();
 		var index = 0
@@ -171,7 +205,7 @@ $(document).ready(function() {
 		            rowDiv.className = "row";
 		            
 					var extraDiv = document.createElement('div');
-					extraDiv.setAttribute("id", "extraCheckbox");
+					extraDiv.setAttribute("id", nameExtraCheckbox);
 					extraDiv.className = "col-6";
 
 					// Assigning the attributes to created checkbox
@@ -181,7 +215,7 @@ $(document).ready(function() {
 		            checkbox.value = valorVariableExtra.id;
 		            checkbox.id = nameExtra + "Id" + valorVariableExtra.id;
 		            checkbox.classList.add("form-check-input");
-		            checkbox.classList.add("extraVariableCheckbox");
+		            checkbox.classList.add(nameExtraCheckbox);
 		            checkbox.onchange = function () { 
 						changeExtraVariableCantidadDisabled(nameExtra + 'Id' + valorVariableExtra.id);
 					}
@@ -201,11 +235,12 @@ $(document).ready(function() {
 		            var input = document.createElement('input');
 				    input.type = "number";
 				    input.name = nameExtra + "[" + index + "].cantidad";
+				    input.value = 0;
 					input.classList.add("form-control");
 					input.id = nameExtra + "Id" + valorVariableExtra.id + "Cantidad";
 					input.setAttribute('disabled', '');
 					input.onchange = function () { 
-						changeExtraVariableCheckbox(valorVariableExtra.precio , nameExtra + 'Id' + valorVariableExtra.id);
+						changeExtraVariableCheckbox();
 					}
 
 		            // appending the checkbox and label to div
@@ -222,36 +257,6 @@ $(document).ready(function() {
 				}
 			});
 		});
-	}
-	// ----------------------------------------------------------------------------------
-
-
-
-    // ----------------------------------------------------------------------------------
-   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
-	function setExtrasBySubTipoEvento(subTipoEventoId) {
-		setExtras(subTipoEventoId, "listaExtra", listaExtra, "extraSubTipoEvento");
-	}
-
-	// ----------------------------------------------------------------------------------
-
-	// ----------------------------------------------------------------------------------
-   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
-	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
-		setExtrasVariables(subTipoEventoId, "listaExtraVariable", listaExtraVariable, "eventoExtraVariableSubTipoEvento", "extraVariableSubTipoEvento");
-	}
-	// ----------------------------------------------------------------------------------
-
-    // ----------------------------------------------------------------------------------
-   	// Muestra los extras catering que correspondan en base a el subTipoEvento elegido
-	function setExtraCateringBySubTipoEvento(subTipoEventoId) {
-		setExtrasVariables(subTipoEventoId, "listaExtraCatering", listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCatering");
-	}
-	// ----------------------------------------------------------------------------------
-
-	// Muestra los tipo catering que correspondan en base a el subTipoEvento elegido
-	function setTipoCateringBySubTipoEvento(subTipoEventoId) {
-		setExtras(subTipoEventoId, "listaTipoCatering", listaTipoCatering, "tipoCatering");
 	}
 	// ----------------------------------------------------------------------------------
 
@@ -473,19 +478,6 @@ $(document).ready(function() {
 		$('#time_end_minute').val(minuto_fin_string);
 
 	});
-	
-	// ----------------------------------------------------------------------------------
-	
-	// ----------------------------------------------------------------------------------
-	// En base a la capacidad variable del subTipoEvento deja o no setear la cantidad de platos
-	// y de este saldra el presupuesto
-	function setPlatoDisabled(capacidadVariable){
-		if(capacidadVariable){
-			$("#plato").removeClass("d-none");
-		}else{
-			$("#plato").addClass("d-none");
-		}
-	}
 	// ----------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------
@@ -495,59 +487,50 @@ $(document).ready(function() {
 	}
 	// ----------------------------------------------------------------------------------
 	
-	// Checkbox para ocultar hora final y que se setee hasta el otro dia 
+	// ----------------------------------------------------------------------------------
+	// Checkbox para ocultar catering 
 	$('#catering_checkbox').change(function(){
-		hideCatering();
+		hideWithCheckbox("catering_checkbox", "catering");
+		hideWithCheckbox("catering_checkbox", "catering_otro");
 	});
-	
-	function hideCatering(){
-		if($('#catering_checkbox').is(':checked')){
-			$('#catering').fadeIn('slow');
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+	// Checkbox para ocultar el precio de "Otro catering" 
+	$('#catering_otro_checkbox').change(function(){
+		hideWithCheckbox("catering_otro_checkbox", "catering_otro_precio");
+		resetValueOfCatering();
+	});
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+	// Oculta un componente por id en base a un checkbox
+	function hideWithCheckbox(checkbox, componentToHide){
+		if($('#' + checkbox).is(':checked')){
+			$('#' + componentToHide).fadeIn('slow');
 		}else{
-			$('#catering').fadeOut('slow');
+			$('#' + componentToHide).fadeOut('slow');
 		}
 	}
+	// ----------------------------------------------------------------------------------
+
+	function resetValueOfCatering(){
+		$('#precio_plato_adulto').val(0);
+		desCheckedAllTipoCatering();
+		sumarPresupuestoCatering();
+	}
+
+	function desCheckedAllTipoCatering() {
+		var checkboxes = $(".extraCheckboxCatering");
+
+		$.each(checkboxes, function(idArray, extraInput) {
+			if(extraInput.checked){
+				document.querySelector("#" + extraInput.id).checked = false
+			}
+		});
+	}
+
 });
-
-// ----------------------------------------------------------------------------------
-// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-function changeExtraCheckbox(extraValor, extraId) {
-    var decider = document.getElementById(extraId);
-    var precio = parseInt($("#presupuesto").val());
-
-    if(decider.checked){
-        precio += parseInt(extraValor);
-    } else {
-        precio -= parseInt(extraValor);         
-    }
-
-    $("#presupuesto").val(precio);
-}
-// ----------------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------------
-// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
-function changeExtraVariableCheckbox(extraValor, extraVariableId) {
-    sumarPresupuesto();
-}
-// ----------------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------------
-// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
-function changeExtraVariableCantidadDisabled(extraVariableId) {
-    var decider = document.getElementById(extraVariableId);
-    var inputCantidad = $("#" + extraVariableId + "Cantidad");
-
-    if(decider.checked){
-		inputCantidad.removeAttr("disabled");
-    } else {
-		inputCantidad.val(0);
-		sumarPresupuesto();
-		inputCantidad.prop("disabled", true);
-    }
-}
-// ----------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
 // Setea la hora final del evento en caso de no ser empresarial o subTipoEvento largo
@@ -602,14 +585,80 @@ function setDisabledHoraFinal(horarioFinalAutomatico) {
 // ----------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
+// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
+function changeExtraCheckbox() {
+    sumarPresupuesto();
+    sumarPresupuestoCatering();
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
+function changeExtraVariableCheckbox() {
+    sumarPresupuesto();
+    sumarPresupuestoCatering();
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
+function changeExtraVariableCantidadDisabled(extraVariableId) {
+    var decider = document.getElementById(extraVariableId);
+    var inputCantidad = $("#" + extraVariableId + "Cantidad");
+
+    if(decider.checked){
+		inputCantidad.removeAttr("disabled");
+    } else {
+		inputCantidad.val(0);
+		sumarPresupuesto();
+		sumarPresupuestoCatering();
+		inputCantidad.prop("disabled", true);
+    }
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
+function sumarPresupuesto() {
+	var presupuesto_con_extras_descuento = 0;
+
+	presupuesto_con_extras_descuento = parseInt(presupuesto) + precioExtras(listaExtra, "extraSubTipoEvento", "extraCheckboxSubTipoEvento") + precioExtrasVariables(listaExtraVariable, "eventoExtraVariableSubTipoEvento", "extraVariableCheckboxSubTipoEvento") + precioExtraOtro()
+
+	presupuesto_con_extras_descuento -= descuento(presupuesto_con_extras_descuento);
+
+	$("#presupuesto").val(parseInt(presupuesto_con_extras_descuento));
+}
+// ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
+function sumarPresupuestoCatering() {
+	var presupuesto_catering = 0;
+	var cantidad_adultos = $('#cantidad_plato_adulto').val();
+
+	// Si el checkbox de catering otro esta checkeado calcula con ese precio
+	if($('#catering_otro_checkbox').is(':checked')){
+		presupuesto_catering = cantidad_adultos * cateringOtro()
+	}else{
+		presupuesto_catering = cantidad_adultos * precioExtras(listaTipoCatering, "tipoCatering", "extraCheckboxCatering");
+	}
+
+	presupuesto_catering += precioExtrasVariables(listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCheckboxCatering");
+
+	$("#presupuesto_catering").val(parseInt(presupuesto_catering));
+
+}
+// ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
 // Setea el precio final de todos los extras seleccionados
-function precioExtras() {
-	var checkboxes = $(".extraCheckbox" );
+function precioExtras(listaExtras, nameExtra, nameExtraCheckbox) {
+	var checkboxes = $("." + nameExtraCheckbox);
 	var totalExtras = 0
 
-	listaExtra.forEach(function(extra) {
+	listaExtras.forEach(function(extra) {
 		$.each(checkboxes, function(idArray, extraInput) {
-			var id = "extraId" + extra.id
+			var id = nameExtra + "Id" + extra.id
 			 if(extraInput.checked){
 				if(extraInput.id == id){
 					totalExtras += extra.precio
@@ -623,13 +672,13 @@ function precioExtras() {
 
 // ----------------------------------------------------------------------------------
 // Setea el precio final de todos los extras variables seleccionados
-function precioExtrasVariables() {
-	var checkboxes = $(".extraVariableCheckbox" );
+function precioExtrasVariables(listaExtras, nameExtra, nameExtraVariableCheckbox) {
+	var checkboxes = $("." + nameExtraVariableCheckbox);
 	var totalExtras = 0
 
-	listaExtraVariable.forEach(function(extraVariable) {
+	listaExtras.forEach(function(extraVariable) {
 		$.each(checkboxes, function(idArray, extraInput) {
-			var extraVariableId = "eventoExtraVariableSubTipoEventoId" + extraVariable.id
+			var extraVariableId = nameExtra + "Id" + extraVariable.id;
 			 if(extraInput.checked){
 				if(extraInput.id == extraVariableId){
 					totalExtras += parseInt(extraVariable.precio) * parseInt($("#" + extraVariableId + "Cantidad").val());
@@ -640,35 +689,6 @@ function precioExtrasVariables() {
 	return totalExtras
 }
 // ----------------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------------
-// Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
-function sumarPresupuesto() {
-	var presupuesto_con_plato = 0;
-	var cantidad_plato_adulto = parseInt($("#cantidad_plato_adulto").val());
-	var precio_plato_adulto = parseInt($("#precio_plato_adulto").val());
-	var cantidad_plato_nino = parseInt($("#cantidad_plato_nino").val());
-	var precio_plato_nino = parseInt($("#precio_plato_nino").val());
-	var precio_adulto = 0;
-	var precio_nino = 0;
-
-	
-	if(!isNaN(cantidad_plato_adulto) && !isNaN(precio_plato_adulto)){
-		precio_adulto = cantidad_plato_adulto * precio_plato_adulto
-	}
-	
-	if(!isNaN(cantidad_plato_nino) && !isNaN(precio_plato_nino)){
-		precio_nino = cantidad_plato_nino * precio_plato_nino
-	}
-	
-	presupuesto_con_plato = parseInt(precio_adulto) + parseInt(precio_nino) + parseInt(presupuesto) + precioExtras() + precioExtraOtro() + precioExtrasVariables()
-
- 	presupuesto_con_plato -= descuento(presupuesto_con_plato)
-
-	$("#presupuesto").val(parseInt(presupuesto_con_plato));
-
-}
-// ---------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------
 // Suma el Extra Otro al presupuesto
@@ -684,4 +704,17 @@ function descuento(presupuestoTotal) {
 }
 // ---------------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------------
+// Suma el Extra Otro al presupuesto
+function cateringOtro() {
+	return parseInt($("#precio_plato_adulto").val());;
+}
+// ---------------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------------
+// Setea la cantidad de adultos en la seccion de catering
+function setCantidadAdultos() {
+	var cantidad_adultos = $('#cantidad_plato_adulto').val();
+	$('#titulo_cantidad_adultos').text("La cantidad de adultos del evento es: " + cantidad_adultos);
+}
+// ----------------------------------------------------------------------------------

@@ -247,7 +247,7 @@ public class RestWebController {
 				if(rangoMeses.contains(fechaEvento.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
 
 					if(DateUtil.isFinDeSemana(fechaEvento)) {
-						return new ResponseEntity<Integer>( + subTipoEvento.getValorFinSemana(), HttpStatus.OK);
+						return new ResponseEntity<Integer>(precioConFecha.getPrecio() + subTipoEvento.getValorFinSemana(), HttpStatus.OK);
 					}else {
 						return new ResponseEntity<Integer>(precioConFecha.getPrecio(), HttpStatus.OK);
 					}
