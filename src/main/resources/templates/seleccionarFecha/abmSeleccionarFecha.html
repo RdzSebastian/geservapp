@@ -24,6 +24,7 @@
 						<th>Hora Inicio</th>
 						<th>Hora Final</th>
 						<th>Sub Tipo Evento</th>
+						<th>Pagos</th>
 						<th>Extras</th>
 						<th>Catering</th>
 						<th>Hora</th>
@@ -38,6 +39,7 @@
 						<td th:text="${evento.startd.getHour} + ':' + ${evento.startd.getMinute}"> </td>
 						<td th:text="${evento.endd.getHour} + ':' + ${evento.endd.getMinute}"> </td>
 						<td th:text="${evento.subTipoEvento.nombre}"> </td>
+						<td><a class="btn btn-info" th:href="@{/saveEventoPago/{id}(id=${evento.id})}">Pagos</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveEventoExtra/{id}(id=${evento.id})}">Extras</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveEventoCatering/{id}(id=${evento.id})}">Catering</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveEventoHora/{id}(id=${evento.id})}">Hora</a></td>
@@ -46,16 +48,17 @@
 				</tbody>
 			</table>
 		</div>
+
 		<div class="container mt-3">
-			<div class="gap-2 d-flex justify-content-between">
+			<div class="gap-2 d-flex justify-content-end">
 				<div>
-					<a th:href="@{/saveEvento/0}" class="btn btn-primary">Agregar</a>
+					<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
 				</div>
 				<div>
 					<a th:href="@{/buscarEvento}" class="btn btn-primary">Buscar</a>
 				</div>
 				<div>
-					<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
+					<a th:href="@{/saveEvento/0}" class="btn btn-success">Agregar</a>
 				</div>
 			</div>
 		</div>
