@@ -5,10 +5,11 @@
   <title>Seleccione Salon</title>
   
 <!--===============================================================================================-->
+   	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.css">
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 
- 	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.css' rel='stylesheet'>
 
 </head>
 <body>
@@ -21,7 +22,7 @@
 
 		<div class="row justify-content-md-center">
 			<th:block th:each="salon : ${listaSalones}">
-		   		<div class="col-md-4">
+		   		<div class="col-lg-4 col-md-12 mb-4">
 		   			<div class="card text-center">
 		        	    <div class="card-header">
 		        	    	<h1 class="card-title" th:text="${salon.nombre}">
@@ -40,7 +41,7 @@
 			</th:block>
 		</div>
 		<div class="row ">
-			<div class="text-center mt-4">
+			<div class="text-center">
 				<a class="btn btn-danger" href="/logout" />Cerrar sesion</a>
 			</div>
 		</div>
