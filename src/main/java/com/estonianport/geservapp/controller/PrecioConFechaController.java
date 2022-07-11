@@ -33,9 +33,13 @@ public class PrecioConFechaController {
 	@Autowired
 	private PrecioConFechaService precioConFechaService;
 
-	
+
 	@GetMapping("/saveSubTipoEventoPrecioConFecha/{id}")
-	public String setPrecio(@PathVariable("id") Long id, Model model) {
+	public String setPrecio(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
 
 		// ---------------- Agrega lista de Meses -----------------------
 		List<MesContainer> listaMesContainer = new ArrayList<MesContainer>();
@@ -52,23 +56,31 @@ public class PrecioConFechaController {
 
 		model.addAttribute("listaMeses", listaMesContainer);
 		// -----------------------------------------------------------
-		
+
 		SubTipoEventoContainer subTipoEventoContainer = new SubTipoEventoContainer();
 
 		SubTipoEvento subTipoEvento = subTipoEventoService.get(id);
-
+		
+		List<PrecioConFecha> listaPrecioConFecha = new ArrayList<PrecioConFecha>();
+		
 		// ---------------- Agrega lista de Precio con fecha -----------------------
-		if(subTipoEvento.getListaPrecioConFecha().isEmpty()) {
+		if(!subTipoEvento.getListaPrecioConFecha().isEmpty()) {
+			for(PrecioConFecha precioConFecha : subTipoEvento.getListaPrecioConFecha()) {
+				if(precioConFecha.getSalon().getId() == salon.getId()) {
+					listaPrecioConFecha.add(precioConFecha);
+				}
+			}
+		}
 
-			List<PrecioConFecha> listaPrecioConFecha = new ArrayList<PrecioConFecha>();
-
+		if(listaPrecioConFecha.isEmpty()){
 			for (int i = 0; i <= 11; i++) {
 				listaPrecioConFecha.add(new PrecioConFecha());
 			}
-
-			subTipoEvento.setListaPrecioConFecha(listaPrecioConFecha);
 		}
 		// -----------------------------------------------------------------------
+		
+		// Setea la lista de precioConFecha vacia o segun el salon desde donde se busco
+		subTipoEvento.setListaPrecioConFecha(listaPrecioConFecha);
 
 		subTipoEventoContainer.setSubTipoEvento(subTipoEvento);
 		model.addAttribute("subTipoEventoContainer", subTipoEventoContainer);
@@ -87,14 +99,14 @@ public class PrecioConFechaController {
 
 		// Setea fecha del evento y hora de inicio
 		for(PrecioConFechaContainer precioConFechaContainer : subTipoEventoContainer.getPrecioConFecha()) {
-	
+
 			PrecioConFecha precioConFecha = new PrecioConFecha();
 			precioConFecha.setPrecio(precioConFechaContainer.getPrecio());
 			precioConFecha.setDesde(DateUtil.createFechaConHora(precioConFechaContainer.getDesde(), DateUtil.START_TIME));
 			precioConFecha.setHasta(DateUtil.createFechaConHora(precioConFechaContainer.getHasta(), DateUtil.END_TIME).with(TemporalAdjusters.lastDayOfMonth()));
 			precioConFecha.setSalon(salon);
 			precioConFecha.setSubTipoEvento(subTipoEvento);
-			
+
 			precioConFechaService.save(precioConFecha);
 		}
 
