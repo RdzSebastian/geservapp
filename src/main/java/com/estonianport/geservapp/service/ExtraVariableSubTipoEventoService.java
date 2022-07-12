@@ -7,4 +7,6 @@ public interface ExtraVariableSubTipoEventoService extends GenericService<ExtraV
 
 	Long count();
 
+	ExtraVariableSubTipoEvento getExtraVariableSubTipoEventoByNombre(String nombre);
+
 }

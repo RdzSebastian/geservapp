@@ -243,7 +243,7 @@ public class ReservaController {
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoCatering";
 	}
-	
+
 	@GetMapping("/saveEventoPago/{id}")
 	public String showSavePago(@PathVariable("id") Long id, Model model, HttpSession session) {
 
@@ -298,17 +298,23 @@ public class ReservaController {
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
-		// Agrega la lista de Extras Varibles seleccionados
-		evento.setListaEventoExtraVariable(Set.copyOf(reservaContainer.getEventoExtraVariableSubTipoEvento()));
+		if(reservaContainer.getEventoExtraVariableSubTipoEvento() != null) {
 
-		// Setea el evento a cada uno de los ExtraVariable
-		evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
+			// Agrega la lista de Extras Varibles seleccionados
+			evento.setListaEventoExtraVariable(Set.copyOf(reservaContainer.getEventoExtraVariableSubTipoEvento()));
 
-		// Agrega la lista de Extras Catering
-		evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
+			// Setea el evento a cada uno de los ExtraVariable
+			evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
+		}
 
-		// Setea el catering a cada uno de los ExtraVariableCatering
-		evento.getCatering().getListaCateringExtraVariableCatering().stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(evento.getCatering()));
+
+		if(reservaContainer.getCateringExtraVariableCatering() != null) {
+			// Agrega la lista de Extras Catering
+			evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
+
+			// Setea el catering a cada uno de los ExtraVariableCatering
+			evento.getCatering().getListaCateringExtraVariableCatering().stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(evento.getCatering()));
+		}
 
 		// Agrega la lista de Tipo Catering
 		evento.getCatering().setListaTipoCatering(reservaContainer.getTipoCatering());

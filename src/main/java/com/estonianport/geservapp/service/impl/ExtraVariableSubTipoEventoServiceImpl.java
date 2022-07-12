@@ -24,4 +24,9 @@ public class ExtraVariableSubTipoEventoServiceImpl extends GenericServiceImpl<Ex
 		return extraVariableSubTipoEventoDao.count();
 	}
 
+	@Override
+	public ExtraVariableSubTipoEvento getExtraVariableSubTipoEventoByNombre(String nombre) {
+		return extraVariableSubTipoEventoDao.getExtraVariableSubTipoEventoByNombre(nombre);
+	}
+
 }

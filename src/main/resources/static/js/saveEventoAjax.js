@@ -153,6 +153,7 @@ $(document).ready(function() {
  	$('#subTipoEvento').change(function () {
  		setTimeEndBySubTipoEvento();
 		precioEventoBySubTipoEventoYFecha();
+		setExtraAdultosYNinoCapacidad();
 	});
 
 	// Trae el precio del subTipoEvento, en caso de ser fin de semana le agrega un extra
@@ -169,7 +170,7 @@ $(document).ready(function() {
 			contentType: "application/json",
 			success : function(precio) {
 				$("#presupuesto").val(parseInt(precio))
-				presupuesto();
+				presupuesto = parseInt(document.getElementById("presupuesto").value);
 				sumarPresupuesto();
 			}
 		});
@@ -201,5 +202,63 @@ $(document).ready(function() {
 		});
 	}
 
+ 	$('#cantidad_plato_adulto').change(function () {
+		setExtraAdultosYNinoCapacidad();
+	});
+
+	$('#cantidad_plato_nino').change(function () {
+		setExtraAdultosYNinoCapacidad();
+	});
+
+	// Setea extra camarera o nino en base a la capacidad base del evento
+	function setExtraAdultosYNinoCapacidad(){
+
+		data = {
+			adultos: $("#cantidad_plato_adulto").val(),
+			ninos: $("#cantidad_plato_nino").val(),
+			subTipoEventoId: $("#subTipoEvento").val()
+		};
+
+		$.ajax({
+			type: 'GET',
+			url: "http://localhost:8080/api/eventos/setExtraAdultosYNinoCapacidad",
+			data : data,
+			contentType: "application/json",
+			success : function(extraCapacidadContainer) {
+
+				var nameExtra = "eventoExtraVariableSubTipoEvento";
+
+				// -------------------------- Nino ----------------------------------
+				var extraNinoId = extraCapacidadContainer.idExtraNinos
+
+				var checkboxIdNino = nameExtra + "Id" + extraNinoId
+				var inputIdNino = nameExtra + "Id" + extraNinoId + "Cantidad";
+					
+				if(extraCapacidadContainer.cantidadNinos > 0){
+					document.querySelector("#" + checkboxIdNino).checked = true
+					$('#' + inputIdNino).val(extraCapacidadContainer.cantidadNinos);
+				}else{
+					document.querySelector("#" + checkboxIdNino).checked = false
+					$('#' + inputIdNino).val(0);
+				}
+				
+				// -------------------------- Camarera ----------------------------------
+				var extraCamareraId = extraCapacidadContainer.idExtraCamarera
+
+				var checkboxIdCamarera = nameExtra + "Id" + extraCamareraId
+				var inputIdCamarera = nameExtra + "Id" + extraCamareraId + "Cantidad";
+				
+				if(extraCapacidadContainer.cantidadCamarera > 0){
+					document.querySelector("#" + checkboxIdCamarera).checked = true
+					$('#' + inputIdCamarera).val(extraCapacidadContainer.cantidadCamarera);
+				}else{
+					document.querySelector("#" + checkboxIdCamarera).checked = false
+					$('#' + inputIdCamarera).val(0);
+				}
+				
+				sumarPresupuesto();
+			}
+		});
+	}
 
 });

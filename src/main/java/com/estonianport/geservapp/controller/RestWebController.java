@@ -24,17 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.container.ExtraCapacidadContainer;
 import com.estonianport.geservapp.container.FechaHoraInicioSubTipoEventoContainer;
 import com.estonianport.geservapp.container.OtroDiaHoraFinContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.json.FullCalendarJSON;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
+import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
+import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,6 +53,9 @@ public class RestWebController {
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
+
+	@Autowired
+	private ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
@@ -113,7 +119,7 @@ public class RestWebController {
 		// Crea la hora inicio y la hora final de un dia para buscar todos los eventos en X dia
 		LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.START_TIME);
 		LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.END_TIME);
-		
+
 		// lista de todos los eventos
 		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
 
@@ -281,8 +287,45 @@ public class RestWebController {
 
 		// Setea si la hora es del dia siguiente
 		otroDiaHoraFinContainer.setOtroDia(fechaEventoInicio.getDayOfYear() != fechaEventoFin.getDayOfYear());
-		
+
 		return new ResponseEntity<OtroDiaHoraFinContainer>(otroDiaHoraFinContainer, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")	
+	@GetMapping("/setExtraAdultosYNinoCapacidad")
+	public @ResponseBody ResponseEntity<ExtraCapacidadContainer> setExtraAdultosYNinoCapacidad(Model model,  @RequestParam(value="adultos") int adultos, @RequestParam(value="ninos") int ninos, @RequestParam(value="subTipoEventoId") long subTipoEventoId){
+
+		// Obtiene el subTipoEvento para buscar la duracion y crea la fecha inicio y fin
+		SubTipoEvento subTipoEvento = subTipoEventoService.get(subTipoEventoId);
+
+		// Por cada 20 adultos extra se suma una camarera
+		int cantidadExtraAdultos = adultos - subTipoEvento.getCapacidad().getCapacidadAdultos();
+		int cantidadCamarerasExtra = 0;
+
+		// Si la cantidad de adultos es mayor a 0 ya se incluye 1 camarera de ahi por cada 20 mas se suma otra
+		if(cantidadExtraAdultos > 0) {
+			cantidadCamarerasExtra = ((cantidadExtraAdultos - 1) / 20) + 1;
+		}
+		
+		// La cantidad de ninos se cobra por nino extra
+		int cantidadExtraNinos = ninos - subTipoEvento.getCapacidad().getCapacidadNinos();
+
+		// Si la cantidad de ninos es menor a 0 se setea 0, pero si es mayor se setea la cantidad que sea en el container
+		if(cantidadExtraNinos < 0) {
+			cantidadExtraNinos = 0;
+		}
+		
+		ExtraVariableSubTipoEvento extraVariableCamarera = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Camarera");
+		ExtraVariableSubTipoEvento extraVariableNino = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Niños");
+
+		// Prepara el container para el envio de datos
+		ExtraCapacidadContainer extraCapacidadContainer = new ExtraCapacidadContainer();
+		extraCapacidadContainer.setCantidadCamarera(cantidadCamarerasExtra);
+		extraCapacidadContainer.setIdExtraCamarera(extraVariableCamarera.getId().intValue());
+		extraCapacidadContainer.setCantidadNinos(cantidadExtraNinos);
+		extraCapacidadContainer.setIdExtraNinos(extraVariableNino.getId().intValue());
+
+		return new ResponseEntity<ExtraCapacidadContainer>(extraCapacidadContainer, HttpStatus.OK);
 	}
 
 }

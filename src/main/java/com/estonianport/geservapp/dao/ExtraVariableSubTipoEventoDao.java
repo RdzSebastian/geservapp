@@ -6,4 +6,6 @@ import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 
 public interface ExtraVariableSubTipoEventoDao extends CrudRepository<ExtraVariableSubTipoEvento, Long> {
 
+	ExtraVariableSubTipoEvento getExtraVariableSubTipoEventoByNombre(String nombre);
+	
 }

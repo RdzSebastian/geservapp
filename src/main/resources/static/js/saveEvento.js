@@ -250,7 +250,8 @@ $(document).ready(function() {
 		            rowDiv.appendChild(extraVariableDiv)
 		            
 		           	listaExtraDiv.appendChild(rowDiv);
-
+					
+					index++;
 				}
 			});
 		});
@@ -533,3 +534,10 @@ function setCantidadAdultos() {
 	$('#titulo_cantidad_adultos').text("La cantidad de adultos del evento es: " + cantidad_adultos);
 }
 // ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea el presupuesto que viene en el AJAX
+function presupuesto() {
+	presupuesto = parseInt(document.getElementById("presupuesto").value);
+}
+// ---------------------------------------------------------------------------------
