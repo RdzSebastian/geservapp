@@ -61,7 +61,6 @@ $(document).ready(function() {
 	// y el precio de ese dia
 	$("#date").change(function(){
 		setTimeEndBySubTipoEvento()
-		horarioDisponible();
 		listaEventosByDia();
 		precioEventoBySubTipoEventoYFecha();
 	});
@@ -69,14 +68,12 @@ $(document).ready(function() {
 	// Al modificar la hora de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_hour").change(function(){
 		setTimeEndBySubTipoEvento()
-		horarioDisponible();
 		listaEventosByDia();
 	});
 
 	// Al modificar los minutos de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_minute").change(function(){
 		setTimeEndBySubTipoEvento()
-		horarioDisponible();
 		listaEventosByDia();
 	});
 	
@@ -97,7 +94,7 @@ $(document).ready(function() {
 			fecha: $("#date").val(),
 			inicio: $("#time_start_hour").val() + ":" + $("#time_start_minute").val(),
 			fin: $("#time_end_hour").val() + ":" + $("#time_end_minute").val(),
-			resto24: resto24
+			resto24: $("#hastaElOtroDiaCheckbox").is(':checked')
 		};
 		
 		$.ajax({
@@ -185,7 +182,6 @@ $(document).ready(function() {
 			fecha: $("#date").val(),
 			inicio: $("#time_start_hour").val() + ":" + $("#time_start_minute").val(),
 			subTipoEventoId: $("#subTipoEvento").val()
-			
 		};
 
 		$.ajax({
@@ -199,6 +195,8 @@ $(document).ready(function() {
 				$('#time_end_minute').val(OtroDiaHoraFinContainer.fin_minutos);
 
 				document.querySelector("#hastaElOtroDiaCheckbox").checked = OtroDiaHoraFinContainer.otroDia;
+
+				horarioDisponible();
 			}
 		});
 	}

@@ -113,7 +113,7 @@ public class RestWebController {
 		// Crea la hora inicio y la hora final de un dia para buscar todos los eventos en X dia
 		LocalDateTime inicio = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.START_TIME);
 		LocalDateTime fin = DateUtil.createFechaConHora(reservaContainer.getFecha(), DateUtil.END_TIME);
-
+		
 		// lista de todos los eventos
 		List<Evento> listaEvento = eventoService.findAllByStartdBetweenAndSalon(inicio, fin, salon);
 
@@ -129,7 +129,7 @@ public class RestWebController {
 			// Obtiene el rango horario de los eventos agendados
 			for(Evento evento : listaEvento) {
 
-				if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
+				if(evento.getStartd().plusDays(1).getDayOfYear() == evento.getEndd().getDayOfYear()) {
 					horaFinal = suma24Horas(evento.getEndd());
 				}else {
 					horaFinal = DateUtil.getHorario(evento.getEndd());
@@ -140,7 +140,7 @@ public class RestWebController {
 
 			// Obtiene el rango horario del nuevo evento a agendar
 			if(reservaContainer.getResto24()) {
-				horaFinal = suma24Horas(DateUtil.createFechaConHora(reservaContainer.getFin()));
+				horaFinal = suma24Horas(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()));
 			}else {
 				horaFinal = reservaContainer.getFin();
 			}
@@ -186,15 +186,16 @@ public class RestWebController {
 		return range;
 	}
 
-	private String suma24Horas(LocalDateTime fecha) {
+	private String suma24Horas(LocalDateTime fechaFin) {
 
-		String[] horaFinSplit =  DateUtil.getHorario(fecha).split(":");
+		String horaFin =  DateUtil.getHora(fechaFin);
+		String minutosFin =  DateUtil.getMinutos(fechaFin);
 
-		int finHoraEventos = Integer.parseInt(horaFinSplit[0]) + 24;
+		int finHoraEventos = Integer.parseInt(horaFin) + 24;
 
-		horaFinSplit[0] = Integer.toString(finHoraEventos);
+		horaFin = Integer.toString(finHoraEventos);
 
-		return horaFinSplit[0] + ":" + horaFinSplit[1];
+		return horaFin + ":" + minutosFin;
 	}
 
 	@CrossOrigin(origins = "*")

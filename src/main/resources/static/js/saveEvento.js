@@ -1,5 +1,3 @@
-var resto24 = false
-
 $(document).ready(function() {
 	// Al iniciar la pantalla el select de sub tipo evento empieza vacio
 	window.onload = selectEventoEmpiezaVacio;
