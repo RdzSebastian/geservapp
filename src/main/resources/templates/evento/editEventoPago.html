@@ -12,18 +12,18 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Editar Evento</h2>
+		<h2>Estado de Cuenta del Evento</h2>
 		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 
-			<div class="form-group">
-				<label for="rol">Evento</label>
+			<div class="form-group col-4 mb-4">
+				<h5>Evento</h5>
                 <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" th:field="*{evento.nombre}" readonly/>
 			</div>
-			<div class="form-group">
-				<label for="rol">Codigo</label>
+			<div class="form-group col-4 mb-4">
+				<h5>Codigo</h5>
                 <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
 			</div>
 		    

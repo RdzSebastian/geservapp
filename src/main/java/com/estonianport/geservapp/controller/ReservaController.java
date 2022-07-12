@@ -1,5 +1,6 @@
 package com.estonianport.geservapp.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -163,28 +164,43 @@ public class ReservaController {
 
 		reservaContainer.setEvento(evento);
 
+		// ------------------------- Extra ------------------------------
+
 		// Agrega lista Extras
 		model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtraSubTipoEvento());
-
-		// Obtiene todos los extra
-		List<ExtraSubTipoEvento> listaExtra = extraSubTipoEventoService.getAll();
-
-		// TODO Refactor para no tener que setear el null
-		// Agrega lista extra seleccionadas
-		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtra) {
-			extraSubTipoEvento.setListaSubTipoEvento(null);
-		}
-
-		// Agrega lista Extras al modelo
-		model.addAttribute("listaExtraJS", listaExtra);
 
 		// TODO Refactor para no tener que setear el null
 		// Agrega lista extra seleccionadas
 		Set<ExtraSubTipoEvento> listaExtraSeleccionadas = evento.getListaExtraSubTipoEvento();
+		
 		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtraSeleccionadas) {
 			extraSubTipoEvento.setListaSubTipoEvento(null);
 		}
 		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
+
+		
+		// ------------------------- Extra variable ------------------------------
+		Set<ExtraVariableSubTipoEvento> listaExtraVariable = evento.getSubTipoEvento().getListaExtraVariableSubTipoEvento();
+		
+		for(ExtraVariableSubTipoEvento extraVariableSubTipoEvento : listaExtraVariable){
+			extraVariableSubTipoEvento.setListaSubTipoEvento(null);
+		}
+
+		// Agrega lista Extras Variables
+		model.addAttribute("listaExtraVariable", listaExtraVariable);
+
+
+		// TODO Refactor para no tener que setear el null
+		// Agrega lista extra seleccionadas
+		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSeleccionadas = evento.getListaEventoExtraVariable();
+		Set<ExtraVariableSubTipoEvento> listaExtraVariableSeleccionadas = new HashSet<ExtraVariableSubTipoEvento>();
+
+		for(EventoExtraVariableSubTipoEvento EventoExtraVariableSubTipoEvento : listaEventoExtraVariableSeleccionadas) {
+			EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().setListaSubTipoEvento(null);
+			listaExtraVariableSeleccionadas.add(EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento());
+		}
+		model.addAttribute("listaExtraVariableSeleccionadas", listaExtraVariableSeleccionadas);
+
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -333,6 +349,34 @@ public class ReservaController {
 
 		// Agrega todo el objeto TipoEvento y SubTipoEvento para envio de mail y pdf
 		evento.setSubTipoEvento(subTipoEventoService.get(evento.getSubTipoEvento().getId()));
+
+		// Guarda el evento en la base de datos
+		eventoService.save(evento);
+
+		// Envia mail con comprobante
+		emailService.enviarMailComprabanteReserva(reservaContainer);
+
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
+	}
+	
+	@PostMapping("/saveEventoHora")
+	public String saveEventoHora(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
+
+		// El container retorna los objetos a usar
+		Evento evento =  eventoService.get(reservaContainer.getEvento().getId());
+
+		// Salon en sesion para volver al calendario y setear en el save
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+
+		// Setea fecha del evento y hora de inicio
+		evento.setStartd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getInicio()));
+
+		// Chequea si el evento es toda la noche, en caso de serlo le setea una fecha de final 1 dia despues
+		if(!reservaContainer.getHastaElOtroDia()) {
+			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()));
+		}else {
+			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()).plusDays(1));
+		}
 
 		// Guarda el evento en la base de datos
 		eventoService.save(evento);

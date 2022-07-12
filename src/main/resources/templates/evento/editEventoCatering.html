@@ -12,21 +12,63 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Editar Evento</h2>
+		<h2>Editar Catering del Evento</h2>
 		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
-			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}">
+			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 
-			<div class="form-group">
-				<label for="rol">Evento</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" th:field="*{evento.nombre}" readonly/>
+           	<div class="row">
+        		<div class="col-md-6">
+					<div class="form-group col-8 mb-4">
+						<h5>Evento</h5>
+		                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" th:field="*{evento.nombre}" readonly/>
+					</div>
+					<div class="form-group col-8">
+						<h5>Codigo</h5>
+		                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
+					</div>
+				    
+				    <div class="form-group my-4 extraCheckbox">
+						<h5>Tipo Catering</h5> 
+			           	<div class="choose-bank">
+				           <th:block th:each="tipoCatering : ${listaTipoCatering}">
+				                    <div class="form-check extraCheckbox">
+									    <input type="checkbox" class="form-check-input" name="tipoCatering" th:value="${tipoCatering.id}" th:id="'extraId' + ${tipoCatering.id}"/>
+						  				<label class="form-check-label" th:text="${tipoCatering.nombre} + ' $' + ${tipoCatering.precio}">
+						  			</div>
+						  	</th:block>
+						</div>
+					</div>
+		
+					<div class="form-group col-8">
+						<h5>Extras Catering</h5> 
+						<div id="listaExtraCateringVariable"> </div>
+					</div>
+				</div>		        
+		        
+		        <div class="col-md-6">
+                   	<div class="row">
+                   	
+						<div id="catering_otro" class="col-12">
+							<div class="form-group mt-2">
+			                    <input class="form-check-input" type="checkbox" value="" id="catering_otro_checkbox">
+			                    <label class="form-check-label" for="catering_otro_checkbox"> Catering Otro </label>
+			                    <small class="form-text text-muted">(Permite ingresar un precio personalizado de plato)</small>
+			                </div>
+							<div id="catering_otro_precio" class="form-group col-6">
+			                    <label for="precio_plato_adulto" class="form-label">Precio del plato</label> 
+			                    <input type="number" class="form-control" id="precio_plato_adulto" th:field="*{evento.catering.canteringOtro}" onChange="sumarPresupuestoCatering();">
+			                </div>
+						</div>
+					</div>
+
+					<div class="form-group mt-5 col-6">
+						<h5 for="rol">Presupuesto</h5> 
+		                <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
+					</div>
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="rol">Codigo</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
-			</div>
-		    
 
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
@@ -47,54 +89,13 @@
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
 
     <script th:inline="javascript">
+    	var listaExtraVariable = /*[[${listaExtraVariable}]]*/ [];
 		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
-		var listaExtraJS = /*[[${listaExtraJS}]]*/ [];
+		var listaExtraVariableSeleccionadas = /*[[${listaExtraVariableSeleccionadas}]]*/ [];
 		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-
-	    $(document).ready( function () {
-			setPresupuesto();
-			setExtrasSeleccionadas();
-
-			function setPresupuesto(){
-				var precio = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-				$("#presupuesto").val(precio);
-			}
-			
-			function setExtrasSeleccionadas(){
-				listaExtraSeleccionadas.forEach( function(valor, indice, array) {
-					var valorId = parseInt(valor.id);
-					document.querySelector("#extraId" + valorId).checked = true
-				});
-			}
-		});
-		
-		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-		function changeCheckbox(extraValor, extraId) {
-		    var decider = document.getElementById(extraId);
-			var precio = parseInt($("#presupuesto").val());
-
-		    if(decider.checked){
-		        precio += parseInt(extraValor);
-		    } else {
-		        precio -= parseInt(extraValor);		    
-		    }
-
-			$("#presupuesto").val(precio);
-		}
-
-		function selectPreviusOption(elemento, horario){
-			var element = document.getElementById(elemento);
-			for(var i=0; i < element.options.length; i++){
-			    if(element.options[i].value === horario) {
-			      element.selectedIndex = i;
-			      break;
-			    }
-			}
-		}
-
 	</script>
 	
-	<script src="../js/editEvento.js"></script>
+	<script src="../js/editEventoExtra.js"></script>
 
 </body>
 </html>

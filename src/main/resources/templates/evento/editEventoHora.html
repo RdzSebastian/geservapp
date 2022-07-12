@@ -12,27 +12,27 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Editar Evento</h2>
-		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
-			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}">
+		<h2>Editar Horario de Evento</h2>
+		<form action="#" th:action="@{/saveEventoHora}" method="post" th:object="${reservaContainer}">
+			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 
-			<div class="form-group">
-				<label for="rol">Evento</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" th:field="*{evento.nombre}" readonly/>
+			<div class="form-group col-4 mb-3">
+				<h5>Evento</h5>
+                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" readonly/>
 			</div>
-			<div class="form-group">
-				<label for="rol">Codigo</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
+			<div class="form-group col-4 mb-3">
+				<h5>Codigo</h5>
+                <input type="text" class="form-control" id="codigo" th:value="${reservaContainer.evento.codigo}" readonly/>
 			</div>
-		    <div class="form-group">
-				<label for="rol">Fecha de evento</label>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.startd}" th:field="*{fecha}" readonly/>
+		    <div class="form-group col-4 mb-3">
+				<h5>Fecha de evento</h5>
+                <input type="text" class="form-control" id="date" th:value="${reservaContainer.evento.startd}" th:field="*{fecha}" readonly/>
 			</div>
-            <div>
+            <div class="form-group col-4 mb-3">
                 <input id="time_start" type="hidden" th:field="*{inicio}">
-                <label class="form-label w-100">Hora inicio</label>
+                <h5 class="form-label w-100">Hora inicio</h5>
                	<div class="d-inline-flex flex-row">
                		<div>
 	               		<div class="form-group">
@@ -54,9 +54,9 @@
               	</div>
             </div>
 	            
-            <div id="time_end_div">
+            <div class="form-group col-4 mb-3" id="time_end_div">
             	<input id="time_end" type="hidden" th:field="*{fin}">
-                <label class="form-label w-100">Hora final</label>
+                <h5 class="form-label w-100">Hora final</h5>
                	<div class="d-inline-flex flex-row">
                		<div>
 	               		<div class="form-group">
@@ -77,9 +77,21 @@
 		            </div>
 	            </div>
             </div>
-            <div class="form-check">
+            <div class="form-check col-4">
 			  	<input class="form-check-input" type="checkbox" id="hastaElOtroDiaCheckbox" th:field="*{hastaElOtroDia}">
 			  	<label class="form-check-label" for="hastaElOtroDiaCheckbox"> Dura hasta el otro dia </label>
+			</div>
+			
+			<div class="col-md-8">
+        		<div id="fechaNoDisponible" class="d-none">
+					<div class="alert alert-danger" role="alert">
+						<strong>Fecha no disponible,</strong> Tenga en cuenta que entre evento y evento calcula 1 hora de margen.</p>
+					</div>
+				</div>
+				<div id="fechaDisponible" class="d-none col-md-8">
+					<div class="alert alert-success" role="alert"><strong>Fecha disponible</strong></div>
+				</div>
+				<div id="listaEvento"></div>
 			</div>
 
 			<div class="container mt-3">
@@ -101,68 +113,12 @@
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
 
     <script th:inline="javascript">
-		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
-		var listaExtraJS = /*[[${listaExtraJS}]]*/ [];
-		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-
-	    $(document).ready( function () {
-			setPresupuesto();
-			setExtrasSeleccionadas();
-			setHora();
-
-			function setPresupuesto(){
-				var precio = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-				$("#presupuesto").val(precio);
-			}
-			
-			function setExtrasSeleccionadas(){
-				listaExtraSeleccionadas.forEach( function(valor, indice, array) {
-					var valorId = parseInt(valor.id);
-					document.querySelector("#extraId" + valorId).checked = true
-				});
-			}
-		});
-		
-		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-		function changeCheckbox(extraValor, extraId) {
-		    var decider = document.getElementById(extraId);
-			var precio = parseInt($("#presupuesto").val());
-
-		    if(decider.checked){
-		        precio += parseInt(extraValor);
-		    } else {
-		        precio -= parseInt(extraValor);		    
-		    }
-
-			$("#presupuesto").val(precio);
-		}
-
-	    function setHora() {
-			var inicio = /*[[${reservaContainer.inicio}]]*/ [];
-			var inicio_array = inicio.split(":");
-
-			var fin = /*[[${reservaContainer.fin}]]*/ [];
-			var fin_array = fin.split(":");
-
-			selectPreviusOption("time_start_hour", inicio_array[0]);
-			selectPreviusOption("time_start_minute", inicio_array[1]);
-			selectPreviusOption("time_end_hour", fin_array[0]);
-			selectPreviusOption("time_end_minute", fin_array[1]);
-		}
-
-		function selectPreviusOption(elemento, horario){
-			var element = document.getElementById(elemento);
-			for(var i=0; i < element.options.length; i++){
-			    if(element.options[i].value === horario) {
-			      element.selectedIndex = i;
-			      break;
-			    }
-			}
-		}
-
+		var inicio = /*[[${reservaContainer.inicio}]]*/ [];
+	    var fin = /*[[${reservaContainer.fin}]]*/ [];
 	</script>
 	
-	<script src="../js/editEvento.js"></script>
+	<script src="../js/editEventoHora.js"></script>
+	<script src="../js/editEventoHoraAjax.js"></script>
 
 </body>
 </html>

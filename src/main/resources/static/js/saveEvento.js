@@ -203,7 +203,7 @@ $(document).ready(function() {
 		            
 					var extraDiv = document.createElement('div');
 					extraDiv.setAttribute("id", nameExtraCheckbox);
-					extraDiv.className = "col-6";
+					extraDiv.className = "col-8";
 
 					// Assigning the attributes to created checkbox
 		            checkbox.type = "checkbox";
