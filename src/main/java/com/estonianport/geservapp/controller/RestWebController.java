@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.container.FechaHoraInicioSubTipoEventoContainer;
+import com.estonianport.geservapp.container.OtroDiaHoraFinContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.json.FullCalendarJSON;
 import com.estonianport.geservapp.model.Cliente;
@@ -130,10 +132,10 @@ public class RestWebController {
 				if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
 					horaFinal = suma24Horas(evento.getEndd());
 				}else {
-					horaFinal = DateUtil.getHora(evento.getEndd());
+					horaFinal = DateUtil.getHorario(evento.getEndd());
 				}
 
-				listaDeRangos.add(getRango(DateUtil.getHora(evento.getStartd()), horaFinal));
+				listaDeRangos.add(getRango(DateUtil.getHorario(evento.getStartd()), horaFinal));
 			}
 
 			// Obtiene el rango horario del nuevo evento a agendar
@@ -186,7 +188,7 @@ public class RestWebController {
 
 	private String suma24Horas(LocalDateTime fecha) {
 
-		String[] horaFinSplit =  DateUtil.getHora(fecha).split(":");
+		String[] horaFinSplit =  DateUtil.getHorario(fecha).split(":");
 
 		int finHoraEventos = Integer.parseInt(horaFinSplit[0]) + 24;
 
@@ -213,9 +215,9 @@ public class RestWebController {
 				StringBuilder fecha = new StringBuilder();
 				// En caso de que sea el dia siguiente le agrega la fecha tambien no solo la hora
 				if(evento.getStartd().plusDays(1).getDayOfMonth() == evento.getEndd().getDayOfMonth()) {
-					fecha.append(DateUtil.getHora(evento.getStartd()) + " hasta " + DateUtil.getHora(evento.getEndd()) + " del dia " + DateUtil.getFecha(evento.getEndd()));
+					fecha.append(DateUtil.getHorario(evento.getStartd()) + " hasta " + DateUtil.getHorario(evento.getEndd()) + " del dia " + DateUtil.getFecha(evento.getEndd()));
 				}else {
-					fecha.append(DateUtil.getHora(evento.getStartd()) + " hasta " + DateUtil.getHora(evento.getEndd()));
+					fecha.append(DateUtil.getHorario(evento.getStartd()) + " hasta " + DateUtil.getHorario(evento.getEndd()));
 				}
 				fecha.append(" (" + evento.getSubTipoEvento().getNombre() + ")");
 
@@ -257,5 +259,29 @@ public class RestWebController {
 		return new ResponseEntity<Integer>(0, HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "*")	
+	@GetMapping("/setTimeEndBySubTipoEvento")
+	public @ResponseBody ResponseEntity<OtroDiaHoraFinContainer> setTimeEndBySubTipoEvento(Model model, FechaHoraInicioSubTipoEventoContainer horaInicioFinSubTipoEventoContainer){
+
+		OtroDiaHoraFinContainer otroDiaHoraFinContainer = new OtroDiaHoraFinContainer();
+
+		// Obtiene el subTipoEvento para buscar la duracion y crea la fecha inicio y fin
+		SubTipoEvento subTipoEvento = subTipoEventoService.get((long) horaInicioFinSubTipoEventoContainer.getSubTipoEventoId());
+		LocalDateTime fechaEventoInicio = DateUtil.createFechaConHora(horaInicioFinSubTipoEventoContainer.getFecha(), horaInicioFinSubTipoEventoContainer.getInicio());
+		LocalDateTime fechaEventoFin = DateUtil.createFechaConHora(horaInicioFinSubTipoEventoContainer.getFecha(), horaInicioFinSubTipoEventoContainer.getInicio());
+
+		// Calcula la hora y fecha final
+		fechaEventoFin = fechaEventoFin.plusHours(subTipoEvento.getDuracion().getHour());
+		fechaEventoFin = fechaEventoFin.plusMinutes(subTipoEvento.getDuracion().getMinute());
+
+		// Setea la hora y fecha final
+		otroDiaHoraFinContainer.setFin_hora(DateUtil.getHora(fechaEventoFin));
+		otroDiaHoraFinContainer.setFin_minutos(DateUtil.getMinutos(fechaEventoFin));
+
+		// Setea si la hora es del dia siguiente
+		otroDiaHoraFinContainer.setOtroDia(fechaEventoInicio.getDayOfYear() != fechaEventoFin.getDayOfYear());
+		
+		return new ResponseEntity<OtroDiaHoraFinContainer>(otroDiaHoraFinContainer, HttpStatus.OK);
+	}
 
 }

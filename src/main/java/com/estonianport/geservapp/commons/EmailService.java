@@ -69,8 +69,8 @@ public class EmailService{
 		}
 
 		String dia = DateUtil.getFecha(evento.getStartd());
-		String horaInicio = DateUtil.getHora(evento.getStartd());
-		String horaFin = DateUtil.getHora(evento.getEndd());
+		String horaInicio = DateUtil.getHorario(evento.getStartd());
+		String horaFin = DateUtil.getHorario(evento.getEndd());
 
 		Email emailBody = new Email();
 		emailBody.setEmail(evento.getCliente().getEmail());
@@ -94,11 +94,11 @@ public class EmailService{
 		Evento evento = pago.getEvento();
 
 		String diaPago = DateUtil.getFecha(pago.getFecha());
-		String horaPago = DateUtil.getHora(pago.getFecha());
+		String horaPago = DateUtil.getHorario(pago.getFecha());
 
 		String dia = DateUtil.getFecha(evento.getStartd());
-		String horaInicio = DateUtil.getHora(evento.getStartd());
-		String horaFin = DateUtil.getHora(evento.getEndd());
+		String horaInicio = DateUtil.getHorario(evento.getStartd());
+		String horaFin = DateUtil.getHorario(evento.getEndd());
 
 		int totalPago = 0;
 		for(Pago pagos :listaPagos) {

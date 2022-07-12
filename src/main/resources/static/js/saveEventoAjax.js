@@ -60,6 +60,7 @@ $(document).ready(function() {
 	// Al modificar la fecha que chequee los horarios disponibles, traiga la lista de eventos de ese dia 
 	// y el precio de ese dia
 	$("#date").change(function(){
+		setTimeEndBySubTipoEvento()
 		horarioDisponible();
 		listaEventosByDia();
 		precioEventoBySubTipoEventoYFecha();
@@ -67,12 +68,14 @@ $(document).ready(function() {
 
 	// Al modificar la hora de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_hour").change(function(){
+		setTimeEndBySubTipoEvento()
 		horarioDisponible();
 		listaEventosByDia();
 	});
 
 	// Al modificar los minutos de inicio que chequee los horarios disponibles y traiga la lista de eventos de ese dia
 	$("#time_start_minute").change(function(){
+		setTimeEndBySubTipoEvento()
 		horarioDisponible();
 		listaEventosByDia();
 	});
@@ -87,11 +90,6 @@ $(document).ready(function() {
 	$("#time_end_minute").change(function(){
 		horarioDisponible();
 	});
-
- 	$('#subTipoEvento').change(function () {
-		precioEventoBySubTipoEventoYFecha();
-	});
-	
 
 	// Busca si el horario esta disponible, al finalizar muestra el cartel correspondiente 
 	function horarioDisponible(){
@@ -155,6 +153,11 @@ $(document).ready(function() {
 		});
 	}
 
+ 	$('#subTipoEvento').change(function () {
+ 		setTimeEndBySubTipoEvento();
+		precioEventoBySubTipoEventoYFecha();
+	});
+
 	// Trae el precio del subTipoEvento, en caso de ser fin de semana le agrega un extra
 	function precioEventoBySubTipoEventoYFecha(){
 		data = {
@@ -174,5 +177,31 @@ $(document).ready(function() {
 			}
 		});
 	}
+
+	// Setea hora de fin
+	function setTimeEndBySubTipoEvento(){
+
+		data = {
+			fecha: $("#date").val(),
+			inicio: $("#time_start_hour").val() + ":" + $("#time_start_minute").val(),
+			subTipoEventoId: $("#subTipoEvento").val()
+			
+		};
+
+		$.ajax({
+			type: 'GET',
+			url: "http://localhost:8080/api/eventos/setTimeEndBySubTipoEvento",
+			data : data,
+			contentType: "application/json",
+			success : function(OtroDiaHoraFinContainer) {
+
+				$('#time_end_hour').val(OtroDiaHoraFinContainer.fin_hora);
+				$('#time_end_minute').val(OtroDiaHoraFinContainer.fin_minutos);
+
+				document.querySelector("#hastaElOtroDiaCheckbox").checked = OtroDiaHoraFinContainer.otroDia;
+			}
+		});
+	}
+
 
 });

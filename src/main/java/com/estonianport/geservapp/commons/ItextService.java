@@ -53,9 +53,9 @@ public class ItextService {
 
     public void addTitlePage(Document document, Evento evento) throws DocumentException {
         Paragraph paragraph = new Paragraph();
-        
-		String dia = LocalDateTime.now().getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" +  LocalDateTime.now().getYear();
-		String hora = LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute();
+
+		String dia =  DateUtil.getFecha(LocalDateTime.now());
+		String hora = DateUtil.getHorario(LocalDateTime.now());
 		
         // Titulo
         paragraph.add(new Paragraph("Comprobante de reserva " + evento.getSalon().getNombre(), catFont));
@@ -70,9 +70,9 @@ public class ItextService {
 
     public void addContent(Document document, Evento evento, Set<ExtraSubTipoEvento> set) throws DocumentException {
 
-		String dia = evento.getStartd().getDayOfMonth() + "-" + evento.getStartd().getMonth().getValue() + "-" + evento.getStartd().getYear();
-		String horaInicio = String.valueOf(evento.getStartd().getHour()) + ":" +String.valueOf(evento.getStartd().getMinute());
-		String horaFin = String.valueOf(evento.getEndd().getHour()) + ":" +String.valueOf(evento.getEndd().getMinute());
+		String dia = DateUtil.getFecha(evento.getStartd());
+		String horaInicio = DateUtil.getHorario(evento.getStartd());
+		String horaFin = DateUtil.getHorario(evento.getEndd());
 
         Paragraph paragraph = new Paragraph();
         paragraph.add(new Paragraph("Tu evento: " + evento.getNombre()));

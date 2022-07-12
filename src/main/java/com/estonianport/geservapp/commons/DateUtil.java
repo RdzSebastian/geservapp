@@ -27,6 +27,10 @@ public class DateUtil {
 	private static final String HOUR = "HH";
 
 	private static final String MINUTE = "mm";
+	
+	private static final DateTimeFormatter TIME_FORMATTER_HOUR = DateTimeFormatter.ofPattern(HOUR);
+
+	private static final DateTimeFormatter TIME_FORMATTER_MINUTE = DateTimeFormatter.ofPattern(MINUTE);
 
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(HOUR + TIME_SEPARATOR + MINUTE);
 
@@ -54,8 +58,16 @@ public class DateUtil {
 		return fecha.format(DateUtil.DATE_FORMATTER);
 	}
 
+	public static String getHorario(LocalDateTime horaMinutos) {
+		return horaMinutos.format(DateUtil.TIME_FORMATTER);
+	}
+
 	public static String getHora(LocalDateTime hora) {
-		return hora.format(DateUtil.TIME_FORMATTER);
+		return hora.format(DateUtil.TIME_FORMATTER_HOUR);
+	}
+
+	public static String getMinutos(LocalDateTime minutos) {
+		return minutos.format(DateUtil.TIME_FORMATTER_MINUTE);
 	}
 
 	public static String getFechaConHora(LocalDateTime fechaConHora) {
