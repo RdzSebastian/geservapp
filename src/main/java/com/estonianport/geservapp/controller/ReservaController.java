@@ -300,8 +300,10 @@ public class ReservaController {
 		// Agrega la lista de Extras seleccionados
 		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
+		// Comprueba que la lista de extras variables no sea null
 		if(reservaContainer.getEventoExtraVariableSubTipoEvento() != null) {
 
+			// Elimina los extras variables con cantidad 0
 			List<EventoExtraVariableSubTipoEvento> listExtraVariableSubtipoEvento = reservaContainer.getEventoExtraVariableSubTipoEvento();
 			listExtraVariableSubtipoEvento.removeIf(n -> n.getCantidad() == 0);
 
@@ -312,9 +314,10 @@ public class ReservaController {
 			evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
 		}
 
-
+		// Comprueba que la lista de extras variables no sea null
 		if(reservaContainer.getCateringExtraVariableCatering() != null) {
 			
+			// Elimina los extras variables con cantidad 0
 			List<CateringExtraVariableCatering> listExtraVariableCatering = reservaContainer.getCateringExtraVariableCatering();
 			listExtraVariableCatering.removeIf(n -> n.getCantidad() == 0);
 			
