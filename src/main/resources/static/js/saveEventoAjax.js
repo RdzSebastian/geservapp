@@ -237,9 +237,11 @@ $(document).ready(function() {
 				if(extraCapacidadContainer.cantidadNinos > 0){
 					document.querySelector("#" + checkboxIdNino).checked = true
 					$('#' + inputIdNino).val(extraCapacidadContainer.cantidadNinos);
+					$('#' + inputIdNino).removeAttr("disabled");
 				}else{
 					document.querySelector("#" + checkboxIdNino).checked = false
 					$('#' + inputIdNino).val(0);
+					$('#' + inputIdNino).prop("disabled", true)
 				}
 				
 				// -------------------------- Camarera ----------------------------------
@@ -251,9 +253,11 @@ $(document).ready(function() {
 				if(extraCapacidadContainer.cantidadCamarera > 0){
 					document.querySelector("#" + checkboxIdCamarera).checked = true
 					$('#' + inputIdCamarera).val(extraCapacidadContainer.cantidadCamarera);
+					$('#' + inputIdCamarera).removeAttr("disabled");
 				}else{
 					document.querySelector("#" + checkboxIdCamarera).checked = false
 					$('#' + inputIdCamarera).val(0);
+					$('#' + inputIdCamarera).prop("disabled", true)
 				}
 				
 				sumarPresupuesto();

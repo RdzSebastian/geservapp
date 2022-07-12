@@ -19,16 +19,18 @@ import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ReservaContainer;
+import com.estonianport.geservapp.model.CateringExtraVariableCatering;
 import com.estonianport.geservapp.model.Evento;
-import com.estonianport.geservapp.model.ExtraVariableCatering;
+import com.estonianport.geservapp.model.EventoExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraSubTipoEvento;
+import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.TipoCatering;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
+import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
@@ -300,8 +302,11 @@ public class ReservaController {
 
 		if(reservaContainer.getEventoExtraVariableSubTipoEvento() != null) {
 
+			List<EventoExtraVariableSubTipoEvento> listExtraVariableSubtipoEvento = reservaContainer.getEventoExtraVariableSubTipoEvento();
+			listExtraVariableSubtipoEvento.removeIf(n -> n.getCantidad() == 0);
+
 			// Agrega la lista de Extras Varibles seleccionados
-			evento.setListaEventoExtraVariable(Set.copyOf(reservaContainer.getEventoExtraVariableSubTipoEvento()));
+			evento.setListaEventoExtraVariable(Set.copyOf(listExtraVariableSubtipoEvento));
 
 			// Setea el evento a cada uno de los ExtraVariable
 			evento.getListaEventoExtraVariable().stream().forEach(eventoExtraVariable -> eventoExtraVariable.setEvento(evento));
@@ -309,6 +314,10 @@ public class ReservaController {
 
 
 		if(reservaContainer.getCateringExtraVariableCatering() != null) {
+			
+			List<CateringExtraVariableCatering> listExtraVariableCatering = reservaContainer.getCateringExtraVariableCatering();
+			listExtraVariableCatering.removeIf(n -> n.getCantidad() == 0);
+			
 			// Agrega la lista de Extras Catering
 			evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
 
