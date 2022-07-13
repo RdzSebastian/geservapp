@@ -1,20 +1,74 @@
 $(document).ready(function() {
 	
+	setExtrasBySubTipoEvento($("#subTipoEvento").val());
+	
 	setExtrasVariableBySubTipoEvento($("#subTipoEvento").val());
 
-	setExtrasSeleccionadas();
+	setExtrasSeleccionadas("extraSubTipoEvento", listaExtraSeleccionadas);
+	
+	setExtrasSeleccionadas("eventoExtraVariableSubTipoEvento", listaExtraVariableSeleccionadas);
 			
-	function setExtrasSeleccionadas(){
-		listaExtraSeleccionadas.forEach( function(valor, indice, array) {
-			var valorId = parseInt(valor.id);
-			document.querySelector("#extraId" + valorId).checked = true
+	function setExtrasSeleccionadas(nameExtra, listaExtras){
+		listaExtras.forEach( function(valor) {
+			document.querySelector("#" + nameExtra + "Id" + valor.id).checked = true
 		});
 	}
+
+    // ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setExtrasBySubTipoEvento(subTipoEventoId) {
+		setExtras(subTipoEventoId, "listaExtra", listaExtra, "extraSubTipoEvento", "extraCheckboxSubTipoEvento");
+	}
+	// ----------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------
    	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
 	function setExtrasVariableBySubTipoEvento(subTipoEventoId) {
 		setExtrasVariables(subTipoEventoId, "listaExtraVariable", listaExtraVariable, "eventoExtraVariableSubTipoEvento", "extraVariableSubTipoEvento", "extraVariableCheckboxSubTipoEvento");
+	}
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function setExtras(subTipoEventoId, idDiv, listaExtras, nameExtra, nameExtraCheckbox) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#' + idDiv + ' div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaExtras.forEach(function(valorExtra) {
+			var listaExtraDiv = document.getElementById(idDiv);
+			var checkbox = document.createElement('input');
+			
+			var extraDiv = document.createElement('div');
+			extraDiv.setAttribute("id", nameExtraCheckbox);
+			
+			// Assigning the attributes
+            // to created checkbox
+            checkbox.type = "checkbox";
+            checkbox.name = nameExtra;
+            checkbox.value = valorExtra.id;
+            checkbox.id = nameExtra + "Id" + valorExtra.id;
+            checkbox.classList.add("form-check-input");
+            checkbox.classList.add(nameExtraCheckbox);
+            checkbox.onchange = function () { 
+				changeExtraCheckbox();
+			}
+            
+            // creating label for checkbox
+            var label = document.createElement('label');
+              
+            // assigning attributes for the created label tag 
+            label.htmlFor = "id";
+
+            // appending the created text to the created label tag 
+            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
+              
+            // appending the checkbox and label to div
+            extraDiv.appendChild(checkbox);
+            extraDiv.appendChild(label);
+           	listaExtraDiv.appendChild(extraDiv);
+
+		});
 	}
 	// ----------------------------------------------------------------------------------
 

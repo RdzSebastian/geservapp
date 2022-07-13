@@ -142,15 +142,13 @@ public class ReservaController {
 		// Agrega lista Tipo Catering a Reserva
 		reservaContainer.setTipoCatering(Set.copyOf(listaTipoCatering));
 
-		//		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSubTipoEvento = new HashSet<EventoExtraVariableSubTipoEvento>();
-		//		reservaContainer.setEventoExtraVariableSubTipoEvento(listaEventoExtraVariableSubTipoEvento);
-
 		// Agrega reservaContainer al modelo
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EVENTO;
 	}
 
+	// TODO Refactor para no tener que setear el null en cada una de los extras por subTipoEvento
 	@GetMapping("/saveEventoExtra/{id}")
 	public String showSaveExtra(@PathVariable("id") Long id, Model model, HttpSession session) {
 
@@ -167,21 +165,27 @@ public class ReservaController {
 		// ------------------------- Extra ------------------------------
 
 		// Agrega lista Extras
-		model.addAttribute("listaExtra", evento.getSubTipoEvento().getListaExtraSubTipoEvento());
+		Set<ExtraSubTipoEvento> listaExtra = evento.getSubTipoEvento().getListaExtraSubTipoEvento();
 
-		// TODO Refactor para no tener que setear el null
+		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtra) {
+			extraSubTipoEvento.setListaSubTipoEvento(null);
+		}
+
+		model.addAttribute("listaExtra", listaExtra);
+
 		// Agrega lista extra seleccionadas
 		Set<ExtraSubTipoEvento> listaExtraSeleccionadas = evento.getListaExtraSubTipoEvento();
-		
+
 		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtraSeleccionadas) {
 			extraSubTipoEvento.setListaSubTipoEvento(null);
 		}
+
 		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
 
-		
+
 		// ------------------------- Extra variable ------------------------------
 		Set<ExtraVariableSubTipoEvento> listaExtraVariable = evento.getSubTipoEvento().getListaExtraVariableSubTipoEvento();
-		
+
 		for(ExtraVariableSubTipoEvento extraVariableSubTipoEvento : listaExtraVariable){
 			extraVariableSubTipoEvento.setListaSubTipoEvento(null);
 		}
@@ -189,8 +193,6 @@ public class ReservaController {
 		// Agrega lista Extras Variables
 		model.addAttribute("listaExtraVariable", listaExtraVariable);
 
-
-		// TODO Refactor para no tener que setear el null
 		// Agrega lista extra seleccionadas
 		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSeleccionadas = evento.getListaEventoExtraVariable();
 		Set<ExtraVariableSubTipoEvento> listaExtraVariableSeleccionadas = new HashSet<ExtraVariableSubTipoEvento>();
@@ -199,6 +201,7 @@ public class ReservaController {
 			EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().setListaSubTipoEvento(null);
 			listaExtraVariableSeleccionadas.add(EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento());
 		}
+
 		model.addAttribute("listaExtraVariableSeleccionadas", listaExtraVariableSeleccionadas);
 
 		model.addAttribute("reservaContainer", reservaContainer);
@@ -254,8 +257,45 @@ public class ReservaController {
 		model.addAttribute(GeneralPath.SALON, salon);
 
 		Evento evento = eventoService.get(id);
+
 		ReservaContainer reservaContainer = new ReservaContainer();
 		reservaContainer.setEvento(evento);
+
+		Set<ExtraVariableCatering> listaExtraVariableCatering = evento.getSubTipoEvento().getListaExtraVariableCatering();
+		
+		for(ExtraVariableCatering extraVariableCatering : listaExtraVariableCatering) {
+			extraVariableCatering.setListaSubTipoEvento(null);
+		}
+		
+		model.addAttribute("listaExtraCatering", listaExtraVariableCatering);
+
+		Set<CateringExtraVariableCatering> listaCateringExtraCateringSeleccionadas = evento.getCatering().getListaCateringExtraVariableCatering();
+		Set<ExtraVariableCatering> listaExtraVariableCateringSeleccionadas = new HashSet<ExtraVariableCatering>();
+
+		for(CateringExtraVariableCatering cateringExtraVariableCatering : listaCateringExtraCateringSeleccionadas) {
+			cateringExtraVariableCatering.getExtraVariableCatering().setListaSubTipoEvento(null);
+			listaExtraVariableCateringSeleccionadas.add(cateringExtraVariableCatering.getExtraVariableCatering());
+		}
+
+		
+		model.addAttribute("listaExtraCateringSeleccionadas", listaExtraVariableCateringSeleccionadas);
+
+		Set<TipoCatering> listaTipoCatering = evento.getSubTipoEvento().getListaTipoCatering();
+		
+		for(TipoCatering tipoCatering : listaTipoCatering) {
+			tipoCatering.setListaSubTipoEvento(null);
+		}
+		
+		model.addAttribute("listaTipoCatering", listaTipoCatering);
+
+		Set<TipoCatering> listaTipoCateringSeleccionadas = evento.getCatering().getListaTipoCatering();
+		
+		for(TipoCatering tipoCatering : listaTipoCateringSeleccionadas) {
+			tipoCatering.setListaSubTipoEvento(null);
+		}
+		
+		model.addAttribute("listaTipoCateringSeleccionadas", listaTipoCateringSeleccionadas);
+
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -332,11 +372,11 @@ public class ReservaController {
 
 		// Comprueba que la lista de extras variables no sea null
 		if(reservaContainer.getCateringExtraVariableCatering() != null) {
-			
+
 			// Elimina los extras variables con cantidad 0
 			List<CateringExtraVariableCatering> listExtraVariableCatering = reservaContainer.getCateringExtraVariableCatering();
 			listExtraVariableCatering.removeIf(n -> n.getCantidad() == 0);
-			
+
 			// Agrega la lista de Extras Catering
 			evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
 
@@ -358,7 +398,7 @@ public class ReservaController {
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
-	
+
 	@PostMapping("/saveEventoHora")
 	public String saveEventoHora(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
 
@@ -377,6 +417,42 @@ public class ReservaController {
 		}else {
 			evento.setEndd(DateUtil.createFechaConHora(reservaContainer.getFecha(), reservaContainer.getFin()).plusDays(1));
 		}
+
+		// Guarda el evento en la base de datos
+		eventoService.save(evento);
+
+		// Envia mail con comprobante
+		emailService.enviarMailComprabanteReserva(reservaContainer);
+
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
+	}
+
+	@PostMapping("/saveEventoExtra")
+	public String saveEventoExtra(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
+
+		// El container retorna los objetos a usar
+		Evento evento =  eventoService.get(reservaContainer.getEvento().getId());
+
+		// Salon en sesion para volver al calendario y setear en el save
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+
+		// Guarda el evento en la base de datos
+		eventoService.save(evento);
+
+		// Envia mail con comprobante
+		emailService.enviarMailComprabanteReserva(reservaContainer);
+
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
+	}
+
+	@PostMapping("/saveEventoCatering")
+	public String saveEventoCatering(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
+
+		// El container retorna los objetos a usar
+		Evento evento =  eventoService.get(reservaContainer.getEvento().getId());
+
+		// Salon en sesion para volver al calendario y setear en el save
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 
 		// Guarda el evento en la base de datos
 		eventoService.save(evento);

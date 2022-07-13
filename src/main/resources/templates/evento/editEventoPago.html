@@ -47,54 +47,10 @@
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
 
     <script th:inline="javascript">
-		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
-		var listaExtraJS = /*[[${listaExtraJS}]]*/ [];
 		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-
-	    $(document).ready( function () {
-			setPresupuesto();
-			setExtrasSeleccionadas();
-
-			function setPresupuesto(){
-				var precio = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
-				$("#presupuesto").val(precio);
-			}
-			
-			function setExtrasSeleccionadas(){
-				listaExtraSeleccionadas.forEach( function(valor, indice, array) {
-					var valorId = parseInt(valor.id);
-					document.querySelector("#extraId" + valorId).checked = true
-				});
-			}
-		});
-		
-		// Suma o resta al precio del evento, el precio del extra que haya sido checkeado
-		function changeCheckbox(extraValor, extraId) {
-		    var decider = document.getElementById(extraId);
-			var precio = parseInt($("#presupuesto").val());
-
-		    if(decider.checked){
-		        precio += parseInt(extraValor);
-		    } else {
-		        precio -= parseInt(extraValor);		    
-		    }
-
-			$("#presupuesto").val(precio);
-		}
-
-		function selectPreviusOption(elemento, horario){
-			var element = document.getElementById(elemento);
-			for(var i=0; i < element.options.length; i++){
-			    if(element.options[i].value === horario) {
-			      element.selectedIndex = i;
-			      break;
-			    }
-			}
-		}
-
 	</script>
 	
-	<script src="../js/editEvento.js"></script>
+	<script src="../js/evento/editEventoPago.js"></script>
 
 </body>
 </html>

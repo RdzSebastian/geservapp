@@ -29,16 +29,9 @@
 		                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
 					</div>
 				    
-				    <div class="form-group col-8 mb-3 extraCheckbox">
-						<h5>Extras fijos</h5> 
-			           	<div class="choose-bank">
-				           <th:block th:each="extra : ${listaExtra}">
-				                    <div class="form-check extraCheckbox">
-									    <input type="checkbox" class="form-check-input" name="extra" th:value="${extra.id}" th:id="'extraId' + ${extra.id}" th:attr="onChange=|changeCheckbox(${extra.precio}, 'extraId' + ${extra.id})|" />
-						  				<label class="form-check-label" th:text="${extra.nombre} + ' $' + ${extra.precio}">
-						  			</div>
-						  	</th:block>
-						</div>
+				    <div class="form-group col-8 mb-3">
+	                    <h5>Extras fijos</h5> 
+	                    <div id="listaExtra"> </div>
 					</div>
 		
 					<div class="form-group col-8">
@@ -53,13 +46,13 @@
 	                   	<div class="col-md-6">
 							<div class="form-group">
 								<h5 for="rol">Extra otro</h5> 
-				                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}"/>
+				                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}" onChange="sumarPresupuesto();"/>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<h5 for="rol">Descuento</h5> 
-				                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}"/>
+				                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();"/>
 							</div>
 						</div>	
 					</div>
@@ -90,13 +83,14 @@
     <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
 
     <script th:inline="javascript">
-    	var listaExtraVariable = /*[[${listaExtraVariable}]]*/ [];
+    	var listaExtra = /*[[${listaExtra}]]*/ [];
 		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
+    	var listaExtraVariable = /*[[${listaExtraVariable}]]*/ [];
 		var listaExtraVariableSeleccionadas = /*[[${listaExtraVariableSeleccionadas}]]*/ [];
 		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
 	</script>
 	
-	<script src="../js/editEventoExtra.js"></script>
+	<script src="../js/evento/editEventoExtra.js"></script>
 
 </body>
 </html>
