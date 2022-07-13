@@ -101,7 +101,7 @@ public class EmailService{
 		String horaFin = DateUtil.getHorario(evento.getEndd());
 
 		int totalPago = 0;
-		for(Pago pagos :listaPagos) {
+		for(Pago pagos : listaPagos) {
 			totalPago += pagos.getPago();
 		}
 

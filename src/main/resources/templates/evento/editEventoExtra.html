@@ -13,7 +13,7 @@
 	<div class="container">
 		<br>
 		<h2>Editar Extras del Evento</h2>
-		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
+		<form action="#" th:action="@{/saveEventoExtra}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
 			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
@@ -42,24 +42,38 @@
 		        
 		        <div class="col-md-6">
                    	<div class="row">
-                   	
 	                   	<div class="col-md-6">
 							<div class="form-group">
-								<h5 for="rol">Extra otro</h5> 
-				                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}" onChange="sumarPresupuesto();"/>
+								<h5 for="rol">Extra otro</h5>
+								<div class="input-group mb-2">
+			                    	<div class="input-group-prepend">
+								    	<div class="input-group-text">$</div>
+								    </div>
+					                <input type="number" class="form-control" id="extraOtro" th:field="*{evento.extraOtro}" onChange="sumarPresupuesto();"/>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<h5 for="rol">Descuento</h5> 
-				                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();"/>
+								<h5 for="rol">Descuento</h5>
+								<div class="input-group mb-2">
+					                <input type="number" class="form-control" id="descuento" th:field="*{evento.descuento}" onChange="sumarPresupuesto();"/>
+									<div class="input-group-prepend">
+							        	<div class="input-group-text">%</div>
+							        </div>
+						       	</div>
 							</div>
 						</div>	
 					</div>
 
 					<div class="form-group mt-5 col-6">
-						<h5 for="rol">Presupuesto</h5> 
-		                <input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
+						<h5 for="rol">Presupuesto</h5>
+						<div class="input-group mb-2">
+	                    	<div class="input-group-prepend">
+						    	<div class="input-group-text">$</div>
+						    </div>
+		                	<input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
+						</div>
 					</div>
 				</div>
 			</div>

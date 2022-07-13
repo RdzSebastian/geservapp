@@ -8,6 +8,8 @@ $(document).ready(function() {
 		hideWithCheckbox("catering_checkbox", "catering_extras");
 	
 		hideWithCheckbox("catering_checkbox", "catering_otro");
+	}else if($("#catering_otro_precio").val() == 0){
+		hideWithCheckbox("catering_checkbox", "catering_otro_precio");
 	}else{
 		document.querySelector("#catering_checkbox").checked = true;
 	}

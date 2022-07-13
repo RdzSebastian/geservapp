@@ -13,28 +13,64 @@
 	<div class="container">
 		<br>
 		<h2>Estado de Cuenta del Evento</h2>
-		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
-			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}">
-			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
-			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
+		<form action="#" th:action="@{/savePago/0}" method="post" th:object="${codigoContainer}">
 
-			<div class="form-group col-4 mb-4">
-				<h5>Evento</h5>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.nombre}" th:field="*{evento.nombre}" readonly/>
-			</div>
-			<div class="form-group col-4 mb-4">
-				<h5>Codigo</h5>
-                <input type="text" class="form-control" id="evento" th:value="${reservaContainer.evento.codigo}" th:field="*{evento.codigo}" readonly/>
-			</div>
-		    
-
+           	<div class="row">
+        		<div class="col-md-7">
+					<div class="form-group col-8 mb-4">
+						<h5>Evento</h5>
+		                <input type="text" class="form-control" id="evento" readonly/>
+					</div>
+					<div class="form-group col-8 mb-4">
+						<h5>Codigo</h5>
+		                <input type="text" class="form-control" id="evento" th:value="${codigoContainer.codigo}" th:field="*{codigo}" readonly/>
+					</div>
+					<div class="col-md-6">
+			        	<div class="form-group">
+							<h5>Lista de pagos</h5>
+			                <div id="listaPagos"> </div>
+			            </div>
+			        </div>
+	            </div>
+	            <div class="col-md-5">
+	            	<div class="row mb-4">
+		            	<div class="form-group col-6">
+							<h5>Monto total abonado</h5>
+							<div class="input-group mb-2">
+		                    	<div class="input-group-prepend">
+							    	<div class="input-group-text">$</div>
+							    </div>
+					        	<input type="number" class="form-control" id="monto_abonado_total" disabled/>
+							</div>
+						</div>
+						<div class="form-group col-6">
+							<h5>Monto faltante</h5>
+							<div class="input-group mb-2">
+		                    	<div class="input-group-prepend">
+							    	<div class="input-group-text">$</div>
+							    </div>
+					        	<input type="number" class="form-control" id="monto_faltante" disabled/>
+							</div>					        
+						</div>
+					</div>					
+					<div class="form-group col-6">
+						<h5>El precio total del evento</h5>
+						<div class="input-group mb-2">
+	                    	<div class="input-group-prepend">
+						    	<div class="input-group-text">$</div>
+						    </div>
+				        	<input type="number" class="form-control" id="presupuesto" disabled/>
+						</div>
+					</div>
+	       		</div>
+	       	</div>
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
 						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
 					</div>
 					<div>
-						<button type="submit" class="btn btn-success">Guardar</button>
+						<button type="submit" class="btn btn-success">Agregar</button>
 					</div>
 				</div>
 			</div>
@@ -42,12 +78,10 @@
 	</div>
     <!-- JS -->
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="../vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="../vendor/jquery-validation/dist/additional-methods.min.js"></script>
-    <script src="../vendor/jquery-steps/jquery.steps.min.js"></script>
 
     <script th:inline="javascript">
-		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
+    	var listaPagos = /*[[${listaPagos}]]*/ [];
+    	var reservaContainer = /*[[${reservaContainer}]]*/ [];
 	</script>
 	
 	<script src="../js/evento/editEventoPago.js"></script>
