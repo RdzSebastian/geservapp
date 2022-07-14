@@ -1,16 +1,28 @@
 $(document).ready(function() {
-	
+
+	setTituloPrecioBase();
+
 	setExtrasBySubTipoEvento($("#subTipoEvento").val());
 	
 	setExtrasVariableBySubTipoEvento($("#subTipoEvento").val());
 
 	setExtrasSeleccionadas("extraSubTipoEvento", listaExtraSeleccionadas);
 	
-	setExtrasSeleccionadas("eventoExtraVariableSubTipoEvento", listaExtraVariableSeleccionadas);
+	setExtrasVariablesSeleccionadas("eventoExtraVariableSubTipoEvento", listaExtraVariableSeleccionadas);
+	
+
 			
 	function setExtrasSeleccionadas(nameExtra, listaExtras){
 		listaExtras.forEach( function(valor) {
 			document.querySelector("#" + nameExtra + "Id" + valor.id).checked = true
+		});
+	}
+	
+	function setExtrasVariablesSeleccionadas(nameExtra, listaExtras){
+		listaExtras.forEach( function(valor) {
+			document.querySelector("#" + nameExtra + "Id" + valor.extraVariableSubTipoEvento.id).checked = true
+			$("#" + nameExtra + "Id" + valor.extraVariableSubTipoEvento.id + "Cantidad").val(valor.cantidad)
+			$("#" + nameExtra + "Id" + valor.extraVariableSubTipoEvento.id + "Cantidad").removeAttr("disabled");
 		});
 	}
 
@@ -239,3 +251,10 @@ function descuento(presupuestoTotal) {
 	return presupuestoTotal * (parseInt($("#descuento").val()) / 100);
 }
 // ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea un titulo con el precio base del evento a la fecha de la reserva segun su subTipoEvento
+function setTituloPrecioBase() { 
+	$('#titulo_precio_base_sub_tipo_evento').text("El precio base del evento en la fecha reservada es: " + presupuesto);
+}
+// ----------------------------------------------------------------------------------

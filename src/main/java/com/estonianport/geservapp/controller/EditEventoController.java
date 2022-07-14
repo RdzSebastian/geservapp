@@ -1,8 +1,10 @@
 package com.estonianport.geservapp.controller;
 
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
+import com.estonianport.geservapp.model.Catering;
 import com.estonianport.geservapp.model.CateringExtraVariableCatering;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.EventoExtraVariableSubTipoEvento;
@@ -26,16 +29,34 @@ import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Pago;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
+import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoCatering;
+import com.estonianport.geservapp.service.CateringExtraVariableCateringService;
+import com.estonianport.geservapp.service.CateringService;
+import com.estonianport.geservapp.service.EventoExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.PagoService;
+import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
 public class EditEventoController {
 
 	@Autowired
 	private EventoService eventoService;
+
+	@Autowired
+	private CateringService cateringService;
+	
+	@Autowired
+	private SubTipoEventoService subTipoEventoService;
+
+	@Autowired
+	private CateringExtraVariableCateringService cateringExtraVariableCateringService;
+
+	@Autowired
+	private EventoExtraVariableSubTipoEventoService eventoExtraVariableSubTipoEventoService;
 
 	@Autowired
 	private PagoService pagoService;
@@ -90,15 +111,38 @@ public class EditEventoController {
 
 		// Agrega lista extra seleccionadas
 		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSeleccionadas = evento.getListaEventoExtraVariable();
-		Set<ExtraVariableSubTipoEvento> listaExtraVariableSeleccionadas = new HashSet<ExtraVariableSubTipoEvento>();
 
 		for(EventoExtraVariableSubTipoEvento EventoExtraVariableSubTipoEvento : listaEventoExtraVariableSeleccionadas) {
 			EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().setListaSubTipoEvento(null);
-			listaExtraVariableSeleccionadas.add(EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento());
+			EventoExtraVariableSubTipoEvento.setEvento(null);
 		}
 
-		model.addAttribute("listaExtraVariableSeleccionadas", listaExtraVariableSeleccionadas);
+		model.addAttribute("listaExtraVariableSeleccionadas", listaEventoExtraVariableSeleccionadas);
 
+		// ------------------------- Precio subTipoEvento en fecha  ------------------------------
+		int presupuesto = 0;
+		SubTipoEvento subTipoEvento = subTipoEventoService.get(evento.getSubTipoEvento().getId());
+		LocalDateTime fechaEvento = evento.getStartd();
+
+		List<PrecioConFecha> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
+
+		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
+
+			if(fechaEvento.getYear() == precioConFecha.getDesde().getYear()) {
+				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
+
+				if(rangoMeses.contains(fechaEvento.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
+					if(DateUtil.isFinDeSemana(fechaEvento)) {
+						presupuesto = precioConFecha.getPrecio() + subTipoEvento.getValorFinSemana();
+					}else {
+						presupuesto = precioConFecha.getPrecio();
+					}
+				}
+			}
+		}
+		
+		model.addAttribute("presupuesto", presupuesto);
+				
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -110,6 +154,29 @@ public class EditEventoController {
 
 		// El container retorna los objetos a usar
 		Evento evento =  eventoService.get(reservaContainer.getEvento().getId());
+
+		// Borra todos los cateringExtraVariable anteriores
+		List<EventoExtraVariableSubTipoEvento> eventoExtraVariableSubTipoEventoByEvento = eventoExtraVariableSubTipoEventoService.getEventoExtraVariableSubTipoEventoByEvento(evento);
+		for(EventoExtraVariableSubTipoEvento eventoExtraVariableSubTipoEvento : eventoExtraVariableSubTipoEventoByEvento) {
+			eventoExtraVariableSubTipoEventoService.delete(eventoExtraVariableSubTipoEvento.getId());
+		}
+
+		// Comprueba que la lista de extras variables no sea null
+		if(reservaContainer.getEventoExtraVariableSubTipoEvento() != null) {
+
+			// Elimina los extras variables con cantidad 0
+			List<EventoExtraVariableSubTipoEvento> listEventoExtraVariableSubTipoEvento = reservaContainer.getEventoExtraVariableSubTipoEvento();
+			listEventoExtraVariableSubTipoEvento.removeIf(n -> n.getCantidad() == 0);
+
+			// Setea el catering a cada uno de los ExtraVariableCatering
+			listEventoExtraVariableSubTipoEvento.stream().forEach(extraVariable -> extraVariable.setEvento(evento));
+
+			for(EventoExtraVariableSubTipoEvento eventoExtraVariableSubTipoEvento : listEventoExtraVariableSubTipoEvento) {
+				eventoExtraVariableSubTipoEventoService.save(eventoExtraVariableSubTipoEvento);
+			}
+		}
+		
+		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
 		// Salon en sesion para volver al calendario y setear en el save
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
@@ -212,14 +279,13 @@ public class EditEventoController {
 		model.addAttribute("listaExtraCatering", listaExtraVariableCatering);
 
 		Set<CateringExtraVariableCatering> listaCateringExtraCateringSeleccionadas = evento.getCatering().getListaCateringExtraVariableCatering();
-		Set<ExtraVariableCatering> listaExtraVariableCateringSeleccionadas = new HashSet<ExtraVariableCatering>();
 
 		for(CateringExtraVariableCatering cateringExtraVariableCatering : listaCateringExtraCateringSeleccionadas) {
 			cateringExtraVariableCatering.getExtraVariableCatering().setListaSubTipoEvento(null);
-			listaExtraVariableCateringSeleccionadas.add(cateringExtraVariableCatering.getExtraVariableCatering());
+			cateringExtraVariableCatering.setCatering(null);
 		}
 
-		model.addAttribute("listaExtraCateringSeleccionadas", listaExtraVariableCateringSeleccionadas);
+		model.addAttribute("listaExtraCateringSeleccionadas", listaCateringExtraCateringSeleccionadas);
 
 		Set<TipoCatering> listaTipoCatering = evento.getSubTipoEvento().getListaTipoCatering();
 
@@ -253,8 +319,16 @@ public class EditEventoController {
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 
 		// Setea el presupuesto y catering otro
-		evento.setCatering(reservaContainer.getEvento().getCatering());
-		
+		Catering catering = reservaContainer.getEvento().getCatering();
+
+		catering.setId(evento.getCatering().getId());
+
+		// Borra todos los cateringExtraVariable anteriores
+		List<CateringExtraVariableCatering> cateringExtraVariableCateringByCatering = cateringExtraVariableCateringService.getCateringExtraVariableCateringByCatering(catering);
+		for(CateringExtraVariableCatering cateringExtraVariableCatering : cateringExtraVariableCateringByCatering) {
+			cateringExtraVariableCateringService.delete(cateringExtraVariableCatering.getId());
+		}
+
 		// Comprueba que la lista de extras variables no sea null
 		if(reservaContainer.getCateringExtraVariableCatering() != null) {
 
@@ -262,18 +336,18 @@ public class EditEventoController {
 			List<CateringExtraVariableCatering> listExtraVariableCatering = reservaContainer.getCateringExtraVariableCatering();
 			listExtraVariableCatering.removeIf(n -> n.getCantidad() == 0);
 
-			// Agrega la lista de Extras Catering
-			evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
-
 			// Setea el catering a cada uno de los ExtraVariableCatering
-			evento.getCatering().getListaCateringExtraVariableCatering().stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(evento.getCatering()));
+			listExtraVariableCatering.stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(catering));
+
+			for(CateringExtraVariableCatering cateringExtraVariableCatering : listExtraVariableCatering) {
+				cateringExtraVariableCateringService.save(cateringExtraVariableCatering);
+			}
 		}
 
-		// Agrega la lista de Tipo Catering
-		evento.getCatering().setListaTipoCatering(reservaContainer.getTipoCatering());
-		
+		catering.setListaTipoCatering(reservaContainer.getTipoCatering());
+
 		// Guarda el evento en la base de datos
-		eventoService.save(evento);
+		cateringService.save(catering);
 
 		// Envia mail con comprobante
 		emailService.enviarMailComprabanteReserva(reservaContainer);

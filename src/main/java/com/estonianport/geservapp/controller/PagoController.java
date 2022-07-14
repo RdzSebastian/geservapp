@@ -81,10 +81,9 @@ public class PagoController {
 		pago.setFecha(LocalDateTime.now());
 
 		pagoService.save(pago);
-
-		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
-
+		
 		// Envia mail con comprobante
+		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
 		emailService.enviarMailComprabantePago(pago, listaPagos);
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_PAGO;

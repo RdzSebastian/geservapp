@@ -14,9 +14,10 @@
 		<br>
 		<h2>Editar Catering del Evento</h2>
 		<form action="#" th:action="@{/saveEventoCatering}" method="post" th:object="${reservaContainer}">
-			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
+			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.evento.capacidad.capacidadAdultos}" th:field="*{evento.capacidad.capacidadAdultos}" id="cantidad_plato_adulto">
+			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 
            	<div class="row">
         		<div class="col-md-6">
@@ -59,20 +60,23 @@
 			                    	<div class="input-group-prepend">
 								    	<div class="input-group-text">$</div>
 								    </div>
-			                    	<input type="number" class="form-control" id="precio_plato_adulto" th:field="*{evento.catering.canteringOtro}" onChange="sumarPresupuestoCatering();">
+			                    	<input type="number" class="form-control" id="catering_otro_precio_input" name="evento.catering.canteringOtro" onChange="sumarPresupuestoCatering();">
 			                	</div>
 			                </div>
 						</div>
 					</div>
 
-					<div class="form-group mt-5 col-6">
+					<div class="form-group my-5 col-6">
 						<h5 for="rol">Presupuesto</h5> 
 						<div class="input-group mb-2">
 	                    	<div class="input-group-prepend">
 						    	<div class="input-group-text">$</div>
 						    </div>
-		                	<input type="number" class="form-control" id="presupuesto" th:value="${reservaContainer.evento.catering.presupuesto}" th:field="*{evento.catering.presupuesto}" disabled/>
+		                	<input type="number" class="form-control" id="presupuesto_catering" th:field="*{evento.catering.presupuesto}" readonly/>
 						</div>
+					</div>
+					<div class="col-12">
+	            		<h5 id="titulo_cantidad_adultos"><h5>
 					</div>
 				</div>
 			</div>
@@ -100,6 +104,8 @@
     	var listaExtraCateringSeleccionadas = /*[[${listaExtraCateringSeleccionadas}]]*/ [];
 		var listaTipoCatering = /*[[${listaTipoCatering}]]*/ [];
 		var listaTipoCateringSeleccionadas = /*[[${listaTipoCateringSeleccionadas}]]*/ [];
+		var presupuesto_catering = /*[[${reservaContainer.evento.catering.presupuesto}]]*/  [];
+		var presupuesto_otro = /*[[${reservaContainer.evento.catering.canteringOtro}]]*/  [];
 	</script>
 
 	<script src="../js/evento/editEventoCatering.js"></script>

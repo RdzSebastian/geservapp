@@ -38,7 +38,7 @@
 						<h5>Extras variables</h5> 
 						<div id="listaExtraVariable"> </div>
 					</div>
-				</div>		        
+				</div>
 		        
 		        <div class="col-md-6">
                    	<div class="row">
@@ -72,8 +72,11 @@
 	                    	<div class="input-group-prepend">
 						    	<div class="input-group-text">$</div>
 						    </div>
-		                	<input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}"/>
+		                	<input type="number" class="form-control" id="presupuesto" th:field="*{evento.presupuesto}" readonly/>
 						</div>
+					</div>
+					<div class="col-12">
+	            		<h5 id="titulo_precio_base_sub_tipo_evento"><h5>
 					</div>
 				</div>
 			</div>
@@ -101,7 +104,7 @@
 		var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
     	var listaExtraVariable = /*[[${listaExtraVariable}]]*/ [];
 		var listaExtraVariableSeleccionadas = /*[[${listaExtraVariableSeleccionadas}]]*/ [];
-		var presupuesto = /*[[${reservaContainer.evento.presupuesto}]]*/ [];
+		var presupuesto = /*[[${presupuesto}]]*/ [];
 	</script>
 	
 	<script src="../js/evento/editEventoExtra.js"></script>

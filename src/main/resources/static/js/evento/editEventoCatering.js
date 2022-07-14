@@ -1,31 +1,45 @@
 $(document).ready(function() {
 	
-	if($("#presupuesto").val() == 0){
-		hideWithCheckbox("catering_otro_checkbox", "catering_otro_precio");
-		
+	setCateringOtroPrecio();
+	
+	setPresupuestoInicial();
+
+	if($("#presupuesto_catering").val() == 0){		
 		hideWithCheckbox("catering_checkbox", "catering");
 	
 		hideWithCheckbox("catering_checkbox", "catering_extras");
 	
 		hideWithCheckbox("catering_checkbox", "catering_otro");
-	}else if($("#catering_otro_precio").val() == 0){
-		hideWithCheckbox("catering_checkbox", "catering_otro_precio");
-		document.querySelector("#catering_checkbox").checked = true;
+	}else if($("#catering_otro_precio_input").val() == 0){
+		setCateringChecked();
+		document.getElementById("catering_otro_precio_input").setAttribute("readonly", true);
 	}else{
-		document.querySelector("#catering_checkbox").checked = true;
+		setCateringChecked();
+		setCheckboxPrecioOtro();
 	}
 
 	setExtraCateringBySubTipoEvento($("#subTipoEvento").val());
 
 	setTipoCateringBySubTipoEvento($("#subTipoEvento").val());
 
-	setExtrasSeleccionadas("cateringExtraVariableCatering", listaExtraCateringSeleccionadas);
+	setExtrasVariablesSeleccionadas("cateringExtraVariableCatering", listaExtraCateringSeleccionadas);
 
 	setExtrasSeleccionadas("tipoCatering", listaTipoCateringSeleccionadas);
+	
+	setCantidadAdultos();
+	
 			
 	function setExtrasSeleccionadas(nameExtra, listaExtras){
 		listaExtras.forEach( function(valor) {
 			document.querySelector("#" + nameExtra + "Id" + valor.id).checked = true
+		});
+	}
+
+	function setExtrasVariablesSeleccionadas(nameExtra, listaExtras){
+		listaExtras.forEach( function(valor) {
+			document.querySelector("#" + nameExtra + "Id" + valor.extraVariableCatering.id).checked = true
+			$("#" + nameExtra + "Id" + valor.extraVariableCatering.id + "Cantidad").val(valor.cantidad)
+			$("#" + nameExtra + "Id" + valor.extraVariableCatering.id + "Cantidad").removeAttr("disabled");
 		});
 	}
 
@@ -169,8 +183,13 @@ $(document).ready(function() {
 	// ----------------------------------------------------------------------------------
 	// Checkbox para ocultar el precio de "Otro catering" 
 	$('#catering_otro_checkbox').change(function(){
-		hideWithCheckbox("catering_otro_checkbox", "catering_otro_precio");
-		resetValueOfCatering();
+		if($('#catering_otro_checkbox').is(':checked')){
+			document.getElementById("catering_otro_precio_input").removeAttribute("readonly");
+			desCheckedAllTipoCatering();
+			sumarPresupuestoCatering();
+		}else{
+			resetValueOfCatering();
+		}
 	});
 	// ----------------------------------------------------------------------------------
 
@@ -184,12 +203,6 @@ $(document).ready(function() {
 		}
 	}
 	// ----------------------------------------------------------------------------------
-
-	function resetValueOfCatering(){
-		$('#precio_plato_adulto').val(0);
-		desCheckedAllTipoCatering();
-		sumarPresupuestoCatering();
-	}
 
 	function desCheckedAllTipoCatering() {
 		var checkboxes = $(".extraCheckboxCatering");
@@ -206,9 +219,19 @@ $(document).ready(function() {
 // ----------------------------------------------------------------------------------
 // Suma o resta al precio del evento, el precio del extra que haya sido checkeado
 function changeExtraCheckbox() {
+	document.querySelector("#catering_otro_checkbox").checked = false
+	resetValueOfCatering();
     sumarPresupuestoCatering();
 }
 // ----------------------------------------------------------------------------------
+
+
+function resetValueOfCatering(){
+	$('#catering_otro_precio_input').val(0);
+	document.getElementById("catering_otro_precio_input").setAttribute("readonly", true);
+	sumarPresupuestoCatering();
+}
+	
 
 // ----------------------------------------------------------------------------------
 // Suma o resta al precio del evento, el precio del extra variable que haya sido checkeado y su cantidad 
@@ -236,19 +259,19 @@ function changeExtraVariableCantidadDisabled(extraVariableId) {
 // ----------------------------------------------------------------------------------
 // Setea el presupuesto del evento en base a la cantidad de platos por adulto y niño
 function sumarPresupuestoCatering() {
-	var presupuesto_catering = 0;
+	var presupuesto_catering_calculo = 0;
 	var cantidad_adultos = $('#cantidad_plato_adulto').val();
 
 	// Si el checkbox de catering otro esta checkeado calcula con ese precio
 	if($('#catering_otro_checkbox').is(':checked')){
-		presupuesto_catering = cantidad_adultos * cateringOtro()
+		presupuesto_catering_calculo = cantidad_adultos * cateringOtro()
 	}else{
-		presupuesto_catering = cantidad_adultos * precioExtras(listaTipoCatering, "tipoCatering", "extraCheckboxCatering");
+		presupuesto_catering_calculo = cantidad_adultos * precioExtras(listaTipoCatering, "tipoCatering", "extraCheckboxCatering");
 	}
 
-	presupuesto_catering += precioExtrasVariables(listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCheckboxCatering");
+	presupuesto_catering_calculo += precioExtrasVariables(listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCheckboxCatering");
 
-	$("#presupuesto").val(parseInt(presupuesto_catering));
+	$("#presupuesto_catering").val(parseInt(presupuesto_catering_calculo));
 
 }
 // ---------------------------------------------------------------------------------
@@ -295,8 +318,15 @@ function precioExtrasVariables(listaExtras, nameExtra, nameExtraVariableCheckbox
 
 // ----------------------------------------------------------------------------------
 // Suma el Extra Otro al presupuesto
+function setCateringOtroPrecio() {
+	return $("#catering_otro_precio_input").val(presupuesto_otro);
+}
+// ---------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Suma el Extra Otro al presupuesto
 function cateringOtro() {
-	return parseInt($("#precio_plato_adulto").val());;
+	return parseInt($("#catering_otro_precio_input").val());
 }
 // ---------------------------------------------------------------------------------
 
@@ -305,5 +335,26 @@ function cateringOtro() {
 function setCantidadAdultos() {
 	var cantidad_adultos = $('#cantidad_plato_adulto').val();
 	$('#titulo_cantidad_adultos').text("La cantidad de adultos del evento es: " + cantidad_adultos);
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea la cantidad de adultos en la seccion de catering
+function setCheckboxPrecioOtro() {
+	document.querySelector("#catering_otro_checkbox").checked = true;
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea la cantidad de adultos en la seccion de catering
+function setPresupuestoInicial() {
+	$("#presupuesto_catering").val(presupuesto_catering);
+}
+// ----------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------
+// Setea la cantidad de adultos en la seccion de catering
+function setCateringChecked() {
+	document.querySelector("#catering_checkbox").checked = true;
 }
 // ----------------------------------------------------------------------------------
