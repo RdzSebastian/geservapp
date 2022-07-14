@@ -219,7 +219,6 @@ public class EditEventoController {
 			listaExtraVariableCateringSeleccionadas.add(cateringExtraVariableCatering.getExtraVariableCatering());
 		}
 
-
 		model.addAttribute("listaExtraCateringSeleccionadas", listaExtraVariableCateringSeleccionadas);
 
 		Set<TipoCatering> listaTipoCatering = evento.getSubTipoEvento().getListaTipoCatering();
@@ -253,6 +252,26 @@ public class EditEventoController {
 		// Salon en sesion para volver al calendario y setear en el save
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 
+		// Setea el presupuesto y catering otro
+		evento.setCatering(reservaContainer.getEvento().getCatering());
+		
+		// Comprueba que la lista de extras variables no sea null
+		if(reservaContainer.getCateringExtraVariableCatering() != null) {
+
+			// Elimina los extras variables con cantidad 0
+			List<CateringExtraVariableCatering> listExtraVariableCatering = reservaContainer.getCateringExtraVariableCatering();
+			listExtraVariableCatering.removeIf(n -> n.getCantidad() == 0);
+
+			// Agrega la lista de Extras Catering
+			evento.getCatering().setListaCateringExtraVariableCatering(Set.copyOf(reservaContainer.getCateringExtraVariableCatering()));
+
+			// Setea el catering a cada uno de los ExtraVariableCatering
+			evento.getCatering().getListaCateringExtraVariableCatering().stream().forEach(cateringExtraVariable -> cateringExtraVariable.setCatering(evento.getCatering()));
+		}
+
+		// Agrega la lista de Tipo Catering
+		evento.getCatering().setListaTipoCatering(reservaContainer.getTipoCatering());
+		
 		// Guarda el evento en la base de datos
 		eventoService.save(evento);
 

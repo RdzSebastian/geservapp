@@ -13,10 +13,9 @@
 	<div class="container">
 		<br>
 		<h2>Editar Catering del Evento</h2>
-		<form action="#" th:action="@{/saveEvento}" method="post" th:object="${reservaContainer}">
+		<form action="#" th:action="@{/saveEventoCatering}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">
-			<input type="hidden" th:value="${reservaContainer.evento.id}" th:field="*{evento}">
 			<input type="hidden" th:value="${reservaContainer.evento.capacidad.capacidadAdultos}" th:field="*{evento.capacidad.capacidadAdultos}" id="cantidad_plato_adulto">
 
            	<div class="row">
@@ -72,7 +71,7 @@
 	                    	<div class="input-group-prepend">
 						    	<div class="input-group-text">$</div>
 						    </div>
-		                	<input type="number" class="form-control" id="presupuesto_catering" th:field="*{evento.catering.presupuesto}" disabled/>
+		                	<input type="number" class="form-control" id="presupuesto" th:value="${reservaContainer.evento.catering.presupuesto}" th:field="*{evento.catering.presupuesto}" disabled/>
 						</div>
 					</div>
 				</div>
@@ -101,7 +100,6 @@
     	var listaExtraCateringSeleccionadas = /*[[${listaExtraCateringSeleccionadas}]]*/ [];
 		var listaTipoCatering = /*[[${listaTipoCatering}]]*/ [];
 		var listaTipoCateringSeleccionadas = /*[[${listaTipoCateringSeleccionadas}]]*/ [];
-		var presupuesto = /*[[${reservaContainer.evento.catering.presupuesto}]]*/ [];
 	</script>
 
 	<script src="../js/evento/editEventoCatering.js"></script>

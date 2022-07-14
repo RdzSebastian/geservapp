@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	if(presupuesto == 0){
+	if($("#presupuesto").val() == 0){
 		hideWithCheckbox("catering_otro_checkbox", "catering_otro_precio");
 		
 		hideWithCheckbox("catering_checkbox", "catering");
@@ -10,6 +10,7 @@ $(document).ready(function() {
 		hideWithCheckbox("catering_checkbox", "catering_otro");
 	}else if($("#catering_otro_precio").val() == 0){
 		hideWithCheckbox("catering_checkbox", "catering_otro_precio");
+		document.querySelector("#catering_checkbox").checked = true;
 	}else{
 		document.querySelector("#catering_checkbox").checked = true;
 	}
@@ -247,7 +248,7 @@ function sumarPresupuestoCatering() {
 
 	presupuesto_catering += precioExtrasVariables(listaExtraCatering, "cateringExtraVariableCatering", "extraVariableCheckboxCatering");
 
-	$("#presupuesto_catering").val(parseInt(presupuesto_catering));
+	$("#presupuesto").val(parseInt(presupuesto_catering));
 
 }
 // ---------------------------------------------------------------------------------
