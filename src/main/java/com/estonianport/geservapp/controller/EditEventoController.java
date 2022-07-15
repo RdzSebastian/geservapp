@@ -463,6 +463,9 @@ public class EditEventoController {
 
 		evento.setListaEventoExtraVariable(null);
 		evento.setListaExtraSubTipoEvento(null);
+		
+		evento.getCatering().setListaCateringExtraVariableCatering(null);
+		evento.getCatering().setListaTipoCatering(null);
 
 		ReservaContainer reservaContainer = new ReservaContainer();
 
