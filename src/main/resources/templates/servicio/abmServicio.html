@@ -33,7 +33,7 @@
 						<td> </td>
 						<td> </td>
 						<td><a class="btn btn-info" th:href="@{/saveServicio/{id}(id=${servicio.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteServicio/{id}(id=${servicio.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteServicio/{id}(id=${servicio.id})}" th:onclick="if (!(confirm('Quiere eliminar el servicio?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

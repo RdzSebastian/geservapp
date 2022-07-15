@@ -35,7 +35,7 @@
 						<td th:text="${salon.municipio}"> </td>
 						<td> </td>
 						<td><a class="btn btn-info" th:href="@{/saveSalon/{id}(id=${salon.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteSalon/{id}(id=${salon.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteSalon/{id}(id=${salon.id})}" th:onclick="if (!(confirm('Quiere eliminar el salon?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

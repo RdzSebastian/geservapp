@@ -42,7 +42,7 @@
 						<td th:text="${usuario.credentialsNonExpired}">
 						<td th:text="${usuario.enabled}">
 						<td><a class="btn btn-info" th:href="@{/saveUsuario/{id}(id=${usuario.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteUsuario/{id}(id=${usuario.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteUsuario/{id}(id=${usuario.id})}" th:onclick="if (!(confirm('Quiere eliminar el usuario?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

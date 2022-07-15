@@ -36,7 +36,7 @@
 						<td th:text="${cliente.celular}">
 						<td th:text="${cliente.email}">
 						<td><a class="btn btn-info" th:href="@{/saveCliente/{id}(id=${cliente.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteCliente/{id}(id=${cliente.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteCliente/{id}(id=${cliente.id})}" th:onclick="if (!(confirm('Quiere eliminar el cliente?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

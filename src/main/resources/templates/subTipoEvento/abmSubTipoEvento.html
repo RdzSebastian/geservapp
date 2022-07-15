@@ -33,7 +33,7 @@
 						<td th:text="${subTipoEvento.duracion}">
 						<td><a class="btn btn-info" th:href="@{/saveSubTipoEventoPrecioConFecha/{id}(id=${subTipoEvento.id})}">Precio</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveSubTipoEvento/{id}(id=${subTipoEvento.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteSubTipoEvento/{id}(id=${subTipoEvento.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteSubTipoEvento/{id}(id=${subTipoEvento.id})}" th:onclick="if (!(confirm('Quiere eliminar el sub tipo evento?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

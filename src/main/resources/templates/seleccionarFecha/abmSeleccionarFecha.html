@@ -45,7 +45,7 @@
 						<td><a class="btn btn-info" th:href="@{/saveEventoCatering/{id}(id=${evento.id})}">Catering</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveEventoHora/{id}(id=${evento.id})}">Hora</a></td>
 						<td><a class="btn btn-info" th:href="@{/verEvento/{id}(id=${evento.id})}">Ver</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteEvento/{id}(id=${evento.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteEvento/{id}(id=${evento.id})}" th:onclick="if (!(confirm('Quiere eliminar el evento?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -35,7 +35,7 @@
 						<td> </td>
 						<td> </td>
 						<td><a class="btn btn-info" th:href="@{/saveTipoEvento/{id}(id=${tipoEvento.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteTipoEvento/{id}(id=${tipoEvento.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteTipoEvento/{id}(id=${tipoEvento.id})}" th:onclick="if (!(confirm('Quiere eliminar el tipo evento?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -35,7 +35,7 @@
 						<td> </td>
 						<td> </td>
 						<td><a class="btn btn-info" th:href="@{/saveExtraSubTipoEvento/{id}(id=${extra.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteExtraSubTipoEvento/{id}(id=${extra.id})}">Eliminar</a></td>
+						<td><a class="btn btn-danger" th:href="@{/deleteExtraSubTipoEvento/{id}(id=${extra.id})}" th:onclick="if (!(confirm('Quiere eliminar el extra?' ) )) return false">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
