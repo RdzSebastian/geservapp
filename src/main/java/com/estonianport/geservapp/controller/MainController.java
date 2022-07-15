@@ -189,6 +189,8 @@ public class MainController {
 		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
 		model.addAttribute(GeneralPath.ACTION, session.getAttribute(GeneralPath.ACTION));
 		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
+		
+		session.setAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 
 		return "evento/buscarEvento";
 	}

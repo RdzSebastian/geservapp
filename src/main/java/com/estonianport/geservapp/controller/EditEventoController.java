@@ -401,7 +401,15 @@ public class EditEventoController {
 
 		model.addAttribute("codigoContainer", codigoContainer);	
 
+		// Setea el valor de volver para el boton volver de saveEventoPago
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+
+		// Setea el valor de volver para el boton volver de savePago
+		session.setAttribute(GeneralPath.VOLVER, "../saveEventoPago/" + evento.getId());
+
+		// Setea el valor de volver cuando termine de guardar
+		session.setAttribute(GeneralPath.VOLVER + GeneralPath.ACTION, "saveEventoPago/" + evento.getId());
+
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoPago";
 	}
 

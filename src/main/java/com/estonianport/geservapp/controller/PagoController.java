@@ -42,14 +42,14 @@ public class PagoController {
 	@RequestMapping("/abmPago")
 	public String abm(Model model, HttpSession session) {
 		model.addAttribute("listaPago", pagoService.getAll());
-		session.setAttribute("action", "/savePago/0");
-		session.setAttribute("volver", "/abmPago");
+		session.setAttribute(GeneralPath.ACTION, "/savePago/0");
+		session.setAttribute(GeneralPath.VOLVER, "../" + GeneralPath.ABM_PAGO);
 
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
 
-		session.setAttribute("titulo", "Agregar Pago");
+		session.setAttribute(GeneralPath.TITULO, "Agregar Pago");
 
 		return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_PAGO;
 	}
@@ -59,23 +59,26 @@ public class PagoController {
 
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
-		model.addAttribute("titulo", session.getAttribute("titulo"));
-		model.addAttribute("volver", session.getAttribute("volver"));
+		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
+		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
+		Pago pago = new Pago();
 
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
-			Pago pago = new Pago();
 			pago.setEvento(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
 			model.addAttribute(GeneralPath.PAGO, pago);
 			return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_PAGO;
 		}
+		
+		// Setea el valor de volver cuando termine de guardar
+		session.setAttribute(GeneralPath.VOLVER + GeneralPath.ACTION, "saveEventoPago/" + pago.getEvento().getId());
 
 		model.addAttribute("eventoNoEncontrado", true);
-		return "evento/buscarEvento";
+		return GeneralPath.EVENTO + "/buscarEvento";
 
 	}
 
 	@PostMapping("/savePago")
-	public String save(Pago pago, Model model, Authentication authentication) {
+	public String save(Pago pago, Model model, Authentication authentication, HttpSession session) {
 		// Setea usuario que genero el pago
 		pago.setUsuario(usuarioService.findUserByUsername(authentication.getName()));
 		pago.setFecha(LocalDateTime.now());
@@ -86,7 +89,8 @@ public class PagoController {
 		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
 		emailService.enviarMailComprabantePago(pago, listaPagos);
 
-		return GeneralPath.REDIRECT + GeneralPath.ABM_PAGO;
+		// Obtiene el valor de volver cuando termine de guardar
+		return GeneralPath.REDIRECT + session.getAttribute(GeneralPath.VOLVER + GeneralPath.ACTION);
 	}
 
 	@GetMapping("/deletePago/{id}")
