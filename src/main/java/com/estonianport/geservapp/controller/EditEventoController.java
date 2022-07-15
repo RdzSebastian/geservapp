@@ -185,7 +185,7 @@ public class EditEventoController {
 		eventoService.save(evento);
 
 		// Envia mail con comprobante
-		emailService.enviarMailComprabanteReserva(reservaContainer);
+		emailService.enviarMailComprabanteReserva(reservaContainer, "modificado los extras");
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
@@ -253,7 +253,7 @@ public class EditEventoController {
 		eventoService.save(evento);
 
 		// Envia mail con comprobante
-		emailService.enviarMailComprabanteReserva(reservaContainer);
+		emailService.enviarMailComprabanteReserva(reservaContainer, "modificado el horario");
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
@@ -350,7 +350,7 @@ public class EditEventoController {
 		cateringService.save(catering);
 
 		// Envia mail con comprobante
-		emailService.enviarMailComprabanteReserva(reservaContainer);
+		emailService.enviarMailComprabanteReserva(reservaContainer, "modificado el catering");
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}

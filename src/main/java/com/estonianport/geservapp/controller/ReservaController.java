@@ -18,6 +18,7 @@ import com.estonianport.geservapp.commons.CodeGenerator;
 import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.ItextService;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.CateringExtraVariableCatering;
 import com.estonianport.geservapp.model.Evento;
@@ -25,6 +26,7 @@ import com.estonianport.geservapp.model.EventoExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraSubTipoEvento;
 import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
+import com.estonianport.geservapp.model.Pago;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.TipoCatering;
 import com.estonianport.geservapp.service.ClienteService;
@@ -32,6 +34,7 @@ import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.ExtraVariableCateringService;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
+import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.ServicioService;
 import com.estonianport.geservapp.service.SexoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
@@ -77,6 +80,12 @@ public class ReservaController {
 
 	@Autowired
 	private ServicioService servicioService;
+	
+	@Autowired
+	private PagoService pagoService;
+
+	@Autowired
+	private ItextService itextService;
 
 	@GetMapping("/saveEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model, HttpSession session) {
@@ -223,7 +232,7 @@ public class ReservaController {
 		eventoService.save(evento);
 
 		// Envia mail con comprobante
-		emailService.enviarMailComprabanteReserva(reservaContainer);
+		emailService.enviarMailComprabanteReserva(reservaContainer, "sido reservado");
 
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
@@ -237,6 +246,30 @@ public class ReservaController {
 			codigo = CodeGenerator.getBase26Only4Letters();
 		}
 		return codigo;
+	}
+
+	@GetMapping("/deleteEvento/{id}")
+	public String delete(@PathVariable("id") Long id, Model model, HttpSession session) throws Exception {
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		session.setAttribute("salon", salon);
+
+		// Elimina el archivo pdf de comprobante
+		Evento evento = eventoService.get(id);
+		itextService.deletePdf(evento.getCodigo());
+		
+		// Borra todos los pagos de dicho evento en la base de datos
+		List<Pago> listaPago = pagoService.findPagosByEvento(evento);
+		for(Pago pago : listaPago) {
+			pagoService.delete(pago.getId());
+		}
+		
+		// Elimina el registro en la base de datos
+		eventoService.delete(id);
+		
+		// TODO Enviar mail que se elimino el evento
+		emailService.enviarMailEventoEliminado(evento);
+		return GeneralPath.REDIRECT + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId();
 	}
 
 }
