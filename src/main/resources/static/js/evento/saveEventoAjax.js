@@ -22,11 +22,11 @@ $(document).ready(function() {
 				
 				if(cliente != ""){
 					// Todos los campos en disabled para que no edite al cliente encontrado
-					$('#nombreCliente').prop("disabled", true);
-					$('#apellido').prop("disabled", true);
-					$('#email').prop("disabled", true);
-					$('#celular').prop("disabled", true);
-					$('#empresa').prop("disabled", true);
+					$('#nombreCliente').prop("readonly", true);
+					$('#apellido').prop("readonly", true);
+					$('#email').prop("readonly", true);
+					$('#celular').prop("readonly", true);
+					$('#empresa').prop("readonly", true);
 					$('#sexo').prop("disabled", true);
 					
 					// Setea todos los valores del cliente encontrado
@@ -42,11 +42,11 @@ $(document).ready(function() {
 					$("#clienteNoEncontrado").addClass("d-none");
 				}else{
 					// Remueve los disabled para que ingrese un nuevo cliente al no haberlo encontrado
-					$('#nombreCliente').removeAttr("disabled");
-					$('#apellido').removeAttr("disabled");
-					$('#email').removeAttr("disabled");
-					$('#celular').removeAttr("disabled");
-					$('#empresa').removeAttr("disabled");
+					$('#nombreCliente').removeAttr("readonly");
+					$('#apellido').removeAttr("readonly");
+					$('#email').removeAttr("readonly");
+					$('#celular').removeAttr("readonly");
+					$('#empresa').removeAttr("readonly");
 					$('#sexo').removeAttr("disabled");
 
 					// Esconde cartel de cliente encontrado y muestra cartel de cliente NO encontrado

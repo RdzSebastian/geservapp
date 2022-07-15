@@ -13,7 +13,7 @@
 	<div class="container">
 		<br>
 		<h2>Agregar Extra</h2>
-		<form action="#" th:action="@{/saveExtra}" method="post" th:object="${extra}">
+		<form action="#" th:action="@{/saveExtraSubTipoEvento}" method="post" th:object="${extra}">
 			<input type="hidden" th:field="*{id}" name="id" id="id">
 			<div class="form-group">
 				<label for="nombre">Nombre</label> 

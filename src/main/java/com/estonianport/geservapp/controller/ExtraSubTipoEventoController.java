@@ -36,7 +36,7 @@ public class ExtraSubTipoEventoController {
 		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
 
-	@GetMapping("/saveExtra/{id}")
+	@GetMapping("/saveExtraSubTipoEvento/{id}")
 	public String showSave(@PathVariable("id") Long id, Model model) {
 
 		model.addAttribute("listaSubTipoEventoCompleta", subTipoEventoService.getAll());
@@ -51,14 +51,18 @@ public class ExtraSubTipoEventoController {
 		return GeneralPath.EXTRA + GeneralPath.PATH_SEPARATOR + GeneralPath.EXTRA_SUB_TIPO_EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_EXTRA_SUB_TIPO_EVENTO;
 	}
 
-	@PostMapping("/saveExtra")
+	@PostMapping("/saveExtraSubTipoEvento")
 	public String save(ExtraSubTipoEvento extraSubTipoEvento, Model model) {
 		extraSubTipoEventoService.save(extraSubTipoEvento);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
 
-	@GetMapping("/deleteExtra/{id}")
+	@GetMapping("/deleteExtraSubTipoEvento/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+		// TODO a todos los Extra - Extra variable - extra catering y tipo catering al eliminar
+		// borrarle la listaSubTipoEvento y en caso de ya estar asignado a un evento
+		// tirar un error que diga q no se puede eliminar porque ya fue utilizado en un evento
+		// cuyo caso que desvincule el extra al evento X (lista de eventos codigo) y elimine posteriormente
 		extraSubTipoEventoService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}
