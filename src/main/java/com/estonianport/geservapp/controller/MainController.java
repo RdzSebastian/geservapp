@@ -106,11 +106,11 @@ public class MainController {
 
 	@RequestMapping("/administracion")
 	public String adm(Model model, HttpSession session, Authentication authentication) {
-		
+
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
-		
+
 		// Trae los eventos por el salon que este preguntando
 		List<Evento> listaEvento =  eventoService.getEventosBySalon(salon);
 
@@ -129,6 +129,9 @@ public class MainController {
 		// Setea si es administrador o rol user
 		model.addAttribute("admin", usuarioService.findUserByUsername(authentication.getName()).getRol() == rolService.getRolByNombre("ADMIN"));
 
+		// Descarga compronbante
+		session.setAttribute("eventoEncontrado", null);
+		
 		return GeneralPath.ADM + GeneralPath.PATH_SEPARATOR + GeneralPath.ADM;
 	}
 
@@ -165,15 +168,16 @@ public class MainController {
 		model.addAttribute("codigoContainer", new CodigoContainer());
 
 		// Trae valor de eventoNoEncontrado en caso de venir de /download y luego lo limpia
-		model.addAttribute("eventoNoEncontrado", session.getAttribute("eventoNoEncontrado"));
-		session.setAttribute("eventoNoEncontrado", null);
+		model.addAttribute("eventoEncontrado", session.getAttribute("eventoEncontrado"));
+		session.setAttribute("eventoEncontrado", null);
+		session.setAttribute(GeneralPath.VOLVER, "/download/0");
 
 		// Agrega el volver de donde venga y action 
 		model.addAttribute(GeneralPath.TITULO, "Descargar comprobante");
 		model.addAttribute(GeneralPath.ACTION, "/download");
 		model.addAttribute(GeneralPath.VOLVER, "/administracion");
 
-		return "evento/buscarEvento";		
+		return "evento/buscarEvento";
 	}
 
 	@RequestMapping("/buscarEvento")
@@ -277,18 +281,28 @@ public class MainController {
 					respHeaders.setContentLength(fileDirectoryFile.length());
 					respHeaders.setContentDispositionFormData("attachment", fileDirectoryFile.getName());
 
+					// Setea el valor de encontrado
+					session.setAttribute("eventoEncontrado", true);
+					
+					// TODO hacer que al devolver correcto saque el cartel de error y cargue el de ok
+					//response.sendRedirect((String) session.getAttribute(GeneralPath.VOLVER));
+
 					return new ResponseEntity<FileSystemResource>(new FileSystemResource(fileDirectoryFile), respHeaders, HttpStatus.OK);
 				} catch (Exception e) {
+
+					// Setea el valor de no encontrado
+					session.setAttribute("eventoEncontrado", false);
+
 					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 				}
 			}
 		}
 
 		// Setea el valor de no encontrado
-		session.setAttribute("eventoNoEncontrado", true);
+		session.setAttribute("eventoEncontrado", false);
 
 		// Hace que al devolver not found se quede en la pantalla buscar
-		response.sendRedirect("download/0");
+		response.sendRedirect((String) session.getAttribute(GeneralPath.VOLVER));
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

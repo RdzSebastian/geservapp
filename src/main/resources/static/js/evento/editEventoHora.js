@@ -11,7 +11,7 @@ $(document).ready( function () {
 		selectPreviusOption("time_start_minute", inicio_array[1]);
 		selectPreviusOption("time_end_hour", fin_array[0]);
 		selectPreviusOption("time_end_minute", fin_array[1]);
-		}
+	}
 
 	// Setea el elemento que le envies en el select component
 	function selectPreviusOption(elemento, horario){

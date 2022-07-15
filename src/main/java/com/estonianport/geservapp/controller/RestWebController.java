@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estonianport.geservapp.commons.DateUtil;
+import com.estonianport.geservapp.commons.EmailService;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ExtraCapacidadContainer;
 import com.estonianport.geservapp.container.FechaHoraInicioSubTipoEventoContainer;
@@ -50,6 +51,9 @@ public class RestWebController {
 
 	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
@@ -306,7 +310,7 @@ public class RestWebController {
 		if(cantidadExtraAdultos > 0) {
 			cantidadCamarerasExtra = ((cantidadExtraAdultos - 1) / 20) + 1;
 		}
-		
+
 		// La cantidad de ninos se cobra por nino extra
 		int cantidadExtraNinos = ninos - subTipoEvento.getCapacidad().getCapacidadNinos();
 
@@ -314,7 +318,7 @@ public class RestWebController {
 		if(cantidadExtraNinos < 0) {
 			cantidadExtraNinos = 0;
 		}
-		
+
 		ExtraVariableSubTipoEvento extraVariableCamarera = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Camarera");
 		ExtraVariableSubTipoEvento extraVariableNino = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Niños");
 
@@ -326,6 +330,23 @@ public class RestWebController {
 		extraCapacidadContainer.setIdExtraNinos(extraVariableNino.getId().intValue());
 
 		return new ResponseEntity<ExtraCapacidadContainer>(extraCapacidadContainer, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")	
+	@GetMapping("/reenviarMail")
+	public @ResponseBody ResponseEntity<Boolean> reenviarMail(Model model,  @RequestParam(value="codigo") String codigo){
+
+		Evento evento = eventoService.getEventoByCodigo(codigo);
+
+		ReservaContainer reservaContainer = new ReservaContainer();
+		reservaContainer.setEvento(evento);
+
+		try {
+			emailService.enviarMailComprabanteReserva(reservaContainer, "sido reservado");
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}catch (Exception e){
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 	}
 
 }

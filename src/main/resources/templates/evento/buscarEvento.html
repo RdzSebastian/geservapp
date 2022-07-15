@@ -24,10 +24,15 @@
 				<input type="text" class="form-control" id="codigo" th:field="*{codigo}" name="codigo">
 			</div>
 			
-			<div id="cartelError"class="alert alert-danger d-none">
-  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
+			<div>
+				<div id="comprobanteNoDescargado" class="alert alert-danger d-none">
+	  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
+				</div>
+				<div id="comprobanteDescargado" class="alert alert-success d-none" >
+	  				<strong>Comprobante descargado</strong>
+				</div>
 			</div>
-		
+
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
@@ -43,9 +48,11 @@
 	  
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
     <script th:inline="javascript">
-    	var eventoNoEncontrado = /*[[${eventoNoEncontrado}]]*/ [];
+    	var eventoEncontrado = /*[[${eventoEncontrado}]]*/ [];
     </script>
+
     <script src="../js/evento/buscarEvento.js"></script>
 
  </body>

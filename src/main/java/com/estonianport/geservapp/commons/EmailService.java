@@ -58,7 +58,7 @@ public class EmailService{
 		Evento evento = reservaContainer.getEvento();
 
 		// -------------------------- Extra --------------------------
-		Set<ExtraSubTipoEvento> listaExtra = reservaContainer.getExtraSubTipoEvento();
+		Set<ExtraSubTipoEvento> listaExtra = evento.getListaExtraSubTipoEvento();
 		StringBuilder extraMail = new StringBuilder();
 
 		if(listaExtra != null && !listaExtra.isEmpty()) {
@@ -79,28 +79,31 @@ public class EmailService{
 
 		// -------------------------- Extra variable --------------------------
 		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariable = evento.getListaEventoExtraVariable();
-
-		Set<ExtraVariableSubTipoEvento> listaExtraVariable = new HashSet<ExtraVariableSubTipoEvento>();
-
-		for(EventoExtraVariableSubTipoEvento eventoExtraVariableSubTipoEvento : listaEventoExtraVariable) {
-			listaExtraVariable.add(eventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento());
-		}
-
 		StringBuilder extraVariableMail = new StringBuilder();
 
-		if(listaExtraVariable != null && !listaExtraVariable.isEmpty()) {
-			int i = 0;
-			extraVariableMail.append("Con los siguientes extras variables: ");
-			for(ExtraVariableSubTipoEvento extraVariableSubTipoEvento : listaExtraVariable) {
-				extraVariableMail.append(extraVariableSubTipoEvento.getNombre());
-				i++;
-				if(i < listaExtraVariable.size()) {
-					extraVariableMail.append(", ");
-				}else {
-					extraVariableMail.append(".");
-				}
+		if(listaEventoExtraVariable != null && !listaEventoExtraVariable.isEmpty()) {
+
+			Set<ExtraVariableSubTipoEvento> listaExtraVariable = new HashSet<ExtraVariableSubTipoEvento>();
+
+			for(EventoExtraVariableSubTipoEvento eventoExtraVariableSubTipoEvento : listaEventoExtraVariable) {
+				listaExtraVariable.add(eventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento());
 			}
-		}else {
+
+			if(listaExtraVariable != null && !listaExtraVariable.isEmpty()) {
+				int i = 0;
+				extraVariableMail.append("Con los siguientes extras variables: ");
+				for(ExtraVariableSubTipoEvento extraVariableSubTipoEvento : listaExtraVariable) {
+					extraVariableMail.append(extraVariableSubTipoEvento.getNombre());
+					i++;
+					if(i < listaExtraVariable.size()) {
+						extraVariableMail.append(", ");
+					}else {
+						extraVariableMail.append(".");
+					}
+				}
+			}		
+		}
+		else {
 			extraVariableMail.append("Sin ningun extra variable.");
 		}
 
@@ -151,43 +154,66 @@ public class EmailService{
 
 			// ------------------- Extra Catering -----------------------
 			Set<CateringExtraVariableCatering> listaCateringExtraCatering = evento.getCatering().getListaCateringExtraVariableCatering();
-
-			Set<ExtraVariableCatering> listaExtraCatering = new HashSet<ExtraVariableCatering>();
-
-			for(CateringExtraVariableCatering cateringExtraVariableCatering : listaCateringExtraCatering) {
-				listaExtraCatering.add(cateringExtraVariableCatering.getExtraVariableCatering());
-			}
-
 			StringBuilder extraVariableCateringMail = new StringBuilder();
 
-			if(listaExtraCatering != null && !listaExtraCatering.isEmpty()) {
-				int i = 0;
-				extraVariableCateringMail.append("Extras catering: ");
-				for(ExtraVariableCatering extraVariableCatering : listaExtraCatering) {
-					extraVariableCateringMail.append(extraVariableCatering.getNombre());
-					i++;
-					if(i < listaExtraCatering.size()) {
-						extraVariableCateringMail.append(", ");
-					}else {
-						extraVariableCateringMail.append(".");
+			if(listaCateringExtraCatering != null && !listaCateringExtraCatering.isEmpty()) {
+
+				Set<ExtraVariableCatering> listaExtraCatering = new HashSet<ExtraVariableCatering>();
+
+				for(CateringExtraVariableCatering cateringExtraVariableCatering : listaCateringExtraCatering) {
+					listaExtraCatering.add(cateringExtraVariableCatering.getExtraVariableCatering());
+				}
+
+				if(listaExtraCatering != null && !listaExtraCatering.isEmpty()) {
+					int i = 0;
+					extraVariableCateringMail.append("Extras catering: ");
+					for(ExtraVariableCatering extraVariableCatering : listaExtraCatering) {
+						extraVariableCateringMail.append(extraVariableCatering.getNombre());
+						i++;
+						if(i < listaExtraCatering.size()) {
+							extraVariableCateringMail.append(", ");
+						}else {
+							extraVariableCateringMail.append(".");
+						}
 					}
 				}
 			}else {
 				extraVariableCateringMail.append("El evento no incluye extra catering.");
 			}
-			
+
 			catering.append("El catering contratado es el siguiente: ");
 			catering.append("<br>");
-			catering.append(tipoCateringMail);
-			catering.append("<br>");
-			catering.append(extraVariableCateringMail);
-			catering.append("<br>");
+
+			if(tipoCateringMail.length() != 0) {
+				catering.append(tipoCateringMail);
+				catering.append("<br>");
+			}
+
+			if(extraVariableCateringMail.length() != 0) {
+				catering.append(extraVariableCateringMail);
+				catering.append("<br>");
+			}
+		}else {
+			catering.append("El evento no incluye catering");
 		}
 
+		// ------------------- Presupuesto -----------------------
+		int presupuestoTotal = 0;
+
+		if(evento.getPresupuesto() != 0) {
+			presupuestoTotal += evento.getPresupuesto();
+		}
+
+		if(evento.getCatering() != null && evento.getCatering().getPresupuesto() != 0) {
+			presupuestoTotal += evento.getCatering().getPresupuesto();
+		}
+
+		// ------------------- Dia y hora -----------------------
 		String dia = DateUtil.getFecha(evento.getStartd());
 		String horaInicio = DateUtil.getHorario(evento.getStartd());
 		String horaFin = DateUtil.getHorario(evento.getEndd());
 
+		// ------------------- Armado de mail -----------------------
 		Email emailBody = new Email();
 		emailBody.setEmail(evento.getCliente().getEmail());
 		emailBody.setSubject("Tu evento: " +  evento.getNombre() + " para el " + dia + ", codigo: " + evento.getCodigo());
@@ -197,14 +223,14 @@ public class EmailService{
 						"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
 						"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
 						"Contrataste un evento " + evento.getSubTipoEvento().getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
+						"Para " + evento.getCapacidad().getCapacidadAdultos() +  " adultos y " + evento.getCapacidad().getCapacidadNinos() + " niños." + "<br>" +
 						"<br>" +
 						extraMail + "<br>" +
-						"<br>" +
 						extraVariableMail + "<br>" +
 						"<br>" +
 						catering + "<br>" +
 						"<br>" +
-						"El precio final del evento es: " + evento.getPresupuesto() + "<br>" +
+						"El precio final del evento es: $" + presupuestoTotal + "<br>" +
 						"<br>" +
 						servicioMail + "<br>");
 

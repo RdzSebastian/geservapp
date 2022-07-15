@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Edit Evento</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Ver Evento</h2>
+		<form action="#" th:action="@{/download}" method="post" th:object="${codigoContainer}">
+	       	<div class="row">
+	    		<div class="col-md-3">
+					<div class="form-group col-9 mb-4">
+						<h5>Evento</h5>
+		                <input type="text" class="form-control" id="evento" readonly/>
+					</div>
+	
+					<div class="form-group col-9 mb-4">
+						<h5>Codigo</h5>
+		                <input type="text" class="form-control" id="codigo" th:field="*{codigo}" name="codigo" readonly/>
+					</div>
+					<div class="form-group col-9 mb-4">
+						<h5>Fecha de evento</h5>
+		                <input type="text" class="form-control" id="date" readonly/>
+					</div>
+					          
+					<div class="form-group col-9 mb-4">
+		                <input id="time_start" type="hidden">
+		                <h5 class="form-label w-100">Hora inicio</h5>
+		               	<div class="d-inline-flex flex-row">
+		               		<div>
+			               		<div class="form-group">
+					                <select class="form-control" id="time_start_hour" disabled>
+					                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+					                </select>
+					         	</div>       
+				            </div>
+				            <div>
+		               			<div class="p-1">:</div>
+				            </div>
+		               		<div>
+		               			<div class="form-group">
+					                <select class="form-control" id="time_start_minute" disabled>
+					                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+					                </select>
+				                </div>
+				            </div>
+		              	</div>
+		            </div>
+			            
+		            <div class="form-group col-9 mb-4" id="time_end_div">
+		            	<input id="time_end" type="hidden">
+		                <h5 class="form-label w-100">Hora final</h5>
+		               	<div class="d-inline-flex flex-row">
+		               		<div>
+			               		<div class="form-group">
+					                <select class="form-control" id="time_end_hour" disabled>
+					                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
+					                </select>
+					         	</div>
+				            </div>
+				            <div>
+		               			<div class="p-1"> : </div>
+				            </div>
+				            <div>
+		               			<div class="form-group">
+					                <select class="form-control" id="time_end_minute" disabled>
+					                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
+					                </select>
+					         	</div> 
+				            </div>
+			            </div>
+		            </div>
+	            </div>
+	            
+	            <div class="col-md-4">
+					<div class="form-group col-8 mb-4">
+						<h5>Sub Tipo Evento</h5>
+		                <input type="text" class="form-control" id="subTipoEvento" readonly/>
+					</div>
+					<div class="form-group col-8 mb-4">
+						<h5>Salon</h5>
+		                <input type="text" class="form-control" id="salon" readonly/>
+					</div>
+					<div class="form-group col-8 mb-4">
+						<h5>Extras</h5>
+		                <input type="text" class="form-control" id="extras" readonly/>
+					</div>
+					<div class="form-group col-8 mb-4">
+						<h5>Catering</h5>
+		                <input type="text" class="form-control" id="catering" readonly/>
+					</div>
+					<div class="form-group col-8 mb-4">
+						<h5>Prespuesto</h5>
+		                <input type="text" class="form-control" id="presupuesto" readonly/>
+					</div>
+	       		</div>
+	
+	            <div class="col-md-5">
+	            	<div class="row mb-4">
+		            	<div class="form-group col-6">
+							<h5>Capacidad Adultos</h5>
+			                <input type="text" class="form-control" id="capacidad_adultos" readonly/>
+						</div>
+						<div class="form-group col-6">
+							<h5>Capacidad Ninos</h5>
+			                <input type="text" class="form-control" id="capacidad_ninos" readonly/>
+						</div>
+					</div>
+					<div>
+		        		<div id="MailNoEnviado" class="d-none">
+							<div class="alert alert-danger" role="alert">
+								<strong>Mail no enviado,</strong> Surgio un error a la hora del envio del mail.</p>
+							</div>
+						</div>
+						<div id="MailEnviado" class="d-none">
+							<div class="alert alert-success" role="alert"><strong>Mail Enviado</strong></div>
+						</div>
+					</div>
+					<div>
+						<div id="comprobanteNoDescargado" class="alert alert-danger d-none">
+			  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
+						</div>
+						<div id="comprobanteDescargado" class="alert alert-success d-none">
+			  				<strong>Comprobante descargado</strong>
+						</div>
+					</div>			
+	       		</div>
+	       	</div>
+			<div class="container mt-3">
+				<div class="gap-2 d-flex justify-content-end">
+					<div>
+						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-primary">Descargar Comprobante</a>
+					</div>
+					<div>
+						<a id="reenviarMail" class="btn btn-success">Reenviar Mail</a>
+					</div>
+				</div>
+			</div>
+		</form>	
+	</div>
+    <!-- JS -->
+    <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+
+    <script th:inline="javascript">
+    	var evento = /*[[${reservaContainer.evento}]]*/ [];
+    	var fecha = /*[[${reservaContainer.fecha}]]*/ [];
+    	var inicio = /*[[${reservaContainer.inicio}]]*/ [];
+	    var fin = /*[[${reservaContainer.fin}]]*/ [];
+	    var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
+		var listaExtraVariableSeleccionadas = /*[[${listaExtraVariableSeleccionadas}]]*/ [];
+		var presupuesto = /*[[${presupuesto}]]*/ [];
+		var eventoEncontrado = /*[[${eventoEncontrado}]]*/ [];
+	</script>
+	
+	<script src="../js/evento/verEvento.js"></script>
+	<script src="../js/evento/verEventoAjax.js"></script>
+	<script src="../js/evento/buscarEvento.js"></script>
+
+</body>
+</html>

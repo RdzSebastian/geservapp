@@ -1,6 +1,7 @@
 package com.estonianport.geservapp.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,7 +49,7 @@ public class EditEventoController {
 
 	@Autowired
 	private CateringService cateringService;
-	
+
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
 
@@ -140,9 +141,9 @@ public class EditEventoController {
 				}
 			}
 		}
-		
+
 		model.addAttribute("presupuesto", presupuesto);
-				
+
 		model.addAttribute("reservaContainer", reservaContainer);
 
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
@@ -175,7 +176,7 @@ public class EditEventoController {
 				eventoExtraVariableSubTipoEventoService.save(eventoExtraVariableSubTipoEvento);
 			}
 		}
-		
+
 		evento.setListaExtraSubTipoEvento(reservaContainer.getExtraSubTipoEvento());
 
 		// Salon en sesion para volver al calendario y setear en el save
@@ -366,6 +367,19 @@ public class EditEventoController {
 		evento.setSubTipoEvento(null);
 		evento.setListaEventoExtraVariable(null);
 		evento.setListaExtraSubTipoEvento(null);
+
+		int presupuestoTotal = 0;
+
+		if(evento.getPresupuesto() != 0) {
+			presupuestoTotal += evento.getPresupuesto();
+		}
+
+		if(evento.getCatering() != null && evento.getCatering().getPresupuesto() != 0) {
+			presupuestoTotal += evento.getCatering().getPresupuesto();
+		}
+
+		model.addAttribute("presupuestoTotal", presupuestoTotal);
+
 		evento.setCatering(null);
 
 		ReservaContainer reservaContainer = new ReservaContainer();
@@ -389,6 +403,93 @@ public class EditEventoController {
 
 		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoPago";
+	}
+
+	@GetMapping("/verEvento/{id}")
+	public String verEvento(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		Evento evento = eventoService.get(id);
+
+		SubTipoEvento subTipoEvento = new SubTipoEvento();
+
+		subTipoEvento.setNombre(evento.getSubTipoEvento().getNombre());
+		evento.setSubTipoEvento(subTipoEvento);
+
+		//------------------------ Presupuesto ----------------
+		int presupuesto = 0;
+
+		if(evento.getPresupuesto() != 0) {
+			presupuesto += evento.getPresupuesto();
+		}
+
+		if(evento.getCatering() != null && evento.getCatering().getPresupuesto() != 0) {
+			presupuesto += evento.getCatering().getPresupuesto();
+		}
+		
+		model.addAttribute("presupuesto", presupuesto);
+		
+		// -------------------------- Extras -------------------------------
+		// Agrega lista extra seleccionadas
+		Set<ExtraSubTipoEvento> listaExtraSeleccionadas = evento.getListaExtraSubTipoEvento();
+
+		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtraSeleccionadas) {
+			extraSubTipoEvento.setListaSubTipoEvento(null);
+		}
+
+		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
+
+		// Agrega lista extra variables seleccionadas
+		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSeleccionadas = evento.getListaEventoExtraVariable();
+		Set<String> listaExtraVariableSeleccionadas = new HashSet<String>();
+
+		for(EventoExtraVariableSubTipoEvento EventoExtraVariableSubTipoEvento : listaEventoExtraVariableSeleccionadas) {
+			EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().setListaSubTipoEvento(null);
+			listaExtraVariableSeleccionadas.add(EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().getNombre());
+		}
+
+		model.addAttribute("listaExtraVariableSeleccionadas", listaExtraVariableSeleccionadas);
+
+		evento.setListaEventoExtraVariable(null);
+		evento.setListaExtraSubTipoEvento(null);
+
+		ReservaContainer reservaContainer = new ReservaContainer();
+
+		// ----------------- Hora ------------------------
+		// Agrega lista de Hora
+		model.addAttribute("listaHora", DateUtil.HORAS);
+
+		// Agrega lista de Minuto
+		model.addAttribute("listaMinuto", DateUtil.MINUTOS);
+
+		// Setea fecha del evento
+		reservaContainer.setFecha(DateUtil.getFecha(evento.getStartd()));
+
+		// Setea hora de inicio
+		reservaContainer.setInicio(DateUtil.getHorario(evento.getStartd()));
+
+		// Setea hora de fin
+		reservaContainer.setFin(DateUtil.getHorario(evento.getEndd()));
+
+		reservaContainer.setEvento(evento);
+		model.addAttribute("reservaContainer", reservaContainer);
+
+		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		
+		// En caso de descargar comprobante
+
+		CodigoContainer codigoContainer = new CodigoContainer();
+		codigoContainer.setCodigo(evento.getCodigo());
+		model.addAttribute("codigoContainer", codigoContainer);
+		
+		session.setAttribute(GeneralPath.VOLVER, "/verEvento/" + evento.getId());
+		model.addAttribute("eventoEncontrado", session.getAttribute("eventoEncontrado"));
+		session.setAttribute("eventoEncontrado", null);
+
+		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "verEvento";
 	}
 
 }

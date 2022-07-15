@@ -7,7 +7,7 @@ $(document).ready( function () {
 	// Setea todos los campos
 	function setAllComponents() {
 		$("#evento").val(reservaContainer.evento.nombre);
-		$("#presupuesto").val(reservaContainer.evento.presupuesto);
+		$("#presupuesto").val(presupuestoTotal);
 		
 		var total_abonado = 0;
 		listaPagos.forEach(function(pago) {
@@ -15,7 +15,7 @@ $(document).ready( function () {
 		});
 		
 		$("#monto_abonado_total").val(total_abonado);
-		$("#monto_faltante").val(reservaContainer.evento.presupuesto - total_abonado);
+		$("#monto_faltante").val(presupuestoTotal - total_abonado);
 	}
 	// ----------------------------------------------------------------------------------
 
