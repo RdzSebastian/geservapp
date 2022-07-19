@@ -19,10 +19,10 @@
 				<thead>
 					<tr>
 						<th>Nombre</th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
 						<th>Precio</th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -30,10 +30,10 @@
 				<tbody>
 					<tr th:each="extra : ${listaExtra}">
 						<td th:text="${extra.nombre}"> </td>
-						<td th:text="${extra.precio}"> </td>
 						<td> </td>
 						<td> </td>
 						<td> </td>
+						<td><a class="btn btn-info" th:href="@{/saveExtraVariableSubTipoEventoPrecioConFecha/{id}(id=${extra.id})}">Precio</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveExtraVariableSubTipoEvento/{id}(id=${extra.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteExtraVariableSubTipoEvento/{id}(id=${extra.id})}" th:onclick="if (!(confirm('Quiere eliminar el extra variable?' ) )) return false">Eliminar</a></td>
 					</tr>

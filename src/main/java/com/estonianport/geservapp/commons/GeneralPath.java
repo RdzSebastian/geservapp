@@ -16,6 +16,7 @@ public class GeneralPath {
 	public static final String SERVICIO = "servicio";
 	public static final String PAGO = "pago";
 	public static final String CLIENTE = "cliente";
+	public static final String PRECIO_CON_FECHA = "precioConFecha";
 
 	public static final String ABM_EVENTO = "abmEvento";
 	public static final String ABM_USUARIO = "abmUsuario";
@@ -42,6 +43,7 @@ public class GeneralPath {
 	public static final String SAVE_SERVICIO = "saveServicio";
 	public static final String SAVE_PAGO = "savePago";
 	public static final String SAVE_CLIENTE = "saveCliente";
+	public static final String SAVE_PRECIO_CON_FECHA = "savePrecioConFecha";
 
 	public static final String ADM = "adm";
 	public static final String EDIT_EVENTO = "editEvento";
@@ -55,5 +57,6 @@ public class GeneralPath {
 	public static final String TITULO = "titulo";
 	public static final String VOLVER = "volver";
 	public static final String ACTION = "action";
+	public static final String CONTAINER = "container";
 
 }

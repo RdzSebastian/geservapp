@@ -4,7 +4,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,8 +52,9 @@ public class SubTipoEvento {
 	@Column(name = "horario_final_automatico")
 	private boolean horarioFinalAutomatico;
 
-    @OneToMany(mappedBy = "subTipoEvento", cascade = CascadeType.ALL)
-    private List<PrecioConFecha> listaPrecioConFecha;
+	@JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subTipoEvento")
+    private List<PrecioConFechaSubTipoEvento> listaPrecioConFecha;
 
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "listaSubTipoEvento")

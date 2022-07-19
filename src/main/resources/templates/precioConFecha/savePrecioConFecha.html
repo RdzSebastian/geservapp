@@ -12,10 +12,10 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Agregar precio Sub Tipo de Evento</h2>
-		<form action="#" th:action="@{/saveSubTipoEventoPrecioConFecha}" method="post" th:object="${subTipoEventoContainer}">
-			<input type="hidden" th:field="*{subTipoEvento.id}" name="id" id="id">
-			
+		<h2 th:text=${titulo}> </h2>
+		<form action="#" th:action="@{${action}}" method="post" th:object="${container}">
+			<input type="hidden" th:field="*{id}" name="id" id="id">
+
 			<div class="border-top my-3"></div>
 
 			<div class="row text-center">
@@ -32,7 +32,7 @@
 						<div class="form-group col-4">
 							<label for="">Desde</label>
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[0].desde}" id="0desdeValor">
-			                <select class="form-select" id="0desde">
+			                <select class="form-select" id="0desde" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -90,7 +90,7 @@
 			            </div>
 						<div class="form-group col-4">
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[3].hasta}" id="3hastaValor">
-			                <select class="form-select" id="3hasta">
+			                <select class="form-select" id="3hasta" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -114,7 +114,7 @@
 						<div class="form-group col-4">
 							<label for="">Desde</label>
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[4].desde}" id="4desdeValor">
-			                <select class="form-select" id="4desde">
+			                <select class="form-select" id="4desde" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -172,7 +172,7 @@
 			            </div>
 						<div class="form-group col-4">
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[7].hasta}" id="7hastaValor">
-			                <select class="form-select" id="7hasta">
+			                <select class="form-select" id="7hasta" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -198,7 +198,7 @@
 						<div class="form-group col-4">
 							<label for="">Desde</label>
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[8].desde}" id="8desdeValor">
-			                <select class="form-select" id="8desde">
+			                <select class="form-select" id="8desde" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -256,7 +256,7 @@
 			            </div>
 						<div class="form-group col-4">
 							<input type="text" class="form-control d-none" th:field="*{precioConFecha[11].hasta}" id="11hastaValor">
-			                <select class="form-select" id="11hasta">
+			                <select class="form-select" id="11hasta" disabled>
 			                    <option th:each="mes : ${listaMeses}" th:value="${mes.valor}" th:text="${mes.nombre}"/>
 			                </select>
 			        	</div>
@@ -267,7 +267,7 @@
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
-						<a th:href="@{/abmSubTipoEvento}" class="btn btn-primary">Volver</a>
+						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
 					</div>
 					<div>
 						<button type="submit" class="btn btn-success">Guardar</button>
@@ -284,10 +284,10 @@
     <script src="../vendor/moment/locale-es.js"></script> 
     <script src="../vendor/combodate/combodate.js"></script>
 	<script th:inline="javascript">
-		var listaPrecioConFecha = /*[[${subTipoEventoContainer.subTipoEvento.listaPrecioConFecha}]]*/ [];
+		var listaPrecioConFecha = /*[[${listaPrecioConFecha}]]*/ [];
 	</script>
 
-	<script src="../js/subTipoEvento/saveSubTipoEventoPrecioConFecha.js"></script>
+	<script src="../js/savePrecioConFecha.js"></script>
 
 
 </body>

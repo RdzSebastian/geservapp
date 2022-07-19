@@ -1,5 +1,6 @@
 $(function () {
 	setYears();
+	setDiciembreOnLastsOne()
 	setPrecioBasePorFecha();
 	document.addEventListener("submit", setValorPrecioBasePorFecha);
 	
@@ -98,6 +99,12 @@ $(function () {
 		var valueHasta = $("#" + id + "hasta").val()
 		id = id + 1
 		document.getElementById(id + "desde").value = parseInt(valueHasta) + 1;
+	}
+	
+	function setDiciembreOnLastsOne() {
+		$("#3hasta").val(12)
+		$("#7hasta").val(12)
+		$("#11hasta").val(12)
 	}
 	
 });

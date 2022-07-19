@@ -31,6 +31,7 @@ import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Pago;
 import com.estonianport.geservapp.model.PrecioConFecha;
+import com.estonianport.geservapp.model.PrecioConFechaSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoCatering;
@@ -125,7 +126,7 @@ public class EditEventoController {
 		SubTipoEvento subTipoEvento = subTipoEventoService.get(evento.getSubTipoEvento().getId());
 		LocalDateTime fechaEvento = evento.getStartd();
 
-		List<PrecioConFecha> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
+		List<PrecioConFechaSubTipoEvento> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
 
 		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
 

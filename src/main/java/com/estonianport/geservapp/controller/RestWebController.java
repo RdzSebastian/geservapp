@@ -34,6 +34,7 @@ import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.PrecioConFecha;
+import com.estonianport.geservapp.model.PrecioConFechaSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.service.ClienteService;
@@ -250,7 +251,7 @@ public class RestWebController {
 		SubTipoEvento subTipoEvento = subTipoEventoService.get(subTipoEventoId);
 		LocalDateTime fechaEvento = DateUtil.createFechaConHora(fecha, DateUtil.START_TIME);
 
-		List<PrecioConFecha> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
+		List<PrecioConFechaSubTipoEvento> listaPrecioConFecha = subTipoEvento.getListaPrecioConFecha();
 
 		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
 

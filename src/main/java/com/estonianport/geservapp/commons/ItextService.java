@@ -107,7 +107,6 @@ public class ItextService {
 
 		for(Extra extra : set) {
 			 table.addCell(extra.getNombre());
-			 table.addCell(Integer.toString(extra.getPrecio()));
 		}
         paragraph.add(table);
     }

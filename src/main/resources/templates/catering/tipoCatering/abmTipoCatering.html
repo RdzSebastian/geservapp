@@ -19,10 +19,10 @@
 				<thead>
 					<tr>
 						<th>Nombre</th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
 						<th>Precio</th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
@@ -30,10 +30,10 @@
 				<tbody>
 					<tr th:each="tipoCatering : ${listaTipoCatering}">
 						<td th:text="${tipoCatering.nombre}"> </td>
-						<td th:text="${tipoCatering.precio}"> </td>
 						<td> </td>
 						<td> </td>
 						<td> </td>
+						<td><a class="btn btn-info" th:href="@{/saveTipoCateringPrecioConFecha/{id}(id=${tipoCatering.id})}">Precio</a></td>
 						<td><a class="btn btn-info" th:href="@{/saveTipoCatering/{id}(id=${tipoCatering.id})}">Editar</a></td>
 						<td><a class="btn btn-danger" th:href="@{/deleteTipoCatering/{id}(id=${tipoCatering.id})}" th:onclick="if (!(confirm('Quiere eliminar el tipo catering?' ) )) return false">Eliminar</a></td>
 					</tr>

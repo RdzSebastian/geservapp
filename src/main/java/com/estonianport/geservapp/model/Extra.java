@@ -21,7 +21,4 @@ public abstract class Extra {
 	@Column
 	private String nombre;
 
-	@Column
-	private int precio;
-
 }
