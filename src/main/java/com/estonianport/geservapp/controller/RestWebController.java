@@ -26,17 +26,22 @@ import com.estonianport.geservapp.commons.DateUtil;
 import com.estonianport.geservapp.commons.EmailService;
 import com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.ExtraCapacidadContainer;
+import com.estonianport.geservapp.container.ExtraContainer;
 import com.estonianport.geservapp.container.FechaHoraInicioSubTipoEventoContainer;
+import com.estonianport.geservapp.container.ListaExtrasContainer;
 import com.estonianport.geservapp.container.OtroDiaHoraFinContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.json.FullCalendarJSON;
 import com.estonianport.geservapp.model.Cliente;
 import com.estonianport.geservapp.model.Evento;
+import com.estonianport.geservapp.model.ExtraSubTipoEvento;
+import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.PrecioConFechaSubTipoEvento;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
+import com.estonianport.geservapp.model.TipoCatering;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
@@ -349,5 +354,85 @@ public class RestWebController {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping("/getExtrasConPrecio")
+	public @ResponseBody ResponseEntity<ListaExtrasContainer> getExtrasConPrecio(Model model, HttpSession session, @RequestParam(value="fecha") String fecha, @RequestParam(value="subTipoEventoId") long subTipoEventoId){
+
+		// Obtiene el subTipoEvento
+		SubTipoEvento subTipoEvento = subTipoEventoService.get(subTipoEventoId);
+		
+		Salon salon =  (Salon) session.getAttribute(GeneralPath.SALON);
+
+		LocalDateTime fechaLocalDateTime = DateUtil.createFechaConHora(fecha, DateUtil.START_TIME);
+
+		List<ExtraContainer> listaExtra = new ArrayList<ExtraContainer>();
+		List<ExtraContainer> listaExtraVariable = new ArrayList<ExtraContainer>();
+		List<ExtraContainer> listaExtraCatering = new ArrayList<ExtraContainer>();
+		List<ExtraContainer> listaTipoCatering = new ArrayList<ExtraContainer>();
+		
+		// Obtiene la lista de extras
+		for(ExtraSubTipoEvento extra : subTipoEvento.getListaExtraSubTipoEvento()) {
+			for(PrecioConFecha PrecioConFecha : extra.getListaPrecioConFecha()) {
+				ExtraContainer extraContainer = getExtra(fechaLocalDateTime, PrecioConFecha, salon, extra.getId(), extra.getNombre());
+				if(extraContainer != null) {
+					listaExtra.add(extraContainer);
+				}
+			}
+		}
+		
+		// Obtiene la lista de extras variables
+		for(ExtraVariableSubTipoEvento extra : subTipoEvento.getListaExtraVariableSubTipoEvento()) {
+			for(PrecioConFecha PrecioConFecha : extra.getListaPrecioConFecha()) {
+				ExtraContainer extraContainer = getExtra(fechaLocalDateTime, PrecioConFecha, salon, extra.getId(), extra.getNombre());
+				if(extraContainer != null) {
+					listaExtraVariable.add(extraContainer);
+				}
+			}
+		}
+		
+		// Obtiene la lista de extras catering
+		for(ExtraVariableCatering extra : subTipoEvento.getListaExtraVariableCatering()) {
+			for(PrecioConFecha PrecioConFecha : extra.getListaPrecioConFecha()) {
+				ExtraContainer extraContainer = getExtra(fechaLocalDateTime, PrecioConFecha, salon, extra.getId(), extra.getNombre());
+				if(extraContainer != null) {
+					listaExtraCatering.add(extraContainer);
+				}
+			}
+		}
+
+		// Obtiene la lista de tipo catering
+		for(TipoCatering extra : subTipoEvento.getListaTipoCatering()) {
+			for(PrecioConFecha PrecioConFecha : extra.getListaPrecioConFecha()) {
+				ExtraContainer extraContainer = getExtra(fechaLocalDateTime, PrecioConFecha, salon, extra.getId(), extra.getNombre());
+				if(extraContainer != null) {
+					listaTipoCatering.add(extraContainer);
+				}
+			}
+		}
+		
+		ListaExtrasContainer listaExtrasContainer = new ListaExtrasContainer();
+		listaExtrasContainer.setListaExtra(listaExtra);
+		listaExtrasContainer.setListaExtraVariable(listaExtraVariable);
+		listaExtrasContainer.setListaExtraCatering(listaExtraCatering);
+		listaExtrasContainer.setListaTipoCatering(listaTipoCatering);
+
+		return new ResponseEntity<ListaExtrasContainer>(listaExtrasContainer, HttpStatus.OK);
+	}
+
+
+
+	private ExtraContainer getExtra(LocalDateTime fecha, PrecioConFecha precioConFecha, Salon salon, Long extraId, String extraNombre) {
+	
+		if(fecha.getYear() == precioConFecha.getDesde().getYear()) {
+			List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
+
+			if(rangoMeses.contains(fecha.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
+				return new ExtraContainer(extraId, extraNombre, precioConFecha.getPrecio());
+			}
+		}
+		return null;
+	}
+
 
 }
