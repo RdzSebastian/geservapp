@@ -177,7 +177,7 @@ public class MainController {
 		model.addAttribute(GeneralPath.ACTION, "/download");
 		model.addAttribute(GeneralPath.VOLVER, "/administracion");
 
-		return "evento/buscarEvento";
+		return GeneralPath.EVENTO + "/buscarEvento";
 	}
 
 	@RequestMapping("/buscarEvento")
@@ -192,7 +192,7 @@ public class MainController {
 		
 		session.setAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 
-		return "evento/buscarEvento";
+		return GeneralPath.EVENTO + "/buscarEvento";
 	}
 
 	@RequestMapping("/seleccionarFecha")
@@ -246,6 +246,19 @@ public class MainController {
 
 		model.addAttribute("eventoNoEncontrado", true);
 		return "evento/buscarEvento";
+	}
+	
+	@RequestMapping("/eventoVolver")
+	public String eventoVolver(Model model, HttpSession session){
+		List<Evento> listaEvento = new ArrayList<Evento>();
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		
+		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
+		model.addAttribute(GeneralPath.VOLVER, GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+
+		listaEvento.add(eventoService.getEventoByCodigo((String) session.getAttribute("codigoEvento")));
+		model.addAttribute("listaEvento", listaEvento);
+		return "seleccionarFecha/abmSeleccionarFecha";
 	}
 
 	@RequestMapping(value = "/download")

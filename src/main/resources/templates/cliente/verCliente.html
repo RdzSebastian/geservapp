@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Edit Evento</title>
+	<meta charset="UTF-8">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
+
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h2>Ver Evento</h2>
+       	<div class="row">
+    		<div class="col-md-6">
+				<div class="form-group col-6 mb-4">
+					<h5>Cliente</h5>
+	                <input type="text" class="form-control" th:value="${cliente.apellido} + ', ' + ${cliente.nombre}" readonly/>
+				</div>
+				<div class="col-md-9">
+					<h2 th:if="${#lists.isEmpty(listaEvento)}">No hay eventos</h2>
+					<div th:if="${not #lists.isEmpty(listaEvento)}">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Evento</th>
+									<th>Codigo</th>
+									<th class="text-center">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="evento : ${listaEvento}">
+									<td th:text="${evento.nombre}"> </td>
+									<td th:text="${evento.codigo}"> </td>
+									<td class="text-center">
+										<a class="mx-2" title="Ver" th:href="@{/verEvento/{id}(id=${evento.id})}" data-toggle="tooltip"><i class="fas fa-eye text-primary"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+		        	</div>
+            	</div>
+			</div>
+       	</div>
+
+		<div class="container mt-3">
+			<div class="gap-2 d-flex justify-content-end">
+				<div>
+					<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+    <!-- JS -->
+    <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+
+</body>
+</html>

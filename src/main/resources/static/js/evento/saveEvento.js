@@ -88,14 +88,12 @@ $(document).ready(function() {
 	// ----------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------
-	// Busca el subTipoEvento seleccionado y setea el precio base, extras, hora inicio 
-	// y final (disabled o enabled) de dicho subTipoEvento
+	// Busca el subTipoEvento seleccionado y setea los servicios y horario 
     $('#subTipoEvento').change(function () {
         var subTipoEventoId = $("#subTipoEvento").val();
         listaSubTipoEvento.forEach( function(subTipoEvento) {
             if(subTipoEventoId == subTipoEvento.id){
                 setServicioBySubTipoEvento(subTipoEvento.id);
-				setDisabledHoraFinal(subTipoEvento.horarioFinalAutomatico);
 				borrarErrorJquerrySteps();
             }
         });
@@ -214,17 +212,3 @@ $(document).ready(function() {
 	// ----------------------------------------------------------------------------------
 
 });
-
-// ----------------------------------------------------------------------------------
-// Setea disabled la hora y minuto final en base al subTipoEvento
-function setDisabledHoraFinal(horarioFinalAutomatico) {
-	if(horarioFinalAutomatico){
-		$('#time_end_hour').prop("disabled", true);
-	 	$('#time_end_minute').prop("disabled", true);
-	}else{
-		$('#time_end_hour').removeAttr("disabled");
-		$('#time_end_minute').removeAttr("disabled");
-	}
-}
-// ----------------------------------------------------------------------------------
-

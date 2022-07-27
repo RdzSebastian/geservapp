@@ -7,49 +7,53 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
 </head>
 <body>
 	<div class="container">
+		<br>
 		<h2 th:if="${#lists.isEmpty(listaCliente)}">No hay usuarios</h2>
 		<div th:if="${not #lists.isEmpty(listaCliente)}">
-			<h2 class="jumbotron text-center">Cliente</h2>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Apellido</th>
-						<th>Sexo</th>
-						<th>Cuil</th>
-						<th>Celular</th>
-						<th>Email</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="cliente : ${listaCliente}">
-						<td th:text="${cliente.nombre}">
-						<td th:text="${cliente.apellido}">
-						<td th:text="${cliente.sexo.nombre}">
-						<td th:text="${cliente.cuil}">
-						<td th:text="${cliente.celular}">
-						<td th:text="${cliente.email}">
-						<td><a class="btn btn-info" th:href="@{/saveCliente/{id}(id=${cliente.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteCliente/{id}(id=${cliente.id})}" th:onclick="if (!(confirm('Quiere eliminar el cliente?' ) )) return false">Eliminar</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="container mt-3">
-			<div class="gap-2 d-flex justify-content-end">
-				<div>
-					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
+			<div class="table-wrapper">
+				<div class="table-title mb-4">
+					<div class="row">
+						<div class="col-md-6">
+							<h2>Adminitrar <b> Clientes</b></h2>
+						</div>
+						<div class="col-md-6 text-end">
+							<a th:href="@{/administracion}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
+							<a th:href="@{/saveCliente/0}" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus-circle"></i> <span>Agregar</span></a>
+						</div>
+					</div>
 				</div>
-				<div>
-					<a th:href="@{/saveCliente/0}" class="btn btn-success">Agregar</a>
-				</div>
+				
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Cuil</th>
+							<th>Celular</th>
+							<th>Email</th>
+							<th class="text-center">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cliente : ${listaCliente}">
+							<td th:text="${cliente.nombre}">
+							<td th:text="${cliente.apellido}">
+							<td th:text="${cliente.cuil}">
+							<td th:text="${cliente.celular}">
+							<td th:text="${cliente.email}">
+							<td class="text-center">
+								<a class="mx-2" title="Editar" th:href="@{/saveCliente/{id}(id=${cliente.id})}" data-toggle="tooltip"><i class="fas fa-edit text-warning fa-lg"></i></a>
+	                            <a class="mx-2" title="Eliminar" th:href="@{/deleteCliente/{id}(id=${cliente.id})}" th:onclick="if (!(confirm('Quiere eliminar el cliente?' ) )) return false" data-toggle="tooltip"><i class="fas fa-trash text-danger fa-lg"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

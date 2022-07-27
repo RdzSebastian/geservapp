@@ -7,6 +7,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
 </head>
 <body>
@@ -114,6 +116,17 @@
 						</div>
 					</div>
 					<div>
+						<h5>Cliente</h5>
+						<div class="row mb-4">
+			            	<div class="form-group col-6">
+				                <input type="text" class="form-control" id="cliente" readonly/>
+							</div>
+							<div class="form-group col-6">
+								<a th:href="@{/verCliente/{id}(id=${reservaContainer.evento.cliente.id})}" class="btn btn-primary">Ver eventos del cliente</a>
+							</div>
+						</div>
+					</div>
+					<div>
 		        		<div id="MailNoEnviado" class="d-none">
 							<div class="alert alert-danger" role="alert">
 								<strong>Mail no enviado,</strong> Surgio un error a la hora del envio del mail.</p>
@@ -142,7 +155,7 @@
 						<button type="submit" class="btn btn-primary">Descargar Comprobante</a>
 					</div>
 					<div>
-						<a id="reenviarMail" class="btn btn-success">Reenviar Mail</a>
+						<a id="reenviarMail" class="btn btn-success"><i class="fa fa-envelope" aria-hidden="true"></i> Reenviar Mail</a>
 					</div>
 				</div>
 			</div>

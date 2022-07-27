@@ -30,9 +30,11 @@ $(document).ready( function () {
 		var div = document.createElement('div');
 		div.id = "pagos"
 		
-		var index = 1;
 		var fechaSplit = "";
 		var AnoMesDiaSplit = "";
+		
+		// Numero para la lista de pagos
+		var index = 1;
 		
 		if(listaPagos == ""){
 			var p = document.createElement("p");;
@@ -50,8 +52,8 @@ $(document).ready( function () {
 				var divPrecio = document.createElement('div');
 				divPrecio.classList.add("col-3");
 				
-				var precio = document.createElement("p");
-				precio.appendChild(document.createTextNode("Pago " + index + ":"));
+				var precio = document.createElement("small");
+				precio.appendChild(document.createTextNode(index + "- " + pago.medioDePago.nombre));
 				
 				var precioInputGroupCol = document.createElement('div');
 				precioInputGroupCol.classList.add("col-5");
@@ -107,7 +109,7 @@ $(document).ready( function () {
 				divRow.appendChild(divFechaEntera);
 				
 				div.appendChild(divRow);
-	
+				
 				index++;
 			});
 		}

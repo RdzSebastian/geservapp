@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.ExtraSubTipoEvento;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
+import com.estonianport.geservapp.service.PrecioConFechaExtraSubTipoEventoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
@@ -24,6 +26,9 @@ public class ExtraSubTipoEventoController {
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
+
+	@Autowired
+	private PrecioConFechaExtraSubTipoEventoService precioConFechaExtraSubTipoEventoService;
 
 	@RequestMapping("/abmExtraSubTipoEvento")
 	public String abm(Model model, HttpSession session) {
@@ -59,10 +64,19 @@ public class ExtraSubTipoEventoController {
 
 	@GetMapping("/deleteExtraSubTipoEvento/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
-		// TODO a todos los Extra - Extra variable - extra catering y tipo catering al eliminar
-		// borrarle la listaSubTipoEvento y en caso de ya estar asignado a un evento
-		// tirar un error que diga q no se puede eliminar porque ya fue utilizado en un evento
-		// cuyo caso que desvincule el extra al evento X (lista de eventos codigo) y elimine posteriormente
+
+		ExtraSubTipoEvento extra = extraSubTipoEventoService.get(id);
+
+		// Elimina los subTipoEvento Vinculados
+		extra.setListaSubTipoEvento(null);
+		extraSubTipoEventoService.save(extra);
+
+
+		// Elimina los precios seteados para este extra variable
+		for(PrecioConFecha precioConFecha : extra.getListaPrecioConFecha()) {
+			precioConFechaExtraSubTipoEventoService.delete(precioConFecha.getId());
+		}
+
 		extraSubTipoEventoService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_SUB_TIPO_EVENTO;
 	}

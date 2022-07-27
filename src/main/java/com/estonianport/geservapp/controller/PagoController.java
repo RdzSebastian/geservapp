@@ -18,9 +18,11 @@ import com.estonianport.geservapp.commons.EmailService;
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.model.Evento;
+import com.estonianport.geservapp.model.MedioDePago;
 import com.estonianport.geservapp.model.Pago;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.EventoService;
+import com.estonianport.geservapp.service.MedioDePagoService;
 import com.estonianport.geservapp.service.PagoService;
 import com.estonianport.geservapp.service.UsuarioService;
 
@@ -35,6 +37,9 @@ public class PagoController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private MedioDePagoService medioDePagoService;
 
 	@Autowired
 	private EmailService emailService;
@@ -59,16 +64,20 @@ public class PagoController {
 
 		List<Evento> listaEvento = eventoService.getAll();
 		model.addAttribute("listaEvento", listaEvento);
+
 		model.addAttribute(GeneralPath.TITULO, session.getAttribute(GeneralPath.TITULO));
 		model.addAttribute(GeneralPath.VOLVER, session.getAttribute(GeneralPath.VOLVER));
 		Pago pago = new Pago();
+
+		List<MedioDePago> listaMedioDePago = medioDePagoService.getAll();
+		model.addAttribute("listaMedioDePago", listaMedioDePago);
 
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			pago.setEvento(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
 			model.addAttribute(GeneralPath.PAGO, pago);
 			return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_PAGO;
 		}
-		
+
 		// Setea el valor de volver cuando termine de guardar
 		session.setAttribute(GeneralPath.VOLVER + GeneralPath.ACTION, "saveEventoPago/" + pago.getEvento().getId());
 
@@ -84,7 +93,7 @@ public class PagoController {
 		pago.setFecha(LocalDateTime.now());
 
 		pagoService.save(pago);
-		
+
 		// Envia mail con comprobante
 		List<Pago> listaPagos = pagoService.findPagosByEvento(pago.getEvento());
 		emailService.enviarMailComprabantePago(pago, listaPagos);

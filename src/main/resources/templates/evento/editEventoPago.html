@@ -7,16 +7,18 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
 </head>
 <body>
 	<div class="container">
 		<br>
-		<h2>Estado de Cuenta del Evento</h2>
+		<h2>Estado de Cuenta</h2>
 		<form action="#" th:action="@{/savePago/0}" method="post" th:object="${codigoContainer}">
 
            	<div class="row">
-        		<div class="col-md-7">
+        		<div class="col-md-8">
 					<div class="form-group col-8 mb-4">
 						<h5>Evento</h5>
 		                <input type="text" class="form-control" id="evento" readonly/>
@@ -25,35 +27,33 @@
 						<h5>Codigo</h5>
 		                <input type="text" class="form-control" id="evento" th:value="${codigoContainer.codigo}" th:field="*{codigo}" readonly/>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-9">
 			        	<div class="form-group">
 							<h5>Lista de pagos</h5>
 			                <div id="listaPagos"> </div>
 			            </div>
 			        </div>
 	            </div>
-	            <div class="col-md-5">
-	            	<div class="row mb-4">
-		            	<div class="form-group col-6">
-							<h5>Monto total abonado</h5>
-							<div class="input-group mb-2">
-		                    	<div class="input-group-prepend">
-							    	<div class="input-group-text">$</div>
-							    </div>
-					        	<input type="number" class="form-control" id="monto_abonado_total" disabled/>
-							</div>
+	            <div class="col-md-4">
+	            	<div class="form-group col-8">
+						<h5>Monto total abonado</h5>
+						<div class="input-group mb-4">
+	                    	<div class="input-group-prepend">
+						    	<div class="input-group-text">$</div>
+						    </div>
+				        	<input type="number" class="form-control" id="monto_abonado_total" disabled/>
 						</div>
-						<div class="form-group col-6">
-							<h5>Monto faltante</h5>
-							<div class="input-group mb-2">
-		                    	<div class="input-group-prepend">
-							    	<div class="input-group-text">$</div>
-							    </div>
-					        	<input type="number" class="form-control" id="monto_faltante" disabled/>
-							</div>					        
-						</div>
-					</div>					
-					<div class="form-group col-6">
+					</div>
+					<div class="form-group col-8">
+						<h5>Monto faltante</h5>
+						<div class="input-group mb-4">
+	                    	<div class="input-group-prepend">
+						    	<div class="input-group-text">$</div>
+						    </div>
+				        	<input type="number" class="form-control" id="monto_faltante" disabled/>
+						</div>					        
+					</div>
+					<div class="form-group col-8">
 						<h5>El precio total del evento</h5>
 						<div class="input-group mb-2">
 	                    	<div class="input-group-prepend">
@@ -70,7 +70,7 @@
 						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
 					</div>
 					<div>
-						<button type="submit" class="btn btn-success">Agregar</button>
+						<button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Agregar</button>
 					</div>
 				</div>
 			</div>

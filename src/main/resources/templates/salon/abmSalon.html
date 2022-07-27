@@ -7,6 +7,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
 </head>
 <body>
@@ -14,41 +16,42 @@
 		<br>
 		<h2 th:if="${#lists.isEmpty(listaSalon)}">No hay salones</h2>
 		<div th:if="${not #lists.isEmpty(listaSalon)}">
-			<h2 class="jumbotron text-center">Salones</h2>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Calle</th>
-						<th>Numero</th>
-						<th>Municipio</th>
-						<th> </th>
-						<th>Editar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="salon : ${listaSalon}">
-						<td th:text="${salon.nombre}"> </td>
-						<td th:text="${salon.calle}"> </td>
-						<td th:text="${salon.numero}"> </td>
-						<td th:text="${salon.municipio}"> </td>
-						<td> </td>
-						<td><a class="btn btn-info" th:href="@{/saveSalon/{id}(id=${salon.id})}">Editar</a></td>
-						<td><a class="btn btn-danger" th:href="@{/deleteSalon/{id}(id=${salon.id})}" th:onclick="if (!(confirm('Quiere eliminar el salon?' ) )) return false">Eliminar</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+			<div class="table-wrapper">
+				<div class="table-title mb-4">
+					<div class="row">
+						<div class="col-md-6">
+							<h2>Adminitrar <b> Salones</b></h2>
+						</div>
+						<div class="col-md-6 text-end">
+							<a th:href="@{/administracion}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
+							<a th:href="@{/saveSalon/0}" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus-circle"></i> <span>Agregar</span></a>
+						</div>
+					</div>
+				</div>
 
-		<div class="container mt-3">
-			<div class="gap-2 d-flex justify-content-end">
-				<div>
-					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
-				</div>
-				<div>
-					<a th:href="@{/saveSalon/0}" class="btn btn-success">Agregar</a>
-				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Calle</th>
+							<th>Numero</th>
+							<th>Municipio</th>
+							<th class="text-center">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="salon : ${listaSalon}">
+							<td th:text="${salon.nombre}"> </td>
+							<td th:text="${salon.calle}"> </td>
+							<td th:text="${salon.numero}"> </td>
+							<td th:text="${salon.municipio}"> </td>
+							<td class="text-center">
+								<a class="mx-2" title="Editar" th:href="@{/saveSalon/{id}(id=${salon.id})}" data-toggle="tooltip"><i class="fas fa-edit text-warning fa-lg"></i></a>
+	                            <a class="mx-2" title="Eliminar" th:href="@{/deleteSalon/{id}(id=${salon.id})}" th:onclick="if (!(confirm('Quiere eliminar el salon?' ) )) return false" data-toggle="tooltip"><i class="fas fa-trash text-danger fa-lg"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

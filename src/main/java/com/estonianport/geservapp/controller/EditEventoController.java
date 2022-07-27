@@ -164,13 +164,13 @@ public class EditEventoController {
 		}
 
 		model.addAttribute("presupuesto", presupuesto);
-
-		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		
+		// Setea el boton volver y el codigo para que pueda encontrar el evento al volver
+		model.addAttribute(GeneralPath.VOLVER, "../" + "eventoVolver");
+		session.setAttribute("codigoEvento", evento.getCodigo());
 		
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoExtra";
 	}
-	
-	
 
 	@PostMapping("/saveEventoExtra")
 	public String saveEventoExtra(@ModelAttribute("reservaContainer") ReservaContainer reservaContainer, Model model, HttpSession session) {
@@ -248,7 +248,10 @@ public class EditEventoController {
 
 		model.addAttribute("reservaContainer", reservaContainer);
 
-		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		// Setea el boton volver y el codigo para que pueda encontrar el evento al volver
+		model.addAttribute("volver", "../" + "eventoVolver");
+		session.setAttribute("codigoEvento", evento.getCodigo());
+
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoHora";
 	}
 
@@ -345,7 +348,10 @@ public class EditEventoController {
 
 		model.addAttribute("reservaContainer", reservaContainer);
 
-		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
+		// Setea el boton volver y el codigo para que pueda encontrar el evento al volver
+		model.addAttribute(GeneralPath.VOLVER, "../" + "eventoVolver");
+		session.setAttribute("codigoEvento", evento.getCodigo());
+
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "editEventoCatering";
 	}
 
@@ -440,9 +446,10 @@ public class EditEventoController {
 
 		model.addAttribute("codigoContainer", codigoContainer);	
 
-		// Setea el valor de volver para el boton volver de saveEventoPago
-		model.addAttribute("volver", "../" + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + salon.getId());
-
+		// Setea el boton volver y el codigo para que pueda encontrar el evento al volver
+		model.addAttribute(GeneralPath.VOLVER, "../" + "eventoVolver");
+		session.setAttribute("codigoEvento", evento.getCodigo());
+		
 		// Setea el valor de volver para el boton volver de savePago
 		session.setAttribute(GeneralPath.VOLVER, "../saveEventoPago/" + evento.getId());
 
@@ -535,9 +542,14 @@ public class EditEventoController {
 		codigoContainer.setCodigo(evento.getCodigo());
 		model.addAttribute("codigoContainer", codigoContainer);
 		
-		session.setAttribute(GeneralPath.VOLVER, "/verEvento/" + evento.getId());
+		// Setea el boton volver y el codigo para que pueda encontrar el evento al volver
+		model.addAttribute(GeneralPath.VOLVER, "../" + "eventoVolver");
+		session.setAttribute("codigoEvento", evento.getCodigo());
+
 		model.addAttribute("eventoEncontrado", session.getAttribute("eventoEncontrado"));
 		session.setAttribute("eventoEncontrado", null);
+
+		session.setAttribute("eventoId", evento.getId());
 
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + "verEvento";
 	}

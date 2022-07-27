@@ -124,7 +124,7 @@
 					               	<div class="d-inline-flex flex-row">
 					               		<div>
 						               		<div class="form-group">
-								                <select class="form-control" id="time_end_hour" disabled>
+								                <select class="form-control" id="time_end_hour">
 								                    <option th:each="hora : ${listaHora}" th:text="${hora}" th:value="${hora}"/>
 								                </select>
 								         	</div>
@@ -134,7 +134,7 @@
 							            </div>
 							            <div>
 					               			<div class="form-group">
-								                <select class="form-control" id="time_end_minute" disabled>
+								                <select class="form-control" id="time_end_minute">
 								                    <option th:each="minuto : ${listaMinuto}" th:text="${minuto}" th:value="${minuto}"/>
 								                </select>
 								         	</div> 

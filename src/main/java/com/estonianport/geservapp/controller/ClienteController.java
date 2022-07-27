@@ -21,18 +21,18 @@ public class ClienteController {
 
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private SexoService sexoService;
 
 	@RequestMapping("/abmCliente")
 	public String abm(Model model, HttpSession session) {
 		model.addAttribute("listaCliente", clienteService.getAll());
-		
+
 		// Salon en sesion para volver al calendario
 		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
 		model.addAttribute(GeneralPath.SALON, salon);
-		
+
 		return GeneralPath.CLIENTE + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_CLIENTE;
 	}
 
@@ -59,5 +59,22 @@ public class ClienteController {
 	public String delete(@PathVariable("id") Long id, Model model) {
 		clienteService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_CLIENTE;
+	}
+
+	@GetMapping("/verCliente/{id}")
+	public String verEvento(@PathVariable("id") Long id, Model model, HttpSession session) {
+
+		// Salon en sesion para volver al calendario
+		Salon salon = (Salon) session.getAttribute(GeneralPath.SALON);
+		model.addAttribute(GeneralPath.SALON, salon);
+
+		Cliente cliente = clienteService.get(id);
+		model.addAttribute(GeneralPath.CLIENTE, cliente);
+
+		model.addAttribute("listaEvento", cliente.getEvento());
+
+		model.addAttribute(GeneralPath.VOLVER, "../verEvento/" + session.getAttribute("eventoId"));
+
+		return GeneralPath.CLIENTE + GeneralPath.PATH_SEPARATOR + "verCliente";
 	}
 }

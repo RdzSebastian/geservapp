@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
+import com.estonianport.geservapp.service.PrecioConFechaExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
@@ -24,6 +26,9 @@ public class ExtraVariableSubTipoEventoController {
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
+
+	@Autowired
+	private PrecioConFechaExtraVariableSubTipoEventoService precioConFechaExtraVariableSubTipoEventoService;
 
 	@RequestMapping("/abmExtraVariableSubTipoEvento")
 	public String abm(Model model, HttpSession session) {
@@ -59,6 +64,18 @@ public class ExtraVariableSubTipoEventoController {
 
 	@GetMapping("/deleteExtraVariableSubTipoEvento/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+
+		ExtraVariableSubTipoEvento extraVariable = extraVariableSubTipoEventoService.get(id);
+
+		// Elimina los subTipoEvento Vinculados
+		extraVariable.setListaSubTipoEvento(null);
+		extraVariableSubTipoEventoService.save(extraVariable);
+
+		// Elimina los precios seteados para este extra variable
+		for(PrecioConFecha precioConFecha : extraVariable.getListaPrecioConFecha()) {
+			precioConFechaExtraVariableSubTipoEventoService.delete(precioConFecha.getId());
+		}
+
 		extraVariableSubTipoEventoService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_VARIABLE_SUB_TIPO_EVENTO;
 	}

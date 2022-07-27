@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Editar Extras del Evento</h2>
+		<h2>Editar Extras</h2>
 		<form action="#" th:action="@{/saveEventoExtra}" method="post" th:object="${reservaContainer}">
 			<input type="hidden" th:value="${reservaContainer.evento.subTipoEvento}" th:field="*{evento.subTipoEvento}" id="subTipoEvento">
 			<input type="hidden" th:value="${reservaContainer.cliente}" th:field="*{cliente}">

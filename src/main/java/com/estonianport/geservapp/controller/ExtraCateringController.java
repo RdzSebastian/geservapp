@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import  com.estonianport.geservapp.commons.GeneralPath;
 import com.estonianport.geservapp.model.ExtraVariableCatering;
+import com.estonianport.geservapp.model.PrecioConFecha;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.service.ExtraVariableCateringService;
+import com.estonianport.geservapp.service.PrecioConFechaExtraVariableCateringService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 
 @Controller
@@ -24,6 +26,9 @@ public class ExtraCateringController {
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
+	
+	@Autowired
+	private PrecioConFechaExtraVariableCateringService precioConFechaExtraVariableCateringService;
 
 	@RequestMapping("/abmExtraCatering")
 	public String abm(Model model, HttpSession session) {
@@ -59,6 +64,18 @@ public class ExtraCateringController {
 
 	@GetMapping("/deleteExtraCatering/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+		
+		ExtraVariableCatering extraCatering = extraCateringService.get(id);
+		
+		// Elimina los subTipoEvento Vinculados
+		extraCatering.setListaSubTipoEvento(null);
+		extraCateringService.save(extraCatering);
+		
+		// Elimina los precios seteados para este extra variable
+		for(PrecioConFecha precioConFecha : extraCatering.getListaPrecioConFecha()) {
+			precioConFechaExtraVariableCateringService.delete(precioConFecha.getId());
+		}
+		
 		extraCateringService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_EXTRA_CATERING;
 	}

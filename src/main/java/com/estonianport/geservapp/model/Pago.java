@@ -24,6 +24,10 @@ public class Pago {
 
 	@Column
 	private int pago;
+	
+	@ManyToOne
+	@JoinColumn(name = "medio_de_pago_id")
+	private MedioDePago medioDePago;
 
 	@Column
 	private LocalDateTime fecha;

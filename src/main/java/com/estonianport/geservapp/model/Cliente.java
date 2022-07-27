@@ -60,6 +60,7 @@ public class Cliente {
 	@Column
 	private long celular;
 	
+	// TODO cambiar nombre evento a listaEvento
 	@JsonBackReference
 	@OneToMany(mappedBy = "cliente")
 	private Set<Evento> evento;

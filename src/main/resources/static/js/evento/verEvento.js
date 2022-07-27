@@ -7,7 +7,6 @@ $(function () {
 	// ----------------------------------------------------------------------------------
 	// Setea todos los campos
 	function setAllComponents() {
-
 		$("#evento").val(evento.nombre);
 		$("#subTipoEvento").val(evento.subTipoEvento.nombre);
 		$("#date").val(fecha);
@@ -15,6 +14,7 @@ $(function () {
 		$("#capacidad_ninos").val(evento.capacidad.capacidadNinos);
 		$("#salon").val(evento.salon.nombre);
 		$("#presupuesto").val(presupuesto);
+		$("#cliente").val(evento.cliente.apellido + ", " + evento.cliente.nombre);
 		setExtras();
 		setCatering();
 		setHora();			

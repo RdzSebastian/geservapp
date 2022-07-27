@@ -24,7 +24,7 @@ public class EventoController {
 		session.setAttribute("salon", salon);
 
 		// Setea el id de salon y volver abmEvento por si selecciona una fecha
-		session.setAttribute("volver", "/abmEvento/" + id);
+		session.setAttribute(GeneralPath.VOLVER, GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO + GeneralPath.PATH_SEPARATOR + id);
 
 		return GeneralPath.EVENTO + GeneralPath.PATH_SEPARATOR + GeneralPath.ABM_EVENTO;
 	}

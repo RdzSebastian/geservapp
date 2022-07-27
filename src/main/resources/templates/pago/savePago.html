@@ -32,6 +32,12 @@
 				<label for="pago">Pago</label> 
 				<input type="number" class="form-control" id="pago" th:field="*{pago}" name="pago">
 			</div>
+			<div class="form-group">
+				<label for="medioDePago">Medio de pago</label> 
+				<select th:field="*{medioDePago.id}" class="form-select" id="medioDePago">
+					<option th:each="medioDePago : ${listaMedioDePago}" th:value="${medioDePago.id}" th:text="${medioDePago.nombre}"/>
+				</select>
+			</div>
 		
 			<input type="hidden" th:field="*{evento}" th:value="${pago.evento.id}">
 

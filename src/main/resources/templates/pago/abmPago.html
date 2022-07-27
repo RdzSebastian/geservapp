@@ -7,6 +7,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
+ 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
 </head>
 <body>
@@ -14,43 +16,45 @@
 		<br>
 		<h2 th:if="${#lists.isEmpty(listaPago)}">No hay pagos</h2>
 		<div th:if="${not #lists.isEmpty(listaPago)}">
-			<h2 class="jumbotron text-center">Pagos</h2>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Pago</th>
-						<th>Fecha de Pago</th>
-						<th>Evento</th>
-						<th>Codigo</th>
-						<th>Fecha del Evento</th>
-						<th>Cliente</th>
-						<th>Usuario</th>
-						<th>Eliminar </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="pago : ${listaPago}">
-						<td th:text="'$' + ${pago.pago}"> </td>
-						<td th:text="${pago.fecha.getDayOfMonth} + '-' + ${pago.fecha.getMonth.getValue} + '-' + ${pago.fecha.getYear} + ' ' + ${pago.fecha.getHour}+ ':' + ${pago.fecha.getMinute}"> </td>
-						<td th:text="${pago.evento.nombre}"> </td>
-						<td th:text="${pago.evento.codigo}"> </td>
-						<td th:text="${pago.evento.startd.getDayOfMonth} + '-' + ${pago.evento.startd.getMonth.getValue} + '-' + ${pago.evento.startd.getYear}"> </td>
-						<td th:text="${pago.evento.cliente.nombre} + ' ' + ${pago.evento.cliente.apellido}"> </td>
-						<td th:text="${pago.usuario.username}"> </td>
-						<td><a class="btn btn-danger" th:href="@{/deletePago/{id}(id=${pago.id})}" th:onclick="if (!(confirm('Quiere eliminar el pago?' ) )) return false">Eliminar</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+			<div class="table-wrapper">
+				<div class="table-title mb-4">
+					<div class="row">
+						<div class="col-md-6">
+							<h2>Adminitrar <b> Pagos</b></h2>
+						</div>
+						<div class="col-md-6 text-end">
+							<a th:href="@{/administracion}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
+							<a th:href="@{/buscarEvento/0}" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus-circle"></i> <span>Agregar</span></a>
+						</div>
+					</div>
+				</div>
 
-		<div class="container mt-3">
-			<div class="gap-2 d-flex justify-content-end">
-				<div>
-					<a th:href="@{/administracion}" class="btn btn-primary">Volver</a>
-				</div>
-				<div>
-					<a th:href="@{/buscarEvento}" class="btn btn-success">Agregar</a>
-				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Pago</th>
+							<th>Fecha de Pago</th>
+							<th>Evento</th>
+							<th>Codigo</th>
+							<th>Fecha del Evento</th>
+							<th>Cliente</th>
+							<th class="text-center">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pago : ${listaPago}">
+							<td th:text="'$' + ${pago.pago}"> </td>
+							<td th:text="${pago.fecha.getDayOfMonth} + '-' + ${pago.fecha.getMonth.getValue} + '-' + ${pago.fecha.getYear} + ' ' + ${pago.fecha.getHour}+ ':' + ${pago.fecha.getMinute}"> </td>
+							<td th:text="${pago.evento.nombre}"> </td>
+							<td th:text="${pago.evento.codigo}"> </td>
+							<td th:text="${pago.evento.startd.getDayOfMonth} + '-' + ${pago.evento.startd.getMonth.getValue} + '-' + ${pago.evento.startd.getYear}"> </td>
+							<td th:text="${pago.evento.cliente.nombre} + ' ' + ${pago.evento.cliente.apellido}"> </td>
+							<td class="text-center">
+								<a class="mx-2" title="Eliminar" th:href="@{/deletePago/{id}(id=${pago.id})}" th:onclick="if (!(confirm('Quiere eliminar el pago?' ) )) return false" data-toggle="tooltip"><i class="fas fa-trash text-danger fa-lg"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

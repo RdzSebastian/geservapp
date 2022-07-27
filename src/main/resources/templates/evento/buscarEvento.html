@@ -1,20 +1,18 @@
 <!DOCTYPE HTML>
- <html xmlns:th="http://www.thymeleaf.org"  lang='es'>
- <head>
- <title>Adminitracion</title>
+<html xmlns:th="http://www.thymeleaf.org"  lang='es'>
+<head>
+ 	<title>Adminitracion</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
+	 <link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+<!--===============================================================================================-->
 
- 	<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
-
- </head>
-
- <body>
- 		
+</head>
+<body>
+	
 	<div class="container">
 		<br>
 		<h2 th:text=${titulo}> </h2>
@@ -32,20 +30,20 @@
 	  				<strong>Comprobante descargado</strong>
 				</div>
 			</div>
-
+	
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
 						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
 					</div>
 					<div>
-						<button type="submit" class="btn btn-success">Buscar</button>
+						<button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Buscar</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-	  
+
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
