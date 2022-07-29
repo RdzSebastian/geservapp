@@ -21,7 +21,7 @@
 			</div>
     		<div class="fieldset-content">
                 <div class="form-group" id="servicios">
-                    <label for="subTipoEvento" class="form-label">Sub Tipo Evento</label> 
+                    <label for="subTipoEvento" class="form-label">Subtipo Evento</label> 
                     <th:block id="listaSubTipoEvento" th:each="listaSubTipoEvento : ${listaSubTipoEventoCompleta}">
 	                    <div class=form-check>
 							<input type="checkbox" class="form-check-input" name="listaSubTipoEvento" th:value="${listaSubTipoEvento.id}" th:id="'subTipoEvento' + ${listaSubTipoEvento.id}"/>

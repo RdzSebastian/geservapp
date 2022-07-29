@@ -42,9 +42,9 @@
 				            </div>
 		
 				            <div class="col-md-10 mt-3">
-				            	<label for="tipoEvento" class="form-label">Sub Tipo Evento</label>
+				            	<label for="tipoEvento" class="form-label">Subtipo Evento</label>
 				                <select class="form-select" id="subTipoEvento" name="subTipoEvento" th:field="*{evento.subTipoEvento.id}">
-				                    <option selected hidden th:value="0">Sub Tipo Evento</option>
+				                    <option selected hidden th:value="0">Subtipo Evento</option>
 				                    <option th:each="subTipoEvento : ${listaSubTipoEvento}" th:classappend="${subTipoEvento.nombre} + ' ' + ${subTipoEvento.tipoEvento.nombre}" th:text="${subTipoEvento.nombre}" th:value="${subTipoEvento.id}"/>
 				                </select>
 				            </div>

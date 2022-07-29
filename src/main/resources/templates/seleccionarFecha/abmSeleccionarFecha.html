@@ -18,21 +18,21 @@
 <body>
 	<section class="m-4">
 		<div class="container">
-			<h2 th:if="${#lists.isEmpty(listaEvento)}">No hay eventos en esta fecha</h2>
-			<div th:if="${not #lists.isEmpty(listaEvento)}">
-				<div class="table-wrapper">
-					<div class="table-title mb-1">
-						<div class="row">
-							<div class="col-md-6">
-								<h2>Adminitrar <b>Eventos</b></h2>
-							</div>
-							<div class="col-md-6 text-end">
-								<a th:href="@{${volver}}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
-								<a th:href="@{/saveEvento/0}" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus-circle"></i> <span>Agregar</span></a>
-							</div>
+			<div class="table-wrapper">
+				<div class="table-title mb-1">
+					<div class="row">
+						<div class="col-md-6">
+							<h2>Adminitrar <b>Eventos</b></h2>
+						</div>
+						<div class="col-md-6 text-end">
+							<a th:href="@{${volver}}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
+							<a th:href="@{/saveEvento/0}" class="btn btn-success" data-toggle="modal"><i class="fas fa-plus-circle"></i> <span>Agregar</span></a>
 						</div>
 					</div>
+				</div>
 
+				<h4 class="mt-4" th:if="${#lists.isEmpty(listaEvento)}">No hay eventos en esta fecha</h4>
+				<div th:if="${not #lists.isEmpty(listaEvento)}">
 					<div class="col-12">
 						<div class="row">
 							<div class="col-lg-1 col-md-2">
@@ -52,7 +52,7 @@
 								<th>Fecha</th>
 								<th>Hora Inicio</th>
 								<th>Hora Final</th>
-								<th>Sub Tipo Evento</th>
+								<th>Subtipo Evento</th>
 								<th class="text-center">Acciones</th>
 							</tr>
 						</thead>
