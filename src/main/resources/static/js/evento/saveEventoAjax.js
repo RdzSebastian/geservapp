@@ -62,6 +62,7 @@ $(document).ready(function() {
 	$("#date").change(function(){
 		setTimeEndBySubTipoEvento()
 		listaEventosByDia();
+		setListasDeExtras();
 		precioEventoBySubTipoEventoYFecha();
 	});
 

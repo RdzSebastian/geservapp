@@ -325,8 +325,19 @@ public class RestWebController {
 			cantidadExtraNinos = 0;
 		}
 
-		ExtraVariableSubTipoEvento extraVariableCamarera = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Camarera");
-		ExtraVariableSubTipoEvento extraVariableNino = extraVariableSubTipoEventoService.getExtraVariableSubTipoEventoByNombre("Niños");
+		ExtraVariableSubTipoEvento extraVariableCamarera = null;
+		ExtraVariableSubTipoEvento extraVariableNino = null;
+		
+		for(ExtraVariableSubTipoEvento extraVariableEvento : subTipoEvento.getListaExtraVariableSubTipoEvento()){
+			if(extraVariableEvento.getNombre().contains("Camarera")) {
+				extraVariableCamarera = extraVariableEvento;
+			}
+			
+			if(extraVariableEvento.getNombre().contains("Niños")) {
+				extraVariableNino = extraVariableEvento;
+			}
+			
+		}
 
 		// Prepara el container para el envio de datos
 		ExtraCapacidadContainer extraCapacidadContainer = new ExtraCapacidadContainer();

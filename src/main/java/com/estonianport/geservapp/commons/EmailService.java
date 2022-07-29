@@ -222,16 +222,17 @@ public class EmailService{
 		StringBuilder contentEmail = new StringBuilder();
 
 		contentEmail.append(this.createHeadWithStyle());
-		contentEmail.append("<body class='respond' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
+		contentEmail.append(this.createBody());
 		contentEmail.append(this.createHeader());
-		contentEmail.append(this.createTitle());
-		contentEmail.append(this.createComprobante());
-		contentEmail.append(this.createSalon());
-		contentEmail.append(this.createExtras());
-		contentEmail.append(this.createCatering());
-		contentEmail.append(this.createServicios());
+		contentEmail.append(this.createTitle(evento.getNombre(), action));
+		contentEmail.append(this.createComprobante(evento.getCodigo(), evento.getSubTipoEvento().getNombre(), evento.getCapacidad().getCapacidadNinos(), evento.getCapacidad().getCapacidadAdultos(), presupuestoTotal));
+		contentEmail.append(this.createSalon(evento.getSalon().getNombre(), evento.getSalon().getCalle(), evento.getSalon().getNumero(), evento.getSalon().getMunicipio()));
+		contentEmail.append(this.createExtras(extraMail, extraVariableMail));
+		contentEmail.append(this.createCatering(catering));
+		contentEmail.append(this.createServicios(servicioMail));
 		contentEmail.append(this.createFooter());
 
+		//emailBody.setContent(contentEmail.toString());
 
 		emailBody.setContent(
 				"Tu evento: " + evento.getNombre() + ", ha " + action + " exitosamente." + "<br>" +
@@ -250,17 +251,15 @@ public class EmailService{
 						"<br>" +
 						servicioMail + "<br>");
 
-
-
-
 		this.sendEmail(emailBody);
 	}
+
+
 
 	private StringBuilder createHeadWithStyle() {
 		StringBuilder contentMain = new StringBuilder();
 
-		contentMain.append(
-				"<!DOCTYPE html>"
+		contentMain.append("<!DOCTYPE html>"
 				+ "<html lang='es'> "
 				+ "<head>"
 				+ "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />"
@@ -270,117 +269,115 @@ public class EmailService{
 				+ "<link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet'>"
 				+ "<!-- <![endif]-->"
 				+ "<title>Geservapp mail</title>");
-		
+
 		contentMain.append("<style type='text/css'>"
 				+ "body {"
-				+ "width: 100%;"
-				+ "background-color: #ffffff;"
-				+ "margin: 0;"
-				+ "padding: 0;"
-				+ "-webkit-font-smoothing: antialiased;"
-				+ "mso-margin-top-alt: 0px;"
-				+ "mso-margin-bottom-alt: 0px;"
-				+ "mso-padding-alt: 0px 0px 0px 0px;"
+				+ "	width: 100%;"
+				+ "	background-color: #ffffff;"
+				+ "	margin: 0;"
+				+ "	padding: 0;"
+				+ "	-webkit-font-smoothing: antialiased;"
+				+ "	mso-margin-top-alt: 0px;"
+				+ "	mso-margin-bottom-alt: 0px;"
+				+ "	mso-padding-alt: 0px 0px 0px 0px;"
 				+ "}"
 				+ "p, h1,h2, h3, h4 {"
-				+ "margin-top: 0;"
-				+ "margin-bottom: 0;"
-				+ "padding-top: 0;"
-				+ "padding-bottom: 0;"
+				+ "	margin-top: 0;"
+				+ "	margin-bottom: 0;"
+				+ "	padding-top: 0;"
+				+ "	padding-bottom: 0;"
 				+ "}"
 				+ "span.preheader {"
-				+ "display: none;"
-				+ "font-size: 1px;"
+				+ "	display: none;"
+				+ "	font-size: 1px;"
 				+ "}"
 				+ "html {"
-				+ "width: 100%;"
+				+ "	width: 100%;"
 				+ "}"
 				+ "table {"
-				+ "font-size: 14px;"
-				+ "border: 0;"
+				+ "	font-size: 14px;"
+				+ "	border: 0;"
 				+ "}"
-				
 				+ "media only screen and (max-width: 640px) {" /* ----------- responsivity ----------- */
-				+ ".main-header {" /*------ top header ------ */
-				+ "font-size: 20px !important;"
-				+ "}"
-				+ ".main-section-header {"
-				+ "font-size: 28px !important;"
-				+ "}"
-				+ ".show {"
-				+ "display: block !important;"
-				+ "}"
-				+ ".hide {"
-				+ "display: none !important;"
-				+ "}"
-				+ ".align-center {"
-				+ "text-align: center !important;"
-				+ "}"
-				+ ".no-bg {"
-				+ "background: none !important;"
-				+ "}"
-				+ ".main-image img {" /*----- main image -------*/
-				+ "width: 440px !important;"
-				+ "height: auto !important;"
-				+ "}"
-				+ ".divider img {" /* ====== divider ====== */
-				+ "width: 440px !important;"
-				+ "}"
-				+ ".container590 {" /*-------- container --------*/
-				+ "width: 440px !important;"
-				+ "}"
-				+ ".container580 {"
-				+ "width: 400px !important;"
-				+ "}"
-				+ ".main-button {"
-				+ "width: 220px !important;"
-				+ "}"
-				+ ".section-img img {" /*-------- secions ----------*/
-				+ "width: 320px !important;"
-				+ "height: auto !important;"
-				+ "}"
-				+ ".team-img img {"
-				+ "width: 100% !important;"
-				+ "height: auto !important;"
-				+ "}"
+				+ " .main-header {" /*------ top header ------ */
+				+ "	 font-size: 20px !important;"
+				+ " }"
+				+ " .main-section-header {"
+				+ "	 font-size: 28px !important;"
+				+ " }"
+				+ " .show {"
+				+ "	 display: block !important;"
+				+ " }"
+				+ " .hide {"
+				+ "	 display: none !important;"
+				+ " }"
+				+ " .align-center {"
+				+ "	 text-align: center !important;"
+				+ " }"
+				+ " .no-bg {"
+				+ "	 background: none !important;"
+				+ " }"
+				+ " .main-image img {" /*----- main image -------*/
+				+ "	 width: 440px !important;"
+				+ "	 height: auto !important;"
+				+ " }"
+				+ " .divider img {" /* ====== divider ====== */
+				+ "	 width: 440px !important;"
+				+ " }"
+				+ " .container590 {" /*-------- container --------*/
+				+ "	 width: 440px !important;"
+				+ " }"
+				+ " .container580 {"
+				+ "	 width: 400px !important;"
+				+ " }"
+				+ " .main-button {"
+				+ "	 width: 220px !important;"
+				+ " }"
+				+ " .section-img img {" /*-------- secions ----------*/
+				+ "	 width: 320px !important;"
+				+ "	 height: auto !important;"
+				+ " }"
+				+ " .team-img img {"
+				+ "	 width: 100% !important;"
+				+ "	 height: auto !important;"
+				+ " }"
 				+ "}"
 				+ "@media only screen and (max-width: 479px) {"
-				+ ".main-header {"/*------ top header ------ */
-				+ "font-size: 18px !important;"
-				+ "}"
-				+ ".main-section-header {"
-				+ "font-size: 26px !important;"
-				+ "}"
-				+ ".divider img {" /* ====== divider ====== */
-				+ "width: 280px !important;"
-				+ "}"
-				+ ".container590 {" /*-------- container --------*/
-				+ "width: 280px !important;"
-				+ "}"
-				+ ".container590 {"
-				+ "width: 280px !important;"
-				+ "}"
-				+ ".container580 {"
-				+ "width: 260px !important;"
-				+ "}"
-				+ ".section-img img {" /*-------- secions ----------*/
-				+ "width: 280px !important;"
-				+ "height: auto !important;"
-				+ "}"
+				+ " .main-header {"/*------ top header ------ */
+				+ "  font-size: 18px !important;"
+				+ " }"
+				+ " .main-section-header {"
+				+ "  font-size: 26px !important;"
+				+ " }"
+				+ " .divider img {" /* ====== divider ====== */
+				+ "  width: 280px !important;"
+				+ " }"
+				+ " .container590 {" /*-------- container --------*/
+				+ "  width: 280px !important;"
+				+ " }"
+				+ " .container590 {"
+				+ "  width: 280px !important;"
+				+ " }"
+				+ " .container580 {"
+				+ "  width: 260px !important;"
+				+ " }"
+				+ " .section-img img {" /*-------- secions ----------*/
+				+ "  width: 280px !important;"
+				+ "  height: auto !important;"
+				+ " }"
 				+ "}"
 				+ "</style>"
 				+ "<!-- [if gte mso 9]><style type=”text/css”>"
 				+ "body {"
-				+ "font-family: arial, sans-serif!important;"
+				+ " font-family: arial, sans-serif!important;"
 				+ "}"
 				+ "</style>"
 				+ "<![endif]-->"
 				+ "</head>");
 
 		return contentMain;
-
 	}
-	
+
 	private StringBuilder createHeader() {
 		StringBuilder contentMain = new StringBuilder();
 
@@ -412,72 +409,56 @@ public class EmailService{
 
 		return contentMain;
 	}
-	
-	private Object createTitle() {
+
+	private StringBuilder createBody() {
 		StringBuilder contentMain = new StringBuilder();
 
-		return contentMain;
-	}
-	
-	private Object createFooter() {
-		StringBuilder contentMain = new StringBuilder();
-		return contentMain;
-	}
-
-	private Object createServicios() {
-		StringBuilder contentMain = new StringBuilder();
+		contentMain.append("<body class='respond' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>");
 
 		return contentMain;
 	}
 
-	private Object createExtras() {
-		StringBuilder contentMain = new StringBuilder();
-
-
-		return contentMain;
-	}
-
-	private Object createCatering() {
+	private StringBuilder createTitle(String eventoNombre, String action) {
 		StringBuilder contentMain = new StringBuilder();
 
 		return contentMain;
 	}
 
-	private Object createComprobante() {
+	private StringBuilder createComprobante(String codigo, String subTipoEventoNombre, int capacidadAdultos, int capacidadNinos, int presupuestoTotal) {
 		StringBuilder contentMain = new StringBuilder();
 
 		return contentMain;
 	}
 
-	private Object createSalon() {
+	private StringBuilder createExtras(StringBuilder extraMail, StringBuilder extraVariableMail) {
 		StringBuilder contentMain = new StringBuilder();
 
 		return contentMain;
 	}
 
+	private StringBuilder createCatering(StringBuilder catering) {
+		StringBuilder contentMain = new StringBuilder();
 
+		return contentMain;
+	}
 
+	private StringBuilder createSalon(String salonNombre, String calle, String numero, String municipio) {
+		StringBuilder contentMain = new StringBuilder();
 
+		return contentMain;
+	}
 
-	//	public StringBuilder crearListaExtraParaMail(Set<Extra> listaParaTransformar, String tituloTiene, String tituloNoTiene) {
-	//		StringBuilder stringBuilder = new StringBuilder();
-	//
-	//		if(listaParaTransformar != null && !listaParaTransformar.isEmpty()) {
-	//			int i = 0;
-	//			stringBuilder.append("El evento incluye los siguientes servicios ");
-	//			for(Extra extra : listaParaTransformar) {
-	//				stringBuilder.append(extra.getNombre());
-	//				i++;
-	//				if(i < listaParaTransformar.size()) {
-	//					stringBuilder.append(", ");
-	//				}else {
-	//					stringBuilder.append(".");
-	//				}
-	//			}
-	//			stringBuilder.append("El evento no incluye ningun otro servicio.");
-	//		}
-	//		return stringBuilder;
-	//	}
+	private StringBuilder createServicios(StringBuilder servicioMail) {
+		StringBuilder contentMain = new StringBuilder();
+
+		return contentMain;
+	}
+
+	private StringBuilder createFooter() {
+		StringBuilder contentMain = new StringBuilder();
+
+		return contentMain;
+	}
 
 	public void enviarMailComprabantePago(Pago pago, List<Pago> listaPagos) {
 
