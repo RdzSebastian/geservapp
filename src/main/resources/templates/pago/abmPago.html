@@ -51,8 +51,8 @@
 								<th>Fecha de Pago</th>
 								<th>Evento</th>
 								<th>Codigo</th>
-								<th>Fecha del Evento</th>
 								<th>Cliente</th>
+								<th>Usuario</th>
 								<th class="text-center">Acciones</th>
 							</tr>
 						</thead>
@@ -62,8 +62,8 @@
 								<td th:text="${pago.fecha.getDayOfMonth} + '-' + ${pago.fecha.getMonth.getValue} + '-' + ${pago.fecha.getYear} + ' ' + ${pago.fecha.getHour}+ ':' + ${pago.fecha.getMinute}"> </td>
 								<td th:text="${pago.evento.nombre}"> </td>
 								<td th:text="${pago.evento.codigo}"> </td>
-								<td th:text="${pago.evento.startd.getDayOfMonth} + '-' + ${pago.evento.startd.getMonth.getValue} + '-' + ${pago.evento.startd.getYear}"> </td>
 								<td th:text="${pago.evento.cliente.nombre} + ' ' + ${pago.evento.cliente.apellido}"> </td>
+								<td th:text="${pago.usuario.nombre}"> </td>
 								<td class="text-center">
 									<a class="mx-2" title="Eliminar" th:href="@{/deletePago/{id}(id=${pago.id})}" th:onclick="if (!(confirm('Quiere eliminar el pago?' ) )) return false" data-toggle="tooltip"><i class="fas fa-trash text-danger fa-lg"></i></a>
 								</td>

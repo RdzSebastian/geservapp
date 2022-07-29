@@ -75,13 +75,16 @@ public class PagoController {
 		if(eventoService.existsByCodigo(codigoContainer.getCodigo())) {
 			pago.setEvento(eventoService.getEventoByCodigo(codigoContainer.getCodigo()));
 			model.addAttribute(GeneralPath.PAGO, pago);
+			
+			// Setea el valor de volver cuando termine de guardar
+			session.setAttribute(GeneralPath.VOLVER + GeneralPath.ACTION, "saveEventoPago/" + pago.getEvento().getId());
+
 			return GeneralPath.PAGO + GeneralPath.PATH_SEPARATOR + GeneralPath.SAVE_PAGO;
 		}
 
-		// Setea el valor de volver cuando termine de guardar
-		session.setAttribute(GeneralPath.VOLVER + GeneralPath.ACTION, "saveEventoPago/" + pago.getEvento().getId());
+		// Setea el valor de no encontrado
+		model.addAttribute("eventoEncontrado", false);
 
-		model.addAttribute("eventoNoEncontrado", true);
 		return GeneralPath.EVENTO + "/buscarEvento";
 
 	}

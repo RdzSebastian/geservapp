@@ -244,8 +244,10 @@ public class MainController {
 			return "seleccionarFecha/abmSeleccionarFecha";
 		}
 
-		model.addAttribute("eventoNoEncontrado", true);
-		return "evento/buscarEvento";
+		// Setea el valor de no encontrado
+		model.addAttribute("eventoEncontrado", false);
+
+		return GeneralPath.EVENTO + "/buscarEvento";
 	}
 	
 	@RequestMapping("/eventoVolver")
