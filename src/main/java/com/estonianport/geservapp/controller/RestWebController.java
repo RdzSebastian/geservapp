@@ -44,7 +44,6 @@ import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoCatering;
 import com.estonianport.geservapp.service.ClienteService;
 import com.estonianport.geservapp.service.EventoService;
-import com.estonianport.geservapp.service.ExtraVariableSubTipoEventoService;
 import com.estonianport.geservapp.service.SubTipoEventoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,9 +62,6 @@ public class RestWebController {
 
 	@Autowired
 	private SubTipoEventoService subTipoEventoService;
-
-	@Autowired
-	private ExtraVariableSubTipoEventoService extraVariableSubTipoEventoService;
 
 	/**
 	 * acquires Event information to be displayed on the calendar
