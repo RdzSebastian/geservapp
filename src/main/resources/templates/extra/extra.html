@@ -14,48 +14,43 @@
  </head>
 
  <body>
- 		
-		<section class="pt-5" id="buttons">
-			<div class="container">
-				<div class="row mb-5">
-					<div class="col-md-12 text-center">
-						<h2 class="heading-section"> Extras</h2>
-					</div>
+	<section class="m-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 mb-4">
+					<h2>Extras</h1>
 				</div>
-
-				<div class="row ">
-					<div id="usuario" class="col-md-3 mb-3">
-						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraSubTipoEvento}" >
-							<div class="col-9 text-start">
-								<h5>Extra</h5>
-								<span th:text="${cantExtraSubTipoEvento} + ' Extras'"></span>
-							</div>
-							<div class="col-3 text-center">
-								<i class="fas fa-asterisk fa-lg"></i>
-							</div>
-						</a>
-					</div>
-					<div id="usuario" class="col-md-3 mb-3">
-						<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraVariableSubTipoEvento}" >
-							<div class="col-9 text-start">
-								<h5>Extra Variable</h5>
-								<span th:text="${cantExtraVariableSubTipoEvento} + ' Extras'"></span>
-							</div>
-							<div class="col-3 text-center">
-								<i class="fas fa-asterisk fa-lg"></i>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="container mt-3">
-					<div class="gap-2 d-flex justify-content-end">
-						<a th:href="@{/administracion}" class="btn btn-primary mt-5">Volver</a>
-					</div>
+				<div class="col-6 text-end">
+					<a th:href="@{/administracion/}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
 				</div>
 			</div>
 
-	  </section>
+			<div class="row ">
+				<div id="usuario" class="col-md-3 mb-3">
+					<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraSubTipoEvento}" >
+						<div class="col-9 text-start">
+							<h5>Extra</h5>
+							<span th:text="${cantExtraSubTipoEvento} + ' Extras'"></span>
+						</div>
+						<div class="col-3 text-center">
+							<i class="fas fa-asterisk fa-lg"></i>
+						</div>
+					</a>
+				</div>
+				<div id="usuario" class="col-md-3 mb-3">
+					<a type="button" class="btn btn-primary d-flex" th:href="@{/abmExtraVariableSubTipoEvento}" >
+						<div class="col-9 text-start">
+							<h5>Extra Variable</h5>
+							<span th:text="${cantExtraVariableSubTipoEvento} + ' Extras'"></span>
+						</div>
+						<div class="col-3 text-center">
+							<i class="fas fa-asterisk fa-lg"></i>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
 	  
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>

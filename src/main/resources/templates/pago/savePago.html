@@ -15,6 +15,8 @@
 		<h2>Agregar pago</h2>
 		<form action="#" th:action="@{/savePago}" method="post" th:object="${pago}">
 			<input type="hidden" th:field="*{id}" name="id" id="id">
+			<input type="hidden" th:field="*{evento.id}" th:value="${pago.evento.id}">
+
 			
 			<div class="form-group">
 				<label for="rol">Evento</label> 

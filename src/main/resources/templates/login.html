@@ -17,40 +17,39 @@
 
 </head>
 <body>
-
-		<section class="m-4">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-6 text-center m-4">
-						<h2>GESERVAPP</h2>
-					</div>
+	<section class="m-4">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center m-4">
+					<h2>GESERVAPP</h2>
 				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-7 col-lg-5">
-						<div class="card border-light shadow p-4 p-md-5">
-							<div class="card-title icon d-flex align-items-center justify-content-center">
-								<span class="fa fa-user-o"></span>
-							</div>
-							<form name='f' action="login" method='POST'>
-								<div class="mt-2">
-									<input type='text' name='username' class="p-2 form-control rounded-left mh-100" placeholder="Nombre de usuario" required>
-								</div>
-								<div class="mt-2">
-									<input type='password' name='password' class="p-2 form-control rounded-left mh-100" placeholder="Contraseña" required>
-								</div>
-								<div class="mt-2">
-									<button type="submit" value="submit" class="p-2 btn btn-primary w-100 mh-100">Ingresar</button>
-								</div>
-								<div id="cartelError"class="mt-2 alert alert-danger d-none text-center">
-					  				<strong>Usuario o contraseña incorrecta</strong> 
-					  				<p>intente nuevamente.</p>
-								</div>
-							</form>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="card border-light shadow p-4 p-md-5">
+						<div class="card-title icon d-flex align-items-center justify-content-center">
+							<span class="fa fa-user-o"></span>
 						</div>
+						<form name='f' action="login" method='POST'>
+							<div class="mt-2">
+								<input type='text' name='username' class="p-2 form-control rounded-left mh-100" placeholder="Nombre de usuario" required>
+							</div>
+							<div class="mt-2">
+								<input type='password' name='password' class="p-2 form-control rounded-left mh-100" placeholder="Contraseña" required>
+							</div>
+							<div class="mt-2">
+								<button type="submit" value="submit" class="p-2 btn btn-primary w-100 mh-100">Ingresar</button>
+							</div>
+							<div id="cartelError"class="mt-2 alert alert-danger d-none text-center">
+				  				<strong>Usuario o contraseña incorrecta</strong> 
+				  				<p>intente nuevamente.</p>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
     <!-- JS -->
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>

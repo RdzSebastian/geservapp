@@ -10,7 +10,7 @@ $(function () {
 	var iconoVolverSalones = document.createElement('span');
 	iconoVolverSalones.classList.add("fa");
  	iconoVolverSalones.classList.add("fa-sign-out-alt");
-	var volverSalonesTexto = document.createTextNode("Volver Salones");
+	var volverSalonesTexto = document.createTextNode("Salones");
 
 	var mes = $(".fc-dayGridMonth-button");
 	var semana = $(".fc-timeGridWeek-button");

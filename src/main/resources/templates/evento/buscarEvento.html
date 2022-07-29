@@ -12,37 +12,35 @@
 
 </head>
 <body>
-	
-	<div class="container">
-		<br>
-		<h2 th:text=${titulo}> </h2>
-		<form action="#" th:action="@{${action}}" method="post" th:object="${codigoContainer}">
-			<div class="form-group">
-				<label for="codigo">Codigo Reserva</label> 
-				<input type="text" class="form-control" id="codigo" th:field="*{codigo}" name="codigo">
-			</div>
-			
-			<div>
-				<div id="comprobanteNoDescargado" class="alert alert-danger d-none">
-	  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
-				</div>
-				<div id="comprobanteDescargado" class="alert alert-success d-none" >
-	  				<strong>Comprobante descargado</strong>
-				</div>
-			</div>
-	
-			<div class="container mt-3">
-				<div class="gap-2 d-flex justify-content-end">
-					<div>
-						<a th:href="@{${volver}}" class="btn btn-primary">Volver</a>
+	<section class="m-4">
+		<div class="container">
+			<form action="#" th:action="@{${action}}" method="post" th:object="${codigoContainer}">
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<h2 th:text=${titulo}></h2>
 					</div>
-					<div>
-						<button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Buscar</button>
+					<div class="col-md-6 text-end">
+						<a th:href="@{${volver}}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
+						<button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> <span>Buscar</span></button>
 					</div>
 				</div>
-			</div>
-		</form>
-	</div>
+	
+				<div class="form-group">
+					<label for="codigo">Codigo Reserva</label> 
+					<input type="text" class="form-control" id="codigo" th:field="*{codigo}" name="codigo">
+				</div>
+				
+				<div>
+					<div id="comprobanteNoDescargado" class="alert alert-danger d-none">
+		  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
+					</div>
+					<div id="comprobanteDescargado" class="alert alert-success d-none" >
+		  				<strong>Comprobante descargado</strong>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
 
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>

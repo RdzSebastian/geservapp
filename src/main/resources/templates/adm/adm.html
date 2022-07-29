@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
 	<!--===============================================================================================-->
- 	<link rel="stylesheet" type="text/css" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
+ 	<link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css'>
 	<!--===============================================================================================-->
 
  </head>
-
  <body>
-	<section class="pt-5" id="buttons">
+	<section class="m-4">
 		<div class="container">
-			<div class="row mb-5">
-				<div class="col-md-12 text-center">
-					<h2 class="heading-section"> Administración</h2>
+			<div class="row">
+				<div class="col-6 mb-4">
+					<h2>Administración</h2>
+				</div>
+				<div class="col-6 text-end">
+					<a th:href="@{/abmEvento/} + ${salon.id}" class="btn btn-primary" data-toggle="modal"><span>Volver</span></a>
 				</div>
 			</div>
 
@@ -146,12 +148,6 @@
 							<i class="fas fa-calendar-check fa-lg"></i>
 						</div>
 					</a>
-				</div>
-			</div>
-
-			<div class="container mt-3">
-				<div class="gap-2 d-flex justify-content-end">
-					<a th:href="@{/abmEvento/} + ${salon.id}" class="btn btn-primary mt-5">Volver</a>
 				</div>
 			</div>
 		</div>

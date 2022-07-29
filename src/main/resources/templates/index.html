@@ -13,38 +13,41 @@
 
 </head>
 <body>
-	<div class="container mt-4">
-		<div class="row">
-           	<div class="col-md-12">
-				<h2 class="text-center mb-4">Tus Salones</h2>
-			</div>
-		</div>
-
-		<div class="row justify-content-md-center">
-			<th:block th:each="salon : ${listaSalones}">
-		   		<div class="col-lg-4 col-md-12 mb-4">
-		   			<div class="card text-center">
-		        	    <div class="card-header">
-		        	    	<h1 class="card-title" th:text="${salon.nombre}">
-		        	    </div>
-						<div>
-							<div class="card-body">
-								<div class="mt-2"> 
-									<i class="fas fa-book fa-9x" style="color:#007bff"> </i>	
-								</div>
-								<p class="mt-4" th:text="${salon.calle} + ' ' + ${salon.numero} + ' - ' + ${salon.municipio}" />
-							    <a th:href="abmEvento + '/' + ${salon.id}" class="stretched-link"> </a>
-				  			</div>
-	  					</div>
-					</div>
+	<section class="m-4">
+		<div class="container">
+			<div class="row">
+	           	<div class="col-md-12">
+					<h2 class="text-center mb-4">Tus Salones</h2>
 				</div>
-			</th:block>
-		</div>
-		<div class="row ">
-			<div class="text-center">
-				<a class="btn btn-danger" href="/logout" />Cerrar sesion</a>
+			</div>
+	
+			<div class="row justify-content-md-center">
+				<th:block th:each="salon : ${listaSalones}">
+			   		<div class="col-lg-4 col-md-12 mb-4">
+			   			<div class="card text-center">
+			        	    <div class="card-header">
+			        	    	<h1 class="card-title" th:text="${salon.nombre}">
+			        	    </div>
+							<div>
+								<div class="card-body">
+									<div class="mt-2"> 
+										<i class="fas fa-book fa-9x" style="color:#007bff"> </i>	
+									</div>
+									<p class="mt-4" th:text="${salon.calle} + ' ' + ${salon.numero} + ' - ' + ${salon.municipio}" />
+								    <a th:href="abmEvento + '/' + ${salon.id}" class="stretched-link"> </a>
+					  			</div>
+		  					</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+			<div class="row ">
+				<div class="text-center">
+					<a class="btn btn-danger" href="/logout" />Cerrar sesion</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
+
 </body>
 </html>

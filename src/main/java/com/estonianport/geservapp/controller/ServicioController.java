@@ -59,6 +59,13 @@ public class ServicioController {
 
 	@GetMapping("/deleteServicio/{id}")
 	public String delete(@PathVariable("id") Long id, Model model) {
+
+		Servicio servicio = servicioService.get(id);
+
+		// Elimina los subTipoEvento Vinculados
+		servicio.setListaSubTipoEvento(null);
+		servicioService.save(servicio);
+
 		servicioService.delete(id);
 		return GeneralPath.REDIRECT + GeneralPath.ABM_SERVICIO;
 	}

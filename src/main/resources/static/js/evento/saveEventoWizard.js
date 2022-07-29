@@ -73,7 +73,7 @@ $(document).ready(function() {
         },
 	}).find('a')
         .last().parent().parent()
-        .prepend("<li><a href='../abmEvento/" + salonId + "'>Volver Calendario</a></li>");
+        .prepend("<li><a href='../abmEvento/" + salonId + "'>Volver</a></li>");
         
 	var form = $("#reservacion-form");
 	form.validate({
