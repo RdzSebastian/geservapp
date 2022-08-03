@@ -225,31 +225,33 @@ public class EmailService{
 		contentEmail.append(this.createBody());
 		contentEmail.append(this.createHeader());
 		contentEmail.append(this.createTitle(evento.getNombre(), action));
-		contentEmail.append(this.createComprobante(evento.getCodigo(), evento.getSubTipoEvento().getNombre(), evento.getCapacidad().getCapacidadNinos(), evento.getCapacidad().getCapacidadAdultos(), presupuestoTotal));
+		contentEmail.append(this.createComprobante(evento.getCodigo(), evento.getSubTipoEvento().getNombre(), evento.getCapacidad().getCapacidadAdultos(), evento.getCapacidad().getCapacidadNinos(), presupuestoTotal, dia, horaInicio, horaFin));
 		contentEmail.append(this.createSalon(evento.getSalon().getNombre(), evento.getSalon().getCalle(), evento.getSalon().getNumero(), evento.getSalon().getMunicipio()));
 		contentEmail.append(this.createExtras(extraMail, extraVariableMail));
 		contentEmail.append(this.createCatering(catering));
 		contentEmail.append(this.createServicios(servicioMail));
+		contentEmail.append(this.createContact());
 		contentEmail.append(this.createFooter());
+		contentEmail.append("</body>	</html>");
 
-		//emailBody.setContent(contentEmail.toString());
+		emailBody.setContent(contentEmail.toString());
 
-		emailBody.setContent(
-				"Tu evento: " + evento.getNombre() + ", ha " + action + " exitosamente." + "<br>" +
-						"Codigo: " + evento.getCodigo() + "<br>" +
-						"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
-						"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
-						"Contrataste un evento " + evento.getSubTipoEvento().getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
-						"Para " + evento.getCapacidad().getCapacidadAdultos() +  " adultos y " + evento.getCapacidad().getCapacidadNinos() + " niños." + "<br>" +
-						"<br>" +
-						extraMail + "<br>" +
-						extraVariableMail + "<br>" +
-						"<br>" +
-						catering + "<br>" +
-						"<br>" +
-						"El precio final del evento es: $" + presupuestoTotal + "<br>" +
-						"<br>" +
-						servicioMail + "<br>");
+		//		emailBody.setContent(
+		//				"Tu evento: " + evento.getNombre() + ", ha " + action + " exitosamente." + "<br>" +
+		//						"Codigo: " + evento.getCodigo() + "<br>" +
+		//						"Te esperamos el dia " + dia + " de " + horaInicio + " a " + horaFin + "." + "<br>" +
+		//						"En el salon: " + evento.getSalon().getNombre() + " en calle " + evento.getSalon().getCalle() + " " + evento.getSalon().getNumero() + ", " + evento.getSalon().getMunicipio() + "." + "<br>" +
+		//						"Contrataste un evento " + evento.getSubTipoEvento().getTipoEvento().getNombre() +  ", " + evento.getSubTipoEvento().getNombre() + "." + "<br>" +
+		//						"Para " + evento.getCapacidad().getCapacidadAdultos() +  " adultos y " + evento.getCapacidad().getCapacidadNinos() + " niños." + "<br>" +
+		//						"<br>" +
+		//						extraMail + "<br>" +
+		//						extraVariableMail + "<br>" +
+		//						"<br>" +
+		//						catering + "<br>" +
+		//						"<br>" +
+		//						"El precio final del evento es: $" + presupuestoTotal + "<br>" +
+		//						"<br>" +
+		//						servicioMail + "<br>");
 
 		this.sendEmail(emailBody);
 	}
@@ -421,23 +423,152 @@ public class EmailService{
 	private StringBuilder createTitle(String eventoNombre, String action) {
 		StringBuilder contentMain = new StringBuilder();
 
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff' class='bg_color'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='center' style='color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;' class='main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "TU <span style='color: #5caad2;'>COMPROBANTE</span>"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='10' style='font-size: 10px; line-height: 10px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' width='40' align='center' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' width='400' align='center' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center' style='color: #888888; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;'>"
+				+ "<div style='line-height: 24px'>"
+				+ "Tu evento: " + eventoNombre + ", ha " + action + " exitosamente."
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr class='hide'>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
 		return contentMain;
 	}
 
-	private StringBuilder createComprobante(String codigo, String subTipoEventoNombre, int capacidadAdultos, int capacidadNinos, int presupuestoTotal) {
+	private StringBuilder createComprobante(String codigo, String subTipoEventoNombre, int capacidadAdultos, int capacidadNinos, int presupuestoTotal, String dia, String horaInicio, String horaFin) {
 		StringBuilder contentMain = new StringBuilder();
 
-		return contentMain;
-	}
-
-	private StringBuilder createExtras(StringBuilder extraMail, StringBuilder extraVariableMail) {
-		StringBuilder contentMain = new StringBuilder();
-
-		return contentMain;
-	}
-
-	private StringBuilder createCatering(StringBuilder catering) {
-		StringBuilder contentMain = new StringBuilder();
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(34).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='5' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;'"
+				+ "class='container590'>"
+				+ "<tr>"
+				+ "<td width='5' height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='260' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;'"
+				+ "class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #3d3d3d; font-size: 22px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;'class='align-center main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "RESERVA"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left'>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' width='40' border='0' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
+				+ "<div style='line-height: 24px'>"
+				+ "Codigo de reserva: " + codigo
+				+ " </div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Fecha de evento: " + dia
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "de " + horaInicio + " a " + horaFin
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Contrataste un " + subTipoEventoNombre
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Para " + capacidadAdultos + " adultos y " + capacidadNinos + " niños"
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Precio final: " + presupuestoTotal
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
 
 		return contentMain;
 	}
@@ -445,17 +576,447 @@ public class EmailService{
 	private StringBuilder createSalon(String salonNombre, String calle, String numero, String municipio) {
 		StringBuilder contentMain = new StringBuilder();
 
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='5' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td width='5' height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='260' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #3d3d3d; font-size: 22px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;' class='align-center main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "SALON"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left'>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' width='40' border='0' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
+				+ "<div style='line-height: 24px'>"
+				+ "Nombre de salon: " + salonNombre
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Direccion: " + calle + " " + numero
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Localidad: " + municipio 
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
+		return contentMain;
+	}
+
+	private StringBuilder createExtras(StringBuilder extraMail, StringBuilder extraVariableMail) {
+		StringBuilder contentMain = new StringBuilder();
+
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='5' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td width='5' height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='260' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #3d3d3d; font-size: 22px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;' class='align-center main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "EXTRAS"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left'>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' width='40' border='0' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
+				+ "<div style='line-height: 24px'>"
+				+ "Sin ningun extra"
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Sin ningun extra variable"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
+		return contentMain;
+	}
+
+	private StringBuilder createCatering(StringBuilder catering) {
+		StringBuilder contentMain = new StringBuilder();
+
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='5' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td width='5' height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='260' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #3d3d3d; font-size: 22px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;' class='align-center main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "CATERING"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left'>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' width='40' border='0' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
+				+ "<div style='line-height: 24px'>"
+				+ "El evento no incluye catering"
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Tipo Catering"
+				+ "</div>"
+				+ "<div style='line-height: 24px'>"
+				+ "Extra Catering"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
 		return contentMain;
 	}
 
 	private StringBuilder createServicios(StringBuilder servicioMail) {
 		StringBuilder contentMain = new StringBuilder();
 
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='5' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td width='5' height='20' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='260' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #3d3d3d; font-size: 22px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;' class='align-center main-header'>"
+				+ "<div style='line-height: 35px'>"
+				+ "SERVICIOS"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left'>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' width='40' border='0' cellpadding='0' cellspacing='0' bgcolor='eeeeee'>"
+				+ "<tr>"
+				+ "<td height='2' style='font-size: 2px; line-height: 2px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 12px; line-height: 12px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
+				+ "<div style='line-height: 24px'>"
+				+ "El evento inluye los siguientes servicios"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
+		return contentMain;
+	}
+
+
+
+	private StringBuilder createContact() {
+		StringBuilder contentMain = new StringBuilder();
+
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff' class='bg_color'>"
+				+ "<tr class='hide'>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='40' style='font-size: 40px; line-height: 40px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='60' style='border-top: 1px solid #e0e0e0;font-size: 60px; line-height: 60px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590 bg_color'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' width='300' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left'>" /* logo */
+				+ "<a href='' style='display: block; border-style: none !important; border: 0 !important;'><img width='80' border='0' style='display: block; width: 80px;' src='https://mdbootstrap.com/img/logo/mdb-email.png' alt='' /></a>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>"
+				+ "&nbsp;"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ " <td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 23px;' class='text_color'>"
+				+ "<div style='color: #333333; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; font-weight: 300; mso-line-height-rule: exactly; line-height: 23px;'>"
+				+ "Hablanos a nuestras redes sociales:"
+				+ "</div>"
+				+ " </td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='2' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td width='2' height='10' style='font-size: 10px; line-height: 10px;'></td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' width='200' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td class='hide' height='45' style='font-size: 45px; line-height: 45px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='15' style='font-size: 15px; line-height: 15px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='right' cellpadding='0' cellspacing='0'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<a href='https://www.facebook.com/mdbootstrap' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>"
+				+ "</td>"
+				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+				+ "<td>"
+				+ "<a href='https://twitter.com/MDBootstrap' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>"
+				+ "</td>"
+				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='60' style='font-size: 60px; line-height: 60px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
+
 		return contentMain;
 	}
 
 	private StringBuilder createFooter() {
 		StringBuilder contentMain = new StringBuilder();
+
+		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='f4f4f4'>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
+				+ "<tr>"
+				+ "<td>"
+				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='left' style='color: #aaaaaa; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;'>"
+				+ "<div style='line-height: 24px;'>"
+				+ "<span style='color: #333333;'>"
+				+ "Geservapp diseñado por"
+				+ "</span>"
+				+ "</div>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' align='left' width='5' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td height='20' width='5' style='font-size: 20px; line-height: 20px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "<table border='0' align='right' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<table align='center' border='0' cellpadding='0' cellspacing='0'>"
+				+ "<tr>"
+				+ "<td align='center'>"
+				+ "<span style='font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;color: #5caad2; text-decoration: none;font-weight:bold;'>"
+				+ "Estonian Port"
+				+ "</span>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "</table>"
+				+ "</td>"
+				+ "</tr>"
+				+ "<tr>"
+				+ "<td height='25' style='font-size: 25px; line-height: 25px;'>&nbsp;</td>"
+				+ "</tr>"
+				+ "</table>");
 
 		return contentMain;
 	}
