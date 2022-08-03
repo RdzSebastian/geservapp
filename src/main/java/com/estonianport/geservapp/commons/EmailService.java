@@ -124,7 +124,7 @@ public class EmailService{
 				}
 			}
 		}else {
-			extraMail.append("El evento no incluye ningun otro servicio.");
+			servicioMail.append("El evento no incluye ningun otro servicio.");
 		}
 
 		StringBuilder catering = new StringBuilder();
@@ -218,22 +218,38 @@ public class EmailService{
 		emailBody.setEmail(evento.getCliente().getEmail());
 		emailBody.setSubject("Tu evento: " +  evento.getNombre() + " para el " + dia + ", codigo: " + evento.getCodigo());
 
+		// ----------------- Imagenes del mail -------------------------
+		
+		String imagenLogo = "https://i.ibb.co/djW4JkC/logo.png";
+		String imagenComprobante = "https://i.ibb.co/9TLSqHy/comprobante.jpg";
+		String imagenSalon = "https://i.ibb.co/wLKMCP4/salon.jpg";
+		String imagenExtra = "https://i.ibb.co/92R9Yj3/extras.jpg";
+		String imagenCatering = "https://i.ibb.co/pJdbbmB/catering.jpg";
+		String imagenServicio = "https://i.ibb.co/dmtxW9z/servicios.jpg";
+		
+		String imagenIg = "https://i.ibb.co/8Xb3WwH/ig.png";
+		String imagenWpp = "https://i.ibb.co/pnZg9Nr/wpp.png";
+		String imagenFb = "https://i.ibb.co/dB90K2y/fb.png";
+		String imagenMail = "https://i.ibb.co/bWgGQv6/mail.png";
+		
 		// ----------------- Style del mail -------------------------
 		StringBuilder contentEmail = new StringBuilder();
 
 		contentEmail.append(this.createHeadWithStyle());
 		contentEmail.append(this.createBody());
-		contentEmail.append(this.createHeader());
+		contentEmail.append(this.createHeader(imagenLogo));
 		contentEmail.append(this.createTitle(evento.getNombre(), action));
-		contentEmail.append(this.createComprobante(evento.getCodigo(), evento.getSubTipoEvento().getNombre(), evento.getCapacidad().getCapacidadAdultos(), evento.getCapacidad().getCapacidadNinos(), presupuestoTotal, dia, horaInicio, horaFin));
-		contentEmail.append(this.createSalon(evento.getSalon().getNombre(), evento.getSalon().getCalle(), evento.getSalon().getNumero(), evento.getSalon().getMunicipio()));
-		contentEmail.append(this.createExtras(extraMail, extraVariableMail));
-		contentEmail.append(this.createCatering(catering));
-		contentEmail.append(this.createServicios(servicioMail));
-		contentEmail.append(this.createContact());
+		contentEmail.append(this.createComprobante(evento.getCodigo(), evento.getSubTipoEvento().getNombre(), evento.getCapacidad().getCapacidadAdultos(), evento.getCapacidad().getCapacidadNinos(), presupuestoTotal, dia, horaInicio, horaFin, imagenComprobante));
+		contentEmail.append(this.createSalon(evento.getSalon().getNombre(), evento.getSalon().getCalle(), evento.getSalon().getNumero(), evento.getSalon().getMunicipio(), imagenSalon));
+		contentEmail.append(this.createExtras(extraMail, extraVariableMail, imagenExtra));
+		contentEmail.append(this.createCatering(catering, imagenCatering));
+		contentEmail.append(this.createServicios(servicioMail, imagenServicio));
+		contentEmail.append(this.createContact(imagenLogo, imagenIg, imagenWpp, imagenFb, imagenMail));
 		contentEmail.append(this.createFooter());
 		contentEmail.append("</body>	</html>");
 
+
+		
 		emailBody.setContent(contentEmail.toString());
 
 		//		emailBody.setContent(
@@ -261,18 +277,20 @@ public class EmailService{
 	private StringBuilder createHeadWithStyle() {
 		StringBuilder contentMain = new StringBuilder();
 
-		contentMain.append("<!DOCTYPE html>"
+		contentMain.append(
+			"<!DOCTYPE html>"
 				+ "<html lang='es'> "
 				+ "<head>"
-				+ "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />"
-				+ "<meta name='viewport' content='width=device-width; initial-scale=1.0; maximum-scale=1.0;' />"
-				+ "<!--[if !mso]--><!-- -->"
-				+ "<link href='https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700' rel='stylesheet'>"
-				+ "<link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet'>"
-				+ "<!-- <![endif]-->"
-				+ "<title>Geservapp mail</title>");
+				+ "	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />"
+				+ "	<meta name='viewport' content='width=device-width; initial-scale=1.0; maximum-scale=1.0;' />"
+				+ " <!--[if !mso]--><!-- -->"
+				+ " <link href='https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700' rel='stylesheet'>"
+				+ " <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet'>"
+				+ " <!-- <![endif]-->"
+				+ " <title>Geservapp mail</title>");
 
-		contentMain.append("<style type='text/css'>"
+		contentMain.append(
+			"<style type='text/css'>"
 				+ "body {"
 				+ "	width: 100%;"
 				+ "	background-color: #ffffff;"
@@ -283,7 +301,7 @@ public class EmailService{
 				+ "	mso-margin-bottom-alt: 0px;"
 				+ "	mso-padding-alt: 0px 0px 0px 0px;"
 				+ "}"
-				+ "p, h1,h2, h3, h4 {"
+				+ "p, h1, h2, h3, h4 {"
 				+ "	margin-top: 0;"
 				+ "	margin-bottom: 0;"
 				+ "	padding-top: 0;"
@@ -300,7 +318,7 @@ public class EmailService{
 				+ "	font-size: 14px;"
 				+ "	border: 0;"
 				+ "}"
-				+ "media only screen and (max-width: 640px) {" /* ----------- responsivity ----------- */
+				+ "@media only screen and (max-width: 640px) {" /* ----------- responsivity ----------- */
 				+ " .main-header {" /*------ top header ------ */
 				+ "	 font-size: 20px !important;"
 				+ " }"
@@ -357,9 +375,6 @@ public class EmailService{
 				+ " .container590 {" /*-------- container --------*/
 				+ "  width: 280px !important;"
 				+ " }"
-				+ " .container590 {"
-				+ "  width: 280px !important;"
-				+ " }"
 				+ " .container580 {"
 				+ "  width: 260px !important;"
 				+ " }"
@@ -370,17 +385,16 @@ public class EmailService{
 				+ "}"
 				+ "</style>"
 				+ "<!-- [if gte mso 9]><style type=”text/css”>"
-				+ "body {"
-				+ " font-family: arial, sans-serif!important;"
-				+ "}"
-				+ "</style>"
+				+ " body {"
+				+ "  font-family: arial, sans-serif!important;"
+				+ " }"
 				+ "<![endif]-->"
 				+ "</head>");
 
 		return contentMain;
 	}
 
-	private StringBuilder createHeader() {
+	private StringBuilder createHeader(String imagenLogo) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -395,7 +409,7 @@ public class EmailService{
 				+ "<table border='0' align='center' width='590' cellpadding='0' cellspacing='0' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center' height='70' style='height:70px;'>"
-				+ "<a href='' style='display: block; border-style: none !important; border: 0 !important;'><img width='100' border='0' style='display: block; width: 100px;' src='https://mdbootstrap.com/img/logo/mdb-email.png' alt='' /></a>"
+				+ "<a href='' style='display: block; border-style: none !important; border: 0 !important;'><img width='100' border='0' style='display: block; width: 100px;' src='" + imagenLogo + "' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -482,7 +496,7 @@ public class EmailService{
 		return contentMain;
 	}
 
-	private StringBuilder createComprobante(String codigo, String subTipoEventoNombre, int capacidadAdultos, int capacidadNinos, int presupuestoTotal, String dia, String horaInicio, String horaFin) {
+	private StringBuilder createComprobante(String codigo, String subTipoEventoNombre, int capacidadAdultos, int capacidadNinos, int presupuestoTotal, String dia, String horaInicio, String horaFin, String imagenComprobante) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -494,7 +508,7 @@ public class EmailService{
 				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center'>"
-				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(34).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='" + imagenComprobante + "' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -573,7 +587,7 @@ public class EmailService{
 		return contentMain;
 	}
 
-	private StringBuilder createSalon(String salonNombre, String calle, String numero, String municipio) {
+	private StringBuilder createSalon(String salonNombre, String calle, String numero, String municipio, String imagenSalon) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -585,7 +599,7 @@ public class EmailService{
 				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center'>"
-				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='" + imagenSalon + "' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -653,7 +667,7 @@ public class EmailService{
 		return contentMain;
 	}
 
-	private StringBuilder createExtras(StringBuilder extraMail, StringBuilder extraVariableMail) {
+	private StringBuilder createExtras(StringBuilder extraMail, StringBuilder extraVariableMail, String imagenExtra) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -665,7 +679,7 @@ public class EmailService{
 				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center'>"
-				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='" + imagenExtra + "' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -706,10 +720,10 @@ public class EmailService{
 				+ "<tr>"
 				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
 				+ "<div style='line-height: 24px'>"
-				+ "Sin ningun extra"
+				+ extraMail
 				+ "</div>"
 				+ "<div style='line-height: 24px'>"
-				+ "Sin ningun extra variable"
+				+ extraVariableMail
 				+ "</div>"
 				+ "</td>"
 				+ "</tr>"
@@ -730,7 +744,7 @@ public class EmailService{
 		return contentMain;
 	}
 
-	private StringBuilder createCatering(StringBuilder catering) {
+	private StringBuilder createCatering(StringBuilder cateringMail, String imagenCatering) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -742,7 +756,7 @@ public class EmailService{
 				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center'>"
-				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='" + imagenCatering + "' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -783,13 +797,7 @@ public class EmailService{
 				+ "<tr>"
 				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
 				+ "<div style='line-height: 24px'>"
-				+ "El evento no incluye catering"
-				+ "</div>"
-				+ "<div style='line-height: 24px'>"
-				+ "Tipo Catering"
-				+ "</div>"
-				+ "<div style='line-height: 24px'>"
-				+ "Extra Catering"
+				+ cateringMail
 				+ "</div>"
 				+ "</td>"
 				+ "</tr>"
@@ -810,7 +818,7 @@ public class EmailService{
 		return contentMain;
 	}
 
-	private StringBuilder createServicios(StringBuilder servicioMail) {
+	private StringBuilder createServicios(StringBuilder servicioMail, String imagenServicio) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff'>"
@@ -822,7 +830,7 @@ public class EmailService{
 				+ "<table border='0' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='center'>"
-				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(54).jpg' style='display: block; width: 280px;' width='280' border='0' alt='' /></a>"
+				+ "<a href='' style=' border-style: none !important; border: 0 !important;'><img src='" + imagenServicio + "' width='280' border='0' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "</table>"
@@ -863,7 +871,7 @@ public class EmailService{
 				+ "<tr>"
 				+ "<td align='left' style='color: #888888; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;' class='align-center'>"
 				+ "<div style='line-height: 24px'>"
-				+ "El evento inluye los siguientes servicios"
+				+ servicioMail
 				+ "</div>"
 				+ "</td>"
 				+ "</tr>"
@@ -886,7 +894,7 @@ public class EmailService{
 
 
 
-	private StringBuilder createContact() {
+	private StringBuilder createContact(String imagenLogo, String imagenIg, String imagenWpp, String imagenFb, String imagenMail) {
 		StringBuilder contentMain = new StringBuilder();
 
 		contentMain.append("<table border='0' width='100%' cellpadding='0' cellspacing='0' bgcolor='ffffff' class='bg_color'>"
@@ -907,7 +915,7 @@ public class EmailService{
 				+ "<table border='0' width='300' align='left' cellpadding='0' cellspacing='0' style='border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;' class='container590'>"
 				+ "<tr>"
 				+ "<td align='left'>" /* logo */
-				+ "<a href='' style='display: block; border-style: none !important; border: 0 !important;'><img width='80' border='0' style='display: block; width: 80px;' src='https://mdbootstrap.com/img/logo/mdb-email.png' alt='' /></a>"
+				+ "<a href='' style='display: block; border-style: none !important; border: 0 !important;'><img width='80' border='0' style='display: block; width: 80px;' src='" + imagenLogo + "' alt='' /></a>"
 				+ "</td>"
 				+ "</tr>"
 				+ "<tr>"
@@ -940,11 +948,20 @@ public class EmailService{
 				+ "<table border='0' align='right' cellpadding='0' cellspacing='0'>"
 				+ "<tr>"
 				+ "<td>"
-				+ "<a href='https://www.facebook.com/mdbootstrap' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>"
+				+ "<a href='https://www.instagram.com/mix_eventos_/?hl=es' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='" + imagenIg + "' alt=''></a>"
 				+ "</td>"
 				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
 				+ "<td>"
-				+ "<a href='https://twitter.com/MDBootstrap' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>"
+				+ "<a href='https://www.facebook.com/mixeventoscaseros/' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='" + imagenFb + "' alt=''></a>"
+				+ "</td>"
+				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+				+ "<td>"
+				+ "<a href='http://bit.ly/MixEventosCaseros' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='" + imagenWpp + "'alt=''></a>"
+				+ "</td>"
+				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
+				+ "<td>"
+				+ "<td>"
+				+ "<a href='mailto:miixeventos1@gmail.com' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='" + imagenMail + "' alt=''></a>"
 				+ "</td>"
 				+ "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>"
 				+ "</tr>"
