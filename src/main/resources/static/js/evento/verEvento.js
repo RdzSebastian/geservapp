@@ -16,8 +16,14 @@ $(function () {
 		$("#presupuesto").val(presupuesto);
 		$("#cliente").val(evento.cliente.apellido + ", " + evento.cliente.nombre);
 		setExtras();
-		setCatering();
-		setHora();			
+		setExtrasVariables();
+		setExtraCatering();
+		setTipoCatering();
+		verExtrasSubTipoEvento();
+		verExtrasVariableSubTipoEvento();
+		verTipoCatering();
+		verExtrasCatering();
+		setHora();
 	}
 	// ----------------------------------------------------------------------------------
 	
@@ -47,25 +53,133 @@ $(function () {
 	}
 	// ----------------------------------------------------------------------------------
 	
-		// ----------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------
 	// Setea el horario guardado en la base de datos
 	function setExtras() {
-		if(listaExtraSeleccionadas.length != 0 || listaExtraVariableSeleccionadas.length != 0){
+		if(listaExtraSeleccionadas.length != 0){
 			$("#extras").val("Si");
 		}else{
 			$("#extras").val("No");
 		}
 	}
 	// ----------------------------------------------------------------------------------
-	
-		// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
 	// Setea el horario guardado en la base de datos
-	function setCatering() {
-		if(evento.catering.presupuesto != 0){
-			$("#catering").val("Si");
+	function setExtrasVariables() {
+		if(listaExtraVariableSeleccionadas.length != 0){
+			$("#extrasVariables").val("Si");
 		}else{
-			$("#catering").val("No");
+			$("#extrasVariables").val("No");
 		}
+	}
+	// ----------------------------------------------------------------------------------	
+	
+	// ------------------------------------------------------------------------------
+	// Setea el horario guardado en la base de datos
+	function setExtraCatering() {
+		if(listaExtraCateringSeleccionadas.length != 0){
+			$("#extraCatering").val("Si");
+		}else{
+			$("#extraCatering").val("No");
+		}
+	}
+	// ----------------------------------------------------------------------------------
+	
+		// ------------------------------------------------------------------------------
+	// Setea el horario guardado en la base de datos
+	function setTipoCatering() {
+		if(listaTipoCateringSeleccionadas.length != 0){
+			$("#tipoCatering").val("Si");
+		}else{
+			$("#tipoCatering").val("No");
+		}
+	}
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a la reserva realizada
+	function verExtrasSubTipoEvento() {
+		verExtras("listaExtra", listaExtraSeleccionadas);
+	}
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function verExtrasVariableSubTipoEvento() {
+		verExtrasVariables("listaExtraVariable", listaExtraVariableSeleccionadas);
+	}
+	// ----------------------------------------------------------------------------------
+	
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function verExtrasCatering() {
+		verExtrasVariables("listaExtraCatering", listaExtraCateringSeleccionadas);
+	}
+	// ----------------------------------------------------------------------------------
+	
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function verTipoCatering() {
+		verExtras("listaTipoCatering", listaTipoCateringSeleccionadas);
+	}
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras que correspondan en base a el subTipoEvento elegido
+	function verExtras(idDiv, listaExtras) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#' + idDiv + ' div').remove();
+
+		// Agrega los extras del subTipoEvento
+		listaExtras.forEach(function(valorExtra) {
+			var listaExtraDiv = document.getElementById(idDiv);
+			var extraDiv = document.createElement('div');
+            var label = document.createElement('small');
+
+            // appending the created text to the created label tag 
+            label.appendChild(document.createTextNode("\u00A0" + valorExtra.nombre + ' $' + valorExtra.precio));
+              
+            // appending the checkbox and label to div
+            extraDiv.appendChild(label);
+           	listaExtraDiv.appendChild(extraDiv);
+
+		});
+	}
+	// ----------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------
+   	// Muestra los extras variables que correspondan en base a el subTipoEvento elegido
+	function verExtrasVariables(idDiv, listaExtras) {
+		// Limpia los extra que se agregaron anteriormente
+		$('#' + idDiv +' div').remove();
+		
+		listaExtras.forEach(function(valorVariableExtra) {
+			var listaExtraDiv = document.getElementById(idDiv);
+			
+			var rowDiv = document.createElement('div');
+            rowDiv.className = "row";
+            
+			var extraDiv = document.createElement('div');
+			extraDiv.className = "col-9";
+
+            // creating label for checkbox
+            var label = document.createElement('small');
+            
+            // appending the created text to the created label tag 
+            label.appendChild(document.createTextNode("\u00A0" + valorVariableExtra.nombre + ' $' + valorVariableExtra.precio + " x" + valorVariableExtra.cantidad));
+            
+            var extraVariableDiv = document.createElement('div');
+            extraVariableDiv.className = "col-3";
+
+            // appending the checkbox and label to div
+            extraDiv.appendChild(label);
+
+            rowDiv.appendChild(extraDiv)
+            rowDiv.appendChild(extraVariableDiv)
+            
+           	listaExtraDiv.appendChild(rowDiv);
+		});
 	}
 	// ----------------------------------------------------------------------------------
 

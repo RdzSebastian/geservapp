@@ -23,6 +23,7 @@ import com.estonianport.geservapp.commons.dateUtil.DateUtil;
 import com.estonianport.geservapp.commons.emailService.EmailService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ExtraContainer;
+import com.estonianport.geservapp.container.ExtraVariableContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Catering;
 import com.estonianport.geservapp.model.CateringExtraVariableCatering;
@@ -33,7 +34,11 @@ import com.estonianport.geservapp.model.ExtraVariableCatering;
 import com.estonianport.geservapp.model.ExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.Pago;
 import com.estonianport.geservapp.model.PrecioConFecha;
+import com.estonianport.geservapp.model.PrecioConFechaExtraSubTipoEvento;
+import com.estonianport.geservapp.model.PrecioConFechaExtraVariableCatering;
+import com.estonianport.geservapp.model.PrecioConFechaExtraVariableSubTipoEvento;
 import com.estonianport.geservapp.model.PrecioConFechaSubTipoEvento;
+import com.estonianport.geservapp.model.PrecioConFechaTipoCatering;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;
 import com.estonianport.geservapp.model.TipoCatering;
@@ -486,27 +491,82 @@ public class EditEventoController {
 		
 		model.addAttribute("presupuesto", presupuesto);
 		
-		// -------------------------- Extras -------------------------------
-		// Agrega lista extra seleccionadas
-		Set<ExtraSubTipoEvento> listaExtraSeleccionadas = evento.getListaExtraSubTipoEvento();
+		// -------------------------- Extras ---------------------------------------
+		Set<ExtraSubTipoEvento> listaExtra = evento.getListaExtraSubTipoEvento();
+		Set<ExtraContainer> listaExtraSeleccionadas = new HashSet<ExtraContainer>();
 
-		for(ExtraSubTipoEvento extraSubTipoEvento : listaExtraSeleccionadas) {
-			extraSubTipoEvento.setListaSubTipoEvento(null);
+		for(ExtraSubTipoEvento extra : listaExtra) {
+			List<PrecioConFechaExtraSubTipoEvento> listaPrecioConFechaExtraVariable =  extra.getListaPrecioConFecha();
+			List<PrecioConFecha> listaPrecioConFecha =  new ArrayList<PrecioConFecha>();
+
+			for(PrecioConFecha precioConFecha : listaPrecioConFechaExtraVariable) {
+				listaPrecioConFecha.add(precioConFecha);
+			}
+			
+			listaExtraSeleccionadas.add(this.getExtra(evento.getStartd(), listaPrecioConFecha, salon, extra.getId(), extra.getNombre()));
 		}
 
 		model.addAttribute("listaExtraSeleccionadas", listaExtraSeleccionadas);
+		// ---------------------------------------------------------------------------
 
-		// Agrega lista extra variables seleccionadas
+		// -------------------------- Extras Variables -------------------------------
 		Set<EventoExtraVariableSubTipoEvento> listaEventoExtraVariableSeleccionadas = evento.getListaEventoExtraVariable();
-		Set<String> listaExtraVariableSeleccionadas = new HashSet<String>();
+		Set<ExtraVariableContainer> listaExtraVariableSeleccionadas = new HashSet<ExtraVariableContainer>();
 
-		for(EventoExtraVariableSubTipoEvento EventoExtraVariableSubTipoEvento : listaEventoExtraVariableSeleccionadas) {
-			EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().setListaSubTipoEvento(null);
-			listaExtraVariableSeleccionadas.add(EventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento().getNombre());
+		for(EventoExtraVariableSubTipoEvento eventoExtraVariableSubTipoEvento : listaEventoExtraVariableSeleccionadas) {
+			ExtraVariableSubTipoEvento extraVariable = eventoExtraVariableSubTipoEvento.getExtraVariableSubTipoEvento();
+			
+			List<PrecioConFechaExtraVariableSubTipoEvento> listaPrecioConFechaExtraVariable =  extraVariable.getListaPrecioConFecha();
+			List<PrecioConFecha> listaPrecioConFecha =  new ArrayList<PrecioConFecha>();
+
+			for(PrecioConFecha precioConFecha : listaPrecioConFechaExtraVariable) {
+				listaPrecioConFecha.add(precioConFecha);
+			}
+			
+			listaExtraVariableSeleccionadas.add(this.getExtraVariable(evento.getStartd(), listaPrecioConFecha, salon, extraVariable.getId(), extraVariable.getNombre(), eventoExtraVariableSubTipoEvento.getCantidad()));
 		}
 
 		model.addAttribute("listaExtraVariableSeleccionadas", listaExtraVariableSeleccionadas);
+		// ------------------------------------------------------------------------------
 
+		// -------------------------- Extras Catering -------------------------------
+		Set<CateringExtraVariableCatering> listaCateringExtraCateringSeleccionadas = evento.getCatering().getListaCateringExtraVariableCatering();
+		Set<ExtraVariableContainer> listaExtraCateringSeleccionadas = new HashSet<ExtraVariableContainer>();
+
+		for(CateringExtraVariableCatering cateringExtraVariableCatering : listaCateringExtraCateringSeleccionadas) {
+			ExtraVariableCatering extraVariable = cateringExtraVariableCatering.getExtraVariableCatering();
+			
+			List<PrecioConFechaExtraVariableCatering> listaPrecioConFechaExtraVariable =  extraVariable.getListaPrecioConFecha();
+			List<PrecioConFecha> listaPrecioConFecha =  new ArrayList<PrecioConFecha>();
+
+			for(PrecioConFecha precioConFecha : listaPrecioConFechaExtraVariable) {
+				listaPrecioConFecha.add(precioConFecha);
+			}
+			
+			listaExtraCateringSeleccionadas.add(this.getExtraVariable(evento.getStartd(), listaPrecioConFecha, salon, extraVariable.getId(), extraVariable.getNombre(), cateringExtraVariableCatering.getCantidad()));
+		}
+
+		model.addAttribute("listaExtraCateringSeleccionadas", listaExtraCateringSeleccionadas);
+		// ------------------------------------------------------------------------------
+		
+		// -------------------------- Tipo Catering ---------------------------------------
+		Set<TipoCatering> listaTipoCatering = evento.getCatering().getListaTipoCatering();
+		Set<ExtraContainer> listaTipoCateringSeleccionadas = new HashSet<ExtraContainer>();
+
+		for(TipoCatering tipoCatering : listaTipoCatering) {
+			List<PrecioConFechaTipoCatering> listaPrecioConFechaExtraVariable =  tipoCatering.getListaPrecioConFecha();
+			List<PrecioConFecha> listaPrecioConFecha =  new ArrayList<PrecioConFecha>();
+
+			for(PrecioConFecha precioConFecha : listaPrecioConFechaExtraVariable) {
+				listaPrecioConFecha.add(precioConFecha);
+			}
+			
+			listaTipoCateringSeleccionadas.add(this.getExtra(evento.getStartd(), listaPrecioConFecha, salon, tipoCatering.getId(), tipoCatering.getNombre()));
+		}
+
+		model.addAttribute("listaTipoCateringSeleccionadas", listaTipoCateringSeleccionadas);
+		// ---------------------------------------------------------------------------
+		
 		evento.setListaEventoExtraVariable(null);
 		evento.setListaExtraSubTipoEvento(null);
 		
@@ -564,6 +624,34 @@ public class EditEventoController {
 			}
 		}
 		return null;
+	}
+	
+	private ExtraContainer getExtra(LocalDateTime fecha, List<PrecioConFecha> listaPrecioConFecha, Salon salon, Long extraId, String extraNombre) {
+		
+		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
+			if(fecha.getYear() == precioConFecha.getDesde().getYear()) {
+				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
+	
+				if(rangoMeses.contains(fecha.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
+					return new ExtraContainer(extraId, extraNombre, precioConFecha.getPrecio());
+				}
+			}
+		}
+		return new ExtraContainer(extraId, extraNombre, 0);
+	}
+	
+	private ExtraVariableContainer getExtraVariable(LocalDateTime fecha, List<PrecioConFecha> listaPrecioConFecha, Salon salon, Long extraId, String extraNombre, int extraCantidad) {
+		
+		for(PrecioConFecha precioConFecha : listaPrecioConFecha) {
+			if(fecha.getYear() == precioConFecha.getDesde().getYear()) {
+				List<Integer> rangoMeses = IntStream.range(precioConFecha.getDesde().getMonthValue(), precioConFecha.getHasta().getMonthValue() + 1).boxed().collect(Collectors.toList());
+	
+				if(rangoMeses.contains(fecha.getMonthValue()) && precioConFecha.getSalon().getId() == salon.getId()){
+					return new ExtraVariableContainer(extraId, extraNombre, precioConFecha.getPrecio(), extraCantidad);
+				}
+			}
+		}
+		return new ExtraVariableContainer(extraId, extraNombre, 0, extraCantidad);
 	}
 
 }

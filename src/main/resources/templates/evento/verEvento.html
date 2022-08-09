@@ -81,51 +81,90 @@
 		            </div>
 	            </div>
 	            
-	            <div class="col-md-4">
-					<div class="form-group col-8 mb-4">
+	            <div class="col-md-3">
+					<div class="form-group col-9 mb-4">
 						<h5>Subtipo Evento</h5>
 		                <input type="text" class="form-control" id="subTipoEvento" readonly/>
 					</div>
-					<div class="form-group col-8 mb-4">
+					<div class="form-group col-9 mb-4">
 						<h5>Salon</h5>
 		                <input type="text" class="form-control" id="salon" readonly/>
 					</div>
-					<div class="form-group col-8 mb-4">
-						<h5>Extras</h5>
-		                <input type="text" class="form-control" id="extras" readonly/>
-					</div>
-					<div class="form-group col-8 mb-4">
-						<h5>Catering</h5>
-		                <input type="text" class="form-control" id="catering" readonly/>
-					</div>
-					<div class="form-group col-8 mb-4">
+					<div class="form-group col-9 mb-4">
 						<h5>Prespuesto</h5>
 		                <input type="text" class="form-control" id="presupuesto" readonly/>
 					</div>
+					<div class="form-group col-9 mb-4">
+						<h5>Capacidad Adultos</h5>
+		                <input type="text" class="form-control" id="capacidad_adultos" readonly/>
+					</div>
+					<div class="form-group col-9 mb-4">
+						<h5>Capacidad Ninos</h5>
+		                <input type="text" class="form-control" id="capacidad_ninos" readonly/>
+					</div>
 	       		</div>
 	
-	            <div class="col-md-5">
-	            	<div class="row mb-4">
-		            	<div class="form-group col-6">
-							<h5>Capacidad Adultos</h5>
-			                <input type="text" class="form-control" id="capacidad_adultos" readonly/>
-						</div>
-						<div class="form-group col-6">
-							<h5>Capacidad Ninos</h5>
-			                <input type="text" class="form-control" id="capacidad_ninos" readonly/>
-						</div>
-					</div>
+	            <div class="col-md-6">
 					<div>
 						<h5>Cliente</h5>
 						<div class="row mb-4">
-			            	<div class="form-group col-6">
+			            	<div class="form-group col-5">
 				                <input type="text" class="form-control" id="cliente" readonly/>
 							</div>
-							<div class="form-group col-6">
+							<div class="form-group col-7">
 								<a th:href="@{/verCliente/{id}(id=${reservaContainer.evento.cliente.id})}" class="btn btn-primary">Ver eventos del cliente</a>
 							</div>
 						</div>
 					</div>
+					
+					<div>
+						<h5>Extras</h5>
+						<div class="row mb-4">
+			            	<div class="form-group col-5">
+		                		<input type="text" class="form-control" id="extras" readonly/>
+							</div>
+							<div class="form-group col-7">
+								<div id="listaExtra"> </div>
+							</div>
+						</div>
+					</div>
+					
+					<div>
+						<h5>Extras Variables</h5>
+						<div class="row mb-4">
+			            	<div class="form-group col-5">
+		                		<input type="text" class="form-control" id="extrasVariables" readonly/>
+							</div>
+							<div class="form-group col-7">
+								<div id="listaExtraVariable"> </div>
+							</div>
+						</div>
+					</div>
+					
+					<div>
+						<h5>Extras Catering</h5>
+						<div class="row mb-4">
+			            	<div class="form-group col-5">
+		                		<input type="text" class="form-control" id="extraCatering" readonly/>
+							</div>
+							<div class="form-group col-7">
+								<div id="listaExtraCatering"> </div>
+							</div>
+						</div>
+					</div>
+					
+					<div>
+						<h5>Tipo Catering</h5>
+						<div class="row mb-4">
+			            	<div class="form-group col-5">
+		                		<input type="text" class="form-control" id="tipoCatering" readonly/>
+							</div>
+							<div class="form-group col-7">
+								<div id="listaTipoCatering"> </div>
+							</div>
+						</div>
+					</div>
+
 					<div>
 		        		<div id="MailNoEnviado" class="d-none">
 							<div class="alert alert-danger" role="alert">
@@ -136,16 +175,10 @@
 							<div class="alert alert-success" role="alert"><strong>Mail Enviado</strong></div>
 						</div>
 					</div>
-					<div>
-						<div id="comprobanteNoDescargado" class="alert alert-danger d-none">
-			  				<strong>Codigo incorrecto!</strong> No se ha encontrado el evento buscado
-						</div>
-						<div id="comprobanteDescargado" class="alert alert-success d-none">
-			  				<strong>Comprobante descargado</strong>
-						</div>
-					</div>			
 	       		</div>
+
 	       	</div>
+
 			<div class="container mt-3">
 				<div class="gap-2 d-flex justify-content-end">
 					<div>
@@ -171,6 +204,8 @@
 	    var fin = /*[[${reservaContainer.fin}]]*/ [];
 	    var listaExtraSeleccionadas = /*[[${listaExtraSeleccionadas}]]*/ [];
 		var listaExtraVariableSeleccionadas = /*[[${listaExtraVariableSeleccionadas}]]*/ [];
+		var listaExtraCateringSeleccionadas = /*[[${listaExtraCateringSeleccionadas}]]*/ [];
+		var listaTipoCateringSeleccionadas = /*[[${listaTipoCateringSeleccionadas}]]*/ [];
 		var presupuesto = /*[[${presupuesto}]]*/ [];
 		var eventoEncontrado = /*[[${eventoEncontrado}]]*/ [];
 	</script>
