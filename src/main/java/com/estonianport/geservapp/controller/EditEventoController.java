@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.estonianport.geservapp.commons.DateUtil;
-import com.estonianport.geservapp.commons.EmailService;
-import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.data.GeneralPath;
+import com.estonianport.geservapp.commons.dateUtil.DateUtil;
+import com.estonianport.geservapp.commons.emailService.EmailService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ExtraContainer;
 import com.estonianport.geservapp.container.ReservaContainer;

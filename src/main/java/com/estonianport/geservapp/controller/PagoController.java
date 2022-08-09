@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.estonianport.geservapp.commons.EmailService;
-import  com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.data.GeneralPath;
+import com.estonianport.geservapp.commons.emailService.EmailService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.model.MedioDePago;

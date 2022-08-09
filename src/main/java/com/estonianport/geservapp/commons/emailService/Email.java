@@ -1,4 +1,4 @@
-package com.estonianport.geservapp.commons;
+package com.estonianport.geservapp.commons.emailService;
 
 import lombok.Getter;
 import lombok.Setter;

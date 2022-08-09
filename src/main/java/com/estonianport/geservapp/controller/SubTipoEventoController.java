@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.estonianport.geservapp.commons.DateUtil;
-import com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.data.GeneralPath;
+import com.estonianport.geservapp.commons.dateUtil.DateUtil;
 import com.estonianport.geservapp.model.Capacidad;
 import com.estonianport.geservapp.model.Salon;
 import com.estonianport.geservapp.model.SubTipoEvento;

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.estonianport.geservapp.commons.GenericServiceImpl;
+import com.estonianport.geservapp.commons.genericService.GenericServiceImpl;
 import com.estonianport.geservapp.dao.UsuarioDao;
 import com.estonianport.geservapp.model.Usuario;
 import com.estonianport.geservapp.service.UsuarioService;

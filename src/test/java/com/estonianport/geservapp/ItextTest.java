@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.estonianport.geservapp.commons.CodeGenerator;
-import com.estonianport.geservapp.commons.ItextService;
+import com.estonianport.geservapp.commons.codeGeneratorUtil.CodeGeneratorUtil;
+import com.estonianport.geservapp.commons.itextService.ItextService;
 import com.estonianport.geservapp.model.Evento;
 import com.estonianport.geservapp.service.EventoService;
 import com.estonianport.geservapp.service.ExtraSubTipoEventoService;
@@ -41,7 +41,7 @@ class ItextTest {
         try {
 
     		Evento evento = new Evento();
-    		evento.setCodigo(CodeGenerator.getBase26Only4Letters());
+    		evento.setCodigo(CodeGeneratorUtil.getBase26Only4Letters());
     		evento.setNombre("event test");
 
     		evento.setStartd(LocalDateTime.of(2022,02,01,20,30));

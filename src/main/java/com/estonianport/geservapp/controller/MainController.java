@@ -23,9 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.estonianport.geservapp.commons.DateUtil;
-import com.estonianport.geservapp.commons.GeneralPath;
-import com.estonianport.geservapp.commons.ItextService;
+import com.estonianport.geservapp.commons.data.GeneralPath;
+import com.estonianport.geservapp.commons.dateUtil.DateUtil;
+import com.estonianport.geservapp.commons.itextService.ItextService;
 import com.estonianport.geservapp.container.CodigoContainer;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.Evento;

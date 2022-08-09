@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.estonianport.geservapp.commons.DateUtil;
-import com.estonianport.geservapp.commons.GeneralPath;
+import com.estonianport.geservapp.commons.data.GeneralPath;
+import com.estonianport.geservapp.commons.dateUtil.DateUtil;
 import com.estonianport.geservapp.container.MesContainer;
 import com.estonianport.geservapp.container.PrecioConFechaContainer;
 import com.estonianport.geservapp.container.PrecioConFechaEnvioContainer;

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.estonianport.geservapp.commons.Email;
-import com.estonianport.geservapp.commons.EmailService;
+import com.estonianport.geservapp.commons.emailService.Email;
+import com.estonianport.geservapp.commons.emailService.EmailService;
 
 @SpringBootTest
 class EmailTest {

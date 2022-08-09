@@ -1,8 +1,8 @@
-package com.estonianport.geservapp.commons;
+package com.estonianport.geservapp.commons.codeGeneratorUtil;
 
 import java.util.Random;
 
-public class CodeGenerator {
+public class CodeGeneratorUtil {
    
     public static String getBase26Only4Letters() {
     	Random random = new Random();

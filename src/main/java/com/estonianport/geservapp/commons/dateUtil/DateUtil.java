@@ -1,6 +1,7 @@
-package com.estonianport.geservapp.commons;
+package com.estonianport.geservapp.commons.dateUtil;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class DateUtil {
 	private static final String YEAR = "yyyy";
 
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DAY + DATE_SEPARATOR + MONTH + DATE_SEPARATOR + YEAR);
+
+	private static final DateTimeFormatter DATE_FORMATTER_INVERTED = DateTimeFormatter.ofPattern(YEAR + DATE_SEPARATOR + MONTH + DATE_SEPARATOR + DAY);
 
 	private static final String TIME_SEPARATOR = ":";
 
@@ -57,6 +60,10 @@ public class DateUtil {
 	public static String getFecha(LocalDateTime fecha) {
 		return fecha.format(DateUtil.DATE_FORMATTER);
 	}
+	
+	public static String getFecha(LocalDate fecha) {
+		return fecha.format(DateUtil.DATE_FORMATTER);
+	}
 
 	public static String getHorario(LocalDateTime horaMinutos) {
 		return horaMinutos.format(DateUtil.TIME_FORMATTER);
@@ -68,6 +75,14 @@ public class DateUtil {
 
 	public static String getMinutos(LocalDateTime minutos) {
 		return minutos.format(DateUtil.TIME_FORMATTER_MINUTE);
+	}
+
+	public static LocalDate createFecha(String fecha) {
+		return LocalDate.parse(fecha, DateUtil.DATE_FORMATTER);
+	}
+	
+	public static LocalDate createFechaInvertida(String fecha) {
+		return LocalDate.parse(fecha, DateUtil.DATE_FORMATTER_INVERTED);
 	}
 
 	public static String getFechaConHora(LocalDateTime fechaConHora) {

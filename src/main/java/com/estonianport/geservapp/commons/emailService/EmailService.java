@@ -1,5 +1,5 @@
 
-package com.estonianport.geservapp.commons;
+package com.estonianport.geservapp.commons.emailService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.estonianport.geservapp.commons.dateUtil.DateUtil;
 import com.estonianport.geservapp.container.ReservaContainer;
 import com.estonianport.geservapp.model.CateringExtraVariableCatering;
 import com.estonianport.geservapp.model.Evento;

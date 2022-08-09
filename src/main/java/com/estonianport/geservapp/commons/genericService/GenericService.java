@@ -1,4 +1,4 @@
-package com.estonianport.geservapp.commons;
+package com.estonianport.geservapp.commons.genericService;
 
 import java.io.Serializable;
 import java.util.List;
