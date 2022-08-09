@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Edit Evento</title>
+	<title>Edit cliente</title>
 	<meta charset="UTF-8">
 
 <!--===============================================================================================-->
@@ -14,12 +14,19 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>Ver Evento</h2>
+		<h2>Ver Cliente</h2>
        	<div class="row">
     		<div class="col-md-6">
 				<div class="form-group col-6 mb-4">
 					<h5>Cliente</h5>
-	                <input type="text" class="form-control" th:value="${cliente.apellido} + ', ' + ${cliente.nombre}" readonly/>
+					<div class="row">
+						<div class="col-10">
+			                <input type="text" class="form-control" th:value="${cliente.apellido} + ', ' + ${cliente.nombre}" readonly/>
+						</div>
+						<div class="col-2">
+							<a class="mx-2" title="Editar" th:href="@{/saveCliente/{id}(id=${cliente.id})}" data-toggle="tooltip"><i class="fas fa-edit text-warning fa-lg"></i></a>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-9">
 					<h2 th:if="${#lists.isEmpty(listaEvento)}">No hay eventos</h2>
